@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>EnumComment</Title>
+      <Author>Hiromasa Ikeda</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>EnumComment</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+            <ID>enum</ID>
+            <ToolTip>enum</ToolTip>
+            <Default>enum</Default>
+            <Function>
+            </Function>
+        </Literal>
+        <Literal>
+            <ID>description</ID>
+            <ToolTip>description</ToolTip>
+            <Default>Enum Description</Default>
+            <Function>
+            </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="CSharp" Delimiter="$"><![CDATA[/**
+* @enum     $enum$
+* @brief    $description$
+*/]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

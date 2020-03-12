@@ -1,22 +1,26 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file	ParentPenguinMove.cs
+/// @brief	親ペンギンの挙動(仮)
+/// @author	北林和哉
+/// </summary>
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/**
-* @file		KingPenguinMove.cs
-* @brief	親ペンギンの挙動(仮)
-* @author	北林和哉
-*/
-public class KingPenguinMove : MonoBehaviour
+public class ParentPenguinMove : MonoBehaviour
 {
+    //速度
     public float m_MoveSpeed = 6;
-    public float m_Radius = 0.5f;
+    //マテリアルリスト
     public Material[] m_Material;
-    Renderer m_Renderer;
-    Rigidbody m_RigidBody;
 
-    /// <summary>
-    /// 本当はprivateだけど、DEBUG用に一時的にPublicにしてある　-------------------------------------------------忘れないように--------------------------
-    /// </summary>
+    private Renderer m_Renderer;
+    private CapsuleCollider m_CapsuleCollider;
+    private Rigidbody m_RigidBody;
+
+    //モデルアニメーション入れるまでの位置調整のfix(アニメーション導入後にこれ消してね)
+    private bool m_Tempfix = true;  
+
+    //移動用のVector3群
     public Vector3 m_StoredMove;
     public Vector3 m_DirectionMove;
 
@@ -27,9 +31,12 @@ public class KingPenguinMove : MonoBehaviour
         m_Renderer = GetComponent<Renderer>();
         m_Renderer.enabled = true;
         m_Renderer.sharedMaterial = m_Material[0];
-
+        
         //重力変えるためRigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
+
+        //radius取得するためCapsuleCollider取得
+        m_CapsuleCollider = GetComponent<CapsuleCollider>();
 
         //private変数の初期化処理
         m_StoredMove = Vector3.zero;
@@ -43,12 +50,7 @@ public class KingPenguinMove : MonoBehaviour
     }
 
     /// <summary>
-    /// コントローラーなかったのでキーボードの仮コントロール同時に作った。
-    /// 多分聞いた感じ実際のコントロールと逆だけど、キーボードで組もうとすると大掛かりになりそうだったからこんな感じになった。
-    /// ニュアンスは同じだと思うので今の所許して。
-    /// 
-    /// 実際の親ペンギンの色を変える処理はこのオブジェのマテリアルを変更して実装している。
-    /// 「フラグ立てて」とも書いてあったが、マテリアルの比較で同じことでできないだろうか。
+    /// @brief      移動関連用の関数
     /// </summary>
     void Move()
     {
@@ -87,7 +89,7 @@ public class KingPenguinMove : MonoBehaviour
         }
         else if (m_StoredMove != Vector3.zero)
         {
-            //重力戻す
+            //重力戻す←モデルアニメーションで傾きを表現する時これはいらなくなる
             m_RigidBody.useGravity = true;
             //色を3番目に変更
             m_Renderer.sharedMaterial = m_Material[2];
@@ -98,10 +100,11 @@ public class KingPenguinMove : MonoBehaviour
             //横に倒す処理
             transform.eulerAngles = new Vector3(m_DirectionMove.z, m_DirectionMove.y, m_DirectionMove.x) * 90;
 
-            //位置調整 (直接変更すると怒られるからこうなってる)
+            //位置調整 (直接変更すると怒られるからこうなってる)←モデルアニメーションで傾きを表現する時これはいらなくなる
             Vector3 _pos = transform.position;
-            _pos[1] = m_Radius;
+            _pos[1] = m_CapsuleCollider.radius;
             transform.position = _pos;
+            m_Tempfix = true;
 
             //ためた方角に一回分移動
             transform.position += m_DirectionMove * Time.deltaTime * m_MoveSpeed;
@@ -111,8 +114,17 @@ public class KingPenguinMove : MonoBehaviour
         }
         else
         {
-            //重力戻す
+            //重力戻す←モデルアニメーションで傾きを表現する時これはいらなくなる
             m_RigidBody.useGravity = true;
+
+            if (m_Tempfix)
+            {
+                //位置調整 (直接変更すると怒られるからこうなってる)←モデルアニメーションで傾きを表現する時これはいらなくなる
+                Vector3 _pos = transform.position;
+                _pos[1] = m_CapsuleCollider.radius * 2;
+                transform.position = _pos;
+                m_Tempfix = false;
+            }
             //初期角度に戻す
             transform.eulerAngles = Vector3.zero;
             //色を1番目に変更
@@ -120,5 +132,33 @@ public class KingPenguinMove : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// @brief      親ペンギンが使用してマテリアルを渡す
+    /// @returns    マテリアル
+    /// </summary>
+    public Material GetMaterial()
+    {
+       return m_Renderer.sharedMaterial;
+    }
+
+    /// <summary>
+    /// @brief      親ペンギンの移動量を渡す
+    /// @returns    移動量(Vector3)
+    /// </summary>
+    public Vector3 GetStoredMove()
+    {
+        return m_StoredMove;
+    }
+
+    /// <summary>
+    /// @brief      親ペンギンの向きを渡す
+    /// @returns    向き(Quaternion)
+    /// </summary>
+    public Quaternion GetRotation()
+    {
+        return transform.rotation;
+    }
 }
 

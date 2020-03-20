@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 61366251547262262}
   m_Layer: 0
   m_Name: BabyPenguin
-  m_TagString: Untagged
+  m_TagString: Penguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61366251547262261}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.79, y: 0.7, z: 0}
+  m_LocalPosition: {x: 3.72, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,7 +107,7 @@ Rigidbody:
   m_Drag: 30
   m_AngularDrag: 30
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -124,3 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MoveSpeed: 6
+  m_StoredMove: {x: 0, y: 0, z: 0}
+  m_DirectionMove: {x: 0, y: 0, z: 0}
+  pos: {x: 0, y: 0, z: 0}

@@ -3,6 +3,7 @@
 /// @brief	親ペンギンの挙動(仮)
 /// @author	北林和哉
 /// </summary>
+ 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,8 +22,8 @@ public class ParentPenguinMove : MonoBehaviour
     private bool m_Tempfix = true;  
 
     //移動用のVector3群
-    public Vector3 m_StoredMove;
-    public Vector3 m_DirectionMove;
+    private Vector3 m_StoredMove;
+    private Vector3 m_DirectionMove;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +53,7 @@ public class ParentPenguinMove : MonoBehaviour
     /// <summary>
     /// @brief      移動関連用の関数
     /// </summary>
-    void Move()
+    private void Move()
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {

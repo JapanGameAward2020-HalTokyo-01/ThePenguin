@@ -14,6 +14,7 @@ public class ChildPenguinMove : MonoBehaviour
     public float m_MoveSpeed = 6;
     //マテリアルリスト
     private Material[] m_Material;
+    private bool m_Move = false;
 
 
     private ParentPenguinMove m_Parent;
@@ -54,51 +55,62 @@ public class ChildPenguinMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //親ペンギンと同じ色にする
-        m_Renderer.sharedMaterial = m_Parent.GetMaterial();
+        Move();
+    }
 
-        //親ペンギンの色を元にステートを変更
-        switch (CompareMatName())
+    /// <summary>
+    /// @brief      移動関連用の関数
+    /// </summary>
+    void Move()
+    {
+        if (m_Move)
         {
-            case 0://待機ステート
-                m_RigidBody.useGravity = true;
-                transform.eulerAngles = Vector3.zero;
-                if (m_Tempfix)
-                {
-                    //アニメーション導入後にこれ消してね
-                    Vector3 _pos = transform.position;
-                    _pos[1] = transform.localScale.y;
-                    transform.position = _pos;
-                    m_Tempfix = false;
-                }
-                break;
-            case 1://貯めるステート
-                m_RigidBody.useGravity = false;
-                transform.rotation = m_Parent.GetRotation();
-                break;
-            case 2://移動ステート
-                m_RigidBody.useGravity = true;
-                transform.rotation = m_Parent.GetRotation();
-                m_StoredMove = m_Parent.GetStoredMove();
-                break;
-            default:
-                break;
-        }
+            //親ペンギンと同じ色にする
+            m_Renderer.sharedMaterial = m_Parent.GetMaterial();
 
-        //移動ステート時のドライバー
-        if (m_StoredMove != Vector3.zero)
-        {
-            m_DirectionMove = Vector3.Normalize(m_StoredMove);
-            //transform.eulerAngles = new Vector3(m_DirectionMove.z, m_DirectionMove.y, -m_DirectionMove.x) * 90;
+            //親ペンギンの色を元にステートを変更
+            switch (CompareMatName())
+            {
+                case 0://待機ステート
+                    m_RigidBody.useGravity = true;
+                    transform.eulerAngles = Vector3.zero;
+                    if (m_Tempfix)
+                    {
+                        //アニメーション導入後にこれ消してね
+                        Vector3 _pos = transform.position;
+                        _pos[1] = transform.localScale.y;
+                        transform.position = _pos;
+                        m_Tempfix = false;
+                    }
+                    break;
+                case 1://貯めるステート
+                    m_RigidBody.useGravity = false;
+                    transform.rotation = m_Parent.GetRotation();
+                    break;
+                case 2://移動ステート
+                    m_RigidBody.useGravity = true;
+                    transform.rotation = m_Parent.GetRotation();
+                    m_StoredMove = m_Parent.GetStoredMove();
+                    break;
+                default:
+                    break;
+            }
+
+            //移動ステート時のドライバー
+            if (m_StoredMove != Vector3.zero)
+            {
+                m_DirectionMove = Vector3.Normalize(m_StoredMove);
+                //transform.eulerAngles = new Vector3(m_DirectionMove.z, m_DirectionMove.y, -m_DirectionMove.x) * 90;
 
 
-            //アニメーション導入後にこれ消してね
-            Vector3 _pos = transform.position;
-            _pos[1] = m_CapsuleCollider.radius;
-            transform.position = _pos;
-            m_Tempfix = true;
+                //アニメーション導入後にこれ消してね
+                Vector3 _pos = transform.position;
+                _pos[1] = m_CapsuleCollider.radius;
+                transform.position = _pos;
+                m_Tempfix = true;
 
-            transform.position += m_DirectionMove * Time.deltaTime * m_MoveSpeed;
+                transform.position += m_DirectionMove * Time.deltaTime * m_MoveSpeed;
+            }
         }
     }
 
@@ -106,7 +118,7 @@ public class ChildPenguinMove : MonoBehaviour
     /// @brief      親ペンギンが使用してマテリアル番号を探すプログラム
     /// @returns    マテリアル番号(int)
     /// </summary>
-    int CompareMatName()
+    private int CompareMatName()
     {
         int _temp = -1;
         for (int i = 0; i < 3; i++)
@@ -119,4 +131,28 @@ public class ChildPenguinMove : MonoBehaviour
         }
         return _temp;
     }
+
+    /// <summary>
+    /// @brief      子ペンギンを群れに追加する処理(コントローラーから呼び出す)→collision layerをpack penguinにし、moveを有効にする
+    /// </summary>
+    public void SetMoveTrue()
+    {
+        //collision layerをpack penguinにする
+        gameObject.layer = 8;
+        //moveを有効にする
+        m_Move = true;
+    }
+
+
+    /// <summary>
+    /// @brief      子ペンギンを群れに追加する処理
+    /// @param (a)	ペンギンtagを持ってるか判定するcollision
+    /// </summary>
+    //private void OnCollisionEnter(Collision a)
+    //{
+    //    if (a.gameObject.tag == "Penguin")
+    //    {
+    //        m_Move = true;
+    //    }
+    //}
 }

@@ -10,9 +10,9 @@ using UnityEngine;
 
 public class ChildPenguinMove : MonoBehaviour
 {
-    //速度
+    //! 速度
     public float m_MoveSpeed = 6;
-    //マテリアルリスト
+    //! マテリアルリスト
     private Material[] m_Material;
     private bool m_Move = false;
 
@@ -22,10 +22,10 @@ public class ChildPenguinMove : MonoBehaviour
     private CapsuleCollider m_CapsuleCollider;
     private Rigidbody m_RigidBody;
 
-    //モデルアニメーション入れるまでの位置調整のfix(アニメーション導入後にこれ消してね)
+    //! モデルアニメーション入れるまでの位置調整のfix(アニメーション導入後にこれ消してね)
     private bool m_Tempfix = true;
 
-    //移動用のVector3群
+    //! 移動用のVector3群
     private Vector3 m_StoredMove;
     private Vector3 m_DirectionMove;
 
@@ -65,10 +65,10 @@ public class ChildPenguinMove : MonoBehaviour
     {
         if (m_Move)
         {
-            //親ペンギンと同じ色にする
+            //! 親ペンギンと同じ色にする
             m_Renderer.sharedMaterial = m_Parent.GetMaterial();
 
-            //親ペンギンの色を元にステートを変更
+            //! 親ペンギンの色を元にステートを変更
             switch (CompareMatName())
             {
                 case 0://待機ステート
@@ -96,14 +96,14 @@ public class ChildPenguinMove : MonoBehaviour
                     break;
             }
 
-            //移動ステート時のドライバー
+            //! 移動ステート時のドライバー
             if (m_StoredMove != Vector3.zero)
             {
                 m_DirectionMove = Vector3.Normalize(m_StoredMove);
                 //transform.eulerAngles = new Vector3(m_DirectionMove.z, m_DirectionMove.y, -m_DirectionMove.x) * 90;
 
 
-                //アニメーション導入後にこれ消してね
+                //! アニメーション導入後にこれ消してね
                 Vector3 _pos = transform.position;
                 _pos[1] = m_CapsuleCollider.radius;
                 transform.position = _pos;
@@ -137,9 +137,9 @@ public class ChildPenguinMove : MonoBehaviour
     /// </summary>
     public void SetMoveTrue()
     {
-        //collision layerをpack penguinにする
+        //! collision layerをpack penguinにする
         gameObject.layer = 8;
-        //moveを有効にする
+        //! moveを有効にする
         m_Move = true;
     }
 

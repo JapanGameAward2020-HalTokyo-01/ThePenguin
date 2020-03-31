@@ -11,20 +11,15 @@ using UnityEngine;
 public class ChildPenguinController : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    //子供を格納するやつ
-    private Transform m_Children;
-
     void Start()
     {
-        //保持している子供を取得
-        m_Children = GetComponentInChildren<Transform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-     
+
     }
 
     /// <summary>
@@ -36,13 +31,13 @@ public class ChildPenguinController : MonoBehaviour
         //Penguinタグを持っているobjectに当たったら
         if (a.gameObject.tag == "Penguin")
         {
-            //collision layerをno collisionに
+            //! collision layerをno collisionに
             this.gameObject.layer = 9;
-            //保持している子供のmoveを有効にする
-            foreach (Transform _child in m_Children)
+            //! 保持している子供分loopする
+            foreach (Transform _child in transform)
             {
                 //moveを有効にし、collision layerをpack penguinにする
-                _child.gameObject.GetComponent<ChildPenguinMove>().SetMoveTrue(); ;
+                _child.gameObject.GetComponent<ChildPenguinMove>().SetMoveTrue();
             }
         }
     }

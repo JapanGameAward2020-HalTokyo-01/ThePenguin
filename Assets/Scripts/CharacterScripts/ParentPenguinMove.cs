@@ -9,37 +9,37 @@ using System.Collections.Generic;
 using UnityEngine;
 public class ParentPenguinMove : MonoBehaviour
 {
-    //速度
+    //! 速度
     public float m_MoveSpeed = 6;
-    //マテリアルリスト
+    //! マテリアルリスト
     public Material[] m_Material;
 
     private Renderer m_Renderer;
     private CapsuleCollider m_CapsuleCollider;
     private Rigidbody m_RigidBody;
 
-    //モデルアニメーション入れるまでの位置調整のfix(アニメーション導入後にこれ消してね)
+    //! モデルアニメーション入れるまでの位置調整のfix(アニメーション導入後にこれ消してね)
     private bool m_Tempfix = true;  
 
-    //移動用のVector3群
+    //! 移動用のVector3群
     private Vector3 m_StoredMove;
     private Vector3 m_DirectionMove;
 
     // Start is called before the first frame update
     void Start()
     {
-        //色を変えるためRenderer取得
+        //! 色を変えるためRenderer取得
         m_Renderer = GetComponent<Renderer>();
         m_Renderer.enabled = true;
         m_Renderer.sharedMaterial = m_Material[0];
         
-        //重力変えるためRigidbody取得
+        //! 重力変えるためRigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
 
-        //radius取得するためCapsuleCollider取得
+        //! radius取得するためCapsuleCollider取得
         m_CapsuleCollider = GetComponent<CapsuleCollider>();
 
-        //private変数の初期化処理
+        //! private変数の初期化処理
         m_StoredMove = Vector3.zero;
         m_DirectionMove = Vector3.zero;
     }
@@ -57,14 +57,14 @@ public class ParentPenguinMove : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            //動く量をためる
+            //! 動く量をためる
             m_StoredMove += Vector3.forward;
 
-            //重力あると傾け向けると動くから←モデルアニメーションで傾きを表現する時これはいらなくなる
+            //! 重力あると傾け向けると動くから←モデルアニメーションで傾きを表現する時これはいらなくなる
             m_RigidBody.useGravity = false;
-            //向いている方角に傾ける
+            //! 向いている方角に傾ける
             transform.eulerAngles = Vector3.right * 30;      //向きはXが上下
-            //色を2番目に変更
+            //! 色を2番目に変更
             m_Renderer.sharedMaterial = m_Material[1];
         }
         else if (Input.GetKey(KeyCode.DownArrow))

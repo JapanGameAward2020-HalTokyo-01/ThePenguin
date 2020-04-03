@@ -17,6 +17,9 @@ public class InputHandler : MonoBehaviour
         Run
     }
 
+    [SerializeField]
+    private ParentPenguinMove m_ParentPenguin;
+
     [SerializeField,Tooltip("ゲージのリピート")]
     private bool m_IsReperat = true;
 
@@ -93,6 +96,7 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     void Run()
     {
+        m_ParentPenguin.MoveInputVector(GetMoveVector());
         m_Power -= m_PowerChange * Time.deltaTime;
 
         if (m_Power > 0f) return;
@@ -121,8 +125,9 @@ public class InputHandler : MonoBehaviour
 
             //チャージ終了
             if (m_Power > 0f)
+            {
                 this.ChangeState(State.Run);
-
+            }
             return;
         }
 
@@ -164,8 +169,21 @@ public class InputHandler : MonoBehaviour
 
         if (m_DemoObject != null)
         {
-            m_DemoObject.SetActive(m_Power != 0f);
-            m_DemoObject.transform.localPosition = GetMoveVector();
+            if (CurrentState == State.Idle)
+            {
+                m_DemoObject.SetActive(m_Power != 0f);
+                if(m_Power == 0f)
+                {
+                    m_DemoObject.transform.localPosition = Vector3.zero;
+                    m_DemoObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                }
+                m_DemoObject.GetComponent<Rigidbody>().AddForce(GetMoveVector(),ForceMode.VelocityChange);
+                
+            }
+            else
+            {
+                m_DemoObject.SetActive(m_Power != 0f);
+            }
         }
     }
 
@@ -210,6 +228,7 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     Vector3 GetMoveVector()
     {
+        m_InputVector.y = 0f;
         return -Vector3.Normalize(m_InputVector) * m_Power;
     }
 

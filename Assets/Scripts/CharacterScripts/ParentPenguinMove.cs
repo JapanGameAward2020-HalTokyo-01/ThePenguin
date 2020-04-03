@@ -47,7 +47,12 @@ public class ParentPenguinMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        //Move();
+    }
+
+    public void MoveInputVector(Vector3 InputVector)
+    {
+        m_RigidBody.AddForce(InputVector,ForceMode.VelocityChange);
     }
 
     /// <summary>

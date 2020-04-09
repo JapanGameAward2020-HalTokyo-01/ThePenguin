@@ -4,16 +4,17 @@
 /// @author	北林和哉
 /// </summary>
 
-using System.Collections;
-using System.Collections.Generic;
+//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class ChildPenguinMove : MonoBehaviour
 {
     //! 移動の有効・無効
-    private bool m_Move = false;
+    private bool m_InPack = false;
     //! 親ペンギン
     private ParentPenguinMove m_Parent;
+    //! 親ペンギンの参照用
     public ParentPenguinMove Parent { get { return m_Parent; } }
     //! 自分のRigidbody
     private Rigidbody m_RigidBody;
@@ -23,6 +24,7 @@ public class ChildPenguinMove : MonoBehaviour
     {
         //操作用のRigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
+        m_InPack = false;
     }
 
     // Update is called once per frame
@@ -38,10 +40,8 @@ public class ChildPenguinMove : MonoBehaviour
     public void MoveHandler(Vector3 move)
     {
         //! 親ペンギンから取得した移動量を適用
-        m_RigidBody.AddForce(move, ForceMode.VelocityChange); 
+        m_RigidBody.AddForce(move); 
     }
-
-
 
     /// <summary>
     /// @brief      子ペンギンを群れに追加する処理
@@ -49,28 +49,28 @@ public class ChildPenguinMove : MonoBehaviour
     /// </summary>
     private void OnCollisionEnter(Collision a)
     {
-        if (!m_Move)
+        if (!m_InPack)
         {
             if (a.gameObject.tag == "Penguin")
             {
                 //! 群れの子ペンギンから親ペンギンを取得
                 this.m_Parent = a.gameObject.GetComponent<ChildPenguinMove>().Parent;
+                //! 親ペンギンの群れに追加する
+                this.m_Parent.AddToPack(this);
 
                 //! collision layerをpack penguinにする
-                this.gameObject.layer = 8;
-                //! 親ペンギンの群れに追加する
-                this.m_Parent.m_ChildPenguins.Add(this);
+                gameObject.layer = 8;
                 //! 移動を有効にする
-                m_Move = true;
+                m_InPack = true;
             }
             else if (a.gameObject.tag == "ParentPenguin")
             {
                 //! 親ペンギンを取得
                 this.m_Parent = a.gameObject.GetComponent<ParentPenguinMove>();
+                this.m_Parent.AddToPack(this);
 
-                this.gameObject.layer = 8;
-                this.m_Parent.m_ChildPenguins.Add(this);
-                m_Move = true;
+                gameObject.layer = 8;
+                m_InPack = true;
             }
         }
     }

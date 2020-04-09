@@ -57,6 +57,10 @@ public class InputHandler : MonoBehaviour
             break;
         }
 
+        if(m_InputModule == null)
+            Debug.LogError("入力モジュールの設定がされていません。");
+        
+
         if(m_Arrow != null)
             m_Arrow.SetActive(false);
     }

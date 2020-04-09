@@ -7,6 +7,9 @@
 //using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(InputHandler))]
 public class ParentPenguinMove : MonoBehaviour
 {
     //! 子ペンギンの群れリスト
@@ -24,13 +27,8 @@ public class ParentPenguinMove : MonoBehaviour
     {
         //! Rigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
-
-        //! m_Inputを設定するの忘れてる場合  
-        if (m_Input == null)
-        {
-            m_Input = FindObjectOfType(typeof(InputHandler)) as InputHandler;
-            throw new System.Exception("InputHandlerを設定し忘れてる！");
-        }
+        //! InputHandlerの取得
+        m_Input = GetComponent<InputHandler>();
     }
 
     // Update is called once per frame

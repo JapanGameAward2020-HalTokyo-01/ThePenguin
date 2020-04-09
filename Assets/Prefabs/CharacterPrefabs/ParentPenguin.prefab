@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 5207913544868622383}
   - component: {fileID: 5207913544868622368}
   - component: {fileID: 5207913544868622369}
-  - component: {fileID: 5207913544868622370}
-  m_Layer: 0
+  - component: {fileID: 3727411399284078769}
+  m_Layer: 8
   m_Name: ParentPenguin
-  m_TagString: Penguin
+  m_TagString: ParentPenguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,9 +109,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
---- !u!114 &5207913544868622370
+--- !u!114 &3727411399284078769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,13 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5207913544868622371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f2f03cb815b954b86eeeff12ee6a95, type: 3}
+  m_Script: {fileID: 11500000, guid: 192cf08ab84c37a4fbd075bfd9530523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveSpeed: 6
-  m_Material:
-  - {fileID: 2100000, guid: 4d384ae695680624185ef6072a1671c8, type: 2}
-  - {fileID: 2100000, guid: e63f3b78d57749944ad2c20053943675, type: 2}
-  - {fileID: 2100000, guid: e029a750962fd3d45b28a23a91a465ef, type: 2}
-  m_StoredMove: {x: 0, y: 0, z: 0}
-  m_DirectionMove: {x: 0, y: 0, z: 0}
+  m_ChildPenguins: []
+  m_Input: {fileID: 0}

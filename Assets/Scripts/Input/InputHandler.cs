@@ -20,6 +20,9 @@ public class InputHandler : MonoBehaviour
 
     private InputModuleBase m_InputModule;
 
+    [SerializeField]
+    private ParentPenguinMove m_ParentPenguin;
+
     //! パワー最大値
     [SerializeField, Tooltip("最大値"), Range(1f, 10f)]
     private float m_PowerMax = 10f;
@@ -39,6 +42,11 @@ public class InputHandler : MonoBehaviour
     public State CurrentState { get; private set; } = State.Idle;
     //! 入力ベクタ
     public Vector3 InputVector { get; private set; } = Vector3.zero;
+
+    //! パワー倍率
+    [SerializeField,Range(1.0f,100.0f)]
+    private float m_PowerMag = 1.0f;
+
 
     [SerializeField]
     private GameObject m_Arrow;
@@ -60,6 +68,10 @@ public class InputHandler : MonoBehaviour
         if(m_InputModule == null)
             Debug.LogError("入力モジュールの設定がされていません。");
         
+        if(m_ParentPenguin == null)
+        {
+            m_ParentPenguin = this.GetComponent<ParentPenguinMove>();
+        }
 
         if(m_Arrow != null)
             m_Arrow.SetActive(false);
@@ -75,7 +87,6 @@ public class InputHandler : MonoBehaviour
             if (Power > 0f) return;
 
             ChangeState(State.Idle);
-            PowerReset();
         }
         else
         {
@@ -96,9 +107,9 @@ public class InputHandler : MonoBehaviour
     /// <summary>
     /// @brief 移動ベクトルの取得
     /// </summary>
-    public Vector3 GetMoveVector()
+    private Vector3 GetMoveVector()
     {
-        return -Vector3.Normalize(InputVector) * Power;
+        return -Vector3.Normalize(InputVector) * m_PowerMag * (Power / PowerMax);
     }
 
     /// <summary>
@@ -108,6 +119,17 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     public void ChangeState(State state)
     {
+        //! Run状態に切り替わったら
+        if (state == State.Run && CurrentState != State.Run)
+        {
+            if (m_ParentPenguin)
+                m_ParentPenguin.MoveHandler(GetMoveVector());   
+        }
+        else
+        {
+            PowerReset();
+        }
+
         CurrentState = state;
     }
 

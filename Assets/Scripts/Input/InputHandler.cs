@@ -44,8 +44,8 @@ public class InputHandler : MonoBehaviour
     public Vector3 InputVector { get; private set; } = Vector3.zero;
 
     //! パワー倍率
-    [SerializeField,Range(1.0f,100.0f)]
-    private float m_PowerMag = 1.0f;
+    [SerializeField,Range(1.0f,1000.0f)]
+    private float m_PowerMag = 100.0f;
 
 
     [SerializeField]
@@ -109,7 +109,7 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     private Vector3 GetMoveVector()
     {
-        return -Vector3.Normalize(InputVector) * m_PowerMag * (Power / PowerMax);
+        return -Vector3.Normalize(InputVector) * Power;
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public class InputHandler : MonoBehaviour
         if (state == State.Run && CurrentState != State.Run)
         {
             if (m_ParentPenguin)
-                m_ParentPenguin.MoveHandler(GetMoveVector());   
+                m_ParentPenguin.MoveHandler(GetMoveVector() * m_PowerMag);   
         }
         else
         {

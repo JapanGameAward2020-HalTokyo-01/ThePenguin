@@ -82,11 +82,10 @@ public class InputHandler : MonoBehaviour
     {
         if (CurrentState == State.Run)
         {
-            Power -= m_PowerChange * Time.deltaTime;
-
-            if (Power > 0f) return;
-
-            ChangeState(State.Idle);
+            if(!m_ParentPenguin.IsMoving())
+            {
+                ChangeState(State.Idle);
+            }
         }
         else
         {

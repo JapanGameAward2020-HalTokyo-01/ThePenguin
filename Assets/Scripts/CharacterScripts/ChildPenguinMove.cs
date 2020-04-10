@@ -4,8 +4,8 @@
 /// @author	北林和哉
 /// </summary>
 
-//using System.Collections;
-//using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChildPenguinMove : MonoBehaviour
@@ -18,6 +18,14 @@ public class ChildPenguinMove : MonoBehaviour
     public ParentPenguinMove Parent { get { return m_Parent; } }
     //! 自分のRigidbody
     private Rigidbody m_RigidBody;
+
+
+    //! 移動速度
+    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 2.0f)]
+    public float m_BaseSpeed = 1.0f;
+    //! 移動遅延
+    [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
+    public float m_Delay = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +47,29 @@ public class ChildPenguinMove : MonoBehaviour
     /// </summary>
     public void MoveHandler(Vector3 move)
     {
+        //! m_Delayがあれば
+        if (m_Delay != 0.0f)
+        {
+            //! 0でも若干起動分のラグがある
+            StartCoroutine(MoveCoroutine(move));
+        }
+        else
+        {
+            //! 親ペンギンから取得した移動量を適用
+            m_RigidBody.AddForce(move * m_RigidBody.mass * m_BaseSpeed);
+        }
+    }
+
+    /// <summary>
+    /// @brief      遅延ありきの移動
+    /// @param      移動量(Vector3)
+    /// </summary>
+    IEnumerator MoveCoroutine(Vector3 move)
+    {
+        //! m_Delay分待つ
+        yield return new WaitForSeconds(m_Delay);
         //! 親ペンギンから取得した移動量を適用
-        m_RigidBody.AddForce(move); 
+        m_RigidBody.AddForce(move * m_RigidBody.mass * m_BaseSpeed);
     }
 
     /// <summary>

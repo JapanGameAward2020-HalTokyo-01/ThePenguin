@@ -7,9 +7,6 @@
 //using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(InputHandler))]
 public class ParentPenguinMove : MonoBehaviour
 {
     //! 子ペンギンの群れリスト
@@ -17,48 +14,51 @@ public class ParentPenguinMove : MonoBehaviour
     //! 自分のRigidbody
     private Rigidbody m_RigidBody;
 
-
-    //! 入力用のInputHandler
-    [SerializeField, Tooltip("コントローラー入力処理")]
-    private InputHandler m_Input;
-
     // Start is called before the first frame update
     void Start()
     {
         //! Rigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
-        //! InputHandlerの取得
-        m_Input = GetComponent<InputHandler>();
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        //InputHandlerが起動中だったら
-        if (m_Input.CurrentState == InputHandler.State.Run)
-        {
-            //! InputHandlerから移動量を取得
-            Vector3 _move = m_Input.GetMoveVector();
-            _move *= m_RigidBody.mass * m_RigidBody.drag;
-            //! 親ペンギンを移動
-            MoveHandler(_move);
-            //! 群れを移動
-            foreach (ChildPenguinMove _child in m_ChildPenguins)
-            {
-                _child.MoveHandler(_move);
-            }
-            
-        }
+
     }
 
     /// <summary>
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    private void MoveHandler(Vector3 move)
+    public void MoveHandler(Vector3 move)
     {
         //! InputHandlerから取得した移動量を適用
-        m_RigidBody.AddForce(move);
+        m_RigidBody.AddForce(move * m_RigidBody.mass);
+
+        //! 群れを移動
+        foreach (ChildPenguinMove _child in m_ChildPenguins)
+        {
+            _child.MoveHandler(move);
+        }
+    }
+
+    /// <summary>
+    /// @brief      InputHandlerに親ペンギンが動いているかを渡す
+    /// @return     動いているか(bool)
+    /// </summary>
+    public bool IsMoving()
+    {
+        //! 移動force残ってるか
+        if(m_RigidBody.velocity.magnitude < 0.01)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
 

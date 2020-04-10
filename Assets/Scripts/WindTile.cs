@@ -1,5 +1,5 @@
 ﻿/**
- * @file    WindZone.cs
+ * @file    WindTile.cs
  * @brief   指定したタグを持つものだけを選択的に吹き飛ばす空間
  * @author  谷沢 瑞己
  */
@@ -14,10 +14,10 @@ using UnityEngine;
 enum kDirection { Up, Down, Front, Back, Right, Left };
 
 /**
- * @class   WindZoneクラス
+ * @class   WindTileクラス
  * @brief   指定した方向にペンギンを移動させる空間
  */
-public class WindZone : MonoBehaviour
+public class WindTile : MonoBehaviour
 {
     //! 影響を与えるタグ名
     [SerializeField, Tooltip("影響を与える対象のタグ")]

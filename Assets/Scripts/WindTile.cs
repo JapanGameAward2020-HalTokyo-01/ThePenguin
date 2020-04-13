@@ -20,8 +20,8 @@ enum kDirection { Up, Down, Front, Back, Right, Left };
 public class WindTile : MonoBehaviour
 {
     //! 影響を与えるタグ名
-    [SerializeField, Tooltip("影響を与える対象のタグ")]
-    private string m_tag;
+    [SerializeField, Tooltip("影響を与える対象のレイヤー")]
+    private LayerMask m_layer;
 
     //! 風の吹く方向(列挙)
     [SerializeField, Tooltip("風向き")]
@@ -34,10 +34,6 @@ public class WindTile : MonoBehaviour
     //! 風の強さ
     [SerializeField, Tooltip("風速(影響範囲の中では均一の強さ)\n目安：座標操作時(0.02), 物理挙動時(20.0)")]
     private float m_force = 0.0f;
-
-    //! 物理ベースの挙動に切り替える
-    [SerializeField, Tooltip("物理ベースの挙動(つまりAddForce)させる場合はここにチェックを入れる")]
-    private bool m_isphysical = false;
 
     //! 風の吹く方向(ベクトル)
     private Vector3 m_forcedir = Vector3.zero;
@@ -81,18 +77,13 @@ public class WindTile : MonoBehaviour
     }
 
     /**
-     * @brief   (override)トリガーに触れているコライダーに対し実行する
+     * @brief           (override)トリガーに触れているコライダーに対し実行する
+     * @param(other)    衝突を検知したコライダー
      */
     private void OnTriggerStay(Collider other)
     {
         // 影響するオブジェクトであるか判定
-        if (other.gameObject.tag != m_tag.ToString()) return;
-        if (other.attachedRigidbody == null) return;
-
-        // 座標を直接操作するか物理ベースの挙動にするか切り替えられるように(将来的に択一)
-        if (m_isphysical)
-            other.attachedRigidbody.AddForce(m_forcedir * m_force, ForceMode.Force);
-        else
+        if ( (m_layer.value & (1 << other.gameObject.layer)) != 0 )
             other.transform.position += m_forcedir * m_force;
     }
 

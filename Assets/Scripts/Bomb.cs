@@ -58,14 +58,14 @@ public class Bomb : MonoBehaviour
     private void Explode()
     {
         //すべてのペンギンを取得
-        GameObject[] _penguins = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] _penguins = GameObject.FindGameObjectsWithTag("Penguin");
         for (int i = 0; i < _penguins.Length; i++)
         {
             //ペンギンと爆弾距離
             float _length = Vector3.Distance(this.transform.position, _penguins[i].transform.position);
 
             //ペンギンが爆心地半径内にいたら
-            if(_length<= m_ExplosionSize)
+            if(_length <= m_ExplosionSize)
             {
                 //仮のプレイヤー死亡処理
                 Debug.Log("dead");
@@ -84,8 +84,8 @@ public class Bomb : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //コリジョンに当たったオブジェクトのTagがPlayerだったら
-        if (collision.gameObject.tag== "Player")
+        //コリジョンに当たったオブジェクトのTagがPenguinだったら
+        if (collision.gameObject.tag == "Penguin")
         {
             m_IsCountDown = true;
             this.GetComponent<Renderer>().material.color = Color.red;

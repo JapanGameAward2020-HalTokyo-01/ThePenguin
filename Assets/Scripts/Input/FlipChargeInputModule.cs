@@ -41,6 +41,7 @@ public class FlipChargeInputModule : InputModuleBase
     private float m_MarginCounter = 0f;
     private Vector3 m_InputVector;
 
+    private bool m_IsChargeUp = true;
 
     public override void Start()
     {
@@ -80,11 +81,20 @@ public class FlipChargeInputModule : InputModuleBase
         if (m_TimeCounter < m_PowerWaitTime) return;
 
         //! チャージ処理
-        m_InputHandler.Power += m_PowerChange * Time.deltaTime;
-        if (m_InputHandler.Power < m_InputHandler.PowerMax) return;
-
-        //! 最大までチャージ
-        m_InputHandler.Power = m_InputHandler.PowerMax;
+        if (m_IsChargeUp)
+        {
+            //! 最大までチャージ
+            m_InputHandler.Power += m_PowerChange * Time.deltaTime;
+            if (m_InputHandler.Power < m_InputHandler.PowerMax) return;
+            m_InputHandler.Power = m_InputHandler.PowerMax;
+        }
+        else
+        {
+            //! 最低までチャージ
+            m_InputHandler.Power -= m_PowerChange * Time.deltaTime;
+            if (m_InputHandler.Power > 0f) return;
+            m_InputHandler.Power = 0f;
+        }
 
         //! リピート処理
         if (!m_IsRepeat) return;
@@ -95,7 +105,9 @@ public class FlipChargeInputModule : InputModuleBase
 
         //! リピートマージンリセット
         m_MarginCounter = 0f;
-        m_InputHandler.PowerReset();
+
+        //反転
+        m_IsChargeUp = !m_IsChargeUp;
     }
 
     private void ResetParameter()

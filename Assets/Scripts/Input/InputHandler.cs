@@ -19,6 +19,7 @@ public class InputHandler : MonoBehaviour
     }
 
     //! パワー
+    [SerializeField]
     private float m_Power = 0f;
     public float Power
     {

@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb68183b4756974c952b35f27489ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Power: 0
   m_ParentPenguin: {fileID: 3727411399284078769}
   m_PowerMax: 10
-  m_PowerChange: 1.5
   m_PowerMag: 100
   m_Arrow: {fileID: 0}
   m_DemoObject: {fileID: 0}
@@ -164,12 +164,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5207913544868622371}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c54234f73551cb243b889a5ecdae31ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsRepeat: 1
-  m_PowerWaitTime: 10
+  m_PowerChange: 3
+  m_PowerWaitTime: 1
   m_Deadzone: 0.07
   m_Threshold: 0.1
+  m_Margin: 1

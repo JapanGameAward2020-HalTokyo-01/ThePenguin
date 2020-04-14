@@ -18,10 +18,13 @@ public class InputHandler : MonoBehaviour
         Run
     }
 
-    private InputModuleBase m_InputModule;
-
-    [SerializeField]
-    private ParentPenguinMove m_ParentPenguin;
+    //! パワー
+    private float m_Power = 0f;
+    public float Power
+    {
+        get { return m_Power; }
+        set { m_Power = value; }
+    }
 
     //! パワー最大値
     [SerializeField, Tooltip("最大値"), Range(1f, 10f)]
@@ -31,27 +34,22 @@ public class InputHandler : MonoBehaviour
         get { return m_PowerMax; }
     }
 
-    //! パワー変化量
-    [SerializeField, Tooltip("毎秒変化値(×フレーム時間)"), Range(0.01f, 10.0f)]
-    private float m_PowerChange = 3.0f;
-
-    //! パワー
-    public float Power { get; set; } = 0f;
-
     //! 状態
     public State CurrentState { get; private set; } = State.Idle;
     //! 入力ベクタ
     public Vector3 InputVector { get; private set; } = Vector3.zero;
 
     //! パワー倍率
-    [SerializeField,Range(1.0f,1000.0f)]
+    [SerializeField, Range(1.0f, 1000.0f)]
     private float m_PowerMag = 100.0f;
-
 
     [SerializeField]
     private GameObject m_Arrow;
     [SerializeField]
     private GameObject m_DemoObject;
+
+    private InputModuleBase m_InputModule;
+    private ParentPenguinMove m_ParentPenguin;
 
     // Start is called before the first frame update
     void Start()
@@ -141,18 +139,6 @@ public class InputHandler : MonoBehaviour
     {
         _InputVector.y = 0f;
         this.InputVector = _InputVector;
-    }
-
-    /// <summary>
-    /// @brief 
-    ///     m_PowerChargeの値でパワー値を変化
-    /// @param(IsRepeat) 最大値を超えた場合、0に戻すか (true:戻す/false:戻さない)
-    /// </summary>
-    public void PowerAddChange(bool IsRepeat = false)
-    {
-        Power += m_PowerChange * Time.deltaTime;
-        if (Power > m_PowerMax)
-            Power = IsRepeat ? 0f : m_PowerMax;
     }
 
     /// <summary>

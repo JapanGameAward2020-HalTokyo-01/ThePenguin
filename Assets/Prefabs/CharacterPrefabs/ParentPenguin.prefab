@@ -13,10 +13,13 @@ GameObject:
   - component: {fileID: 5207913544868622383}
   - component: {fileID: 5207913544868622368}
   - component: {fileID: 5207913544868622369}
-  - component: {fileID: 5207913544868622370}
-  m_Layer: 0
+  - component: {fileID: 3727411399284078769}
+  - component: {fileID: 7430046703996085048}
+  - component: {fileID: 7934241919255531226}
+  - component: {fileID: 4470612475389933267}
+  m_Layer: 8
   m_Name: ParentPenguin
-  m_TagString: Penguin
+  m_TagString: ParentPenguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,14 +107,14 @@ Rigidbody:
   m_GameObject: {fileID: 5207913544868622371}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 30
-  m_AngularDrag: 30
+  m_Drag: 1
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5207913544868622370
+--- !u!114 &3727411399284078769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,13 +123,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 5207913544868622371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f2f03cb815b954b86eeeff12ee6a95, type: 3}
+  m_Script: {fileID: 11500000, guid: 192cf08ab84c37a4fbd075bfd9530523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveSpeed: 6
-  m_Material:
-  - {fileID: 2100000, guid: 4d384ae695680624185ef6072a1671c8, type: 2}
-  - {fileID: 2100000, guid: e63f3b78d57749944ad2c20053943675, type: 2}
-  - {fileID: 2100000, guid: e029a750962fd3d45b28a23a91a465ef, type: 2}
-  m_StoredMove: {x: 0, y: 0, z: 0}
-  m_DirectionMove: {x: 0, y: 0, z: 0}
+--- !u!114 &7430046703996085048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207913544868622371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb68183b4756974c952b35f27489ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ParentPenguin: {fileID: 3727411399284078769}
+  m_PowerMax: 10
+  m_PowerChange: 1.5
+  m_PowerMag: 100
+  m_Arrow: {fileID: 0}
+  m_DemoObject: {fileID: 0}
+--- !u!114 &7934241919255531226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207913544868622371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70a78b312a208974cbb979ebb6409a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Division: 10
+--- !u!114 &4470612475389933267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207913544868622371}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54234f73551cb243b889a5ecdae31ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsRepeat: 1
+  m_PowerWaitTime: 10
+  m_Deadzone: 0.07
+  m_Threshold: 0.1

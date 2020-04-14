@@ -76,7 +76,7 @@ public class ChildPenguinMove : MonoBehaviour
     /// @brief      子ペンギンを群れに追加する処理
     /// @param (a)	群れに追加するか判定するcollision
     /// </summary>
-    private void OnCollisionEnter(Collision a)
+    private void OnTriggerEnter(Collider a)
     {
         if (!m_InPack)
         {
@@ -89,6 +89,13 @@ public class ChildPenguinMove : MonoBehaviour
 
                 //! collision layerをpack penguinにする
                 gameObject.layer = 8;
+
+                //! packcolliderを削除 
+                foreach (Transform child in transform)
+                {
+                    Destroy(child.gameObject);
+                }
+                transform.DetachChildren();
                 //! 移動を有効にする
                 m_InPack = true;
             }
@@ -99,6 +106,12 @@ public class ChildPenguinMove : MonoBehaviour
                 this.m_Parent.AddToPack(this);
 
                 gameObject.layer = 8;
+
+                foreach (Transform child in transform)
+                {
+                    Destroy(child.gameObject);
+                }
+                transform.DetachChildren();
                 m_InPack = true;
             }
         }

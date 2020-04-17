@@ -22,10 +22,10 @@ public class ChildPenguinMove : MonoBehaviour
 
     //! 移動速度
     [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 2.0f)]
-    public float m_BaseSpeed = 1.0f;
+    private float m_BaseSpeed = 1.0f;
     //! 移動遅延
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
-    public float m_Delay = 1.0f;
+    private float m_Delay = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -95,7 +95,6 @@ public class ChildPenguinMove : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                 }
-                transform.DetachChildren();
                 //! 移動を有効にする
                 m_InPack = true;
             }
@@ -111,9 +110,28 @@ public class ChildPenguinMove : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                 }
-                transform.DetachChildren();
                 m_InPack = true;
             }
         }
     }
+
+    /// <summary>
+    /// @brief      親ペンギンから群れ化する
+    /// @param      親ペンギン(ParentPenguinMove)
+    /// </summary>
+    public void SetInPack(ParentPenguinMove parent)
+    {
+        //! 親ペンギンを取得
+        this.m_Parent = parent;
+        //! 移動を有効にする
+        m_InPack = true;
+        //! collision layerをpack penguinにする
+        gameObject.layer = 8;
+        //! packcolliderを削除 
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
 }

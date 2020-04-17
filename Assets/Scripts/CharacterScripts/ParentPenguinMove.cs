@@ -10,6 +10,7 @@ using UnityEngine;
 public class ParentPenguinMove : MonoBehaviour
 {
     //! 子ペンギンの群れリスト
+    [SerializeField, Tooltip("最初から群れにいる子ペンギンを追加してね(最初に追加するサイズをしてする必要がある)")]
     private List<ChildPenguinMove> m_ChildPenguins = new List<ChildPenguinMove>();
     //! 自分のRigidbody
     private Rigidbody m_RigidBody;
@@ -19,6 +20,11 @@ public class ParentPenguinMove : MonoBehaviour
     {
         //! Rigidbody取得
         m_RigidBody = GetComponent<Rigidbody>();
+        //! 最初から群れにいる子ペンギンを群れに追加する処理
+        foreach (ChildPenguinMove _child in m_ChildPenguins)
+        {
+            _child.SetInPack(this);
+        }
     }
 
 

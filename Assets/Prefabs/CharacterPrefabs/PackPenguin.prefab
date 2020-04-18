@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 61366251547262256}
   - component: {fileID: 61366251547262263}
   - component: {fileID: 5585326962194135302}
-  - component: {fileID: 61366251547262262}
-  m_Layer: 10
-  m_Name: BabyPenguin
-  m_TagString: Penguin
+  - component: {fileID: 932133971632798526}
+  m_Layer: 8
+  m_Name: PackPenguin
+  m_TagString: ChildPenguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,9 +109,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &61366251547262262
+--- !u!114 &932133971632798526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,8 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 61366251547262261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2727496092c11e6449af64255d55030f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d0bb3300c2aa1a4ebf0f00b29e1a79c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_BaseSpeed: 1
-  m_Delay: 1
+  m_Delay: 0

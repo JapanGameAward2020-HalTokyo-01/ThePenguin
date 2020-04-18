@@ -13,10 +13,7 @@ GameObject:
   - component: {fileID: 5207913544868622383}
   - component: {fileID: 5207913544868622368}
   - component: {fileID: 5207913544868622369}
-  - component: {fileID: 3727411399284078769}
-  - component: {fileID: 7430046703996085048}
-  - component: {fileID: 7934241919255531226}
-  - component: {fileID: 4470612475389933267}
+  - component: {fileID: 1700295191265311874}
   m_Layer: 8
   m_Name: ParentPenguin
   m_TagString: ParentPenguin
@@ -114,7 +111,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3727411399284078769
+--- !u!114 &1700295191265311874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,55 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5207913544868622371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 192cf08ab84c37a4fbd075bfd9530523, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ada0543912b83443aae6de2e9cbd2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7430046703996085048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207913544868622371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb68183b4756974c952b35f27489ac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Power: 0
-  m_ParentPenguin: {fileID: 3727411399284078769}
-  m_PowerMax: 10
-  m_PowerMag: 100
-  m_Arrow: {fileID: 0}
-  m_DemoObject: {fileID: 0}
---- !u!114 &7934241919255531226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207913544868622371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70a78b312a208974cbb979ebb6409a27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Division: 10
---- !u!114 &4470612475389933267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207913544868622371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c54234f73551cb243b889a5ecdae31ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsRepeat: 1
-  m_PowerChange: 3
-  m_PowerWaitTime: 1
-  m_Deadzone: 0.07
-  m_Threshold: 0.1
-  m_Margin: 1
+  m_InputHandler: {fileID: 0}
+  m_ChildPenguins: []

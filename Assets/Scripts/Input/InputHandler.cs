@@ -3,7 +3,9 @@
 /// @brief コントローラー入力処理
 /// @author 池田 博雅
 /// </summary>
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// @class InputSystem
@@ -12,6 +14,22 @@ using UnityEngine;
 /// </summary>
 public class InputHandler : MonoBehaviour
 {
+    /// <summary>
+    /// @ brief 
+    ///     入力イベント
+    ///     InputHandler内での任意のタイミングで実行される
+    /// </summary>
+    [System.Serializable]
+    public class InputEventBase
+    {
+        public InputHandler m_Handler;
+
+        public virtual void OnRun() { }
+        public virtual void OnIdle() { }
+        public virtual void TickStateRun() { }
+        public virtual void TickStateIdle() { }
+    }
+
     public enum State
     {
         Idle,
@@ -30,19 +48,14 @@ public class InputHandler : MonoBehaviour
     //! パワー最大値
     [SerializeField, Tooltip("最大値"), Range(1f, 10f)]
     private float m_PowerMax = 10f;
-    public float PowerMax
-    {
-        get { return m_PowerMax; }
-    }
+    public float PowerMax { get { return m_PowerMax; } }
 
     //! 状態
     public State CurrentState { get; private set; } = State.Idle;
     //! 入力ベクタ
     public Vector3 InputVector { get; private set; } = Vector3.zero;
 
-    //! パワー倍率
-    [SerializeField, Range(1.0f, 1000.0f)]
-    private float m_PowerMag = 100.0f;
+    private List<InputEventBase> m_InputEventList = new List<InputEventBase>();
 
     [SerializeField]
     private GameObject m_Arrow;
@@ -50,13 +63,12 @@ public class InputHandler : MonoBehaviour
     private GameObject m_DemoObject;
 
     private InputModuleBase m_InputModule;
-    private ParentPenguinMove m_ParentPenguin;
 
     // Start is called before the first frame update
     void Start()
     {
         //! 有効なModuleを探査/代入
-        foreach(var module in GetComponents<InputModuleBase>())
+        foreach (var module in GetComponents<InputModuleBase>())
         {
             if (!module.enabled) continue;
             m_InputModule = module;
@@ -64,34 +76,35 @@ public class InputHandler : MonoBehaviour
             break;
         }
 
-        if(m_InputModule == null)
+        if (m_InputModule == null)
             Debug.LogError("入力モジュールの設定がされていません。");
-        
-        if(m_ParentPenguin == null)
-        {
-            m_ParentPenguin = this.GetComponent<ParentPenguinMove>();
-        }
 
-        if(m_Arrow != null)
+        if (m_Arrow != null)
             m_Arrow.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CurrentState == State.Run)
+        if (CurrentState == State.Idle)
         {
-            if(!m_ParentPenguin.IsMoving())
-            {
-                ChangeState(State.Idle);
-            }
-        }
-        else
-        {
+            foreach (var inputEvent in m_InputEventList)
+                inputEvent.OnIdle();
             m_InputModule.Behaviour();
         }
-
+        else if (CurrentState == State.Run)
+        {
+            foreach (var inputEvent in m_InputEventList)
+                inputEvent.OnRun();
+        }
         DebugMethod();
+    }
+
+    //! InputEvenetを登録する
+    public void RegisterInputEvent(InputEventBase inputEvenet)
+    {
+        inputEvenet.m_Handler = this;
+        m_InputEventList.Add(inputEvenet);
     }
 
     /// <summary>
@@ -105,7 +118,7 @@ public class InputHandler : MonoBehaviour
     /// <summary>
     /// @brief 移動ベクトルの取得
     /// </summary>
-    private Vector3 GetMoveVector()
+    public Vector3 GetMoveVector()
     {
         return -Vector3.Normalize(InputVector) * Power;
     }
@@ -117,17 +130,17 @@ public class InputHandler : MonoBehaviour
     /// </summary>
     public void ChangeState(State state)
     {
-        //! Run状態に切り替わったら
-        if (state == State.Run && CurrentState != State.Run)
+        if (state == State.Run)
         {
-            if (m_ParentPenguin)
-                m_ParentPenguin.MoveHandler(GetMoveVector() * m_PowerMag);   
+            foreach (var inputEvent in m_InputEventList)
+                inputEvent.TickStateRun();
         }
-        else
+        else if (state == State.Idle)
         {
             PowerReset();
+            foreach (var inputEvent in m_InputEventList)
+                inputEvent.TickStateIdle();
         }
-
         CurrentState = state;
     }
 
@@ -184,7 +197,7 @@ public class InputHandler : MonoBehaviour
 
             if (CurrentState == State.Idle)
                 m_DemoObject.transform.localPosition = GetMoveVector();
-            
+
         }
 
         m_InputModule.DebugMethod();

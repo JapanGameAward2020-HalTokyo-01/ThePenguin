@@ -13,20 +13,20 @@ public class GoalTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //Trigger
     void OnTriggerEnter(Collider other)
     {
         //親ペンギンと子ペンギンにのみ反応する
-        if (other.GetComponentInParent<ParentPenguinMove>() != null || other.GetComponentInParent<ChildPenguinMove>() != null)
+        if (other.GetComponent<Penguin>() != null)
         {
             Goal();
         }

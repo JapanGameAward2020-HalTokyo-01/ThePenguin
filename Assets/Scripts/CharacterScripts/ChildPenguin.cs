@@ -1,6 +1,6 @@
 ﻿/// <summary>
-/// @file   ChildPenguinMove.cs
-/// @brief	子ペンギンの挙動(仮)
+/// @file   ChildPenguin.cs
+/// @brief	子ペンギンの挙動
 /// @author	北林和哉
 /// </summary>
 
@@ -8,17 +8,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildPenguinMove : MonoBehaviour
+public class ChildPenguin : Penguin
 {
     //! 移動の有効・無効
     private bool m_InPack = false;
     //! 親ペンギン
-    private ParentPenguinMove m_Parent;
+    private ParentPenguin m_Parent;
     //! 親ペンギンの参照用
-    public ParentPenguinMove Parent { get { return m_Parent; } }
-    //! 自分のRigidbody
-    private Rigidbody m_RigidBody;
-
+    public ParentPenguin Parent { get { return m_Parent; } }
 
     //! 移動速度
     [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 2.0f)]
@@ -28,17 +25,16 @@ public class ChildPenguinMove : MonoBehaviour
     private float m_Delay = 1.0f;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        //操作用のRigidbody取得
-        m_RigidBody = GetComponent<Rigidbody>();
-        m_InPack = false;
+        //ベースクラスの初期設定
+        base.Start();
     }
-
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-
+        //ベースクラスの更新設定
+        base.Update();
     }
 
     /// <summary>
@@ -56,7 +52,7 @@ public class ChildPenguinMove : MonoBehaviour
         else
         {
             //! 親ペンギンから取得した移動量を適用
-            m_RigidBody.AddForce(move * m_RigidBody.mass * m_BaseSpeed);
+            m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
         }
     }
 
@@ -69,7 +65,8 @@ public class ChildPenguinMove : MonoBehaviour
         //! m_Delay分待つ
         yield return new WaitForSeconds(m_Delay);
         //! 親ペンギンから取得した移動量を適用
-        m_RigidBody.AddForce(move * m_RigidBody.mass * m_BaseSpeed);
+        m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
+        yield break;
     }
 
     /// <summary>
@@ -80,37 +77,27 @@ public class ChildPenguinMove : MonoBehaviour
     {
         if (!m_InPack)
         {
-            if (a.gameObject.tag == "Penguin")
+            if (a.gameObject.CompareTag("ChildPenguin"))
             {
                 //! 群れの子ペンギンから親ペンギンを取得
-                this.m_Parent = a.gameObject.GetComponent<ChildPenguinMove>().Parent;
-                //! 親ペンギンの群れに追加する
-                this.m_Parent.AddToPack(this);
-
-                //! collision layerをpack penguinにする
-                gameObject.layer = 8;
-
-                //! packcolliderを削除 
-                foreach (Transform child in transform)
-                {
-                    Destroy(child.gameObject);
-                }
-                //! 移動を有効にする
-                m_InPack = true;
+                m_Parent = a.gameObject.GetComponent<ChildPenguin>().Parent;
             }
-            else if (a.gameObject.tag == "ParentPenguin")
+            else if (a.gameObject.CompareTag("ParentPenguin"))
             {
                 //! 親ペンギンを取得
-                this.m_Parent = a.gameObject.GetComponent<ParentPenguinMove>();
-                this.m_Parent.AddToPack(this);
+                m_Parent = a.gameObject.GetComponent<ParentPenguin>();
+            }
 
-                gameObject.layer = 8;
-
-                foreach (Transform child in transform)
-                {
-                    Destroy(child.gameObject);
-                }
-                m_InPack = true;
+            //! 親ペンギンの群れに追加する
+            m_Parent.AddToPack(this);
+            //! collision layerをpack penguinにする
+            gameObject.layer = 8;
+            //! 移動を有効にする
+            m_InPack = true;
+            //! packcolliderを削除 
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
             }
         }
     }
@@ -119,19 +106,12 @@ public class ChildPenguinMove : MonoBehaviour
     /// @brief      親ペンギンから群れ化する
     /// @param      親ペンギン(ParentPenguinMove)
     /// </summary>
-    public void SetInPack(ParentPenguinMove parent)
+    public void SetInPack(ParentPenguin parent)
     {
         //! 親ペンギンを取得
         this.m_Parent = parent;
         //! 移動を有効にする
         m_InPack = true;
-        //! collision layerをpack penguinにする
-        gameObject.layer = 8;
-        //! packcolliderを削除 
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
     }
 
 }

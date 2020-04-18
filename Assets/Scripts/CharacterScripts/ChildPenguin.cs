@@ -24,11 +24,18 @@ public class ChildPenguin : Penguin
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
 
+    private GameObject m_PackCollider;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         //ベースクラスの初期設定
         base.Start();
+
+        if (!m_InPack)
+        {
+            m_PackCollider = transform.GetChild(0).gameObject;
+        }
     }
     // Update is called once per frame
     protected override void Update()
@@ -37,33 +44,38 @@ public class ChildPenguin : Penguin
         base.Update();
     }
 
+
     /// <summary>
     /// @brief      親ペンギンの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
     public void MoveHandler(Vector3 move)
     {
-        //! m_Delayがあれば
+        //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+        //stopwatch.Start();
+
         if (m_Delay != 0.0f)
         {
-            //! 0でも若干起動分のラグがある
+            //! 遅延用のCouroutine
             StartCoroutine(MoveCoroutine(move));
         }
         else
         {
-            //! 親ペンギンから取得した移動量を適用
             m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
         }
+        //stopwatch.Stop();
+        //Debug.Log(stopwatch.ElapsedTicks);
     }
 
     /// <summary>
-    /// @brief      遅延ありきの移動
+    /// @brief      遅延ありきの移動Coroutine
     /// @param      移動量(Vector3)
     /// </summary>
     IEnumerator MoveCoroutine(Vector3 move)
     {
         //! m_Delay分待つ
         yield return new WaitForSeconds(m_Delay);
+
         //! 親ペンギンから取得した移動量を適用
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
         yield break;
@@ -95,10 +107,7 @@ public class ChildPenguin : Penguin
             //! 移動を有効にする
             m_InPack = true;
             //! packcolliderを削除 
-            foreach (Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(m_PackCollider);
         }
     }
 

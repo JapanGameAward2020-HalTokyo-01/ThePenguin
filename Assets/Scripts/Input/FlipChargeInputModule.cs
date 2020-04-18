@@ -16,6 +16,8 @@ public class FlipChargeInputModule : InputModuleBase
 {
     [SerializeField, Tooltip("ゲージのリピート")]
     private bool m_IsRepeat = true;
+    [SerializeField]
+    private bool m_IsTolerate = false;
 
     //! パワー変化量
     [SerializeField, Tooltip("毎秒変化値(×フレーム時間)"), Range(0.01f, 10.0f)]
@@ -66,15 +68,19 @@ public class FlipChargeInputModule : InputModuleBase
 
         m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Horizontal, 0f, m_Vertical));
         m_InputVector.y = 0f;
-
         //! 誤差許容処理
-        if (m_InputHandler.InputVector != m_InputVector && EnableInputVector(m_InputVector))
+        if (m_IsTolerate && m_InputHandler.InputVector != m_InputVector)
         {
             ResetParameter();
             m_InputHandler.SetInputVector(m_InputVector);
             m_InputHandler.PowerReset();
             return;
         }
+        else
+        {
+            m_InputHandler.SetInputVector(m_InputVector);
+        }
+        
 
         //! チャージ遷移時間加算
         m_TimeCounter += Time.deltaTime;

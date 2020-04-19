@@ -84,7 +84,7 @@ class SceneIndexEnumGenerator : EditorWindow
         // ビルドセッティングに登録されたシーンのファイル名から列挙子の文字列を作成
 
         //! ファイル名を収集する一時的な変数
-        string _enum_items = "{ ";
+        string _enum_items = "{ None = -1, ";
 
         foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
         {

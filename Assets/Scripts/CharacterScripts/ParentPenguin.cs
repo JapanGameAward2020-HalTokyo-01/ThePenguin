@@ -22,8 +22,16 @@ public class ParentPenguin : Penguin
         //! ベースクラスの初期設定
         base.Start();
 
-        //! InputHandlerにEvent登録
-        m_InputHandler.RegisterInputEvent(new InputEvent(this));
+        //! InputHandlerの設定忘れ用の処理
+        if (m_InputHandler == null)
+        {
+            Debug.LogError("入力ハンドラーの設定がされていません");
+        }
+        else
+        {
+            //! InputHandlerにEvent登録
+            m_InputHandler.RegisterInputEvent(new InputEvent(this));
+        }
 
         //! 最初から群れにいる子ペンギンを群れに追加する処理
         foreach (ChildPenguin _child in m_ChildPenguins)
@@ -43,7 +51,7 @@ public class ParentPenguin : Penguin
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    public void MoveHandler(Vector3 move)
+    private void MoveHandler(Vector3 move)
     {
         //! InputHandlerから取得した移動量を適用
         m_Rigidbody.AddForce(move * m_Rigidbody.mass);
@@ -59,7 +67,7 @@ public class ParentPenguin : Penguin
     /// @brief      InputHandlerに親ペンギンが動いているかを渡す
     /// @return     動いているか(bool)
     /// </summary>
-    public bool IsMoving()
+    private bool IsMoving()
     {
         //! 移動force残ってるか
         return m_Rigidbody.velocity.magnitude < 0.01f;
@@ -81,7 +89,6 @@ public class ParentPenguin : Penguin
     public class InputEvent : InputHandler.InputEventBase
     {
         private ParentPenguin m_ParentPenguin;
-
 
         //! コンストラクタ
         public InputEvent(ParentPenguin _Penguin)

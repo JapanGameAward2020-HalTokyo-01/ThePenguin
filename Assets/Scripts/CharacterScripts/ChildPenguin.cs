@@ -12,6 +12,8 @@ public class ChildPenguin : Penguin
 {
     //! 移動の有効・無効
     private bool m_InPack = false;
+    //! 群れ化する為の当たり判定
+    private GameObject m_PackCollider;
     //! 親ペンギン
     private ParentPenguin m_Parent;
     //! 親ペンギンの参照用
@@ -23,9 +25,6 @@ public class ChildPenguin : Penguin
     //! 移動遅延
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
-
-    //! 群れ化する為の当たり判定
-    private GameObject m_PackCollider;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -45,7 +44,6 @@ public class ChildPenguin : Penguin
         //! ベースクラスの更新設定
         base.Update();
     }
-
 
     /// <summary>
     /// @brief      親ペンギンの移動量を渡す
@@ -87,7 +85,7 @@ public class ChildPenguin : Penguin
     /// @brief      移動用関数
     /// @param      移動量(Vector3)
     /// </summary>
-    protected void Move(Vector3 move)
+    private void Move(Vector3 move)
     {
         //! 親ペンギンから取得した移動量を適用
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);

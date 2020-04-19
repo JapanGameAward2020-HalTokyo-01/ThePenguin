@@ -19,7 +19,7 @@ public class ParentPenguin : Penguin
     // Start is called before the first frame update
     protected override void Start()
     {
-        //ベースクラスの初期設定
+        //! ベースクラスの初期設定
         base.Start();
 
         //! InputHandlerにEvent登録
@@ -35,7 +35,7 @@ public class ParentPenguin : Penguin
     // Update is called once per frame
     protected override void Update()
     {
-        //ベースクラスの更新設定
+        //! ベースクラスの更新設定
         base.Update();
     }
 
@@ -82,6 +82,8 @@ public class ParentPenguin : Penguin
     {
         private ParentPenguin m_ParentPenguin;
 
+
+        //! コンストラクタ
         public InputEvent(ParentPenguin _Penguin)
         {
             m_ParentPenguin = _Penguin;
@@ -97,7 +99,7 @@ public class ParentPenguin : Penguin
             }
         }
 
-        //! Run状態になった時
+        //! Run状態になった時(一回だけの処理)
         public override void TickStateRun()
         {
             base.TickStateRun();

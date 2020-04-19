@@ -24,14 +24,16 @@ public class ChildPenguin : Penguin
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
 
+    //! 群れ化する為の当たり判定
     private GameObject m_PackCollider;
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        //ベースクラスの初期設定
+        //! ベースクラスの初期設定
         base.Start();
 
+        //! はぐれペンギンならm_PackColliderを取得
         if (!m_InPack)
         {
             m_PackCollider = transform.GetChild(0).gameObject;
@@ -40,7 +42,7 @@ public class ChildPenguin : Penguin
     // Update is called once per frame
     protected override void Update()
     {
-        //ベースクラスの更新設定
+        //! ベースクラスの更新設定
         base.Update();
     }
 
@@ -53,7 +55,7 @@ public class ChildPenguin : Penguin
     {
         //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         //stopwatch.Start();
-
+        //! m_Delayがあれば
         if (m_Delay != 0.0f)
         {
             //! 遅延用のCouroutine
@@ -61,7 +63,8 @@ public class ChildPenguin : Penguin
         }
         else
         {
-            m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
+            //! 重要な処理のため、分岐で共時性を保つためにまとめる。速度は変わらない。
+            Move(move);
         }
         //stopwatch.Stop();
         //Debug.Log(stopwatch.ElapsedTicks);
@@ -75,10 +78,19 @@ public class ChildPenguin : Penguin
     {
         //! m_Delay分待つ
         yield return new WaitForSeconds(m_Delay);
+        //! 重要な処理のため、分岐で共時性を保つためにまとめる。速度は変わらない。
+        Move(move);
+        yield break;
+    }
 
+    /// <summary>
+    /// @brief      移動用関数
+    /// @param      移動量(Vector3)
+    /// </summary>
+    protected void Move(Vector3 move)
+    {
         //! 親ペンギンから取得した移動量を適用
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
-        yield break;
     }
 
     /// <summary>

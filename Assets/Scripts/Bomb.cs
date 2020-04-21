@@ -7,9 +7,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Bomb : MonoBehaviour
 {
+    [SerializeField, Tooltip("探知範囲")]
+    private float m_DetectionSize = 1.0f;
+
     [SerializeField, Tooltip("カウントダウン秒数")]
     private float m_CountDown = 3.0f;
 
@@ -17,35 +21,50 @@ public class Bomb : MonoBehaviour
     private float m_ExplosionSize = 1.5f;
 
     [SerializeField, Tooltip("爆風サイズ")]
-    private float m_BlastSize = 3.0f;
+    private float m_BlastSize = 0.0f;
 
     [SerializeField, Tooltip("爆風強さ")]
-    private float m_BlastPower = 3.0f;
+    private float m_BlastPower = 0.0f;
 
     //! 状態
     private bool m_IsCountDown = false;
 
+    //探知範囲表示（仮）オブジェクト
+    private GameObject m_DetectionSizeObject;
+    //カウントダウン表示（仮）オブジェクト
+    private GameObject m_CountDownObject;
+
     // Start is called before the first frame update
     void Start()
     {
-        //初期設定
-        this.GetComponent<Renderer>().material.color = Color.black;
+        this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
+
+        //探知範囲初期化
+        this.GetComponent<SphereCollider>().radius = m_DetectionSize * 0.5f;
+        //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
+        m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
+        m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
+        //カウントダウン表示（仮）初期化
+        m_CountDownObject = this.transform.Find("CountDown").gameObject;
+        m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
+        m_CountDownObject.SetActive(false);
     }
 
     // Update is called once per frame  
-    
+
     void Update()
     {
         //カウントダウン開始
         if(m_IsCountDown)
-        {
+        {          
             m_CountDown -= Time.deltaTime;
-            if(m_CountDown <= 0.0f)
+            m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
+            if (m_CountDown <= 0.0f)
             {
-                //爆弾処理
+                //爆発処理
                 Explode();
                 //消滅
-                Destroy(this.gameObject);
+                Destroy(this.transform.parent.gameObject);
             }
         }
     }
@@ -82,13 +101,17 @@ public class Bomb : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        //コリジョンに当たったオブジェクトのTagがPenguinだったら
-        if (collision.gameObject.tag == "Penguin")
+        //探知範囲に当たったオブジェクトのTagがPenguinだったら
+        if (other.gameObject.tag == "Penguin")
         {
             m_IsCountDown = true;
-            this.GetComponent<Renderer>().material.color = Color.red;
+            //以下はすべて仮の演出処理
+            m_DetectionSizeObject.SetActive(false);
+            m_CountDownObject.SetActive(true);
+            this.transform.parent.GetComponent<Renderer>().material.color = Color.red;
         }
     }
+
 }

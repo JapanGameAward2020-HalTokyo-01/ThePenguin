@@ -26,6 +26,9 @@ public class ChildPenguin : Penguin
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
 
+    [SerializeField,LayerField]
+    private int m_PackLayer;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -113,7 +116,7 @@ public class ChildPenguin : Penguin
             //! 親ペンギンの群れに追加する
             m_Parent.AddToPack(this);
             //! collision layerをpack penguinにする
-            gameObject.layer = 8;
+            gameObject.layer = m_PackLayer;
             //! 移動を有効にする
             m_InPack = true;
             //! packcolliderを削除 

@@ -408,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsRepeat: 1
+  m_IsTolerate: 0
   m_PowerChange: 3
   m_PowerWaitTime: 0
   m_MarginTime: 1
@@ -805,6 +806,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: ChildPenguin
       objectReference: {fileID: 0}
+    - target: {fileID: 1000348612469072492, guid: 8ed3dbc030da3504c85c695e47b18e7e,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 4663731139713951320, guid: 8ed3dbc030da3504c85c695e47b18e7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -860,15 +866,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1000348612469072492, guid: 8ed3dbc030da3504c85c695e47b18e7e,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 8543600708619783188, guid: 8ed3dbc030da3504c85c695e47b18e7e,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516197525327388756, guid: 8ed3dbc030da3504c85c695e47b18e7e,
+        type: 3}
+      propertyPath: layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ed3dbc030da3504c85c695e47b18e7e, type: 3}
@@ -888,11 +894,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470612475389933267, guid: 8224e7173d21ffb4cb382c504ac197d2,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5207913544868622381, guid: 8224e7173d21ffb4cb382c504ac197d2,
         type: 3}
@@ -949,6 +950,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7934241919255531226, guid: 8224e7173d21ffb4cb382c504ac197d2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470612475389933267, guid: 8224e7173d21ffb4cb382c504ac197d2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3727411399284078769, guid: 8224e7173d21ffb4cb382c504ac197d2,
         type: 3}
       propertyPath: m_Input
@@ -964,11 +975,6 @@ PrefabInstance:
       propertyPath: m_DemoObject
       value: 
       objectReference: {fileID: 236991187}
-    - target: {fileID: 7934241919255531226, guid: 8224e7173d21ffb4cb382c504ac197d2,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1700295191265311874, guid: 8224e7173d21ffb4cb382c504ac197d2,
         type: 3}
       propertyPath: m_ChildPenguins.Array.size

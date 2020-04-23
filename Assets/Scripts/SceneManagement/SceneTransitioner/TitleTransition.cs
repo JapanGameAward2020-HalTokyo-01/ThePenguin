@@ -19,14 +19,10 @@ public class TitleTransition : MonoBehaviour
 
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private TitleSelectController m_select_ctrl;
+	private TitleSelectCtrl m_select_ctrl;
 
 	//! シーン遷移オブジェクト
 	private TransScene m_transitioner = null;
-
-	public void Start()
-	{
-	}
 
 	/**
 	 * @brief	フレーム更新処理
@@ -43,7 +39,7 @@ public class TitleTransition : MonoBehaviour
 		{
 			// ボタン入力を受け取り選択肢をActiveにする
 			if (Input.GetButtonDown("Fire1")) m_select_ctrl.Activate(true);
-			m_text.text = "TitleScene\nPush Button 0";
+			m_text.text = "TitleScene\nPush Button 3";
 		}
 
 		// フレーム更新

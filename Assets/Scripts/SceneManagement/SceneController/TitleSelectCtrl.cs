@@ -1,5 +1,5 @@
 ﻿/**
- * @file	TitleSceneController.cs
+ * @file	TitleSelectCtrl.cs
  * @brief	タイトル画面の選択肢に関わるUIの操作クラス
  * @auther	谷沢　瑞己
  */
@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * @class	TitleSelectControllerクラス
+ * @class	TitleSelectCtrlクラス
  * @brief	タイトル画面の選択肢に関わるUIの操作クラス
  */
-public class TitleSelectController : MonoBehaviour
+public class TitleSelectCtrl : MonoBehaviour
 {
 	//! 選択肢が表示されているか
 	private bool m_is_active = false;

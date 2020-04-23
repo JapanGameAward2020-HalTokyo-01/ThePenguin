@@ -4,8 +4,8 @@
  * @author  谷沢 瑞己
  */
 using UnityEngine;
-using UnityEngine.UI;
-using Assets.Scripts.SceneManagement;
+using System.Collections.Generic;
+using UnityEditorInternal;
 
 /**
  * @class   GameMainTransitionクラス
@@ -13,76 +13,64 @@ using Assets.Scripts.SceneManagement;
  */
 public class GameMainTransition : MonoBehaviour
 {
-	//! 文字描画用テキストオブジェクト
-	[SerializeField]
-	private Text m_text = null;
+	//! 状態オブジェクトリスト
+	private List<StateBase_GameMain> m_state_list;
 
-	//! 選択肢を取り出す対象オブジェクト
-	[SerializeField]
-    private GamePauseCtrl m_pause_ctrl;
+	//! 現在の状態インデックス
+	private int m_current_state = 0;
 
-	//! 遷移先シーン判断に使うオブジェクト
-	[SerializeField]
-	private GameMain_PlayerCtrl m_player;
+	//! 状態遷移先インデックス
+	private int m_next_state = 0;
 
-    //! シーン遷移オブジェクト
-    private TransScene m_transitioner = null;
+	/**
+	 * @brief	初期化
+	 */
+	public void Awake()
+	{
+		// 状態リストの作成
+		m_state_list = new List<StateBase_GameMain>();
+		for(int cnt = 0; cnt < gameObject.transform.childCount; cnt++)
+		{
+			Transform obj = gameObject.transform.GetChild(cnt);
+			StateBase_GameMain _state = obj.GetComponent<StateBase_GameMain>();
+			if (_state != null) m_state_list.Add(_state);
+		}
+	}
+
+	/**
+	 * @brief	状態初期化
+	 */
+	public void Start()
+	{
+		m_state_list[m_current_state].OnStart();
+	}
 
 	/**
 	 * @brief	フレーム更新処理
 	 */
 	public void Update()
 	{
-		if (m_pause_ctrl.ActiveSelect)
+		// 状態遷移チェック
+		if(m_next_state != m_current_state)
 		{
-			// キー入力があればシーン遷移する
-			if (Input.GetButtonDown("Fire1")) SelectTransition();
-			m_text.text = "GameMainScene\nSelect Command";
+			// 遷移前の状態を終了
+			m_state_list[m_current_state].OnEndState();
 
-			// フレーム更新
+			m_current_state = m_next_state;
+
+			// 遷移後の状態を初期化(必要ならば)
+			m_state_list[m_current_state].OnStart();
 		}
-		else
-		{
-			SceneTransition();
 
-			// ボタン入力を受け取り選択肢をActiveにする
-			if (Input.GetButtonDown("Fire2")) m_pause_ctrl.Activate(true);
-			m_text.text = "GameMainScene\nPush MenuButton";
-
-			// フレーム更新
-			m_player.OnUpdate();
-		}
+		m_state_list[m_current_state].OnUpdate(this);
 	}
 
 	/**
-	 * @brief	選択したコマンドを実行する
+	 * @brief	状態遷移
 	 */
-	private void SelectTransition()
+	 public void ChangeState(int StateIndex)
 	{
-		//! 選択肢のインデックス
-		int _select = m_pause_ctrl.SelectIndex;
-
-		// 遷移条件：選択肢毎に異なる
-		if (_select == 0) m_pause_ctrl.Activate(false);
-		if (_select == 1) m_transitioner = new TransScene(KSceneIndex.GameMain);
-		if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Option);
-		if (_select == 3) m_transitioner = new TransScene(KSceneIndex.Select);
-		if (_select == 4) m_transitioner = new TransScene(KSceneIndex.Title);
-
-		// シーン遷移があれば実行する
-		if (m_transitioner != null) m_transitioner.Transition();
+		m_next_state = StateIndex;
 	}
 
-	/**
-	 * @brief	シーン遷移をチェックする
-	 */
-	private void SceneTransition()
-	{
-		// 雑に書きます
-		if (m_player.NextSceneIndex != KSceneIndex.None)
-			m_transitioner = new TransScene(m_player.NextSceneIndex);
-
-		// シーン遷移があれば実行する
-		if (m_transitioner != null) m_transitioner.Transition();
-	}
 }

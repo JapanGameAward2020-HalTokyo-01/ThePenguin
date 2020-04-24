@@ -1,0 +1,162 @@
+﻿/**
+ * @file	StageSelectCtrl.cs
+ * @brief	ステージセレクト画面の選択肢に関わるUIの操作クラス
+ * @auther	谷沢　瑞己
+ */
+using System.Collections.Generic;
+using UnityEngine;
+
+/**
+ * @class	StageSelectCtrlクラス
+ * @brief	ステージセレクト画面の選択肢に関わるUIの操作クラス
+ */
+public class StageSelectCtrl : MonoBehaviour
+{
+	//! 選択肢が表示されているか
+	private bool m_is_active = false;
+	public bool ActiveSelect
+	{
+		private set { m_is_active = value; }
+		get { return m_is_active; }
+	}
+
+	//! カーソルオブジェクト(instanciateするのではなく既にインスペクタ上にあるもののActiveを切り替えるだけ)
+	[SerializeField, Tooltip("カーソルオブジェクト(UI)")]
+	private RectTransform m_cursor;
+
+	//! タイトルに戻る選択肢
+	[SerializeField, Tooltip("タイトルに戻る(UI)")]
+	private RectTransform m_to_title;
+
+	//! 選択肢オブジェクトリスト(仕組みは同上)
+	[SerializeField, Tooltip("選択肢オブジェクト(UI)")]
+	private List<RectTransform> m_list_panel;
+
+	//! 現在カーソルが差している選択肢
+	private int m_cursor_pos = 0;
+
+	public int SelectIndex
+	{
+		get { return m_cursor_pos; }
+	}
+
+	//! 前回のカーソルインデックス
+	private int m_cursor_prev = -1;
+
+	//! タイトルに戻るを選択しているかどうか
+	private bool m_is_to_title = false;
+	public bool SelectToTitle
+	{
+		get { return m_is_to_title; }
+	}
+
+	//! カーソルインターバル
+	private float m_cursor_interval = 0.0f;
+
+	//! カーソルインターバル初期値
+	private static float KCursorInterval = 0.3f;
+
+	/**
+	 * @brief	初期化
+	 */
+	public void Start()
+	{
+		Activate(true);
+		FixCursor();
+	}
+
+	/**
+	 * @brief	フレーム更新
+	 */
+	public void Update()
+	{
+		CursorMoveInput();
+	}
+
+	/**
+	 * @brief	選択肢のアクティブ状態を切り替える
+	 */
+	public void Activate(bool isActive)
+	{
+		// 選択肢パネルのアクティブ状態を変更する
+		foreach (RectTransform panel in m_list_panel)
+			panel.gameObject.SetActive(isActive);
+
+		// カーソルパネルのアクティブ状態を変更する
+		m_cursor.gameObject.SetActive(isActive);
+
+		//! カーソルの位置を初期化する
+		m_cursor_pos = 0;
+		ActiveSelect = isActive;
+
+	}
+
+	/**
+	 * @brief	カーソル位置を上に移動させる
+	 */
+	public void MoveCursorUp()
+	{
+		if (m_list_panel.Count > 0) m_cursor_pos = (m_cursor_pos + m_list_panel.Count - 1) % m_list_panel.Count;
+		FixCursor();
+	}
+
+	/**
+	 * @brief	カーソル位置を下に移動させる
+	 */
+	public void MoveCursorDown()
+	{
+		if (m_list_panel.Count > 0) m_cursor_pos = (m_cursor_pos + 1) % m_list_panel.Count;
+		FixCursor();
+	}
+
+	/**
+	 * @brief	カーソル位置を「タイトルに戻る」に移動させる(または戻す)
+	 */
+	public void MoveCursor_to_title()
+	{
+		m_is_to_title = !m_is_to_title;
+		FixCursor();
+	}
+
+	/**
+	 * @brief	カーソルオブジェクトを移動させる
+	 */
+	private void FixCursor()
+	{
+		// カーソル位置が変わった時だけ画面用パラメータ更新
+		if(m_is_to_title)
+		{
+			m_cursor.gameObject.transform.position = m_to_title.transform.position;
+			return;
+		}
+
+		m_cursor.gameObject.transform.position = m_list_panel[m_cursor_pos].transform.position;
+		m_cursor_prev = m_cursor_pos;
+	}
+
+	/**
+	 * @brief	インプットからカーソル操作
+	 */
+	private void CursorMoveInput()
+	{
+		//! 縦方向の入力を取得
+		if (m_cursor_interval > 0)
+		{
+			m_cursor_interval -= Time.deltaTime;
+		}
+		else
+		{
+			float _input = 0.0f;
+			if (!m_is_to_title)
+			{
+				_input = Input.GetAxis("Horizontal");
+				if (_input > 0.9f)	{ MoveCursorDown();	m_cursor_interval = KCursorInterval;}
+				if (_input < -0.9f) { MoveCursorUp();	m_cursor_interval = KCursorInterval;}
+			}
+
+			_input = Input.GetAxis("Vertical");
+			if (_input > 0.9f)	{ MoveCursor_to_title(); m_cursor_interval = KCursorInterval;}
+			if (_input < -0.9f) { MoveCursor_to_title(); m_cursor_interval = KCursorInterval;}
+		}
+	}
+}

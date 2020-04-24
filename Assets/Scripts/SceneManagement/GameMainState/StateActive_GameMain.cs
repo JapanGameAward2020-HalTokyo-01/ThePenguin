@@ -24,7 +24,7 @@ public class StateActive_GameMain : StateBase_GameMain
 		SceneTransition(state_holder);
 
 		// ボタン入力を受け取りポーズ状態に変更
-		if (Input.GetButtonDown("Fire2")) state_holder.ChangeState(1);
+		if (Input.GetButtonDown("Fire2")) state_holder.ChangeState(KGameMainStateIndex.Pause);
 		m_text.text = "GameMainScene\nPush MenuButton";
 
 		// フレーム更新
@@ -38,9 +38,15 @@ public class StateActive_GameMain : StateBase_GameMain
 	private void SceneTransition(GameMainTransition state_holder)
 	{
 		// 雑に書きます
-		if (m_player.NextSceneIndex == KSceneIndex.Select) m_transitioner = new TransScene(m_player.NextSceneIndex);
-		if (m_player.NextSceneIndex == KSceneIndex.Ending) m_transitioner = new TransScene(m_player.NextSceneIndex);
-		if (m_player.NextSceneIndex == KSceneIndex.GameOver) state_holder.ChangeState(2);
+		if (m_player.NextSceneIndex == KSceneIndex.None)
+		{
+			if(m_player.NextStateIndex != KGameMainStateIndex.None)
+				state_holder.ChangeState(m_player.NextStateIndex);
+		}
+		else
+		{
+			m_transitioner = new TransScene(m_player.NextSceneIndex);
+		}
 
 		// シーン遷移があれば実行する
 		if (m_transitioner != null) m_transitioner.Transition();

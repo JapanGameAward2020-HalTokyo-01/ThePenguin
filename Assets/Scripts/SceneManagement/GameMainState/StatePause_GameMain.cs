@@ -53,7 +53,7 @@ public class StatePause_GameMain : StateBase_GameMain
 		// 遷移条件：選択肢毎に異なる
 		if (_select == 0) state_holder.ChangeState(0);
 		if (_select == 1) m_transitioner = new TransScene(KSceneIndex.GameMain);
-		if (_select == 2) m_owner_obj.ChangeState(3);
+		if (_select == 2) m_owner_obj.ChangeState(KGameMainStateIndex.Option);
 		if (_select == 3) m_transitioner = new TransScene(KSceneIndex.Select);
 		if (_select == 4) m_transitioner = new TransScene(KSceneIndex.Title);
 

@@ -11,7 +11,7 @@ using System;
  */
 [Serializable]
 public enum KSceneIndex
-{ None = -1, Logo, Title, GameMain, Select, Option, Opening, Ending, GameOver }
+{ None = -1, Logo, Title, GameMain, Select, Option, Opening, Ending }
 
 /**
  * @class   シーンインデックスクラス

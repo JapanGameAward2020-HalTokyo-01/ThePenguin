@@ -6,6 +6,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.SceneManagement;
+using System;
+
+/**
+ * @enum    ゲームメインシーン状態識別列挙子
+ * @brief   ゲームメインシーンの状態を識別するための列挙子
+ */
+[Serializable]
+public enum KGameMainStateIndex
+{
+	None = -1,
+	Active, Pause, Option, GameOver,
+	Max
+}
+
 
 /**
  * @class   StateBase_GameMainクラス

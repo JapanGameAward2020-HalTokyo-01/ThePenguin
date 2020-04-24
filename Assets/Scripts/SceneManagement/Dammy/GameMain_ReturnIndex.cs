@@ -19,4 +19,12 @@ public class GameMain_ReturnIndex : MonoBehaviour
 		get { return m_next_scene; }
 	}
 
+    //! 遷移すべき状態インデックス
+    [SerializeField]
+    private KGameMainStateIndex m_next_state = KGameMainStateIndex.None;
+    public KGameMainStateIndex NextStateIndex
+    {
+        get { return m_next_state; }
+    }
+
 }

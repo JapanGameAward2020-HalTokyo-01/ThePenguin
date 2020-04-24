@@ -26,6 +26,13 @@ public class GameMain_PlayerCtrl : MonoBehaviour
         get { return m_next_scene; }
     }
 
+    //! 遷移すべき状態インデックス
+    private KGameMainStateIndex m_next_state = KGameMainStateIndex.None;
+    public KGameMainStateIndex NextStateIndex
+    {
+        get { return m_next_state; }
+    }
+
     /**
      * @brief   フレーム更新
      */
@@ -46,5 +53,6 @@ public class GameMain_PlayerCtrl : MonoBehaviour
         GameMain_ReturnIndex _ret = other.gameObject.GetComponent<GameMain_ReturnIndex>();
         if (_ret == null) return;
         m_next_scene = _ret.NextScene;
+        m_next_state = _ret.NextStateIndex;
     }
 }

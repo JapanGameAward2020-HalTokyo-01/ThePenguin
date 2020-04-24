@@ -1,12 +1,24 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    StateActive_GameMain.cs
+ * @brief   ゲームメインシーンの通常状態クラス
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using Assets.Scripts.SceneManagement;
 
+/**
+ * @class   StateActive_GameMainクラス
+ * @brief   ゲームメインシーンの通常状態クラス
+ */
 public class StateActive_GameMain : StateBase_GameMain
 {
 	//! 遷移先シーン判断に使うオブジェクト
 	[SerializeField]
 	private GameMain_PlayerCtrl m_player;
 
+	/**
+	 * @brief	フレーム更新(状態ホルダー側で呼び出し)
+	 */
 	public override void OnUpdate(GameMainTransition state_holder)
 	{
 		SceneTransition(state_holder);

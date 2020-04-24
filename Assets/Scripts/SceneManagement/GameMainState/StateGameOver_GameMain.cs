@@ -1,22 +1,32 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    StateGameOver_GameMain.cs
+ * @brief   ゲームメインシーンのゲームオーバー状態クラス
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using Assets.Scripts.SceneManagement;
 
+/**
+ * @class   StateGameOver_GameMainクラス
+ * @brief   ゲームメインシーンのゲームオーバー状態クラス
+ */
 public class StateGameOver_GameMain : StateBase_GameMain
 {
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
 	private GamePauseCtrl m_select_ctrl;
 
+	/**
+	 * @brief	初期化(状態ホルダー側で呼び出し)
+	 */
 	public override void OnStart()
 	{
 		m_select_ctrl.Activate(true);
 	}
 
-	public override void OnEndState()
-	{
-		m_select_ctrl.Activate(false);
-	}
-
+	/**
+	 * @brief	フレーム更新(状態ホルダー側で呼び出し)
+	 */
 	public override void OnUpdate(GameMainTransition state_holder)
 	{
 		// キー入力があればシーン遷移する
@@ -25,6 +35,14 @@ public class StateGameOver_GameMain : StateBase_GameMain
 
 		// フレーム更新
 
+	}
+
+	/**
+	 * @brief	状態の遷移際に行う処理(状態ホルダー側で呼び出し)
+	 */
+	public override void OnEndState()
+	{
+		m_select_ctrl.Activate(false);
 	}
 
 	/**

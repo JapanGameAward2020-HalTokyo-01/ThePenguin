@@ -5,7 +5,6 @@
  */
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditorInternal;
 
 /**
  * @class   GameMainTransitionクラス

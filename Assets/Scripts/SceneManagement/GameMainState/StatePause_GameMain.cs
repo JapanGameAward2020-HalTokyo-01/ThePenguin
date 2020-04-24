@@ -1,17 +1,32 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    StatePause_GameMain.cs
+ * @brief   ゲームメインシーンのポーズ状態クラス
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using Assets.Scripts.SceneManagement;
 
+/**
+ * @class   StatePause_GameMainクラス
+ * @brief   ゲームメインシーンのポーズ状態クラス
+ */
 public class StatePause_GameMain : StateBase_GameMain
 {
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
 	private GamePauseCtrl m_pause_ctrl;
 
+	/**
+	 * @brief	初期化(状態ホルダー側で呼び出し)
+	 */
 	public override void OnStart() 
 	{
 		m_pause_ctrl.Activate(true);
 	}
 
+	/**
+	 * @brief	フレーム更新(状態ホルダー側で呼び出し)
+	 */
 	public override void OnEndState()
 	{
 		m_pause_ctrl.Activate(false);

@@ -5,6 +5,7 @@
  */
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Collections;
 
 /**
  * @class   GameMainTransitionクラス
@@ -13,12 +14,23 @@ using System.Collections.Generic;
 public class GameMainTransition : MonoBehaviour
 {
 	//! 状態オブジェクトリスト
+	[SerializeField]
 	private List<StateBase_GameMain> m_state_list;
 
+	//! 前の状態インデックス
+	[SerializeField]
+	private int m_prev_state = 0;
+	public int PrevState
+	{
+		get { return m_prev_state; }
+	}
+
 	//! 現在の状態インデックス
+	[SerializeField]
 	private int m_current_state = 0;
 
 	//! 状態遷移先インデックス
+	[SerializeField]
 	private int m_next_state = 0;
 
 	/**
@@ -28,9 +40,12 @@ public class GameMainTransition : MonoBehaviour
 	{
 		// 状態リストの作成
 		m_state_list = new List<StateBase_GameMain>();
-		for(int cnt = 0; cnt < gameObject.transform.childCount; cnt++)
+		for (int cnt = 0; cnt < gameObject.transform.childCount; cnt++)
 		{
+			//! 子要素に持ってるオブジェクト
 			Transform obj = gameObject.transform.GetChild(cnt);
+
+			//! 子オブジェクトが状態オブジェクトを持つか調べる
 			StateBase_GameMain _state = obj.GetComponent<StateBase_GameMain>();
 			if (_state != null) m_state_list.Add(_state);
 		}
@@ -53,11 +68,11 @@ public class GameMainTransition : MonoBehaviour
 		if(m_next_state != m_current_state)
 		{
 			// 遷移前の状態を終了
-			m_state_list[m_current_state].OnEndState();
-
-			m_current_state = m_next_state;
+			m_prev_state = m_current_state;
+			m_state_list[m_prev_state].OnEndState();
 
 			// 遷移後の状態を初期化(必要ならば)
+			m_current_state = m_next_state;
 			m_state_list[m_current_state].OnStart();
 		}
 

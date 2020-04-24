@@ -49,7 +49,7 @@ public class OptionSelectCtrl : MonoBehaviour
 	 */
 	public void Start()
 	{
-		Activate(true);
+		Activate(false);
 		FixCursor();
 	}
 

@@ -1,20 +1,21 @@
 ﻿/**
- * @file    StateGameOver_GameMain.cs
- * @brief   ゲームメインシーンのゲームオーバー状態クラス
+ * @file    StateOption_GameMain.cs
+ * @brief   ゲームメインシーンのオプション状態クラス
  * @author  谷沢 瑞己
  */
 using UnityEngine;
+using UnityEngine.UI;
 using Assets.Scripts.SceneManagement;
 
 /**
- * @class   StateGameOver_GameMainクラス
- * @brief   ゲームメインシーンのゲームオーバー状態クラス
+ * @class   StateOption_GameMainクラス
+ * @brief   ゲームメインシーンのオプション状態クラス
  */
-public class StateGameOver_GameMain : StateBase_GameMain
+public class StateOption_GameMain : StateBase_GameMain
 {
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private GamePauseCtrl m_select_ctrl;
+	private OptionSelectCtrl m_select_ctrl;
 
 	/**
 	 * @brief	初期化(状態ホルダー側で呼び出し)
@@ -31,7 +32,7 @@ public class StateGameOver_GameMain : StateBase_GameMain
 	{
 		// キー入力があればシーン遷移する
 		if (Input.GetButtonDown("Fire1")) SelectTransition(state_holder);
-		m_text.text = "GameMainScene\nGame Over";
+		m_text.text = "GameMainScene\nOptionState\nSelect Command";
 
 		// フレーム更新
 
@@ -54,14 +55,12 @@ public class StateGameOver_GameMain : StateBase_GameMain
 		int _select = m_select_ctrl.SelectIndex;
 
 		// 遷移条件：選択肢毎に異なる
-		if (_select == 0) m_transitioner = new TransScene(KSceneIndex.GameMain);
-		if (_select == 1) m_owner_obj.ChangeState(3);
-		if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Select);
-		if (_select == 3) m_transitioner = new TransScene(KSceneIndex.Title);
+		if (_select == 0) m_text.text = "GameMainScene\nOptionState\nHow To Play";
+		if (_select == 1) m_text.text = "GameMainScene\nOptionState\nAudio Volume";
+		if (_select == 2) m_text.text = "GameMainScene\nOptionState\nData Delete";
+		if (_select == 3) m_owner_obj.ChangeState(m_owner_obj.PrevState);
 
 		// シーン遷移があれば実行する
 		if (m_transitioner != null) m_transitioner.Transition();
 	}
-
-
 }

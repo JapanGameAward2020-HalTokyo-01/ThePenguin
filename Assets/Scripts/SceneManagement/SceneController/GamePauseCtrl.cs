@@ -22,11 +22,11 @@ public class GamePauseCtrl : MonoBehaviour
 
 	//! カーソルオブジェクト(instanciateするのではなく既にインスペクタ上にあるもののActiveを切り替えるだけ)
 	[SerializeField, Tooltip("カーソルオブジェクト(UI)")]
-	private RectTransform m_cursor;
+	private RectTransform m_cursor = null;
 
 	//! 選択肢オブジェクトリスト(仕組みは同上)
 	[SerializeField, Tooltip("選択肢オブジェクト(UI)")]
-	private List<RectTransform> m_list_panel;
+	private List<RectTransform> m_list_panel = null;
 
 	//! 現在カーソルが差している選択肢
 	private int m_cursor_pos = 0;

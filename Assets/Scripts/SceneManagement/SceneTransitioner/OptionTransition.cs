@@ -19,7 +19,7 @@ public class OptionTransition : MonoBehaviour
 
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private OptionSelectCtrl m_select_ctrl;
+	private OptionSelectCtrl m_select_ctrl = null;
 
 	//! シーン遷移オブジェクト
 	private TransScene m_transitioner = null;

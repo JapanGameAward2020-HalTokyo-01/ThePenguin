@@ -15,7 +15,7 @@ public class StateOption_GameMain : StateBase_GameMain
 {
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private OptionSelectCtrl m_select_ctrl;
+	private OptionSelectCtrl m_select_ctrl = null;
 
 	/**
 	 * @brief	初期化(状態ホルダー側で呼び出し)

@@ -15,11 +15,11 @@ public class OpeningTransition : MonoBehaviour
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]
-	private Text m_text;
+	private Text m_text = null;
 
 	//! オープニングシーンの段階数(ページ数？)
 	[SerializeField]
-	private int m_sequence_num;
+	private int m_sequence_num = 0;
 
 	//! 現在の表示ページ番号
 	private int m_sequence = 0;

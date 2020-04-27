@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   EndingTransitionクラス
  * @brief   エンディングシーンのシーン遷移周りの処理を担当するクラス
  */
-public class EndingTransition : MonoBehaviour
+public class EndingTransition : SceneTransitionBase
 {
 	// 待機時間(アニメーションが無い間とりあえず)
 	[SerializeField]
@@ -22,9 +22,9 @@ public class EndingTransition : MonoBehaviour
 	[SerializeField]
 	private Text m_text = null;
 
-	//! シーン遷移オブジェクト
-	private TransScene m_transitioner = null;
-
+	/**
+	 * @brief	初期化
+	 */
 	private void Start()
 	{
 		m_current_time = m_movie_time;

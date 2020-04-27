@@ -20,7 +20,7 @@ public class ChildPenguin : Penguin
     public ParentPenguin Parent { get { return m_Parent; } }
 
     //! 移動速度
-    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 2.0f)]
+    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f)]
     private float m_BaseSpeed = 1.0f;
     //! 移動遅延
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
@@ -41,11 +41,28 @@ public class ChildPenguin : Penguin
             m_PackCollider = transform.GetChild(0).gameObject;
         }
     }
+
     // Update is called once per frame
     protected override void Update()
     {
         //! ベースクラスの更新設定
         base.Update();
+    }
+
+    /// <summary>
+    /// @brief      ペンギンの死亡処理
+    /// </summary>
+    public override void Kill()
+    {
+        //! ベースクラス
+        base.Kill();
+
+        gameObject.SetActive(false);
+    }
+
+    public bool InPack()
+    {
+        return m_InPack;
     }
 
     /// <summary>
@@ -120,7 +137,7 @@ public class ChildPenguin : Penguin
             //! 移動を有効にする
             m_InPack = true;
             //! packcolliderを削除 
-            Destroy(m_PackCollider);
+            Destroy(m_PackCollider);            
         }
     }
 
@@ -135,5 +152,4 @@ public class ChildPenguin : Penguin
         //! 移動を有効にする
         m_InPack = true;
     }
-
 }

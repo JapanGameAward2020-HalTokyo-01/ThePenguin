@@ -48,6 +48,15 @@ public class ParentPenguin : Penguin
     }
 
     /// <summary>
+    /// @brief      ペンギンの死亡処理
+    /// </summary>
+    public override void Kill()
+    {
+        //! ベースクラス
+        base.Kill();
+    }
+
+    /// <summary>
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>

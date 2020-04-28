@@ -10,8 +10,6 @@ using UnityEngine;
 
 public class ChildPenguin : Penguin
 {
-    //! 移動の有効・無効
-    private bool m_InPack = false;
     //! 群れ化する為の当たり判定
     private GameObject m_PackCollider;
     //! 親ペンギン
@@ -19,15 +17,21 @@ public class ChildPenguin : Penguin
     //! 親ペンギンの参照用
     public ParentPenguin Parent { get { return m_Parent; } }
 
+    //! 子ペンギンの群れ化
+    [SerializeField, Tooltip("子ペンギンの群れ化")]
+    private bool m_InPack = false;
     //! 移動速度
     [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f)]
     private float m_BaseSpeed = 1.0f;
     //! 移動遅延
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
+    //! 移動遅延
+    [SerializeField, Tooltip("子ペンギンの移動方向を反転する")]
+    private bool m_Reverse = false;
 
-    [SerializeField,LayerField]
-    private int m_PackLayer;
+    [LayerField]
+    private int m_PackLayer = 8;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -57,9 +61,16 @@ public class ChildPenguin : Penguin
         //! ベースクラス
         base.Kill();
 
-        gameObject.SetActive(false);
+
+        //!ここにアニメーション処理など入れる予定
+
     }
 
+
+    /// <summary>
+    /// @brief      群れに入っているかを渡す
+    /// @return     群れ変数(bool)
+    /// </summary>
     public bool InPack()
     {
         return m_InPack;
@@ -107,8 +118,16 @@ public class ChildPenguin : Penguin
     /// </summary>
     private void Move(Vector3 move)
     {
-        //! 親ペンギンから取得した移動量を適用
-        m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
+        if (m_Reverse)
+        {
+            //! 親ペンギンから取得した移動量を反転して適用
+            m_Rigidbody.AddForce(-move * m_Rigidbody.mass * m_BaseSpeed);
+        }
+        else
+        {
+            //! 親ペンギンから取得した移動量を適用
+            m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
+        }
     }
 
     /// <summary>
@@ -149,7 +168,5 @@ public class ChildPenguin : Penguin
     {
         //! 親ペンギンを取得
         this.m_Parent = parent;
-        //! 移動を有効にする
-        m_InPack = true;
     }
 }

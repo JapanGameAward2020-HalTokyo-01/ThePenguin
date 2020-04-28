@@ -680,6 +680,11 @@ PrefabInstance:
       propertyPath: m_Delay
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Reverse
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 61366251547262258, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -780,6 +785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2951d7ff6bfbf479f8a1f22845d6a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MaxDead: 1
+  m_GameOver: 0
   m_TotalCount: 0
   m_DeadCount: 0
   m_PackCount: 0

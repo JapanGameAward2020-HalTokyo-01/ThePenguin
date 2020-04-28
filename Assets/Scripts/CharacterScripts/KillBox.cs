@@ -16,10 +16,16 @@ public class KillBox : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// @brief          ペンギンの死亡判定処理
+    /// @param (other)	判定するcollision
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
+        //! ペンギンだったら
         if(other.gameObject.CompareTag("ParentPenguin") || other.gameObject.CompareTag("ChildPenguin"))
         {
+            //! 死亡処理
             other.GetComponent<Penguin>().Kill();
         }
     }

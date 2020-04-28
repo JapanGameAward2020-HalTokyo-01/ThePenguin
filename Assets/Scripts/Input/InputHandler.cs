@@ -53,7 +53,7 @@ public class InputHandler : MonoBehaviour
     //! 状態
     public State CurrentState { get; private set; } = State.Idle;
     //! 入力ベクタ
-    public Vector3 InputVector { get; private set; } = Vector3.zero;
+    public Vector3 InputVector { get; private set; } = Vector3.forward;
 
     private List<InputEventBase> m_InputEventList = new List<InputEventBase>();
 

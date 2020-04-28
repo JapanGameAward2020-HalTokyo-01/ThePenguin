@@ -13,7 +13,7 @@ public class ParentPenguin : Penguin
     [SerializeField, Tooltip("これ設定しないと動かないよ")]
     private InputHandler m_InputHandler;
     //! 子ペンギンの群れリスト
-    [SerializeField, Tooltip("最初から群れにいる子ペンギンを追加してね(最初に追加するサイズをしてする必要がある)")]
+    //[SerializeField, Tooltip("最初から群れにいる子ペンギンを追加してね(最初に追加するサイズをしてする必要がある)")]
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     // Start is called before the first frame update
@@ -34,9 +34,13 @@ public class ParentPenguin : Penguin
         }
 
         //! 最初から群れにいる子ペンギンを群れに追加する処理
-        foreach (ChildPenguin _child in m_ChildPenguins)
+        foreach (ChildPenguin _child in FindObjectsOfType<ChildPenguin>())
         {
-            _child.SetInPack(this);
+            if (_child.InPack())
+            {
+                _child.SetInPack(this);
+                m_ChildPenguins.Add(_child);
+            }
         }
     }
 
@@ -54,6 +58,10 @@ public class ParentPenguin : Penguin
     {
         //! ベースクラス
         base.Kill();
+
+
+        //!ここにアニメーション処理など入れる予定
+
     }
 
     /// <summary>

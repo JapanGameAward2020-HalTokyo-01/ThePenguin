@@ -13,7 +13,7 @@ public class Penguin : MonoBehaviour
 {
     //! Rigidbody
     protected Rigidbody m_Rigidbody;
-
+    //! 生存変数
     protected bool m_IsAlive;
 
     // Start is called before the first frame update
@@ -39,9 +39,15 @@ public class Penguin : MonoBehaviour
     {
         //! 生存判定をfalseに
         m_IsAlive = false;
+
+        //! オブジェを無効にする
+        gameObject.SetActive(false);
     }
 
-
+    /// <summary>
+    /// @brief      生存しているかを渡す
+    /// @return     生存変数(bool)
+    /// </summary>
     public bool GetLife()
     {
         return m_IsAlive;

@@ -11,6 +11,13 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    //! ゲームオーバーになる為の子ペンギンの死亡数
+    [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f)]
+    private int m_MaxDead = 0;
+
+    [Space(30)]
+    //! ゲームオーバー判定
+    public bool m_GameOver = false;
     //! 子ペンギンの総数
     public int m_TotalCount = 0;
     //! 死亡数
@@ -24,6 +31,7 @@ public class PenguinManager : MonoBehaviour
     void Start()
     {
 
+        m_GameOver = false;
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
 
@@ -65,5 +73,5 @@ public class PenguinManager : MonoBehaviour
         }
 
         m_TotalCount = m_ChildPenguins.Count;
-    }    
+    }
 }

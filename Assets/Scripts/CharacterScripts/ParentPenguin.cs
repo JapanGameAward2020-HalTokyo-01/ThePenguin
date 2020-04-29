@@ -33,6 +33,24 @@ public class ParentPenguin : Penguin
         }
     }
 
+    // Update is called once per frame
+    protected override void Update()
+    {
+        //! ベースクラスの更新設定
+        base.Update();
+    }
+
+    /// <summary>
+    /// @brief      ペンギンの死亡処理
+    /// </summary>
+    public override void Kill()
+    {
+        //! ベースクラス
+        base.Kill();
+
+        //!ここにアニメーション処理など入れる予定
+    }
+
     /// <summary>
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)

@@ -21,7 +21,7 @@ public class Penguin : MonoBehaviour
     //! Rigidbody
     protected Rigidbody m_Rigidbody;
 
-    //! 生死判定
+    //! 生存変数
     public bool IsAlive { get; protected set; } = true;
 
     // Start is called before the first frame update
@@ -58,6 +58,8 @@ public class Penguin : MonoBehaviour
     {
         //! 生存判定をfalseに
         IsAlive = false;
-    }
+        //! オブジェを無効にする
+        gameObject.SetActive(false);
 
+    }
 }

@@ -23,4 +23,11 @@ public class KillBox : MonoBehaviour
             other.GetComponent<Penguin>().Kill();
         }
     }
+
+    public void OnDrawGizmos()
+    {
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(this.transform.position + boxCollider.center,Vector3.Scale(this.transform.localScale,boxCollider.size));
+    }
 }

@@ -13,7 +13,6 @@ public class ParentPenguin : Penguin
     [SerializeField, Tooltip("これ設定しないと動かないよ")]
     private InputHandler m_InputHandler;
     //! 子ペンギンの群れリスト
-    [SerializeField, Tooltip("最初から群れにいる子ペンギンを追加してね(最初に追加するサイズをしてする必要がある)")]
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     // Start is called before the first frame update
@@ -32,28 +31,6 @@ public class ParentPenguin : Penguin
             //! InputHandlerにEvent登録
             m_InputHandler.RegisterInputEvent(new InputEvent(this));
         }
-
-        //! 最初から群れにいる子ペンギンを群れに追加する処理
-        foreach (ChildPenguin _child in m_ChildPenguins)
-        {
-            _child.SetInPack(this);
-        }
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        //! ベースクラスの更新設定
-        base.Update();
-    }
-
-    /// <summary>
-    /// @brief      ペンギンの死亡処理
-    /// </summary>
-    public override void Kill()
-    {
-        //! ベースクラス
-        base.Kill();
     }
 
     /// <summary>
@@ -88,8 +65,11 @@ public class ParentPenguin : Penguin
     /// </summary>
     public void AddToPack(ChildPenguin _child)
     {
-        //! InputHandlerから取得した移動量を適用
+        //! ChilePenguinsへ追加
         m_ChildPenguins.Add(_child);
+
+        //! childを群れ化
+        _child.SetInPack(this);
     }
 
     /// <summary>
@@ -122,4 +102,5 @@ public class ParentPenguin : Penguin
             m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector() * 100.0f);
         }
     }
+
 }

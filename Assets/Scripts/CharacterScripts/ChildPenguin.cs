@@ -10,11 +10,22 @@ using UnityEngine;
 
 public class ChildPenguin : Penguin
 {
+    public delegate void OnKillEvent();
+    public delegate void OnPackEvent();
+
+    public event OnKillEvent onKillEvent = ()=> { };
+    public event OnPackEvent onPackEvent = ()=> { };
+
     //! 移動の有効・無効
+    [SerializeField]
     private bool m_InPack = false;
+    public bool InPack { get { return m_InPack; } }
+
     //! 群れ化する為の当たり判定
+    [SerializeField]
     private GameObject m_PackCollider;
     //! 親ペンギン
+    [SerializeField]
     private ParentPenguin m_Parent;
     //! 親ペンギンの参照用
     public ParentPenguin Parent { get { return m_Parent; } }
@@ -29,26 +40,6 @@ public class ChildPenguin : Penguin
     [SerializeField,LayerField]
     private int m_PackLayer;
 
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        //! ベースクラスの初期設定
-        base.Start();
-
-        //! はぐれペンギンならm_PackColliderを取得
-        if (!m_InPack)
-        {
-            m_PackCollider = transform.GetChild(0).gameObject;
-        }
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        //! ベースクラスの更新設定
-        base.Update();
-    }
-
     /// <summary>
     /// @brief      ペンギンの死亡処理
     /// </summary>
@@ -57,12 +48,9 @@ public class ChildPenguin : Penguin
         //! ベースクラス
         base.Kill();
 
-        gameObject.SetActive(false);
-    }
+        onKillEvent();
 
-    public bool InPack()
-    {
-        return m_InPack;
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -71,8 +59,6 @@ public class ChildPenguin : Penguin
     /// </summary>
     public void MoveHandler(Vector3 move)
     {
-        //System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-        //stopwatch.Start();
         //! m_Delayがあれば
         if (m_Delay != 0.0f)
         {
@@ -84,8 +70,6 @@ public class ChildPenguin : Penguin
             //! 重要な処理のため、分岐で共時性を保つためにまとめる。速度は変わらない。
             Move(move);
         }
-        //stopwatch.Stop();
-        //Debug.Log(stopwatch.ElapsedTicks);
     }
 
     /// <summary>
@@ -115,41 +99,48 @@ public class ChildPenguin : Penguin
     /// @brief      子ペンギンを群れに追加する処理
     /// @param (a)	群れに追加するか判定するcollision
     /// </summary>
-    private void OnTriggerEnter(Collider a)
+    private void OnTriggerEnter(Collider other)
     {
         if (!m_InPack)
         {
-            if (a.gameObject.CompareTag("ChildPenguin"))
+            if (other.gameObject.CompareTag("ChildPenguin"))
             {
                 //! 群れの子ペンギンから親ペンギンを取得
-                m_Parent = a.gameObject.GetComponent<ChildPenguin>().Parent;
+                m_Parent = other.gameObject.GetComponent<ChildPenguin>().Parent;
             }
-            else if (a.gameObject.CompareTag("ParentPenguin"))
+            else if (other.gameObject.CompareTag("ParentPenguin"))
             {
                 //! 親ペンギンを取得
-                m_Parent = a.gameObject.GetComponent<ParentPenguin>();
+                m_Parent = other.gameObject.GetComponent<ParentPenguin>();
             }
 
-            //! 親ペンギンの群れに追加する
-            m_Parent.AddToPack(this);
-            //! collision layerをpack penguinにする
-            gameObject.layer = m_PackLayer;
-            //! 移動を有効にする
-            m_InPack = true;
-            //! packcolliderを削除 
-            Destroy(m_PackCollider);            
+            if (m_Parent)
+            {
+                //! 親ペンギンの群れに追加する
+                m_Parent.AddToPack(this);
+            }
         }
     }
 
     /// <summary>
-    /// @brief      親ペンギンから群れ化する
+    /// @brief      群れ化処理
     /// @param      親ペンギン(ParentPenguinMove)
     /// </summary>
     public void SetInPack(ParentPenguin parent)
     {
         //! 親ペンギンを取得
         this.m_Parent = parent;
+
+        this.onPackEvent();
+
+        //! collision layerをpack penguinにする
+        gameObject.layer = m_PackLayer;
+
+        //! packcolliderを削除 
+        Destroy(m_PackCollider);
+
         //! 移動を有効にする
         m_InPack = true;
     }
+
 }

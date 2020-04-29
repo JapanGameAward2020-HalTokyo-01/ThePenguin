@@ -11,6 +11,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Penguin : MonoBehaviour
 {
+    //! RayCastの有効化
+    static private bool g_IsRayCast = true;
+
     //! RayCastの判定
     [SerializeField]
     private LayerMask m_CastHitLayer;
@@ -19,15 +22,13 @@ public class Penguin : MonoBehaviour
     protected Rigidbody m_Rigidbody;
 
     //! 生死判定
-    protected bool m_IsAlive;
+    public bool IsAlive { get; protected set; } = true;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         //! Rigidbody設定
         m_Rigidbody = this.GetComponent<Rigidbody>();
-
-        m_IsAlive = true;
     }
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class Penguin : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (m_IsAlive)
+        if (g_IsRayCast && IsAlive)
         {
             RaycastHit hit;
             //! Hitしてなければ死亡
@@ -55,15 +56,8 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill()
     {
-        Debug.Log("Dead:" + gameObject.name);
-
         //! 生存判定をfalseに
-        m_IsAlive = false;
+        IsAlive = false;
     }
 
-
-    public bool GetLife()
-    {
-        return m_IsAlive;
-    }
 }

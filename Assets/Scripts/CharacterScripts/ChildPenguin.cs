@@ -30,17 +30,17 @@ public class ChildPenguin : Penguin
     private ParentPenguin m_Parent;
     //! 親ペンギンの参照用
     public ParentPenguin Parent { get { return m_Parent; } }
+    [SerializeField, Tooltip("子ペンギンの移動方向を反転する")]
+    private bool m_Reverse = false;
 
     
     //! 移動速度
-    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f)]
+    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f), Space(20)]
     private float m_BaseSpeed = 1.0f;
     //! 移動遅延
     [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
     //! 移動遅延
-    [SerializeField, Tooltip("子ペンギンの移動方向を反転する")]
-    private bool m_Reverse = false;
 
     [LayerField]
     private int m_PackLayer = 8;
@@ -113,7 +113,7 @@ public class ChildPenguin : Penguin
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (!InPack)
+        if (!m_InPack)
         {
             if (other.gameObject.CompareTag("ChildPenguin"))
             {

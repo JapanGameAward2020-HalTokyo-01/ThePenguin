@@ -12,35 +12,51 @@ using UnityEngine;
 public class ChildPenguin : Penguin
 {
     [Space(10)]
-    //! 移動の有効・無効
-    //! 子ペンギンの群れ化
-    [SerializeField, Tooltip("子ペンギンの群れ化")]
-    private bool m_InPack = false;
-    public bool InPack { get { return m_InPack; } }
-
-    //! 群れ化する為の当たり判定
+    //! 移動の有効・無効 子ペンギンの群れ化
     [SerializeField]
+    [Tooltip("子ペンギンの群れ化")]
+    private bool m_InPack = false;
+
+    public bool InPack
+    {
+        get { return m_InPack; }
+    }
+
+    [SerializeField]
+    [Tooltip("群れ化当たり判定")]
     private GameObject m_PackCollider;
 
-    [SerializeField, Tooltip("子ペンギンの移動方向を反転する")]
+    [SerializeField]
+    [Tooltip("子ペンギンの移動方向を反転する")]
     private bool m_Reverse = false;
-    
-    //! 移動速度
-    [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f), Space(20)]
-    private float m_BaseSpeed = 1.0f;
-    //! 移動遅延
-    [SerializeField, Tooltip("子ペンギンの移動開始までの遅延"), Range(0.0f, 5.0f)]
+
+    [SerializeField]
+    [Tooltip("パワー変化量を最大値から最小値にする")]
+    private bool m_IsPowerTurning = false;
+
+    [SerializeField]
+    [Tooltip("子ペンギンの移動開始までの遅延")]
+    [Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
-    //! 移動遅延
 
     [LayerField]
     private int m_PackLayer = 8;
 
     //! 親ペンギン
-    public ParentPenguin Parent { get; private set; } = null;
+    public ParentPenguin Parent { get; private set; }
 
-    public Action<ChildPenguin> onKillEvent = delegate (ChildPenguin child) { };
-    public Action onPackEvent = delegate () { };
+    public Action<ChildPenguin> onKillEvent;
+    public Action onPackEvent;
+
+    protected InputHandler m_InputHandler;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        onKillEvent = delegate (ChildPenguin child) { };
+        onPackEvent = delegate () { };
+    }
 
     /// <summary>
     /// @brief      ペンギンの死亡処理
@@ -56,19 +72,25 @@ public class ChildPenguin : Penguin
     /// @brief      親ペンギンの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    public void MoveHandler(Vector3 move)
+    public override void MoveHandler(Vector3 move)
     {
+        //! パワー再計算
+        if (m_IsPowerTurning)
+            move = move.normalized * (m_InputHandler.PowerMax - m_InputHandler.Power);
+
+        //! 親ペンギンから取得した移動量を反転して適用
+        if (m_Reverse)
+            move = -move;
+
         //! m_Delayがあれば
         if (m_Delay != 0.0f)
         {
             //! 遅延用のCouroutine
             StartCoroutine(MoveCoroutine(move));
+            return;
         }
-        else
-        {
-            //! 重要な処理のため、分岐で共時性を保つためにまとめる。速度は変わらない。
-            Move(move);
-        }
+
+        base.MoveHandler(move);
     }
 
     /// <summary>
@@ -79,27 +101,10 @@ public class ChildPenguin : Penguin
     {
         //! m_Delay分待つ
         yield return new WaitForSeconds(m_Delay);
-        //! 重要な処理のため、分岐で共時性を保つためにまとめる。速度は変わらない。
-        Move(move);
-        yield break;
-    }
 
-    /// <summary>
-    /// @brief      移動用関数
-    /// @param      移動量(Vector3)
-    /// </summary>
-    private void Move(Vector3 move)
-    {
-        if (m_Reverse)
-        {
-            //! 親ペンギンから取得した移動量を反転して適用
-            m_Rigidbody.AddForce(-move * m_Rigidbody.mass * m_BaseSpeed);
-        }
-        else
-        {
-            //! 親ペンギンから取得した移動量を適用
-            m_Rigidbody.AddForce(move * m_Rigidbody.mass * m_BaseSpeed);
-        }
+        base.MoveHandler(move);
+
+        yield break;
     }
 
     /// <summary>
@@ -110,22 +115,19 @@ public class ChildPenguin : Penguin
     {
         if (!m_InPack)
         {
+            //! 親ペンギンを取得
             if (other.gameObject.CompareTag("ChildPenguin"))
             {
-                //! 群れの子ペンギンから親ペンギンを取得
                 Parent = other.gameObject.GetComponent<ChildPenguin>().Parent;
             }
             else if (other.gameObject.CompareTag("ParentPenguin"))
             {
-                //! 親ペンギンを取得
                 Parent = other.gameObject.GetComponent<ParentPenguin>();
             }
 
+            //! 親ペンギンの群れに追加する
             if (Parent)
-            {
-                //! 親ペンギンの群れに追加する
                 Parent.AddToPack(this);
-            }
         }
     }
 
@@ -137,6 +139,8 @@ public class ChildPenguin : Penguin
     {
         //! 親ペンギンを取得
         this.Parent = parent;
+        
+        m_InputHandler = this.Parent.GetInputHandler();
 
         this.onPackEvent();
 

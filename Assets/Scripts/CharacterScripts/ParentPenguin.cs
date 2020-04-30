@@ -10,9 +10,9 @@ using UnityEngine;
 
 public class ParentPenguin : Penguin
 {
-    [Space(10)]
-    [SerializeField, Tooltip("これ設定しないと動かないよ")]
-    private InputHandler m_InputHandler;
+    [SerializeField]
+    protected InputHandler m_InputHandler;
+
     //! 子ペンギンの群れリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
@@ -38,10 +38,10 @@ public class ParentPenguin : Penguin
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    private void MoveHandler(Vector3 move)
+    public override void MoveHandler(Vector3 move)
     {
         //! InputHandlerから取得した移動量を適用
-        m_Rigidbody.AddForce(move * m_Rigidbody.mass);
+        base.MoveHandler(move);
 
         //! 群れを移動
         foreach (ChildPenguin _child in m_ChildPenguins)
@@ -73,6 +73,11 @@ public class ParentPenguin : Penguin
         _child.SetInPack(this);
     }
 
+    public InputHandler GetInputHandler()
+    {
+        return m_InputHandler;
+    }
+
     /// <summary>
     /// @brief      入力時のイベント
     /// </summary>
@@ -81,9 +86,9 @@ public class ParentPenguin : Penguin
         private ParentPenguin m_ParentPenguin;
 
         //! コンストラクタ
-        public InputEvent(ParentPenguin _Penguin)
+        public InputEvent(ParentPenguin penguin)
         {
-            m_ParentPenguin = _Penguin;
+            m_ParentPenguin = penguin;
         }
 
         //! Run状態
@@ -100,7 +105,7 @@ public class ParentPenguin : Penguin
         public override void TickStateRun()
         {
             base.TickStateRun();
-            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector() * 100.0f);
+            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
     }
 

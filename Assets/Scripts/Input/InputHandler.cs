@@ -3,6 +3,7 @@
 /// @brief コントローラー入力処理
 /// @author 池田 博雅
 /// </summary>
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -46,7 +47,9 @@ public class InputHandler : MonoBehaviour
     }
 
     //! パワー最大値
-    [SerializeField, Tooltip("最大値"), Range(1f, 10f)]
+    [SerializeField]
+    [Tooltip("最大値")]
+    [Range(1f, 10f)]
     private float m_PowerMax = 10f;
     public float PowerMax { get { return m_PowerMax; } }
 
@@ -55,14 +58,25 @@ public class InputHandler : MonoBehaviour
     //! 入力ベクタ
     public Vector3 InputVector { get; private set; } = Vector3.forward;
 
-    private List<InputEventBase> m_InputEventList = new List<InputEventBase>();
-
     [SerializeField]
     private GameObject m_Arrow;
     [SerializeField]
     private GameObject m_DemoObject;
 
     private InputModuleBase m_InputModule;
+
+    private Action OnRun;
+    private Action OnIdle;
+    private Action TickStateRun;
+    private Action TickStateIdle;
+
+    private void Awake()
+    {
+        OnRun = delegate () { };
+        OnIdle = delegate () { };
+        TickStateIdle = delegate () { };
+        TickStateRun = delegate () { };
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -88,14 +102,12 @@ public class InputHandler : MonoBehaviour
     {
         if (CurrentState == State.Idle)
         {
-            foreach (var inputEvent in m_InputEventList)
-                inputEvent.OnIdle();
+            OnIdle();
             m_InputModule.Behaviour();
         }
         else if (CurrentState == State.Run)
         {
-            foreach (var inputEvent in m_InputEventList)
-                inputEvent.OnRun();
+            OnRun();
         }
         DebugMethod();
     }
@@ -104,7 +116,11 @@ public class InputHandler : MonoBehaviour
     public void RegisterInputEvent(InputEventBase inputEvenet)
     {
         inputEvenet.m_Handler = this;
-        m_InputEventList.Add(inputEvenet);
+
+        OnRun += inputEvenet.OnRun;
+        OnIdle += inputEvenet.OnIdle;
+        TickStateIdle += inputEvenet.TickStateIdle;
+        TickStateRun += inputEvenet.TickStateRun;
     }
 
     /// <summary>
@@ -132,14 +148,12 @@ public class InputHandler : MonoBehaviour
     {
         if (state == State.Run)
         {
-            foreach (var inputEvent in m_InputEventList)
-                inputEvent.TickStateRun();
+            TickStateRun();
         }
         else if (state == State.Idle)
         {
             PowerReset();
-            foreach (var inputEvent in m_InputEventList)
-                inputEvent.TickStateIdle();
+            TickStateIdle();
         }
         CurrentState = state;
     }

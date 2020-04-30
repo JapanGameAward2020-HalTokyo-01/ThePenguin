@@ -18,17 +18,22 @@ public class Penguin : MonoBehaviour
     [SerializeField]
     private LayerMask m_CastHitLayer;
 
-    //! 生存変数
-    public bool IsAlive { get; protected set; } = true;
-
     //! 状態遷移
     [SerializeField]
     private GameObject m_States;
-
     private List<PenguinState> m_PenguinStates;
 
     [SerializeField]
     protected PenguinState m_CurrentState;
+
+    //! 移動速度
+    [SerializeField]
+    [Tooltip("子ペンギンの移動速度(1がベース)")]
+    [Range(0.0f, 4.0f), Space(20)]
+    protected float m_BaseSpeed = 1.0f;
+
+    //! 生存変数
+    public bool IsAlive { get; protected set; } = true;
 
     protected Rigidbody m_Rigidbody;
 
@@ -86,6 +91,12 @@ public class Penguin : MonoBehaviour
         }
 
         m_CurrentState.OnFixedUpdate();
+    }
+
+    //! 移動処理はここに集約させる
+    public virtual void MoveHandler(Vector3 move)
+    {
+        m_Rigidbody.AddForce(move * m_BaseSpeed * m_Rigidbody.mass * 100f,ForceMode.Force);
     }
 
     /// <summary>

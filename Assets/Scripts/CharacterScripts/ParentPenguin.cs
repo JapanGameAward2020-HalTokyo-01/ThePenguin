@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class ParentPenguin : Penguin
 {
+    [Space(10)]
     [SerializeField, Tooltip("これ設定しないと動かないよ")]
     private InputHandler m_InputHandler;
     //! 子ペンギンの群れリスト
@@ -31,24 +32,6 @@ public class ParentPenguin : Penguin
             //! InputHandlerにEvent登録
             m_InputHandler.RegisterInputEvent(new InputEvent(this));
         }
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        //! ベースクラスの更新設定
-        base.Update();
-    }
-
-    /// <summary>
-    /// @brief      ペンギンの死亡処理
-    /// </summary>
-    public override void Kill()
-    {
-        //! ベースクラス
-        base.Kill();
-
-        //!ここにアニメーション処理など入れる予定
     }
 
     /// <summary>

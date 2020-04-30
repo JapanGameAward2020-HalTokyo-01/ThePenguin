@@ -5,12 +5,6 @@ using UnityEngine;
 //! Penguinの総括
 public class PenguinManager : MonoBehaviour
 {
-    //! 親ペンギン
-    private ParentPenguin m_ParentPenguin = null;
-
-    //! 全子ペンギンのリスト
-    private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
-
     //! ゲームオーバーになる為の子ペンギンの死亡数
     [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f)]
     private int m_MaxDead = 0;
@@ -27,51 +21,60 @@ public class PenguinManager : MonoBehaviour
     //! 野良ペンギン数
     public int m_NomadCount = 0;
 
+
+    //! 親ペンギン
+    private ParentPenguin m_ParentPenguin = null;
+
+    //! 全子ペンギンのリスト
+    private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
+
     // Start is called before the first frame update
     void Start()
     {
-
         m_GameOver = false;
+
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
 
-        //! ChilePenguinの取得
-        foreach (ChildPenguin child in FindObjectsOfType<ChildPenguin>())
+        //! 各カウントの開始
+        ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
+        if (childPenguins.Length > 0)
         {
-            //! ChildPenguin追加
-            m_ChildPenguins.Add(child);
+            m_NomadCount = m_TotalCount = childPenguins.Length;
 
-            //! 群れ化している
-            if (child.InPack)
+            //! ChilePenguinの取得
+            foreach (ChildPenguin child in childPenguins)
             {
+                m_ChildPenguins.Add(child);
+
+                //! Event登録
+                child.onKillEvent = OnKillEvent;
+                child.onPackEvent = OnPackEvent;
+
                 //! 群れに追加
-                m_ParentPenguin.AddToPack(child);
-
-                m_PackCount++;
-            }
-            else
-            {
-                m_NomadCount++;
-            }
-
-            //! 死亡時イベント
-            child.onKillEvent += () =>
-            {
                 if (child.InPack)
-                    m_PackCount--;
-                else
-                    m_NomadCount--;
-                m_DeadCount++;
-            };
-
-            //! 群れ化時イベント
-            child.onPackEvent += () =>
-            {
-                m_PackCount++;
-                m_NomadCount--;
-            };
+                {
+                    m_ParentPenguin.AddToPack(child);
+                }
+            }
         }
+    }
 
-        m_TotalCount = m_ChildPenguins.Count;
+    //! 死亡時イベント
+    public void OnKillEvent(ChildPenguin child)
+    {
+        if (child.InPack)
+            m_PackCount--;
+        else
+            m_NomadCount--;
+
+        m_DeadCount++;
+    }
+
+    //! 群れ化時イベント
+    public void OnPackEvent()
+    {
+        m_PackCount++;
+        m_NomadCount--;
     }
 }

@@ -18,23 +18,59 @@ public class Penguin : MonoBehaviour
     [SerializeField]
     private LayerMask m_CastHitLayer;
 
-    //! Rigidbody
-    protected Rigidbody m_Rigidbody;
-
     //! 生存変数
     public bool IsAlive { get; protected set; } = true;
+
+    //! 状態遷移
+    [SerializeField]
+    private GameObject m_States;
+
+    private List<PenguinState> m_PenguinStates;
+
+    [SerializeField]
+    protected PenguinState m_CurrentState;
+
+    protected Rigidbody m_Rigidbody;
+
+
+    protected virtual void Awake()
+    {
+        m_PenguinStates = new List<PenguinState>();
+
+        m_CurrentState = new PenguinState();
+        m_CurrentState.Init(this);
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         //! Rigidbody設定
         m_Rigidbody = this.GetComponent<Rigidbody>();
+
+        //! PenguinStateを設定
+        if (m_States)
+        {
+            PenguinState[] states = m_States.GetComponentsInChildren<PenguinState>();
+            if (states.Length > 0)
+            {
+                foreach (PenguinState state in states)
+                {
+                    m_PenguinStates.Add(state);
+                    state.Init(this);
+                }
+
+                m_CurrentState = m_PenguinStates[0];
+            }
+        }
+
+        //! CurrentStateの設定
+        m_CurrentState.OnStart();
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-
+        m_CurrentState.OnUpdate();
     }
 
     protected virtual void FixedUpdate()
@@ -48,8 +84,9 @@ public class Penguin : MonoBehaviour
                 Kill();
             }
         }
-    }
 
+        m_CurrentState.OnFixedUpdate();
+    }
 
     /// <summary>
     /// @brief      ペンギンの死亡処理
@@ -61,5 +98,26 @@ public class Penguin : MonoBehaviour
         //! オブジェを無効にする
         gameObject.SetActive(false);
 
+        m_CurrentState.OnKill();
+    }
+
+    //! State遷移
+    public bool ChangeState<Type>() where Type : PenguinState
+    {
+        //! リストから探査する
+        foreach(PenguinState state in m_PenguinStates)
+        {
+            if (state.GetType() != typeof(Type)) continue;
+
+            m_CurrentState.OnRelease();
+
+            m_CurrentState = state;
+
+            m_CurrentState.OnStart();
+
+            return true;
+        }
+
+        return false;
     }
 }

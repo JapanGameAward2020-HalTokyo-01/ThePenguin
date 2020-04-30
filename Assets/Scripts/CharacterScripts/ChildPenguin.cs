@@ -4,18 +4,14 @@
 /// @author	北林和哉
 /// </summary>
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChildPenguin : Penguin
 {
-    public delegate void OnKillEvent();
-    public delegate void OnPackEvent();
-
-    public event OnKillEvent onKillEvent = ()=> { };
-    public event OnPackEvent onPackEvent = ()=> { };
-
+    [Space(10)]
     //! 移動の有効・無効
     //! 子ペンギンの群れ化
     [SerializeField, Tooltip("子ペンギンの群れ化")]
@@ -25,12 +21,6 @@ public class ChildPenguin : Penguin
     //! 群れ化する為の当たり判定
     [SerializeField]
     private GameObject m_PackCollider;
-    //! 親ペンギン
-    [SerializeField]
-    private ParentPenguin m_Parent;
-    //! 親ペンギンの参照用
-    public ParentPenguin Parent { get { return m_Parent; } }
-
     
     //! 移動速度
     [SerializeField, Tooltip("子ペンギンの移動速度(1がベース)"), Range(0.0f, 4.0f)]
@@ -45,6 +35,12 @@ public class ChildPenguin : Penguin
     [LayerField]
     private int m_PackLayer = 8;
 
+    //! 親ペンギン
+    public ParentPenguin Parent { get; private set; } = null;
+
+    public Action<ChildPenguin> onKillEvent = delegate (ChildPenguin child) { };
+    public Action onPackEvent = delegate () { };
+
     /// <summary>
     /// @brief      ペンギンの死亡処理
     /// </summary>
@@ -52,9 +48,7 @@ public class ChildPenguin : Penguin
     {
         //! ベースクラス
         base.Kill();
-
-        onKillEvent();
-        //!ここにアニメーション処理など入れる予定
+        onKillEvent(this);
     }
 
     /// <summary>
@@ -118,18 +112,18 @@ public class ChildPenguin : Penguin
             if (other.gameObject.CompareTag("ChildPenguin"))
             {
                 //! 群れの子ペンギンから親ペンギンを取得
-                m_Parent = other.gameObject.GetComponent<ChildPenguin>().Parent;
+                Parent = other.gameObject.GetComponent<ChildPenguin>().Parent;
             }
             else if (other.gameObject.CompareTag("ParentPenguin"))
             {
                 //! 親ペンギンを取得
-                m_Parent = other.gameObject.GetComponent<ParentPenguin>();
+                Parent = other.gameObject.GetComponent<ParentPenguin>();
             }
 
-            if (m_Parent)
+            if (Parent)
             {
                 //! 親ペンギンの群れに追加する
-                m_Parent.AddToPack(this);
+                Parent.AddToPack(this);
             }
         }
     }
@@ -141,7 +135,7 @@ public class ChildPenguin : Penguin
     public void SetInPack(ParentPenguin parent)
     {
         //! 親ペンギンを取得
-        this.m_Parent = parent;
+        this.Parent = parent;
 
         this.onPackEvent();
 

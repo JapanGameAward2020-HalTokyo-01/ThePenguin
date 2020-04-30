@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   SelectTransitionクラス
  * @brief   ステージセレクトシーンのシーン遷移周りの処理を担当するクラス
  */
-public class SelectTransition : SceneTransitionBase
+public class SelectTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]

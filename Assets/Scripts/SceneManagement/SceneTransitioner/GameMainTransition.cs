@@ -10,7 +10,7 @@ using System.Collections.Generic;
  * @class   GameMainTransitionクラス
  * @brief   ゲームメインシーンのシーン遷移周りの処理を担当するクラス
  */
-public class GameMainTransition : SceneTransitionBase
+public class GameMainTransition : TransitionCtrlBase
 {
 	//! 状態オブジェクトリスト
 	private List<StateBase_GameMain> m_state_list;
@@ -89,5 +89,4 @@ public class GameMainTransition : SceneTransitionBase
 		m_next_state = StateIndex;
 
 	}
-
 }

@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   OpeningTransitionクラス
  * @brief   オープニングシーンのシーン遷移周りの処理を担当するクラス
  */
-public class OpeningTransition : SceneTransitionBase
+public class OpeningTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]

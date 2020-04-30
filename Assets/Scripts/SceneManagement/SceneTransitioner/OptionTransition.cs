@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   OptionTransitionクラス
  * @brief   通常オプションシーンのシーン遷移周りの処理を担当するクラス
  */
-public class OptionTransition : SceneTransitionBase
+public class OptionTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]

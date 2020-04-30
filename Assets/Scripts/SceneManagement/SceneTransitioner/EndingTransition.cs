@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   EndingTransitionクラス
  * @brief   エンディングシーンのシーン遷移周りの処理を担当するクラス
  */
-public class EndingTransition : SceneTransitionBase
+public class EndingTransition : TransitionCtrlBase
 {
 	// 待機時間(アニメーションが無い間とりあえず)
 	[SerializeField]

@@ -11,13 +11,12 @@ using Assets.Scripts.SceneManagement;
  * @class   LogoTransitionクラス
  * @brief   ロゴシーンのシーン遷移周りの処理を担当するクラス
  */
-public class LogoTransition : SceneTransitionBase
+public class LogoTransition : TransitionCtrlBase
 {
 	// 待機時間(アニメーションが無い間とりあえず)
 	[SerializeField]
 	private float m_movie_time = 10.0f;
 	private float m_current_time = 0.0f;
-
 
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]

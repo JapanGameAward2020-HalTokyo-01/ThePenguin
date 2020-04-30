@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   TitleTransitionクラス
  * @brief   タイトルシーンのシーン遷移周りの処理を担当するクラス
  */
-public class TitleTransition : SceneTransitionBase
+public class TitleTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]
@@ -71,18 +71,5 @@ public class TitleTransition : SceneTransitionBase
 		// セーブデータが無ければオープニングシーン
 		else return new TransScene(KSceneIndex.Opening);
 	}
-
-	/**
-	 * @brief	アプリケーション終了処理
-	 */
-	private void ExitApp()
-	{
-#if UNITY_EDITOR
-		UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_STANDALONE
-		UnityEngine.Application.Quit();
-#endif
-	}
-
 
 }

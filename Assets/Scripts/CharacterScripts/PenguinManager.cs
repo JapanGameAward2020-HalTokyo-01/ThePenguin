@@ -13,12 +13,16 @@ public class PenguinManager : MonoBehaviour
     //! ゲームオーバー判定
     public bool m_GameOver = false;
     //! 子ペンギンの総数
+    [SerializeField,NonEditableField]
     public int m_TotalCount = 0;
     //! 死亡数
+    [SerializeField,NonEditableField]
     public int m_DeadCount = 0;
     //! 群れ化数
+    [SerializeField,NonEditableField]
     public int m_PackCount = 0;
     //! 野良ペンギン数
+    [SerializeField,NonEditableField]
     public int m_NomadCount = 0;
 
 

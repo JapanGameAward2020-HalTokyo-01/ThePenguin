@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class LayerField : PropertyAttribute { }
+public sealed class LayerField : PropertyAttribute { }
 
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(LayerField))]

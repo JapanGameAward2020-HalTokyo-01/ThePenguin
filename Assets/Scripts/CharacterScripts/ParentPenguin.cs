@@ -57,7 +57,7 @@ public class ParentPenguin : Penguin
     private bool IsMoving()
     {
         //! 移動force残ってるか
-        return m_Rigidbody.velocity.magnitude < 0.01f;
+        return m_Rigidbody.velocity.magnitude > 0.01f;
     }
 
     /// <summary>

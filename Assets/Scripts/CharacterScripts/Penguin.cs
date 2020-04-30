@@ -12,7 +12,7 @@ using UnityEngine;
 public class Penguin : MonoBehaviour
 {
     //! RayCastの有効化
-    static private bool g_IsRayCast = true;
+    static private bool m_IsRayCast = true;
 
     //! RayCastの判定
     [SerializeField]
@@ -75,7 +75,7 @@ public class Penguin : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (g_IsRayCast && IsAlive)
+        if (m_IsRayCast && IsAlive)
         {
             RaycastHit hit;
             //! Hitしてなければ死亡

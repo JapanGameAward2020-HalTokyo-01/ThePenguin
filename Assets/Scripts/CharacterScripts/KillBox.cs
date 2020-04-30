@@ -33,7 +33,7 @@ public class KillBox : MonoBehaviour
     public void OnDrawGizmos()
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(this.transform.position + boxCollider.center,Vector3.Scale(this.transform.localScale,boxCollider.size));
+        Gizmos.color = new Color(1f,0f,0f,0.5f);
+        Gizmos.DrawCube(this.transform.position + boxCollider.center,Vector3.Scale(this.transform.lossyScale,boxCollider.size));
     }
 }

@@ -16,17 +16,8 @@ public class Penguin : MonoBehaviour
     private GameObject m_States;
     private List<PenguinState> m_PenguinStates;
 
-    [SerializeField]
+    [SerializeField, NonEditableField]
     protected PenguinState m_CurrentState;
-
-    //! 移動速度
-    [SerializeField]
-    [Tooltip("子ペンギンの移動速度(1がベース)")]
-    [Range(0.0f, 4.0f), Space(20)]
-    protected float m_BaseSpeed = 1.0f;
-
-    //! 生存変数
-    public bool IsAlive { get; protected set; } = true;
 
     protected Rigidbody m_Rigidbody;
 
@@ -74,9 +65,9 @@ public class Penguin : MonoBehaviour
     }
 
     //! 移動処理はここに集約させる
-    public virtual void MoveHandler(Vector3 move)
+    protected virtual void MoveHandler(Vector3 move)
     {
-        m_Rigidbody.AddForce(move * m_BaseSpeed * m_Rigidbody.mass * 100f,ForceMode.Force);
+        m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f,ForceMode.Force);
     }
 
     /// <summary>
@@ -84,15 +75,15 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill()
     {
-        //! 生存判定をfalseに
-        IsAlive = false;
         //! オブジェを無効にする
         gameObject.SetActive(false);
 
         m_CurrentState.OnKill();
     }
 
-    //! State遷移
+    /// <summary>
+    /// @brief      State遷移
+    /// </summary>
     public bool ChangeState<Type>() where Type : PenguinState
     {
         //! リストから探査する

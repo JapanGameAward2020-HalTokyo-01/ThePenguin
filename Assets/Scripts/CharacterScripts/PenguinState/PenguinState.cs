@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PenguinState : MonoBehaviour
 {
+
     public Penguin penguin { get; private set; }
 
     public void Init(Penguin penguin)

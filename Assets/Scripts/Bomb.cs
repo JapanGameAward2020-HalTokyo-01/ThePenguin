@@ -38,7 +38,11 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
+    }
 
+
+    void OnValidate()
+    {
         //探知範囲初期化
         this.GetComponent<SphereCollider>().radius = m_DetectionSize * 0.5f;
         //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
@@ -103,8 +107,8 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //探知範囲に当たったオブジェクトのTagがPenguinだったら
-        if (other.gameObject.tag == "Penguin")
+        //探知範囲に当たったオブジェクトのLayerが8番のlayerPackPenguinだったら
+        if (other.gameObject.layer == 8)
         {
             m_IsCountDown = true;
             //以下はすべて仮の演出処理

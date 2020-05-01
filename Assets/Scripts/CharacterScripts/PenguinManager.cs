@@ -83,7 +83,7 @@ public class PenguinManager : MonoBehaviour
         m_NomadCount--;
     }
 
-    public float deltaTime;
+    private float deltaTime;
     void Update()
     {
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;

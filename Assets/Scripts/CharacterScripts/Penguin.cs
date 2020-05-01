@@ -34,9 +34,6 @@ public class Penguin : MonoBehaviour
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();
-
-        m_CurrentState = new PenguinState();
-        m_CurrentState.Init(this);
     }
 
     // Start is called before the first frame update

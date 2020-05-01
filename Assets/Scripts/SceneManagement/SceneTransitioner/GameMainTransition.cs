@@ -5,13 +5,12 @@
  */
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Collections;
 
 /**
  * @class   GameMainTransitionクラス
  * @brief   ゲームメインシーンのシーン遷移周りの処理を担当するクラス
  */
-public class GameMainTransition : MonoBehaviour
+public class GameMainTransition : TransitionCtrlBase
 {
 	//! 状態オブジェクトリスト
 	private List<StateBase_GameMain> m_state_list;
@@ -90,5 +89,4 @@ public class GameMainTransition : MonoBehaviour
 		m_next_state = StateIndex;
 
 	}
-
 }

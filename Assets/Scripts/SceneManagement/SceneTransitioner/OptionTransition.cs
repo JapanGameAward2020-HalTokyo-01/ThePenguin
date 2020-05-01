@@ -11,7 +11,7 @@ using Assets.Scripts.SceneManagement;
  * @class   OptionTransitionクラス
  * @brief   通常オプションシーンのシーン遷移周りの処理を担当するクラス
  */
-public class OptionTransition : MonoBehaviour
+public class OptionTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]
@@ -19,10 +19,7 @@ public class OptionTransition : MonoBehaviour
 
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private OptionSelectCtrl m_select_ctrl;
-
-	//! シーン遷移オブジェクト
-	private TransScene m_transitioner = null;
+	private OptionSelectCtrl m_select_ctrl = null;
 
 	/**
 	 * @brief	初期化

@@ -1,8 +1,17 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    SelectTransition.cs
+ * @brief   ステージセレクトシーンのシーン遷移周りの処理を担当するクラス
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.SceneManagement;
 
-public class SelectTransition : MonoBehaviour
+/**
+ * @class   SelectTransitionクラス
+ * @brief   ステージセレクトシーンのシーン遷移周りの処理を担当するクラス
+ */
+public class SelectTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]
@@ -10,16 +19,7 @@ public class SelectTransition : MonoBehaviour
 
 	//! 選択肢を取り出す対象オブジェクト
 	[SerializeField]
-	private StageSelectCtrl m_select_ctrl;
-
-	//! シーン遷移オブジェクト
-	private TransScene m_transitioner = null;
-
-	public void Start()
-	{
-		//m_select_ctrl.Activate(true);
-	}
-
+	private StageSelectCtrl m_select_ctrl = null;
 
 	/**
 	 * @brief	フレーム更新処理

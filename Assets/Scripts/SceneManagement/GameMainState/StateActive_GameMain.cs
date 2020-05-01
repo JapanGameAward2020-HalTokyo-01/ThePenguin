@@ -14,7 +14,7 @@ public class StateActive_GameMain : StateBase_GameMain
 {
 	//! 遷移先シーン判断に使うオブジェクト
 	[SerializeField]
-	private GameMain_PlayerCtrl m_player;
+	private GameMain_PlayerCtrl m_player = null;
 
 	/**
 	 * @brief	フレーム更新(状態ホルダー側で呼び出し)

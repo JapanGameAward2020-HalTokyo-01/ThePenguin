@@ -28,7 +28,7 @@ class SceneIndexEnumGenerator : EditorWindow
     /**
      * @brief   メニューバーにファイル生成ウィンドウを生成するコマンドを追加する
      */
-    [MenuItem("Generator/(Enum) SceneIndex")]
+    [MenuItem("Tools/SceneIndexGenerater")]
 	public static void Window()
 	{
 		EditorWindow window = GetWindow<SceneIndexEnumGenerator>();

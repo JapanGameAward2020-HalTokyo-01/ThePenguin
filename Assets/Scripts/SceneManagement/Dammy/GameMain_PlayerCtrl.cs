@@ -11,14 +11,6 @@ using UnityEngine;
  */
 public class GameMain_PlayerCtrl : MonoBehaviour
 {
-    //! 衝突したゲームオブジェクトの検索短縮
-    [SerializeField]
-    private GameObject m_clear_obj = null;
-    [SerializeField]
-    private GameObject m_complete_obj = null;
-    [SerializeField]
-    private GameObject m_gameover_obj = null;
-
     //! 遷移すべきシーンインデックス
     private KSceneIndex m_next_scene = KSceneIndex.None;
     public KSceneIndex NextSceneIndex

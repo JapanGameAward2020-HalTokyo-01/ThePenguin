@@ -11,21 +11,26 @@ using Assets.Scripts.SceneManagement;
  * @class   OpeningTransitionクラス
  * @brief   オープニングシーンのシーン遷移周りの処理を担当するクラス
  */
-public class OpeningTransition : MonoBehaviour
+public class OpeningTransition : TransitionCtrlBase
 {
 	//! 文字描画用テキストオブジェクト
 	[SerializeField]
-	private Text m_text;
+	private Text m_text = null;
 
 	//! オープニングシーンの段階数(ページ数？)
 	[SerializeField]
-	private int m_sequence_num;
+	private int m_sequence_num = 0;
 
 	//! 現在の表示ページ番号
 	private int m_sequence = 0;
 
-	//! シーン遷移先
-	TransScene _transitioner = new TransScene(KSceneIndex.GameMain);
+	/**
+	 * @brief	初期化
+	 */
+	public void Start()
+	{
+		m_transitioner = new TransScene(KSceneIndex.GameMain);
+	}
 
 	/**
 	 * @brief	フレーム更新
@@ -43,7 +48,7 @@ public class OpeningTransition : MonoBehaviour
 		else
 		{
 			// 最初のステージに遷移
-			_transitioner.Transition();
+			m_transitioner.Transition();
 		}
 	}
 

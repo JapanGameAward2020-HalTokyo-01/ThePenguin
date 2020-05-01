@@ -49,7 +49,7 @@ class AudioReimporter : EditorWindow
     /**
      * @brief   ツールウィンドウの作成
      */
-    [MenuItem("Generator/Audio ReImporter")]
+    [MenuItem("Tools/Audio ReImporter")]
     public static void Window()
     {
         //! 新規エディターウィンドウ

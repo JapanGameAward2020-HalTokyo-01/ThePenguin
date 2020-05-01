@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 61366251547262261}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 2926071511450897785}
   m_Father: {fileID: 0}
@@ -56,7 +56,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61366251547262261}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.3
   m_Drag: 1
   m_AngularDrag: 1
   m_UseGravity: 1
@@ -79,12 +79,14 @@ MonoBehaviour:
   m_CastHitLayer:
     serializedVersion: 2
     m_Bits: 32768
+  m_States: {fileID: 0}
+  m_CurrentState: {fileID: 0}
+  m_BaseSpeed: 1
   m_InPack: 1
   m_PackCollider: {fileID: 0}
-  m_Parent: {fileID: 0}
-  m_BaseSpeed: 1
-  m_Delay: 0
   m_Reverse: 0
+  m_IsPowerTurning: 0
+  m_Delay: 0
 --- !u!1 &6627563574835811256
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class SwitchArea : MonoBehaviour
     //最大通過数
     public float m_MaxCheckObject;
     //通過したペンギン達
-    private List<GameObject> m_Penguins = new List<GameObject>();
+    private List<Penguin> m_Penguins = new List<Penguin>();
 
     private void OnTriggerEnter(Collider a)
     {
@@ -24,13 +24,13 @@ public class SwitchArea : MonoBehaviour
             return;
 
         //リスト内のペンギンを確認して、重複がないならば追加する
-        if (a.gameObject.tag == "Penguin")
+        if (a.gameObject.TryGetComponent<Penguin>(out var p))
         {
-            GameObject result = m_Penguins.Find(m => m.gameObject == a.gameObject);
+            Penguin result = m_Penguins.Find(m => m == p);
 
             if(result == null)
             {
-                m_Penguins.Add(a.gameObject);
+                m_Penguins.Add(p);
 
             }
         }

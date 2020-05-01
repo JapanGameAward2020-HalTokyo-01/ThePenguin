@@ -11,13 +11,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Penguin : MonoBehaviour
 {
-    //! RayCastの有効化
-    static private bool m_IsRayCast = true;
-
-    //! RayCastの判定
-    [SerializeField]
-    private LayerMask m_CastHitLayer;
-
     //! 状態遷移
     [SerializeField]
     private GameObject m_States;
@@ -80,16 +73,6 @@ public class Penguin : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (m_IsRayCast && IsAlive)
-        {
-            RaycastHit hit;
-            //! Hitしてなければ死亡
-            if (!Physics.Raycast(this.transform.position, -this.transform.up, out hit, 10f, m_CastHitLayer))
-            {
-                Kill();
-            }
-        }
-
         m_CurrentState.OnFixedUpdate();
     }
 

@@ -26,6 +26,7 @@ public class PenguinManager : MonoBehaviour
     public int m_NomadCount = 0;
 
 
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -34,7 +35,7 @@ public class PenguinManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {  
         m_GameOver = false;
 
         //! ParentPenguinの取得
@@ -81,4 +82,13 @@ public class PenguinManager : MonoBehaviour
         m_PackCount++;
         m_NomadCount--;
     }
+
+    public float deltaTime;
+    void Update()
+    {
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        float fps = 1.0f / deltaTime;
+        Debug.Log(Mathf.Ceil(fps).ToString());
+    }
+
 }

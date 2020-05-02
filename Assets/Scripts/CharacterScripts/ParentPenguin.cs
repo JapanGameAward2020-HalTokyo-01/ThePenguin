@@ -38,7 +38,7 @@ public class ParentPenguin : Penguin
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    public override void MoveHandler(Vector3 move)
+    protected override void MoveHandler(Vector3 move)
     {
         //! InputHandlerから取得した移動量を適用
         base.MoveHandler(move);
@@ -73,6 +73,9 @@ public class ParentPenguin : Penguin
         _child.SetInPack(this);
     }
 
+    /// <summary>
+    /// @brief      入力ハンドラーを渡す
+    /// </summary>
     public InputHandler GetInputHandler()
     {
         return m_InputHandler;

@@ -11,7 +11,6 @@ using UnityEngine;
 
 public class ChildPenguin : Penguin
 {
-    [Space(10)]
     //! 移動の有効・無効 子ペンギンの群れ化
     [SerializeField]
     [Tooltip("子ペンギンの群れ化")]
@@ -24,15 +23,22 @@ public class ChildPenguin : Penguin
 
     [SerializeField]
     [Tooltip("群れ化当たり判定")]
+    [Space(20)]
     private GameObject m_PackCollider;
 
     [SerializeField]
     [Tooltip("子ペンギンの移動方向を反転する")]
-    private bool m_Reverse = false;
+    private bool m_ReverseMove = false;
 
     [SerializeField]
     [Tooltip("パワー変化量を最大値から最小値にする")]
-    private bool m_IsPowerTurning = false;
+    private bool m_ReversePower = false;
+
+    //! 移動速度
+    [SerializeField]
+    [Tooltip("子ペンギンの移動速度(1がベース)")]
+    [Range(0.0f, 4.0f)]
+    protected float m_BaseSpeed = 1.0f;
 
     [SerializeField]
     [Tooltip("子ペンギンの移動開始までの遅延")]
@@ -72,14 +78,14 @@ public class ChildPenguin : Penguin
     /// @brief      親ペンギンの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    public override void MoveHandler(Vector3 move)
+    public new void MoveHandler(Vector3 move)
     {
         //! パワー再計算
-        if (m_IsPowerTurning)
+        if (m_ReversePower)
             move = move.normalized * (m_InputHandler.PowerMax - m_InputHandler.Power);
 
         //! 親ペンギンから取得した移動量を反転して適用
-        if (m_Reverse)
+        if (m_ReverseMove)
             move = -move;
 
         //! m_Delayがあれば
@@ -90,7 +96,7 @@ public class ChildPenguin : Penguin
             return;
         }
 
-        base.MoveHandler(move);
+        base.MoveHandler(move * m_BaseSpeed);
     }
 
     /// <summary>
@@ -102,7 +108,7 @@ public class ChildPenguin : Penguin
         //! m_Delay分待つ
         yield return new WaitForSeconds(m_Delay);
 
-        base.MoveHandler(move);
+        base.MoveHandler(move * m_BaseSpeed);
 
         yield break;
     }

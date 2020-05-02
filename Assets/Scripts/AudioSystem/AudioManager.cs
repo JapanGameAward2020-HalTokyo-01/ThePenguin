@@ -29,6 +29,10 @@ public class AudioManager : MonoBehaviour
 	private AudioLoopParam m_loop;
 	private AudioLoop m_loop_factor = new AudioLoop();
 
+	[SerializeField]
+	private AudioFadeParam m_fade;
+	private AudioFade m_fade_factor = new AudioFade();
+
 	/**
 	 * @brief   初期化
 	 */

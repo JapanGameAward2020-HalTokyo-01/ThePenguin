@@ -14,14 +14,10 @@ using UnityEngine;
 public struct AudioLoopParam
 {
 	//! ループ開始サンプル数
-	[SerializeField]
 	public int m_begin;
-
 	//! ループ終了サンプル数(0の時ループしない)
-	[SerializeField]
 	public int m_end;
 }
-
 
 /**
  * @class   AudioLoopクラス

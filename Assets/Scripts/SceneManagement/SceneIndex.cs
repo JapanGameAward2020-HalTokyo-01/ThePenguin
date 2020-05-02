@@ -1,21 +1,21 @@
-﻿/**
- * @file    SceneIndex
+﻿
+/**
+ * @file    SceneIndex.cs
  * @brief   シーンインデックスを基に生成した列挙型とその管理クラス
  * @author  谷沢 瑞己(Generator制作)
  */
-using System;
+ using System;
 
 /**
  * @enum    シーンインデックス列挙型
  * @brief   シーンのファイル名がそのままインデックスの文字列になる
  */
 [Serializable]
-public enum KSceneIndex
-{ None = -1, Logo, Title, GameMain, Select, Option, Opening, Ending }
+public enum KSceneIndex{ None = -1, Logo, Title, GameMain, Select, Option, Opening, Ending }
 
 /**
- * @class   シーンインデックスクラス
- * @brief   シーンインデックスを扱う場合に静的キャストをいちいち書きたくない場合に使用
+ * @class シーンインデックスクラス
+ * @brief シーンインデックスを扱う場合に静的キャストをいちいち書きたくない場合に使用
  */
 public class SceneIndex
 {
@@ -29,5 +29,5 @@ public class SceneIndex
      * @brief   インデックス(列挙型)を整数型で返すだけ
      * @return  インデックスの整数値
      */
-    public int GetByInteger() { return (int)m_index; }
+     public int GetByInteger() { return (int)m_index; }
 }

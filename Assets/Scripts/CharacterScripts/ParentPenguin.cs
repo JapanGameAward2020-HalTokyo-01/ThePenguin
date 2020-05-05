@@ -10,10 +10,10 @@ using UnityEngine;
 
 public class ParentPenguin : Penguin
 {
-    [SerializeField, Tooltip("これ設定しないと動かないよ")]
-    private InputHandler m_InputHandler;
+    [SerializeField]
+    protected InputHandler m_InputHandler;
+
     //! 子ペンギンの群れリスト
-    [SerializeField, Tooltip("最初から群れにいる子ペンギンを追加してね(最初に追加するサイズをしてする必要がある)")]
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     // Start is called before the first frame update
@@ -32,29 +32,16 @@ public class ParentPenguin : Penguin
             //! InputHandlerにEvent登録
             m_InputHandler.RegisterInputEvent(new InputEvent(this));
         }
-
-        //! 最初から群れにいる子ペンギンを群れに追加する処理
-        foreach (ChildPenguin _child in m_ChildPenguins)
-        {
-            _child.SetInPack(this);
-        }
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        //! ベースクラスの更新設定
-        base.Update();
     }
 
     /// <summary>
     /// @brief      InputHandlerの移動量を渡す
     /// @param      移動量(Vector3)
     /// </summary>
-    private void MoveHandler(Vector3 move)
+    protected override void MoveHandler(Vector3 move)
     {
         //! InputHandlerから取得した移動量を適用
-        m_Rigidbody.AddForce(move * m_Rigidbody.mass);
+        base.MoveHandler(move);
 
         //! 群れを移動
         foreach (ChildPenguin _child in m_ChildPenguins)
@@ -70,7 +57,7 @@ public class ParentPenguin : Penguin
     private bool IsMoving()
     {
         //! 移動force残ってるか
-        return m_Rigidbody.velocity.magnitude < 0.01f;
+        return m_Rigidbody.velocity.magnitude > 0.01f;
     }
 
     /// <summary>
@@ -79,8 +66,19 @@ public class ParentPenguin : Penguin
     /// </summary>
     public void AddToPack(ChildPenguin _child)
     {
-        //! InputHandlerから取得した移動量を適用
+        //! ChilePenguinsへ追加
         m_ChildPenguins.Add(_child);
+
+        //! childを群れ化
+        _child.SetInPack(this);
+    }
+
+    /// <summary>
+    /// @brief      入力ハンドラーを渡す
+    /// </summary>
+    public InputHandler GetInputHandler()
+    {
+        return m_InputHandler;
     }
 
     /// <summary>
@@ -91,9 +89,9 @@ public class ParentPenguin : Penguin
         private ParentPenguin m_ParentPenguin;
 
         //! コンストラクタ
-        public InputEvent(ParentPenguin _Penguin)
+        public InputEvent(ParentPenguin penguin)
         {
-            m_ParentPenguin = _Penguin;
+            m_ParentPenguin = penguin;
         }
 
         //! Run状態
@@ -110,7 +108,8 @@ public class ParentPenguin : Penguin
         public override void TickStateRun()
         {
             base.TickStateRun();
-            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector() * 100.0f);
+            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
     }
+
 }

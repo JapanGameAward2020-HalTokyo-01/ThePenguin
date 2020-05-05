@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEditor;
 #endif  
 
-public class TagField : PropertyAttribute { }
+public sealed class TagField : PropertyAttribute { }
 
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(TagField))]

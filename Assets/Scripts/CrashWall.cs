@@ -37,7 +37,7 @@ public class CrashWall : MonoBehaviour
         if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin"))
         {
             //かつペンギンのスピードが一定値以上
-            if (Vector3.Distance(c.gameObject.GetComponent<Rigidbody>().velocity, Vector3.zero) > m_CountSpeed)
+            if (Vector3.Distance(c.relativeVelocity, Vector3.zero) > m_CountSpeed)
             {
                 //カウントダウン
                 m_MaxCount--;

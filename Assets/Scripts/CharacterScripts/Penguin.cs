@@ -21,6 +21,12 @@ public class Penguin : MonoBehaviour
 
     protected Rigidbody m_Rigidbody;
 
+    [SerializeField, NonEditableField]
+    protected bool m_Invincible = false;
+    public void SetInvincible(bool inv) 
+    { 
+        m_Invincible = inv;  
+    }
 
     protected virtual void Awake()
     {
@@ -75,10 +81,13 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill()
     {
-        //! オブジェを無効にする
-        gameObject.SetActive(false);
+        if (!m_Invincible)
+        {
+            //! オブジェを無効にする
+            gameObject.SetActive(false);
 
-        m_CurrentState.OnKill();
+            m_CurrentState.OnKill();
+        }
     }
 
     /// <summary>

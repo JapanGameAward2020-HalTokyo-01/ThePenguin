@@ -21,9 +21,13 @@ public class AudioManager : MonoBehaviour
 	[SerializeField]
 	private AudioMixerGroup m_mixer = null;
 
+
+
+
 	//! 操作対象オーディオソース
 	AudioSource m_source = null;
 
+	//! 機能群(機能毎にパラメータ調節できるように)
 	[SerializeField]
 	private AudioLoop m_loop;
 	[SerializeField]

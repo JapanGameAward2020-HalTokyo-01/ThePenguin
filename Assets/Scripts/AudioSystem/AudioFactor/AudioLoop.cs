@@ -23,17 +23,22 @@ public struct AudioLoopParam
  * @class   AudioLoopクラス
  * @brief   再生中のAudioSourceから現在サンプル数(位相)を取得し、操作する
  */
-public class AudioLoop
+[Serializable]
+public class AudioLoop : AudioFactor
 {
+	//! ループの為のパラメータ
+	[SerializeField]
+	private AudioLoopParam m_param;
+
 	/**
 	 * @brief   (Update()呼び出し)区間ループチェック
 	 */
-	public void OnLoopCheck(AudioSource source, AudioLoopParam param)
+	public override void OnUpdate(AudioSource source)
 	{
-		if (param.m_end == 0) return;
+		if (m_param.m_end == 0) return;
 
 		// 再生区間オーバーのサンプル値に至った場合区間開始位置に戻す
-		if (source.timeSamples > param.m_end)
-			source.timeSamples = param.m_begin;
+		if (source.timeSamples > m_param.m_end)
+			source.timeSamples = m_param.m_begin;
 	}
 }

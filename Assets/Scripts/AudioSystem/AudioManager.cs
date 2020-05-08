@@ -24,14 +24,14 @@ public class AudioManager : MonoBehaviour
 	//! 操作対象オーディオソース
 	AudioSource m_source = null;
 
-	//! ループの為のパラメータ
 	[SerializeField]
-	private AudioLoopParam m_loop;
-	private AudioLoop m_loop_factor = new AudioLoop();
-
+	private AudioLoop m_loop;
 	[SerializeField]
-	private AudioFadeParam m_fade;
-	private AudioFade m_fade_factor = new AudioFade();
+	private AudioFade m_fade;
+	public AudioFade Fade
+	{
+		get { return m_fade; }
+	}
 
 	/**
 	 * @brief   初期化
@@ -53,7 +53,8 @@ public class AudioManager : MonoBehaviour
 	 */
 	public void FixedUpdate()
 	{
-		if(m_loop_factor != null) m_loop_factor.OnLoopCheck(m_source, m_loop);
+		m_loop.OnUpdate(m_source);
+		m_fade.OnUpdate(m_source);
 	}
 
 }

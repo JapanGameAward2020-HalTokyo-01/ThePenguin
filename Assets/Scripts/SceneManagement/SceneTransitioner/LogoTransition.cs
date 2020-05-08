@@ -36,13 +36,19 @@ public class LogoTransition : TransitionCtrlBase
 	public void Update()
 	{
 		// 遷移条件１：何か入力があった場合→タイトルシーン
-		if (Input.anyKeyDown) m_transitioner = new TransScene(KSceneIndex.Title);
-
+		if (Input.anyKeyDown)
+		{
+			m_bgm_mgr.Fade.Start(KAudioFade.Out, 1.0f);
+			m_transitioner = new TransScene(KSceneIndex.Title);
+		}
 		// 遷移条件２：ロゴムービーが再生終了した場合→最初から再生しなおし
 		if (m_current_time < 0) m_current_time = m_movie_time;
 
 		// シーン遷移があれば実行する
-		if (m_transitioner != null) m_transitioner.Transition();
+		if (m_transitioner != null)
+		{
+			if (!m_bgm_mgr.Fade.IsFading) m_transitioner.Transition();
+		}
 
 		// フレーム更新
 		m_current_time -= Time.deltaTime;

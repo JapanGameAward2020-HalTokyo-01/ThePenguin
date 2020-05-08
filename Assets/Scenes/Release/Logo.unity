@@ -262,12 +262,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c432091f2c45a4fbb632b0dc7a18c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_clip: {fileID: 8300000, guid: 5987fd65c5b3d78458db45451c0a965f, type: 3}
+  m_clip: {fileID: 8300000, guid: 93949da25ca32954482d798033c0f4ca, type: 3}
   m_mixer: {fileID: -1773994464413866003, guid: 345aec7bc285cce4ca3ff2005641251e,
     type: 2}
   m_loop:
-    m_begin: 44100
-    m_end: 1455300
+    m_param:
+      m_begin: 0
+      m_end: 0
 --- !u!1 &259214527
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,5 +724,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b657b72693fa5b46a8df0473b0e24db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bgm_mgr: {fileID: 257691786}
   m_movie_time: 10
   m_text: {fileID: 259214529}

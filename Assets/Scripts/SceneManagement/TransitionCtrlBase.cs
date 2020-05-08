@@ -15,6 +15,10 @@ public class TransitionCtrlBase : MonoBehaviour
     //! シーン遷移オブジェクト
     protected TransScene m_transitioner = null;
 
+    //! BGMオブジェクト
+    [SerializeField]
+    protected AudioManager m_bgm_mgr;
+
     /**
      * @brief	アプリケーション終了処理
      */

@@ -4,6 +4,7 @@
  * @author  谷沢 瑞己
  */
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 namespace Assets.Scripts.SceneManagement
 {
@@ -16,6 +17,10 @@ namespace Assets.Scripts.SceneManagement
     {
         //! 遷移先シーンインデックス
         private KSceneIndex m_next_scene;
+
+        //! 音管理
+        [SerializeField]
+        private AudioManager m_audio;
 
         /**
          * @brief   遷移先シーンインデックスを必ず持って生成するようにする

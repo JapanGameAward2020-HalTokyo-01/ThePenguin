@@ -15,8 +15,7 @@ public enum KAudioFade
  * @class   AudioFadeクラス
  * @brief   
  */
-[Serializable]
-public class AudioFade : AudioFactor
+public class AudioFade
 {
     //! 処理時間
     private float m_sec;
@@ -47,7 +46,7 @@ public class AudioFade : AudioFactor
         }
     }
 
-    public override void OnUpdate(AudioSource _source)
+    public void OnUpdate(AudioSource _source)
     {
         if (m_in_out_flag == KAudioFade.None) return;
 

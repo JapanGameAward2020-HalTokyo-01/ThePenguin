@@ -10,7 +10,6 @@ using UnityEngine;
  * @struct  AudioLoopParam構造体
  * @brief   機能呼び出し側で持つべきパラメータ
  */
-[Serializable]
 public struct AudioLoopParam
 {
 	//! ループ開始サンプル数
@@ -23,22 +22,17 @@ public struct AudioLoopParam
  * @class   AudioLoopクラス
  * @brief   再生中のAudioSourceから現在サンプル数(位相)を取得し、操作する
  */
-[Serializable]
-public class AudioLoop : AudioFactor
+public class AudioLoop
 {
-	//! ループの為のパラメータ
-	[SerializeField]
-	private AudioLoopParam m_param;
-
 	/**
 	 * @brief   (Update()呼び出し)区間ループチェック
 	 */
-	public override void OnUpdate(AudioSource source)
+	public void OnUpdate(AudioSource source, AudioBGMParams _param)
 	{
-		if (m_param.m_end == 0) return;
+		if (_param.LoopEnd == 0) return;
 
 		// 再生区間オーバーのサンプル値に至った場合区間開始位置に戻す
-		if (source.timeSamples > m_param.m_end)
-			source.timeSamples = m_param.m_begin;
+		if (source.timeSamples > _param.LoopEnd)
+			source.timeSamples = (int)_param.LoopBegin;
 	}
 }

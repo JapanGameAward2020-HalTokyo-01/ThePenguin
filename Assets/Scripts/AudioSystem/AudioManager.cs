@@ -13,25 +13,28 @@ using UnityEngine.Audio;
  */
 public class AudioManager : MonoBehaviour
 {
-	//! 操作対象オーディオクリップ
+	//! シーン初期BGM
 	[SerializeField]
-	private AudioClip m_clip = null;
+	private AudioBGMParams m_bgm = null;
+	public AudioBGMParams BGMParam
+	{
+		get { return m_bgm; }
+	}
+
+	//! オーディオリスト(BGM切り替え等に使用)
+	[SerializeField]
+	private AudioList m_audio_list = null;
 
 	//! 適用するミキサー
 	[SerializeField]
 	private AudioMixerGroup m_mixer = null;
 
-
-
-
 	//! 操作対象オーディオソース
 	AudioSource m_source = null;
 
-	//! 機能群(機能毎にパラメータ調節できるように)
-	[SerializeField]
-	private AudioLoop m_loop;
-	[SerializeField]
-	private AudioFade m_fade;
+	//! 機能群
+	private AudioLoop m_loop = new AudioLoop();
+	private AudioFade m_fade = new AudioFade();
 	public AudioFade Fade
 	{
 		get { return m_fade; }
@@ -46,7 +49,9 @@ public class AudioManager : MonoBehaviour
 		m_source = gameObject.GetComponent<AudioSource>();
 		if (m_source == null) m_source = gameObject.AddComponent<AudioSource>();
 
-		m_source.clip = m_clip;
+		if(m_bgm == null) m_source.clip = null;
+		else  m_source.clip = m_bgm.Clip;
+
 		m_source.outputAudioMixerGroup = m_mixer;
 		m_source.loop = true;
 		m_source.Play();
@@ -57,7 +62,7 @@ public class AudioManager : MonoBehaviour
 	 */
 	public void FixedUpdate()
 	{
-		m_loop.OnUpdate(m_source);
+		m_loop.OnUpdate(m_source, m_bgm);
 		m_fade.OnUpdate(m_source);
 	}
 

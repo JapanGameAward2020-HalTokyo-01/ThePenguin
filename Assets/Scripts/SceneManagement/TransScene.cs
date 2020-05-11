@@ -20,7 +20,7 @@ namespace Assets.Scripts.SceneManagement
 
         //! 音管理
         [SerializeField]
-        private AudioManager m_audio;
+        private BGMManager m_audio;
 
         /**
          * @brief   遷移先シーンインデックスを必ず持って生成するようにする

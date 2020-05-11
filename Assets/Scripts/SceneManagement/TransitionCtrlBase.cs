@@ -17,7 +17,7 @@ public class TransitionCtrlBase : MonoBehaviour
 
     //! BGMオブジェクト
     [SerializeField]
-    protected AudioManager m_bgm_mgr;
+    protected BGMManager m_bgm_mgr;
 
     /**
      * @brief	アプリケーション終了処理

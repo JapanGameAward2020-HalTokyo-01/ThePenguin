@@ -22,7 +22,7 @@ public class LogoTransition : TransitionCtrlBase
 	[SerializeField]
 	private Text m_text = null;
 
-
+	//! 効果音コンポーネント
 	private SoundEffect m_se = null;
 
 	/**

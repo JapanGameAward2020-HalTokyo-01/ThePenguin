@@ -1,7 +1,15 @@
-﻿using System;
+﻿/**
+ * @file    SoundEffect.cs
+ * @brief   効果音を鳴らす場合はこのMonoBehaviourに指示してください
+ * @author  谷沢 瑞己
+ */
+using System;
 using UnityEngine;
 
-[Serializable]
+/**
+ * @class   SoundEffectクラス
+ * @brief   
+ */
 public class SoundEffect : MonoBehaviour
 {
     //! 再生する効果音リスト
@@ -13,6 +21,7 @@ public class SoundEffect : MonoBehaviour
 
     /**
      * @brief   使いまわすオーディオクリップをあらかじめ検索する
+     * @param   (_index_name) リストからオーディオパラメータを検索するための文字列(検索方法は模索中)
      */
     public void FindAudioClip(string _index_name)
     {

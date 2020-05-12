@@ -12,9 +12,10 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     //カメラ初期距離
-    public float m_InitDistance=4.0f;
+    public float m_InitDistance=20.0f;
     //カメラ初期角度
-    public int m_InitAngle = 45;
+    public int m_InitAngle_XZ = 45;
+    public int m_InitAngle_Y = 45;
     //固定カメラか、追尾カメラか
     public bool m_isFixed = true;
     //追尾オブジェクト
@@ -29,8 +30,7 @@ public class PlayerCamera : MonoBehaviour
     private Transform m_trans;
     //cameraコンポーネント
     private Camera m_camera;
-    //初期位置計算用距離
-    private float m_length = 10.0f;
+    
 
 
     // Start is called before the first frame update
@@ -39,17 +39,14 @@ public class PlayerCamera : MonoBehaviour
         m_trans = GetComponent<Transform>();
         m_camera = GetComponent<Camera>();
 
-        m_camera.orthographicSize = m_InitDistance;
-
         //追尾オブジェクトからfocusを取得
         if (m_focusObject!=null)
         {
             m_focus = m_focusObject.GetComponent<Transform>().position;
         }
 
-
         //初期位置を設定
-        m_trans.SetPositionAndRotation(new Vector3(m_focus.x + m_length, m_focus.y + Mathf.Sqrt(2.0f)*m_length*Mathf.Tan(Mathf.Deg2Rad*m_InitAngle), m_focus.z - m_length), Quaternion.identity);
+        m_trans.SetPositionAndRotation(new Vector3(m_focus.x + m_InitDistance * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_Y) * Mathf.Sin(Mathf.Deg2Rad * m_InitAngle_XZ), m_focus.y + m_InitDistance * Mathf.Sin(Mathf.Deg2Rad * m_InitAngle_Y), m_focus.z - m_InitDistance * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_Y) * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_XZ)), Quaternion.identity);
         //Rotationを設定
         m_trans.LookAt(m_focus, Vector3.up);
     }
@@ -57,20 +54,17 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_camera.orthographicSize = m_InitDistance;
-
         //追尾カメラ
         if (!m_isFixed && m_focusObject != null)
         {
             //追尾オブジェクトから座標計算
             Vector3 temp = m_focusObject.GetComponent<Transform>().position;
             m_focus = m_focus+(temp-m_focus)* m_speedScale;
-
-            //位置を設定
-            m_trans.SetPositionAndRotation(new Vector3(m_focus.x + m_length, m_focus.y + Mathf.Sqrt(2.0f) * m_length * Mathf.Tan(Mathf.Deg2Rad * m_InitAngle), m_focus.z - m_length), Quaternion.identity);
-            //Rotationを設定
-            m_trans.LookAt(m_focus, Vector3.up);
-
         }
+
+        //位置を設定
+        m_trans.SetPositionAndRotation(new Vector3(m_focus.x+ m_InitDistance * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_Y)*Mathf.Sin(Mathf.Deg2Rad*m_InitAngle_XZ), m_focus.y+ m_InitDistance * Mathf.Sin(Mathf.Deg2Rad*m_InitAngle_Y),m_focus.z- m_InitDistance * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_Y) * Mathf.Cos(Mathf.Deg2Rad * m_InitAngle_XZ)), Quaternion.identity);
+        //Rotationを設定
+        m_trans.LookAt(m_focus, Vector3.up);
     }
 }

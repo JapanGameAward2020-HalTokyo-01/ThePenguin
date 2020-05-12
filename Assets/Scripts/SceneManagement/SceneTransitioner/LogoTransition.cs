@@ -22,12 +22,18 @@ public class LogoTransition : TransitionCtrlBase
 	[SerializeField]
 	private Text m_text = null;
 
+
+	private SoundEffect m_se = null;
+
 	/**
 	 * @brief	初期化
 	 */
 	private void Start()
 	{
 		m_current_time = m_movie_time;
+
+		m_se = gameObject.GetComponent<SoundEffect>();
+		m_se.FindAudioClip("confirm");
 	}
 
 	/**
@@ -39,6 +45,7 @@ public class LogoTransition : TransitionCtrlBase
 		if (Input.anyKeyDown)
 		{
 			m_bgm_mgr.Fade.Start(KAudioFade.Out, 1.0f);
+			m_se.PlayOneShot();
 			m_transitioner = new TransScene(KSceneIndex.Title);
 		}
 		// 遷移条件２：ロゴムービーが再生終了した場合→最初から再生しなおし

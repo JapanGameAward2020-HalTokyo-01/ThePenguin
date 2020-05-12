@@ -91,4 +91,13 @@ public class PenguinManager : MonoBehaviour
         Debug.Log(Mathf.Ceil(fps).ToString());
     }
 
+    public void SetInvincible(bool inv)
+    {
+        m_ParentPenguin.SetInvincible(inv);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.SetInvincible(inv);
+        }
+    }
 }

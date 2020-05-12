@@ -3,6 +3,7 @@
  * @brief   BuildSettingからシーンインデックスを読み取って列挙型と変換クラスを生成する試み
  * @author  谷沢 瑞己
  */
+using System;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -24,6 +25,42 @@ class SceneIndexEnumGenerator : EditorWindow
 
     //! 拡張子の定数
     private const string kArgument = ".cs";
+
+    //! 書き出しスクリプトのフォーマット({0}...クラス名, {1}...列挙型要素)
+    private readonly string format = @"
+/**
+ * @file    {0}.cs
+ * @brief   シーンインデックスを基に生成した列挙型とその管理クラス
+ * @author  谷沢 瑞己(Generator制作)
+ */
+ using System;
+
+/**
+ * @enum    シーンインデックス列挙型
+ * @brief   シーンのファイル名がそのままインデックスの文字列になる
+ */
+[Serializable]
+public enum KSceneIndex{{ None = -1, {1} }}
+
+/**
+ * @class シーンインデックスクラス
+ * @brief シーンインデックスを扱う場合に静的キャストをいちいち書きたくない場合に使用
+ */
+public class {0}
+{{
+    //! インデックスの値
+    private KSceneIndex m_index;
+
+    //! 基本的にコンストラクタで受け取って以後値を変更しない
+    public SceneIndex(KSceneIndex index) {{ m_index = index; }}
+
+    /**
+     * @brief   インデックス(列挙型)を整数型で返すだけ
+     * @return  インデックスの整数値
+     */
+     public int GetByInteger() {{ return (int)m_index; }}
+}}
+";
 
     /**
      * @brief   メニューバーにファイル生成ウィンドウを生成するコマンドを追加する
@@ -55,36 +92,12 @@ class SceneIndexEnumGenerator : EditorWindow
     }
 
     /**
-     * @brief   BuildSettingを読み取り列挙型とクラスを生成する
+     * @brief   BuildSettingを読み取り、列挙型の要素作成
      */
-    private void GenerateScriptFile()
-	{
-        //! スクリプトの内容を追記していく変数
-        StringBuilder _script_text = new StringBuilder();
-
-        // ファイルヘッダー部
-        _script_text.AppendLine("/**");
-        _script_text.AppendLine(" * @file    " + m_filename);
-        _script_text.AppendLine(" * @brief   シーンインデックスを基に生成した列挙型とその管理クラス");
-        _script_text.AppendLine(" * @author  谷沢 瑞己(Generator制作)");
-        _script_text.AppendLine(" */");
-
-        // using文
-        _script_text.AppendLine("using System;");
-        _script_text.AppendLine("");
-
-        // 列挙型定義
-        _script_text.AppendLine("/**");
-        _script_text.AppendLine(" * @enum    シーンインデックス列挙型");
-        _script_text.AppendLine(" * @brief   シーンのファイル名がそのままインデックスの文字列になる");
-        _script_text.AppendLine(" */");
-        _script_text.AppendLine("[Serializable]");
-        _script_text.AppendLine("public enum KSceneIndex");
-
-        // ビルドセッティングに登録されたシーンのファイル名から列挙子の文字列を作成
-
+     private string LoadSceneName()
+    {
         //! ファイル名を収集する一時的な変数
-        string _enum_items = "{ None = -1, ";
+        string _enum_items = "";
 
         foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
         {
@@ -95,40 +108,23 @@ class SceneIndexEnumGenerator : EditorWindow
                 _enum_items += $"{_file_path}, ";
             }
         }
-        _script_text.Append(_enum_items.Remove(_enum_items.Length - 2));
 
-        // 列挙型定義終了
-        _script_text.AppendLine(" }");
-        _script_text.AppendLine("");
+        // 最後の", "の消去 
+        return _enum_items.Remove(_enum_items.Length - 2);
+    }
 
-        // クラス定義
-        _script_text.AppendLine("/**");
-        _script_text.AppendLine(" * @class   シーンインデックスクラス");
-        _script_text.AppendLine(" * @brief   シーンインデックスを扱う場合に静的キャストをいちいち書きたくない場合に使用");
-        _script_text.AppendLine(" */");
-        _script_text.AppendLine("public class " + Path.GetFileNameWithoutExtension(m_filename));
-        _script_text.AppendLine("{");
-
-        _script_text.AppendLine("    //! インデックスの値");
-        _script_text.AppendLine("    private KSceneIndex m_index;");
-        _script_text.AppendLine("");
-
-        _script_text.AppendLine("    //! 基本的にコンストラクタで受け取って以後値を変更しない");
-        _script_text.AppendLine("    public SceneIndex(KSceneIndex index) { m_index = index; }");
-        _script_text.AppendLine("");
-
-        _script_text.AppendLine("    /**");
-        _script_text.AppendLine("     * @brief   インデックス(列挙型)を整数型で返すだけ");
-        _script_text.AppendLine("     * @return  インデックスの整数値");
-        _script_text.AppendLine("     */");
-        _script_text.AppendLine("    public int GetByInteger() { return (int)m_index; }");
-
-        // クラス定義終了
-        _script_text.AppendLine("}");
-
+    /**
+     * @brief   BuildSettingを読み取り列挙型とクラスを生成する
+     */
+    private void GenerateScriptFile()
+	{
         // ファイル書き出し(ディレクトリが無ければ自動生成する)
         if (!Directory.Exists(m_dir)) Directory.CreateDirectory(m_dir);
-        File.WriteAllText(m_dir + m_filename + kArgument, _script_text.ToString(), Encoding.UTF8);
+
+        File.WriteAllText(
+            m_dir + m_filename + kArgument,
+            String.Format(format, m_filename, LoadSceneName()),
+            Encoding.UTF8);
         AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
     }
 }

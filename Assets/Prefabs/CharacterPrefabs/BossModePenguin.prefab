@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 554274381488525882}
   - component: {fileID: 6372519996421283481}
   m_Layer: 8
-  m_Name: ParentPenguin 1
+  m_Name: BossModePenguin
   m_TagString: ParentPenguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,13 +79,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_States: {fileID: 6480217558152894385}
   m_CurrentState: {fileID: 0}
+  m_InputHandler: {fileID: 0}
   m_Invincible: 0
+  m_Magnitude: 0
+  m_Boss: 1
   m_ChargeThreshold: 5
   m_MinInvicibleVelocity: 10
-  m_InputHandler: {fileID: 0}
-  m_Boss: 1
-  m_Magnitude: 0
-  m_MoveThreshhold: 0.01
+  m_MoveThreshhold: 5
 --- !u!1 &2595349845825772558
 GameObject:
   m_ObjectHideFlags: 0

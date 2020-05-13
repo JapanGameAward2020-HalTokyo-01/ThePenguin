@@ -40,6 +40,7 @@ public class PenguinManager : MonoBehaviour
 
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
+        m_ParentPenguin.onKillEvent = GameOver;
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -61,11 +62,16 @@ public class PenguinManager : MonoBehaviour
                 {
                     m_ParentPenguin.AddToPack(child);
                 }
+
+                if (m_ParentPenguin.Boss)
+                {
+                    child.Boss();
+                }
             }
-        }
+        }    
     }
 
-    //! 死亡時イベント
+    //! 死亡時イベント(子ペンギン)
     public void OnKillEvent(ChildPenguin child)
     {
         if (child.InPack)
@@ -74,6 +80,17 @@ public class PenguinManager : MonoBehaviour
             m_NomadCount--;
 
         m_DeadCount++;
+
+        if(m_MaxDead >= m_DeadCount)
+        {
+            m_GameOver = true;
+        }
+    }
+
+    //! 死亡時イベント(親ペンギン)
+    public void GameOver(ParentPenguin parent)
+    {
+        m_GameOver = true;
     }
 
     //! 群れ化時イベント
@@ -89,15 +106,5 @@ public class PenguinManager : MonoBehaviour
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         float fps = 1.0f / deltaTime;
         Debug.Log(Mathf.Ceil(fps).ToString());
-    }
-
-    public void SetInvincible(bool inv)
-    {
-        m_ParentPenguin.SetInvincible(inv);
-
-        foreach (ChildPenguin child in m_ChildPenguins)
-        {
-            child.SetInvincible(inv);
-        }
     }
 }

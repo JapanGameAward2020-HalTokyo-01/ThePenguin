@@ -26,7 +26,7 @@ public class KillBox : MonoBehaviour
         if(other.gameObject.CompareTag("ParentPenguin") || other.gameObject.CompareTag("ChildPenguin"))
         {
             //! 死亡処理
-            other.GetComponent<Penguin>().Kill();
+            other.GetComponent<Penguin>().Kill(false);
         }
     }
 

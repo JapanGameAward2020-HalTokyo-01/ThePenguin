@@ -4,7 +4,6 @@
 /// @author	北林和哉
 /// </summary>
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,21 +14,24 @@ public class ChildPenguin : Penguin
     [SerializeField]
     [Tooltip("子ペンギンの群れ化")]
     private bool m_InPack = false;
+    public bool InPack{ get { return m_InPack; } }
+    //!ボスステージ判定
+    [SerializeField, NonEditableField]
+    private bool m_Boss = false;
+    public void Boss() { m_Boss = true; }
 
-    public bool InPack
-    {
-        get { return m_InPack; }
-    }
-
+    //! 群れ化当たり判定
     [SerializeField]
     [Tooltip("群れ化当たり判定")]
     [Space(20)]
     private GameObject m_PackCollider;
 
+    //! 移動方向反転
     [SerializeField]
     [Tooltip("子ペンギンの移動方向を反転する")]
     private bool m_ReverseMove = false;
 
+    //! パワー変化反転
     [SerializeField]
     [Tooltip("パワー変化量を最大値から最小値にする")]
     private bool m_ReversePower = false;
@@ -40,26 +42,30 @@ public class ChildPenguin : Penguin
     [Range(0.0f, 4.0f)]
     protected float m_BaseSpeed = 1.0f;
 
+    //! 移動遅延
     [SerializeField]
     [Tooltip("子ペンギンの移動開始までの遅延")]
     [Range(0.0f, 5.0f)]
     private float m_Delay = 1.0f;
 
+    //! layer変更用
     [LayerField]
     private int m_PackLayer = 8;
 
     //! 親ペンギン
     public ParentPenguin Parent { get; private set; }
 
-    public Action<ChildPenguin> onKillEvent;
-    public Action onPackEvent;
 
-    protected InputHandler m_InputHandler;
+    //! 死亡処理
+    public System.Action<ChildPenguin> onKillEvent;
+    //! 群れ化処理
+    public System.Action onPackEvent;
 
     protected override void Awake()
     {
         base.Awake();
 
+        //! 子ペンギンの死亡処理に自分を渡す
         onKillEvent = delegate (ChildPenguin child) { };
         onPackEvent = delegate () { };
     }
@@ -67,11 +73,19 @@ public class ChildPenguin : Penguin
     /// <summary>
     /// @brief      ペンギンの死亡処理
     /// </summary>
-    public override void Kill()
+    public override void Kill(bool Gimmick)
     {
         //! ベースクラス
-        base.Kill();
+        base.Kill(Gimmick);
         onKillEvent(this);
+    }
+
+    /// <summary>
+    /// @brief      ペンギンの無敵状態変更処理
+    /// </summary>
+    public override void Invincible(bool inv)
+    {
+        base.Invincible(inv);
     }
 
     /// <summary>

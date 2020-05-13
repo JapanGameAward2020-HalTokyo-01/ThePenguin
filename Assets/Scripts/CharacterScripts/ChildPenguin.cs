@@ -9,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Effekseer;
+
 public class ChildPenguin : Penguin
 {
     //! 移動の有効・無効 子ペンギンの群れ化
@@ -56,12 +58,17 @@ public class ChildPenguin : Penguin
 
     protected InputHandler m_InputHandler;
 
+    //!エフェクトプレイヤー
+    private EffectPlayer Effect;
+
     protected override void Awake()
     {
         base.Awake();
 
         onKillEvent = delegate (ChildPenguin child) { };
         onPackEvent = delegate () { };
+
+        Effect = GetComponent<EffectPlayer>();
     }
 
     /// <summary>
@@ -133,7 +140,13 @@ public class ChildPenguin : Penguin
 
             //! 親ペンギンの群れに追加する
             if (Parent)
+            {
                 Parent.AddToPack(this);
+
+                if(Effect != null)
+                 Effect.PlayerEffect("friend", transform.position);
+            }
+
         }
     }
 

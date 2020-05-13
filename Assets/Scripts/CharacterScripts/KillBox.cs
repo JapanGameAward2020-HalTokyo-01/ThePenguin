@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 public class KillBox : MonoBehaviour
 {
+    //!エフェクトプレイヤー
+    private EffectPlayer Effect;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Effect = GetComponent<EffectPlayer>();
     }
 
     // Update is called once per frame
@@ -25,6 +29,9 @@ public class KillBox : MonoBehaviour
         //! ペンギンだったら
         if(other.gameObject.CompareTag("ParentPenguin") || other.gameObject.CompareTag("ChildPenguin"))
         {
+            if (Effect != null)
+                Effect.PlayerEffect("fall", other.gameObject.transform.position);
+
             //! 死亡処理
             other.GetComponent<Penguin>().Kill();
         }

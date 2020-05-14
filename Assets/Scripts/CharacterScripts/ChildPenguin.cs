@@ -160,8 +160,8 @@ public class ChildPenguin : Penguin
             {
                 Parent.AddToPack(this);
 
-                if(Effect != null)
-                 Effect.PlayerEffect("friend", transform.position);
+                if (Effect != null)
+                    Effect.PlayerEffect("friend", transform.position);
             }
 
         }

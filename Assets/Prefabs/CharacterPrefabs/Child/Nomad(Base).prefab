@@ -293,10 +293,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0bb3300c2aa1a4ebf0f00b29e1a79c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Model: {fileID: 8842117860099858331}
   m_States: {fileID: 8822028674383417291}
   m_CurrentState: {fileID: 0}
+  m_InputHandler: {fileID: 0}
   m_Invincible: 0
   m_InPack: 0
+  m_Boss: 0
   m_PackCollider: {fileID: 3371024876898360090}
   m_ReverseMove: 0
   m_ReversePower: 0
@@ -361,7 +364,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: ff8437f6b5bf95a4d8fd88be01e50a26,
         type: 3}
       propertyPath: m_Name
-      value: smallpengin
+      value: SmallPenguin
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ff8437f6b5bf95a4d8fd88be01e50a26,
         type: 3}
@@ -371,7 +374,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ff8437f6b5bf95a4d8fd88be01e50a26,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.775
+      value: -0.7749999
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ff8437f6b5bf95a4d8fd88be01e50a26,
         type: 3}
@@ -440,6 +443,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 32a1ccf9a6b55af4990157bfc301f525, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff8437f6b5bf95a4d8fd88be01e50a26, type: 3}
+--- !u!1 &8842117860099858331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: ff8437f6b5bf95a4d8fd88be01e50a26,
+    type: 3}
+  m_PrefabInstance: {fileID: 690297927661045394}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5543608435955035528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ff8437f6b5bf95a4d8fd88be01e50a26,

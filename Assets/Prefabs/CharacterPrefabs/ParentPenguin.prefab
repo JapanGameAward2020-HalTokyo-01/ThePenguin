@@ -320,13 +320,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_States: {fileID: 1592391709476271530}
   m_CurrentState: {fileID: 0}
-  m_Invincible: 0
   m_InputHandler: {fileID: 0}
   m_Invincible: 0
   m_Magnitude: 0
   m_Boss: 0
   m_ChargeThreshold: 5
-  m_MinInvicibleVelocity: 10
+  m_InvincibleDuration: 0
   m_MoveThreshhold: 5
 --- !u!114 &-5136099999725475654
 MonoBehaviour:
@@ -475,6 +474,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: heropengin
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 456b5be6e16d8e848bbd8c2e706f75dc,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6e6204f499595f242a82d33152b67c1a, type: 2}
     - target: {fileID: -4216859302048453862, guid: 456b5be6e16d8e848bbd8c2e706f75dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -545,11 +549,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 456b5be6e16d8e848bbd8c2e706f75dc,
+    - target: {fileID: -4178764870065292086, guid: 456b5be6e16d8e848bbd8c2e706f75dc,
         type: 3}
-      propertyPath: m_Controller
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 9100000, guid: 6e6204f499595f242a82d33152b67c1a, type: 2}
+      objectReference: {fileID: 2100000, guid: fd4b5649b2e6eff418df952e3b790c90, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 456b5be6e16d8e848bbd8c2e706f75dc, type: 3}
 --- !u!4 &5072770360591416951 stripped

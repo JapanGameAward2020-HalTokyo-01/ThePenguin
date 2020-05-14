@@ -25,7 +25,7 @@ public class StateActive_GameMain : StateBase_GameMain
 
 		// ボタン入力を受け取りポーズ状態に変更
 		if (Input.GetButtonDown("Fire2")) state_holder.ChangeState(KGameMainStateIndex.Pause);
-		m_text.text = "GameMainScene\nPush MenuButton";
+		//m_text.text = "GameMainScene\nPush MenuButton";
 
 		// フレーム更新
 		m_player.OnUpdate();

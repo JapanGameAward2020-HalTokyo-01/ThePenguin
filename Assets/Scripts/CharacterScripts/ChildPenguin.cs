@@ -63,7 +63,7 @@ public class ChildPenguin : Penguin
     //! 群れ化処理
     public System.Action onPackEvent;
 
-    //!エフェクトプレイヤー
+    //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
     protected override void Awake()

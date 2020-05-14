@@ -5,7 +5,7 @@ using Effekseer;
 
 public class KillBox : MonoBehaviour
 {
-    //!エフェクトプレイヤー
+    //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
     // Start is called before the first frame update

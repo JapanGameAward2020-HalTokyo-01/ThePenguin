@@ -35,12 +35,17 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action<ParentPenguin> onKillEvent;
 
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
     protected override void Awake()
     {
         base.Awake();
 
         //! 親ペンギンの死亡処理に自分を渡す(今後必要かも知れないので)
         onKillEvent = delegate (ParentPenguin parent) { };
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Start is called before the first frame update
@@ -167,16 +172,63 @@ public class ParentPenguin : Penguin
     }
 
     /// <summary>
+    /// @brief      物体に当たる時のエフェクト発生処理
+    /// @param (a)	物体と衝突判定するcollision
+    /// </summary>
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 14)
+        {
+            if (Effect != null)
+                Effect.PlayerEffect("crash", transform.position);
+        }
+    }
+
+    public EffectSpawner GetEffectSpawner()
+    {
+        return Effect;
+    }
+
+    /// <summary>
     /// @brief      入力時のイベント
     /// </summary>
     public class InputEvent : InputHandler.InputEventBase
     {
         private ParentPenguin m_ParentPenguin;
 
+        private EffectSpawner Effect;
+
         //! コンストラクタ
         public InputEvent(ParentPenguin penguin)
         {
             m_ParentPenguin = penguin;
+
+            Effect = m_ParentPenguin.GetEffectSpawner();
+        }
+
+        //!Idle状態
+        public override void OnIdle()
+        {
+            base.OnIdle();
+
+            if (Effect != null)
+            {
+                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 3)
+                {
+
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(1.2f, 1.2f, 1.2f));
+                }
+                else if (m_Handler.Power > m_Handler.PowerMax / 3)
+                {
+
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(1.1f, 1.1f, 1.1f));
+                }
+                else if (m_Handler.Power > 1.0f)
+                {
+
+                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+                }
+            }
         }
 
         //! Run状態
@@ -186,6 +238,11 @@ public class ParentPenguin : Penguin
             if (!m_ParentPenguin.IsMoving())
             {
                 m_Handler.ChangeState(InputHandler.State.Idle);
+            }
+
+            if (Effect != null)
+            {
+                Effect.PlayerEffect("bigfoot", m_ParentPenguin.transform.position, m_ParentPenguin.m_Model.transform.rotation);
             }
         }
 

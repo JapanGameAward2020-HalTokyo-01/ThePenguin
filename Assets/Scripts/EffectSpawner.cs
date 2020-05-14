@@ -1,6 +1,6 @@
 ﻿/**
-* @file     EffectPlayer.cs
-* @brief    エフェクトプレイヤー
+* @file     EffectSpawner.cs
+* @brief    エフェクトスポーンナー
 * @author   李　爾捷
 */
 
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
 
-public class EffectPlayer : MonoBehaviour
+public class EffectSpawner: MonoBehaviour
 {
     public List<EffekseerEffectAsset> m_EffectAssets = new List<EffekseerEffectAsset>();
 

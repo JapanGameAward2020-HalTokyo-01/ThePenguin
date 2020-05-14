@@ -59,7 +59,7 @@ public class ChildPenguin : Penguin
     protected InputHandler m_InputHandler;
 
     //!エフェクトプレイヤー
-    private EffectPlayer Effect;
+    private EffectSpawner Effect;
 
     protected override void Awake()
     {
@@ -68,7 +68,7 @@ public class ChildPenguin : Penguin
         onKillEvent = delegate (ChildPenguin child) { };
         onPackEvent = delegate () { };
 
-        Effect = GetComponent<EffectPlayer>();
+        Effect = GetComponent<EffectSpawner>();
     }
 
     /// <summary>
@@ -104,6 +104,9 @@ public class ChildPenguin : Penguin
         }
 
         base.MoveHandler(move * m_BaseSpeed);
+
+        if (Effect != null)
+            Effect.PlayerEffect("smallfoot", transform.position);
     }
 
     /// <summary>
@@ -147,6 +150,19 @@ public class ChildPenguin : Penguin
                  Effect.PlayerEffect("friend", transform.position);
             }
 
+        }
+    }
+
+    /// <summary>
+    /// @brief      物体に当たる時のエフェクト発生処理
+    /// @param (a)	物体と衝突判定するcollision
+    /// </summary>
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 14)
+        {
+            if (Effect != null)
+                Effect.PlayerEffect("crash", transform.position);
         }
     }
 

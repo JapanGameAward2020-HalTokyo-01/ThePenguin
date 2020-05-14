@@ -6,12 +6,12 @@ using Effekseer;
 public class KillBox : MonoBehaviour
 {
     //!エフェクトプレイヤー
-    private EffectPlayer Effect;
+    private EffectSpawner Effect;
 
     // Start is called before the first frame update
     void Start()
     {
-        Effect = GetComponent<EffectPlayer>();
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame

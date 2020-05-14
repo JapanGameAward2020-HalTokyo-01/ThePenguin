@@ -23,7 +23,7 @@ public class ParentPenguin : Penguin
     private float m_ChargeThreshold;
     //! 無敵状態解除数値
     [SerializeField]
-    private float m_MinInvicibleVelocity;
+    private float m_InvincibleDuration;
 
     //! 再移動可能数値
     [SerializeField, Space(20)]
@@ -63,16 +63,6 @@ public class ParentPenguin : Penguin
 
         //! Rigidbodyのvelocityを格納
         m_Magnitude = m_Rigidbody.velocity.magnitude;
-
-        //! ボスステージかつ無敵状態なら
-        if (m_Boss && m_Invincible)
-        {
-            //! 無敵状態解除処理
-            if (m_Rigidbody.velocity.magnitude <= m_MinInvicibleVelocity)
-            {
-                Invincible(false);
-            }
-        }
     }
 
     /// <summary>
@@ -99,6 +89,25 @@ public class ParentPenguin : Penguin
         {
             _child.Invincible(inv);
         }
+
+        if (inv)
+        {
+            //! 無敵状態解除処理
+            StartCoroutine(StopInvincible());
+        }
+    }
+
+    /// <summary>
+    /// @brief      無敵状態解除処理Coroutine
+    /// </summary>
+    IEnumerator StopInvincible()
+    {
+        //! m_Delay分待つ
+        yield return new WaitForSeconds(m_InvincibleDuration);
+
+        Invincible(false);
+
+        yield break;
     }
 
     /// <summary>

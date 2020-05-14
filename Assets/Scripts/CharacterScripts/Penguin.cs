@@ -11,6 +11,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Penguin : MonoBehaviour
 {
+    [SerializeField]
+    protected GameObject m_Model;
     //! 状態遷移
     [SerializeField]
     private GameObject m_States;
@@ -89,6 +91,7 @@ public class Penguin : MonoBehaviour
     protected virtual void MoveHandler(Vector3 move)
     {
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f,ForceMode.Force);
+        m_Model.transform.forward = move;
     }
 
     /// <summary>

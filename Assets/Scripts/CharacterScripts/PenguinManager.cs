@@ -25,8 +25,6 @@ public class PenguinManager : MonoBehaviour
     [SerializeField,NonEditableField]
     public int m_NomadCount = 0;
 
-
-
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -35,7 +33,7 @@ public class PenguinManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {  
+    {
         m_GameOver = false;
 
         //! ParentPenguinの取得
@@ -68,7 +66,7 @@ public class PenguinManager : MonoBehaviour
                     child.Boss();
                 }
             }
-        }    
+        }
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -81,7 +79,7 @@ public class PenguinManager : MonoBehaviour
 
         m_DeadCount++;
 
-        if(m_MaxDead >= m_DeadCount)
+        if (m_MaxDead >= m_DeadCount)
         {
             m_GameOver = true;
         }

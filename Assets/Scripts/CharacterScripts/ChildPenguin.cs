@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Effekseer;
+
 public class ChildPenguin : Penguin
 {
     //! 移動の有効・無効 子ペンギンの群れ化
@@ -61,6 +63,9 @@ public class ChildPenguin : Penguin
     //! 群れ化処理
     public System.Action onPackEvent;
 
+    //!エフェクトプレイヤー
+    private EffectSpawner Effect;
+
     protected override void Awake()
     {
         base.Awake();
@@ -68,6 +73,8 @@ public class ChildPenguin : Penguin
         //! 子ペンギンの死亡処理に自分を渡す
         onKillEvent = delegate (ChildPenguin child) { };
         onPackEvent = delegate () { };
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     /// <summary>
@@ -111,6 +118,9 @@ public class ChildPenguin : Penguin
         }
 
         base.MoveHandler(move * m_BaseSpeed);
+
+        if (Effect != null)
+            Effect.PlayerEffect("smallfoot", transform.position);
     }
 
     /// <summary>
@@ -147,7 +157,26 @@ public class ChildPenguin : Penguin
 
             //! 親ペンギンの群れに追加する
             if (Parent)
+            {
                 Parent.AddToPack(this);
+
+                if (Effect != null)
+                    Effect.PlayerEffect("friend", transform.position);
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// @brief      物体に当たる時のエフェクト発生処理
+    /// @param (a)	物体と衝突判定するcollision
+    /// </summary>
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 14)
+        {
+            if (Effect != null)
+                Effect.PlayerEffect("crash", transform.position);
         }
     }
 

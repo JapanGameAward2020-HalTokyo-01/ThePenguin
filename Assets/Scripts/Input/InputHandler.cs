@@ -113,14 +113,14 @@ public class InputHandler : MonoBehaviour
     }
 
     //! InputEvenetを登録する
-    public void RegisterInputEvent(InputEventBase inputEvenet)
+    public void RegisterInputEvent(InputEventBase inputEvent)
     {
-        inputEvenet.m_Handler = this;
+        inputEvent.m_Handler = this;
 
-        OnRun += inputEvenet.OnRun;
-        OnIdle += inputEvenet.OnIdle;
-        TickStateIdle += inputEvenet.TickStateIdle;
-        TickStateRun += inputEvenet.TickStateRun;
+        OnRun += inputEvent.OnRun;
+        OnIdle += inputEvent.OnIdle;
+        TickStateIdle += inputEvent.TickStateIdle;
+        TickStateRun += inputEvent.TickStateRun;
     }
 
     /// <summary>

@@ -1,0 +1,281 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+ 
+
+public class PauseMenu : MonoBehaviour
+{
+
+    private EventSystem m_EventSystem;
+
+    //! 選択用のボタン群
+    [SerializeField]
+    private UnityEngine.UI.Button m_RestartButton;
+    [SerializeField]
+    private UnityEngine.UI.Button m_StageButton;
+    [SerializeField]
+    private UnityEngine.UI.Button m_OptionButton;
+    [SerializeField]
+    private UnityEngine.UI.Button m_TitleButton;
+
+    //! Aボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_AButtonImage;
+    [SerializeField]
+    private Sprite m_AClicked;
+    [SerializeField]
+    private Sprite m_ADefault;
+    private bool m_CoroutineA = false;
+
+    //! Bボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_BButtonImage;
+    [SerializeField]
+    private Sprite m_BClicked;
+    [SerializeField]
+    private Sprite m_BDefault;
+    private bool m_CoroutineB = false;
+
+    //! 最後に選択したボタン
+    private GameObject m_LastSelected;
+    //! 現在のシーン
+    private string m_ActiveScene;
+
+    [SerializeField, Space(20)]
+    private OptionMenu m_OptionMenu;
+
+    [SerializeField,Space(20)]
+    //! タイトルのシーン
+    private string m_TitleScene;
+    [SerializeField]
+    //! ステージ選択のシーン
+    private string m_StageSelectScene;
+
+    /// <summary>
+    /// @brief      起動時呼ばれるやつ
+    /// </summary>
+    private void Awake()
+    {
+        m_EventSystem = EventSystem.current;
+
+        //! 押したら実行する関数を設定
+        m_RestartButton.onClick.AddListener(Restart);
+        m_StageButton.onClick.AddListener(StageSelect);
+        m_OptionButton.onClick.AddListener(Option);
+        m_TitleButton.onClick.AddListener(Title);
+
+        m_ActiveScene = SceneManager.GetActiveScene().name;
+        this.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// @brief      active時呼ばれるやつ
+    /// </summary>
+    private void OnEnable()
+    {
+        m_LastSelected = m_RestartButton.gameObject;
+
+        m_CoroutineA = false;
+        m_CoroutineB = false;
+
+
+        //!　ゲームを止める
+        Time.timeScale = 0;
+
+        StartCoroutine(SelectButton());
+    }
+
+    /// <summary>
+    /// @brief      初期ボタン選択のCoroutine(1Frame後ではないとボタンがactiveにならないためHighlightされない)
+    /// </summary>
+    IEnumerator SelectButton()
+    {
+        yield return new WaitForEndOfFrame();
+        m_EventSystem.SetSelectedGameObject(null);
+        m_EventSystem.SetSelectedGameObject(m_RestartButton.gameObject);
+        yield break;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetKeyDown("joystick button 1")　&& !m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB());
+        }
+
+        //! focusがボタンから外れた時の処理
+        if (m_EventSystem.currentSelectedGameObject == null)
+        {
+            m_EventSystem.SetSelectedGameObject(m_LastSelected);
+        }
+        else
+        {
+            m_LastSelected = m_EventSystem.currentSelectedGameObject;
+        }
+    }
+
+
+    /// <summary>
+    /// @brief      リスタートする関数
+    /// </summary>
+    void Restart()
+    {
+        if (!m_CoroutineA)
+        {
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(1));
+        }
+    }
+
+    /// <summary>
+    /// @brief      ステージ選択へ飛ばす関数
+    /// </summary>
+    void StageSelect()
+    {
+        if (!m_CoroutineA)
+        {
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(2));
+        }
+    }
+
+    /// <summary>
+    /// @brief      タイトルへ飛ばす関数
+    /// </summary>
+    void Option()
+    {
+        if (!m_CoroutineA)
+        {
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(3));
+        }
+    }
+
+    /// <summary>
+    /// @brief      起動時呼ばれるやつ
+    /// </summary>
+    void Title()
+    {
+        if (!m_CoroutineA)
+        {
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(4));
+        }
+    }
+
+    /// <summary>
+    /// @brief      Aボタンが押された時のCoroutine
+    /// </summary>
+    IEnumerator ClickTimerA(int a)
+    {
+        m_CoroutineA = true;
+        Debug.Log("A Button");
+        m_AButtonImage.sprite = m_AClicked;
+
+        //! 0.3秒待つ
+        yield return new WaitForSecondsRealtime(0.3f);
+
+
+        m_AButtonImage.sprite = m_ADefault;
+        m_CoroutineA = false;
+
+        switch (a)
+        {
+            case 1:
+                yield return StartCoroutine(RestartCo());
+                break;
+            case 2:
+                yield return StartCoroutine(StageSelectCo());
+                break;
+            case 3:
+                yield return StartCoroutine(OptionCo());
+                break;
+            case 4:
+                yield return StartCoroutine(TitleCo());
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// @brief      Restart移行処理のCoroutine
+    /// </summary>
+    IEnumerator RestartCo()
+    {
+        this.gameObject.SetActive(false);
+        //!　ゲームを再開
+        Time.timeScale = 1;
+        SceneManager.LoadScene(m_ActiveScene);
+
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief      StageSelect移行処理のCoroutine
+    /// </summary>
+    IEnumerator StageSelectCo()
+    {
+
+        //this.gameObject.SetActive(false);
+        ////!　ゲームを再開
+        //Time.timeScale = 1;
+        //SceneManager.LoadScene(m_ActiveScene);
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief      Option移行処理のCoroutine
+    /// </summary>
+    IEnumerator OptionCo()
+    {
+        this.gameObject.SetActive(false);
+        m_OptionMenu.gameObject.SetActive(true);
+
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief     Title移行処理のCoroutine
+    /// </summary>
+    IEnumerator TitleCo()
+    {
+
+        //this.gameObject.SetActive(false);
+        ////!　ゲームを再開
+        //Time.timeScale = 1;
+        //SceneManager.LoadScene(m_TitleScene);
+
+        yield break;
+    }
+
+
+
+    /// <summary>
+    /// @brief      Bボタンが押された時のCoroutine
+    /// </summary>
+    IEnumerator ClickTimerB()
+    {
+        m_CoroutineB = true;
+        Debug.Log("B Button");
+        m_BButtonImage.sprite = m_BClicked;
+
+        //! 0.3秒待つ
+        yield return new WaitForSecondsRealtime(0.3f);
+
+
+        m_BButtonImage.sprite = m_BDefault;
+        m_CoroutineB = false;
+
+        //!　ゲームを再開
+        Time.timeScale = 1;
+        //!　ポーズ画面を消す
+        this.gameObject.SetActive(false);
+
+        yield break;
+    }
+}

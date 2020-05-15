@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
+    //! EventSystem格納
     private EventSystem m_EventSystem;
 
     //! 選択用のボタン群
@@ -58,6 +58,7 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        //! 現在のEventSystem取得
         m_EventSystem = EventSystem.current;
 
         //! 押したら実行する関数を設定
@@ -66,7 +67,10 @@ public class PauseMenu : MonoBehaviour
         m_OptionButton.onClick.AddListener(Option);
         m_TitleButton.onClick.AddListener(Title);
 
+        //! 現在のシーン取得
         m_ActiveScene = SceneManager.GetActiveScene().name;
+
+        //! 使うまで無効にする
         this.gameObject.SetActive(false);
     }
 
@@ -75,8 +79,10 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        //! 初期選択ボタン
         m_LastSelected = m_RestartButton.gameObject;
 
+        //! ABボタンの初期化
         m_CoroutineA = false;
         m_CoroutineB = false;
 
@@ -84,6 +90,7 @@ public class PauseMenu : MonoBehaviour
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
     }
 
@@ -101,7 +108,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //! 戻る(Bボタン)処理
         if (Input.GetKeyDown("joystick button 1")　&& !m_CoroutineB)
         {
             StartCoroutine(ClickTimerB());
@@ -114,6 +121,7 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
+            //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
         }
     }
@@ -172,17 +180,19 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     IEnumerator ClickTimerA(int a)
     {
-        m_CoroutineA = true;
+        //! ボタン選択処理
         Debug.Log("A Button");
+        m_CoroutineA = true;
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
-
+        //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
         m_CoroutineA = false;
 
+        //! 処理の分岐
         switch (a)
         {
             case 1:
@@ -200,6 +210,8 @@ public class PauseMenu : MonoBehaviour
             default:
                 break;
         }
+
+        yield break;
     }
 
     /// <summary>
@@ -260,14 +272,15 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     IEnumerator ClickTimerB()
     {
-        m_CoroutineB = true;
+        //! ボタン選択処理
         Debug.Log("B Button");
+        m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
-
+        //! ボタン解除処理
         m_BButtonImage.sprite = m_BDefault;
         m_CoroutineB = false;
 

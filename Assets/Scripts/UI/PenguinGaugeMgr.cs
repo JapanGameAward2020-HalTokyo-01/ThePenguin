@@ -3,6 +3,8 @@
  * @brief   ペンギンの数に関する状況を示すゲージUIの操作クラス
  * @author  谷沢 瑞己
  */
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,7 @@ using UnityEngine.UI;
  * @class   PenguinGageMgrクラス
  * @brief   ペンギンの数に関する状況を示すゲージUIの操作クラス
  */
-public class PenguinGageMgr : MonoBehaviour
+public class PenguinGaugeMgr : MonoBehaviour
 {
 	//! 左上端の座標
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の左端座標")]
@@ -43,12 +45,8 @@ public class PenguinGageMgr : MonoBehaviour
 	private PenguinManager m_penguin_mgr;
 
 	//! それぞれの状態のペンギン数
-	private float m_living_ratio = 0.0f;
+	public float m_living_ratio = 0.0f;
 	private float m_death_ratio = 0.0f;
-
-	//! クリアのボーダーラインペンギン数
-	[SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
-	private int m_clear_num;
 
 	/**
 	 * @brief	初期化
@@ -64,26 +62,39 @@ public class PenguinGageMgr : MonoBehaviour
 		_image = m_death_gage.GetComponent<Image>();
 		m_death_mat = _image.material;
 
-		// ゲージの座標変更(なんで左端アンカーみたいな機能がないのか ｺﾚｶﾞﾜｶﾗﾅｲ)
-		Vector2 _pos = m_left_pos;
-		_pos.x += m_gage_max_size.x * (float)m_clear_num / (float)m_penguin_mgr.m_TotalCount;
-		m_deadline_pos.anchoredPosition = _pos;
-
-		// ステージ上のペンギン数
-		m_total_text.text = m_penguin_mgr.m_TotalCount.ToString();
+        StartCoroutine(DelayStart());
 	}
 
-	/**
+    /// <summary>
+    /// @brief      確認画面移行処理のCoroutine
+    /// </summary>
+    IEnumerator DelayStart()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        // ゲージの座標変更(なんで左端アンカーみたいな機能がないのか ｺﾚｶﾞﾜｶﾗﾅｲ)
+        Vector2 _pos = m_left_pos;
+
+        _pos.x += m_gage_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_MaxDead) / (float)m_penguin_mgr.m_TotalCount;
+        m_deadline_pos.anchoredPosition = _pos;
+
+        // ステージ上のペンギン数
+        m_total_text.text = m_penguin_mgr.m_TotalCount.ToString();
+
+        yield break;
+    }
+
+    /**
 	 * @brief	更新
 	 */
-	public void Update()
+    public void Update()
 	{
 		Vector4 _tiling = new Vector4();
 
 		// 群れに加わったペンギンゲージ
 		{
 			// 群れ率 = 現在の群れペン数 / 全ペン数 (0.0 ~ 1.0)
-			m_living_ratio = (float)m_penguin_mgr.m_NomadCount / (float)m_penguin_mgr.m_TotalCount;
+			m_living_ratio = (float)m_penguin_mgr.m_PackCount / (float)m_penguin_mgr.m_TotalCount;
 			_tiling.x = Mathf.Clamp(m_living_ratio, 0.0f, 1.0f);
 			_tiling.y = 1.0f;
 

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class OptionMenu : MonoBehaviour
 {
+    //! EventSystem格納
     private EventSystem m_EventSystem;
 
     //! 選択用のボタン群
@@ -40,11 +41,13 @@ public class OptionMenu : MonoBehaviour
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
 
+    //! メニュー群
     [SerializeField, Space(20)]
     private PauseMenu m_PauseMenu;
     [SerializeField]
     private ConfirmMenu m_ConfirmMenu;
 
+    //! 音設定格納
     [Space(20)]
     public float m_VolumeValue;
     public float m_BGMValue;
@@ -55,6 +58,7 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        //! 現在のEventSystem取得
         m_EventSystem = EventSystem.current;
 
         //! 押したら実行する関数を設定
@@ -63,6 +67,7 @@ public class OptionMenu : MonoBehaviour
         m_BGMSlider.onValueChanged.AddListener(delegate { BGMChange(); });
         m_DeleteButton.onClick.AddListener(Confirm);
 
+        //! 使うまで無効にする
         this.gameObject.SetActive(false);
     }
 
@@ -71,8 +76,10 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     public void OnEnable()
     {
+        //! 初期選択ボタン
         m_LastSelected = m_ControlButton.gameObject;
 
+        //! ABボタンの初期化
         m_CoroutineA = false;
         m_CoroutineB = false;
 
@@ -80,6 +87,7 @@ public class OptionMenu : MonoBehaviour
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
     }
 
@@ -97,6 +105,7 @@ public class OptionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //! 戻る(Bボタン)処理
         if (Input.GetKeyDown("joystick button 1") && !m_CoroutineB)
         {
             StartCoroutine(ClickTimerB());
@@ -109,26 +118,26 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
+            //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
         }
     }
 
 
     /// <summary>
-    /// @brief      リスタートする関数
+    /// @brief      操作説明する関数
     /// </summary>
     void Control()
     {
         if (!m_CoroutineA)
         {
             //! Aボタンのスプライト変更処理
-            StartCoroutine(ClickTimerA());
+            StartCoroutine(ClickTimerA(1));
         }
-
     }
 
     /// <summary>
-    /// @brief      ステージ選択へ飛ばす関数
+    /// @brief      Volume変更関数
     /// </summary>
     void VolumeChange()
     {
@@ -136,7 +145,7 @@ public class OptionMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// @brief      タイトルへ飛ばす関数
+    /// @brief      BGM変更関数
     /// </summary>
     void BGMChange()
     {
@@ -144,34 +153,66 @@ public class OptionMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// @brief      起動時呼ばれるやつ
+    /// @brief      確認画面移行関数
     /// </summary>
     void Confirm()
     {
         if (!m_CoroutineA)
         {
             //! Aボタンのスプライト変更処理
-            StartCoroutine(ClickTimerA());
+            StartCoroutine(ClickTimerA(2));
         }
-
-        m_ConfirmMenu.gameObject.SetActive(true);
     }
 
     /// <summary>
     /// @brief      Aボタンが押された時のCoroutine
     /// </summary>
-    IEnumerator ClickTimerA()
+    IEnumerator ClickTimerA(int a)
     {
-        m_CoroutineA = true;
+        //! ボタン選択処理
         Debug.Log("A Button");
+        m_CoroutineA = true;
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
-
+        //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
         m_CoroutineA = false;
+
+        //! 処理の分岐
+        switch (a)
+        {
+            case 1:
+                yield return StartCoroutine(ControlCo());
+                break;
+            case 2:
+                yield return StartCoroutine(ConfirmCo());
+                break;
+            default:
+                break;
+        }
+
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief      操作説明処理のCoroutine
+    /// </summary>
+    IEnumerator ControlCo()
+    {
+
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief      確認画面移行処理のCoroutine
+    /// </summary>
+    IEnumerator ConfirmCo()
+    {
+        m_ConfirmMenu.gameObject.SetActive(true);
+        m_CoroutineB = true;
 
         yield break;
     }
@@ -181,22 +222,24 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     IEnumerator ClickTimerB()
     {
-        m_CoroutineB = true;
+        //! ボタン選択処理
         Debug.Log("B Button");
+        m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
-
+        //! ボタン解除処理
         m_BButtonImage.sprite = m_BDefault;
         m_CoroutineB = false;
 
         //!　ゲームを再開
         Time.timeScale = 1;
-        //!　ポーズ画面を消す
+        //!　Option画面を消す
         this.gameObject.SetActive(false);
 
+        //!　Pause画面を有効
         m_PauseMenu.gameObject.SetActive(true);
 
         yield break;

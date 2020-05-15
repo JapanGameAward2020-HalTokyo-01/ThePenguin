@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Small_Pengin_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 87346ba2f177c3745bdbe0f3cf16a71e,
+  m_Shader: {fileID: -6465566751694194690, guid: ae12a1574a6e4734b9a5281c157093e6,
     type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _RECEIVE_SHADOWS_OFF _SPECULAR_SETUP
   m_LightmapFlags: 4
@@ -60,8 +60,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 495da6fe9f6a2d24683d31a2225f3502, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Matelness:
+        m_Texture: {fileID: 2800000, guid: 5c474d358cff31a49bb75bd306f36152, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 7abbc6c795141f948b586b7e39153981, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -79,10 +87,12 @@ Material:
     m_Floats:
     - Vector1_166B748D: 0
     - Vector1_17281E5D: 1
-    - Vector1_53E137A1: 0.148
+    - Vector1_53E137A1: 0.459
     - Vector1_55413278: 1
     - Vector1_7B649248: 0
-    - Vector1_CDA5E7E9: 0
+    - Vector1_B0C988C5: 1
+    - Vector1_CDA5E7E9: 0.459
+    - Vector1_F4DCA3C8: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

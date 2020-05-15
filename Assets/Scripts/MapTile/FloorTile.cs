@@ -29,7 +29,7 @@ public class FloorTile : MonoBehaviour
     private void OnDrawGizmos()
     {
         Material m = m_Mesh.sharedMaterial;
-        m.SetTexture("_Albedo", m_Data.GetTexture((int)m_Type));
+        m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
     }
 
 }

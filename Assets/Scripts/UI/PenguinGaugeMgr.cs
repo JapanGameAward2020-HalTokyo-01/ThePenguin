@@ -1,5 +1,5 @@
 ﻿/**
- * @file    PenguinGageMgr.cs
+ * @file    PenguinGaugeMgr.cs
  * @brief   ペンギンの数に関する状況を示すゲージUIの操作クラス
  * @author  谷沢 瑞己
  */
@@ -44,14 +44,18 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField]
 	private PenguinManager m_penguin_mgr;
 
-	//! それぞれの状態のペンギン数
-	public float m_living_ratio = 0.0f;
+    //! それぞれの状態のペンギン数
+    private float m_living_ratio = 0.0f;
 	private float m_death_ratio = 0.0f;
 
-	/**
+    //! クリアのボーダーラインペンギン数
+    [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
+    private int m_clear_num;
+
+    /**
 	 * @brief	初期化
 	 */
-	public void Start()
+    public void Start()
 	{
 		m_living_pos = m_living_gage.GetComponent<RectTransform>();
 		m_death_pos = m_death_gage.GetComponent<RectTransform>();
@@ -66,11 +70,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 	}
 
     /// <summary>
-    /// @brief      確認画面移行処理のCoroutine
+    /// @brief      PenguinManagerの起動を待つ処理のCoroutine
     /// </summary>
     IEnumerator DelayStart()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForEndOfFrame();
 
         // ゲージの座標変更(なんで左端アンカーみたいな機能がないのか ｺﾚｶﾞﾜｶﾗﾅｲ)
         Vector2 _pos = m_left_pos;

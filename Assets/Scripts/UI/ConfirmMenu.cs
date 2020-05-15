@@ -1,7 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/// <summary>
+/// @file   ConfirmMenu.cs
+/// @brief	確認画面
+/// @author	北林和哉
+/// </summary>
 
+using System.Collections;
+
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ConfirmMenu : MonoBehaviour

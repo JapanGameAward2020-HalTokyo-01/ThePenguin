@@ -1,9 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/// <summary>
+/// @file   OptionMenu.cs
+/// @brief	Option画面
+/// @author	北林和哉
+/// </summary>
 
+using System.Collections;
+
+using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class OptionMenu : MonoBehaviour
 {

@@ -1,5 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/// <summary>
+/// @file   PauseMenu.cs
+/// @brief	Pause画面
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -125,7 +131,6 @@ public class PauseMenu : MonoBehaviour
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
         }
     }
-
 
     /// <summary>
     /// @brief      リスタートする関数
@@ -264,8 +269,6 @@ public class PauseMenu : MonoBehaviour
 
         yield break;
     }
-
-
 
     /// <summary>
     /// @brief      Bボタンが押された時のCoroutine

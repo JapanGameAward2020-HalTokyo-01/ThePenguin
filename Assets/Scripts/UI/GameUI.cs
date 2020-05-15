@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file   GameUI.cs
+/// @brief	仮のGameUI制御
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +21,7 @@ public class GameUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //! ポーズ画面を起動
         if (Input.GetKeyDown("joystick button 12") && !m_Pause.gameObject.activeSelf)
         {
             m_Pause.gameObject.SetActive(true);

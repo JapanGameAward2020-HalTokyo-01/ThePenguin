@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1726211515521556596}
   - component: {fileID: 8078299795018390129}
   m_Layer: 5
-  m_Name: Time_Small
+  m_Name: Time_MiniSec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -241,6 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636259803528409852}
   - component: {fileID: 8498062375769154874}
+  - component: {fileID: 1045207143145207542}
   - component: {fileID: 9048599364666871858}
   m_Layer: 5
   m_Name: TimerBase
@@ -279,6 +280,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8914422233087885355}
   m_CullTransparentMesh: 0
+--- !u!114 &1045207143145207542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8914422233087885355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acec4b634db405e419a73505114f735f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_minute_text: {fileID: 3569515848568328858}
+  m_second_text: {fileID: 8738472328773160812}
+  m_mini_sec_text: {fileID: 8078299795018390129}
 --- !u!114 &9048599364666871858
 MonoBehaviour:
   m_ObjectHideFlags: 0

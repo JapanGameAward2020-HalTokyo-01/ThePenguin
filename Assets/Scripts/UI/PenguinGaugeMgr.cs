@@ -28,6 +28,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 	private GameObject m_death_gage;
 	[SerializeField, Tooltip("クリア目標ライン画像のオブジェクト")]
 	private GameObject m_deadline;
+
+	[SerializeField, Tooltip("群れのペンギン数を表示するテキストオブジェクト")]
+	private Text m_pack_num_text;
+	[SerializeField, Tooltip("死んだペンギン数を表示するテキストオブジェクト")]
+	private Text m_dead_num_text;
 	[SerializeField, Tooltip("ステージ内のペンギン数を表示するテキストオブジェクト")]
 	private Text m_total_text;
 
@@ -133,5 +138,12 @@ public class PenguinGaugeMgr : MonoBehaviour
 			// 死亡ゲージの座標変更
 			m_death_pos.anchoredPosition = _right_pos;
 		}
+
+		// テキスト
+		{
+			m_pack_num_text.text = m_penguin_mgr.m_PackCount.ToString();
+			m_dead_num_text.text = m_penguin_mgr.m_DeadCount.ToString();
+		}
+
 	}
 }

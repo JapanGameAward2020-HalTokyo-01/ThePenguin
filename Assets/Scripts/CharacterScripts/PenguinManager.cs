@@ -7,7 +7,7 @@ public class PenguinManager : MonoBehaviour
 {
     //! ゲームオーバーになる為の子ペンギンの死亡数
     [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f)]
-    private int m_MaxDead = 0;
+    public int m_MaxDead = 0;
 
     [Space(30)]
     //! ゲームオーバー判定
@@ -99,10 +99,11 @@ public class PenguinManager : MonoBehaviour
     }
 
     public float deltaTime;
+
     void Update()
     {
-        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-        float fps = 1.0f / deltaTime;
-        Debug.Log(Mathf.Ceil(fps).ToString());
+        //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        //float fps = 1.0f / deltaTime;
+        //Debug.Log(Mathf.Ceil(fps).ToString());
     }
 }

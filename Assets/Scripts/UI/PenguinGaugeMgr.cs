@@ -19,7 +19,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 	private Vector2 m_left_pos;
 	//! 最大の大きさ
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ")]
-	private Vector2 m_gage_max_size;
+	private Vector2 m_gauge_max_size;
 
 	//! UIオブジェクト
 	[SerializeField, Tooltip("群れペンギンゲージ画像のオブジェクト")]
@@ -81,10 +81,10 @@ public class PenguinGaugeMgr : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        // ゲージの座標変更(なんで左端アンカーみたいな機能がないのか ｺﾚｶﾞﾜｶﾗﾅｲ)
+        // ゲージの座標変更
         Vector2 _pos = m_left_pos;
 
-        _pos.x += m_gage_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_MaxDead) / (float)m_penguin_mgr.m_TotalCount;
+        _pos.x += m_gauge_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_MaxDead) / (float)m_penguin_mgr.m_TotalCount;
         m_deadline_pos.anchoredPosition = _pos;
 
         // ステージ上のペンギン数
@@ -111,7 +111,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 			m_living_mat.SetVector("_Tiling", _tiling);
 
 			// 群れゲージ画像自体の長さ変更
-			m_living_pos.sizeDelta = new Vector2(_tiling.x, _tiling.y) * m_gage_max_size;
+			m_living_pos.sizeDelta = new Vector2(_tiling.x, _tiling.y) * m_gauge_max_size;
 
 			// 群れゲージの座標変更
 			Vector2 _pos = m_left_pos;
@@ -129,11 +129,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 			m_death_mat.SetVector("_Tiling", _tiling);
 
 			// 死亡ゲージ画像自体の長さ変更
-			m_death_pos.sizeDelta = new Vector2(_tiling.x, _tiling.y) * m_gage_max_size;
+			m_death_pos.sizeDelta = new Vector2(_tiling.x, _tiling.y) * m_gauge_max_size;
 
 			// 右端座標にする
 			Vector2 _right_pos = m_left_pos;
-			_right_pos.x += m_gage_max_size.x - m_death_pos.sizeDelta.x * 0.5f;
+			_right_pos.x += m_gauge_max_size.x - m_death_pos.sizeDelta.x * 0.5f;
 
 			// 死亡ゲージの座標変更
 			m_death_pos.anchoredPosition = _right_pos;

@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /**
- * @class   PenguinGageMgrクラス
+ * @class   PenguinGaugeMgrクラス
  * @brief   ペンギンの数に関する状況を示すゲージUIの操作クラス
  */
 public class PenguinGaugeMgr : MonoBehaviour
@@ -23,9 +23,9 @@ public class PenguinGaugeMgr : MonoBehaviour
 
 	//! UIオブジェクト
 	[SerializeField, Tooltip("群れペンギンゲージ画像のオブジェクト")]
-	private GameObject m_living_gage;
+	private GameObject m_living_gauge;
 	[SerializeField, Tooltip("死んだペンギンゲージ画像のオブジェクト")]
-	private GameObject m_death_gage;
+	private GameObject m_death_gauge;
 	[SerializeField, Tooltip("クリア目標ライン画像のオブジェクト")]
 	private GameObject m_deadline;
 
@@ -62,13 +62,13 @@ public class PenguinGaugeMgr : MonoBehaviour
 	 */
     public void Start()
 	{
-		m_living_pos = m_living_gage.GetComponent<RectTransform>();
-		m_death_pos = m_death_gage.GetComponent<RectTransform>();
+		m_living_pos = m_living_gauge.GetComponent<RectTransform>();
+		m_death_pos = m_death_gauge.GetComponent<RectTransform>();
 		m_deadline_pos = m_deadline.GetComponent<RectTransform>();
 
-		Image _image = m_living_gage.GetComponent<Image>();
+		Image _image = m_living_gauge.GetComponent<Image>();
 		m_living_mat = _image.material;
-		_image = m_death_gage.GetComponent<Image>();
+		_image = m_death_gauge.GetComponent<Image>();
 		m_death_mat = _image.material;
 
         StartCoroutine(DelayStart());

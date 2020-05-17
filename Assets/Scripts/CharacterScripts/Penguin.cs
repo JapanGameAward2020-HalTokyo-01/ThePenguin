@@ -11,16 +11,28 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Penguin : MonoBehaviour
 {
+    [SerializeField]
+    protected GameObject m_Model;
     //! 状態遷移
     [SerializeField]
     private GameObject m_States;
+    //! 各ステートのリスト
     private List<PenguinState> m_PenguinStates;
 
+    //! 現ステート
     [SerializeField, NonEditableField]
     protected PenguinState m_CurrentState;
 
+    //! 入力ハンドラー
+    [SerializeField, NonEditableField]
+    protected InputHandler m_InputHandler;
+
+    //! Rigidbody
     protected Rigidbody m_Rigidbody;
 
+    //! 無敵状態判定
+    [SerializeField, NonEditableField]
+    protected bool m_Invincible = false;
 
     protected virtual void Awake()
     {
@@ -64,20 +76,37 @@ public class Penguin : MonoBehaviour
         m_CurrentState.OnFixedUpdate();
     }
 
-    //! 移動処理はここに集約させる
+    /// <summary>
+    /// @brief      ペンギンの無敵状態変更処理
+    /// </summary>
+    public virtual void Invincible(bool inv)
+    {
+        m_Invincible = inv;
+    }
+
+    /// <summary>
+    /// @brief      ペンギンの移動処理
+    /// @param      移動量(Vector3)
+    /// </summary>
     protected virtual void MoveHandler(Vector3 move)
     {
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f,ForceMode.Force);
+        m_Model.transform.forward = move;
     }
 
     /// <summary>
     /// @brief      ペンギンの死亡処理
     /// </summary>
-    public virtual void Kill()
+    public virtual void Kill(bool Gimmick)
     {
+        if (!m_Invincible && Gimmick)
+        {
+            return;
+        }
+
         //! オブジェを無効にする
         gameObject.SetActive(false);
-
+        //! 現ステートの死亡処理呼び出し
         m_CurrentState.OnKill();
     }
 

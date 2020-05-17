@@ -15,7 +15,7 @@ public class WallGimmick : MonoBehaviour
 {
     //パラメータ宣言
     [SerializeField, Tooltip("飛び出す長さ"),Range(0,10)]
-    private int m_length = 1;
+    private float m_length = 1.0f;
 
     [SerializeField, Tooltip("飛び出す速度"), Range(0, 10)]
     private float m_speed = 0.1f;
@@ -23,11 +23,12 @@ public class WallGimmick : MonoBehaviour
     [SerializeField, Tooltip("何秒ごとに飛び出るか"), Range(0, 10)]
     private float m_cooltime = 3.0f;
 
+    [SerializeField, Tooltip("飛び出した後何秒待つか"), Range(0, 10)]
+    private float m_waittime = 3.0f;
+
     [SerializeField, Tooltip("タイマーのオフセット"), Range(0, 10)]
     private float m_offset = 0.0f;
 
-    //起動中フラグ
-    private bool m_switch = false;
     //タイマー
     private float m_timer = 0.0f;
 
@@ -48,19 +49,25 @@ public class WallGimmick : MonoBehaviour
         //タイマー更新
         m_timer += Time.deltaTime;
 
-        if(m_switch)
         {
             //起動中
 
             //時間経過率
             float t = 0.0f;
-            if(m_timer>m_speed)
+            if(m_timer>m_cooltime+m_speed)
             {
-                t = 1.0f - (m_timer - m_speed) / m_speed;
+                if (m_timer > m_speed + m_cooltime + m_waittime)
+                {
+                    t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
+                }
+                else
+                {
+                    t = 1.0f;
+                }
             }
             else
             {
-                t = m_timer / m_speed;
+                t = (m_timer-m_cooltime) / m_speed;
             }
             if(t>1.0f)
             {
@@ -78,20 +85,9 @@ public class WallGimmick : MonoBehaviour
             trans.localPosition = new Vector3(t*m_length, 0.0f, 0.0f);
 
             //終了
-            if (m_timer>=2.0f*m_speed)
+            if (m_timer>=2.0f*m_speed+m_cooltime+m_waittime)
             {
                 m_timer = 0.0f;
-                m_switch = false;
-            }
-        }
-        else
-        {
-            //起動してない
-            if(m_timer>=m_cooltime)
-            {
-                //一定時間経過
-                m_timer = 0.0f;
-                m_switch = true;
             }
         }
     }

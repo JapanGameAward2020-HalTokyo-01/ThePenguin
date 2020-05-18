@@ -17,6 +17,9 @@ public class DownBlock : MonoBehaviour
     private float m_Height = 0f;
 
     [SerializeField]
+    private float m_offsetTime = 0f;
+
+    [SerializeField]
     private float m_WaitTime = 3f;
 
     [SerializeField]
@@ -39,7 +42,7 @@ public class DownBlock : MonoBehaviour
     void Start()
     {
         m_Pos = this.transform.position;
-
+        m_Time = -m_offsetTime + m_WaitTime;
     }
 
     // Update is called once per frame

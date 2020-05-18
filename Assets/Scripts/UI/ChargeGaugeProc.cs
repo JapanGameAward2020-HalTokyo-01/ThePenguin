@@ -1,6 +1,15 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    ChargeGaugeProc.cs
+ * @brief   インプットチャージに関する状況を示すゲージUIのパラメータ操作クラス
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @file    ChargeGaugeProcクラス
+ * @brief   インプットチャージに関する状況を示すゲージUIのパラメータ操作クラス
+ */
 public class ChargeGaugeProc : MonoBehaviour
 {
 	//! 追従ターゲット
@@ -31,7 +40,9 @@ public class ChargeGaugeProc : MonoBehaviour
 	[SerializeField]
 	private Vector2 m_offset;
 
-
+	/**
+	 * @brief   初期化
+	 */
 	public void Awake()
 	{
 		m_self_rect = gameObject.GetComponent<RectTransform>();
@@ -42,6 +53,9 @@ public class ChargeGaugeProc : MonoBehaviour
 		m_input = m_target_obj.GetInputHandler();
 	}
 
+	/**
+	 * @brief   更新
+	 */
 	public void Update()
 	{
 		//! ターゲットのスクリーン座標取得

@@ -1,7 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+﻿/**
+ * @file    ChargeGaugeMgr.cs
+ * @brief   チャージゲージの表示/非表示を切り替える
+ * @author  谷沢 瑞己
+ */
 
+using UnityEngine;
+
+/**
+ * @file    ChargeGaugeMgrクラス
+ * @brief   チャージゲージの表示/非表示を切り替える
+ */
 public class ChargeGaugeMgr : MonoBehaviour
 {
 	//! 追従ターゲット
@@ -12,8 +20,12 @@ public class ChargeGaugeMgr : MonoBehaviour
 	[SerializeField]
 	private ChargeGaugeProc m_Processor;
 
+	//! インプットハンドラー
 	private InputHandler m_input;
 
+	/**
+	 * @brief   初期化
+	 */
 	public void Start()
 	{
 		//! InputHandlerにEvent登録
@@ -21,15 +33,19 @@ public class ChargeGaugeMgr : MonoBehaviour
 		m_input.RegisterInputEvent(new InputEvent(this));
 	}
 
+	/**
+	 * @brief   ゲージ表示をノンアクティブにする
+	 */
 	public void ActivateGauge()
 	{
-		// ノンアクティブにする
 		m_Processor.gameObject.SetActive(true);
 	}
 
+	/**
+	 * @brief   ゲージ表示をアクティブにする
+	 */
 	public void HydeGauge()
 	{
-		// アクティブにする
 		m_Processor.gameObject.SetActive(false);
 	}
 

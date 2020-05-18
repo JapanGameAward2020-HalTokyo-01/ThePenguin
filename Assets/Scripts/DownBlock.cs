@@ -20,7 +20,9 @@ public class DownBlock : MonoBehaviour
     private float m_WaitTime = 3f;
 
     [SerializeField]
-    private float m_Speed = 1f;
+    private float m_DownSpeed = 1f;
+    [SerializeField]
+    private float m_UpSpeed = 1f;
 
     [SerializeField]
     private float m_CoolDownTime = 1f;
@@ -58,7 +60,7 @@ public class DownBlock : MonoBehaviour
         if (m_Time < m_WaitTime) return;
         
         m_IsKill = true;
-        m_CurrentHeight += m_Speed * Time.deltaTime;
+        m_CurrentHeight += m_DownSpeed * Time.deltaTime;
 
         if (m_CurrentHeight < m_Height) return;
 
@@ -71,7 +73,7 @@ public class DownBlock : MonoBehaviour
     {
         if (m_Time < m_CoolDownTime) return;
         
-        m_CurrentHeight -= m_Speed * Time.deltaTime;
+        m_CurrentHeight -= m_UpSpeed * Time.deltaTime;
 
         if (m_CurrentHeight > 0f) return;
         

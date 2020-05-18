@@ -14,7 +14,7 @@ using UnityEngine;
 public class WallGimmick : MonoBehaviour
 {
     //パラメータ宣言
-    [SerializeField, Tooltip("飛び出す長さ"),Range(0,10)]
+    [SerializeField, Tooltip("飛び出す長さ"),Range(0,50)]
     private float m_length = 1.0f;
 
     [SerializeField, Tooltip("飛び出す速度"), Range(0, 10)]

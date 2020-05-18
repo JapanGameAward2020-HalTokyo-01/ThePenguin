@@ -26,20 +26,20 @@ public class TitleTransition : TransitionCtrlBase
 	 */
 	public void Update()
 	{
-		if (m_select_ctrl.ActiveSelect)
-		{
-			// キー入力があればシーン遷移する
-			if (Input.GetButtonDown("Fire1")) SceneTransition();
-			m_text.text = "TitleScene\nSelect Command";
-		}
-		else
-		{
-			// ボタン入力を受け取り選択肢をActiveにする
-			if (Input.GetButtonDown("Fire1")) m_select_ctrl.Activate(true);
-			m_text.text = "TitleScene\nPush Button 3";
-		}
+		//if (m_select_ctrl.ActiveSelect)
+		//{
+		//	// キー入力があればシーン遷移する
+		//	if (Input.GetButtonDown("Fire1")) SceneTransition();
+		//	m_text.text = "TitleScene\nSelect Command";
+		//}
+		//else
+		//{
+		//	// ボタン入力を受け取り選択肢をActiveにする
+		//	if (Input.GetButtonDown("Fire1")) m_select_ctrl.Activate(true);
+		//	m_text.text = "TitleScene\nPush Button 3";
+		//}
 
-		// フレーム更新
+		//// フレーム更新
 	}
 
 	/**
@@ -47,17 +47,17 @@ public class TitleTransition : TransitionCtrlBase
 	 */
 	 private void SceneTransition()
 	{
-		//! 選択肢のインデックス
-		int _select = m_select_ctrl.SelectIndex;
+		////! 選択肢のインデックス
+		//int _select = m_select_ctrl.SelectIndex;
 
-		// 遷移条件：選択肢毎に異なる
-		if (_select == 0) m_transitioner = FirstCommand();
-		if (_select == 1) m_transitioner = new TransScene(KSceneIndex.Select);
-		if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Option);
-		if (_select == 3) ExitApp();
+		//// 遷移条件：選択肢毎に異なる
+		//if (_select == 0) m_transitioner = FirstCommand();
+		//if (_select == 1) m_transitioner = new TransScene(KSceneIndex.Select);
+		//if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Option);
+		//if (_select == 3) ExitApp();
 
-		// シーン遷移があれば実行する
-		if (m_transitioner != null) m_transitioner.Transition();
+		//// シーン遷移があれば実行する
+		//if (m_transitioner != null) m_transitioner.Transition();
 	}
 
 	/**
@@ -65,11 +65,12 @@ public class TitleTransition : TransitionCtrlBase
 	 */
 	private TransScene FirstCommand()
 	{
-		// セーブデータがあった場合は続きから(ゲームメインシーン)
-		if (m_select_ctrl.m_exist_data) return new TransScene(KSceneIndex.GameMain);
+		//// セーブデータがあった場合は続きから(ゲームメインシーン)
+		//if (m_select_ctrl.m_exist_data) return new TransScene(KSceneIndex.GameMain);
 
-		// セーブデータが無ければオープニングシーン
-		else return new TransScene(KSceneIndex.Opening);
+		//// セーブデータが無ければオープニングシーン
+		//else return new TransScene(KSceneIndex.Opening);
+		return null;
 	}
 
 }

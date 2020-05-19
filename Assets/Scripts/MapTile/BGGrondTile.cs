@@ -26,8 +26,9 @@ public class BGGrondTile : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var mesh = this.gameObject.GetComponentInChildren<MeshRenderer>();
-        Material m = mesh.material;
+        var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
         m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+
+        this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
     }
 }

@@ -30,6 +30,9 @@ public class DownBlock : MonoBehaviour
     [SerializeField]
     private float m_CoolDownTime = 1f;
 
+    [SerializeField]
+    private GameObject m_DownPoint;
+
     private Vector3 m_Pos;
 
     private float m_Time = 0f;
@@ -38,11 +41,18 @@ public class DownBlock : MonoBehaviour
     private bool m_IsDown = true;
     private bool m_IsKill = false;
 
+    private LineRenderer m_LineRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Pos = this.transform.position;
         m_Time = -m_offsetTime + m_WaitTime;
+
+        m_LineRenderer = this.GetComponent<LineRenderer>();
+        m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
+        m_LineRenderer.SetPosition(0,m_Pos);
+        m_LineRenderer.SetPosition(1,m_Pos + Vector3.down * m_Height);
     }
 
     // Update is called once per frame
@@ -56,6 +66,8 @@ public class DownBlock : MonoBehaviour
         this.transform.position = m_Pos + Vector3.down * m_CurrentHeight;
 
         m_Time += Time.deltaTime;
+
+        m_DownPoint.transform.position = m_Pos + Vector3.down * m_Height;
     }
 
     void DownState()
@@ -111,6 +123,18 @@ public class DownBlock : MonoBehaviour
         {
             endPos = this.transform.position + Vector3.down * m_Height;
             Gizmos.DrawLine(this.transform.position, endPos);
+
+            if (this.TryGetComponent<LineRenderer>(out LineRenderer lineRenderer))
+            {
+                lineRenderer.startWidth = lineRenderer.endWidth = 1.0f;
+                lineRenderer.SetPosition(0, this.transform.position);
+                lineRenderer.SetPosition(1, endPos);
+            }
+
+            if(!m_DownPoint)
+            {
+                m_DownPoint.transform.position = endPos;
+            }
         }
         Gizmos.DrawCube(endPos, this.transform.lossyScale);
 #endif

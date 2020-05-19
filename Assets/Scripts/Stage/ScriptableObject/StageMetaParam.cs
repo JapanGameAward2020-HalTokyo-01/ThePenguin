@@ -14,15 +14,24 @@ public class StageMetaParam : ScriptableObject
 
 	//! エリアリスト
 	[SerializeField]
-	private AreaData m_area_list;
+	private AreaData[] m_area_list = new AreaData[4];
+
+	//! 現在指定されているエリアのリストを呼び出す
+	public AreaData LevelList
+	{
+		get
+		{
+			return m_area_list[m_area_index];
+		}
+	}
 
 	//! ステージのPrefabを呼び出す
-	public GameObject StagePrefab
+	public GameObject LevelPrefab
 	{
-		get 
+		get
 		{
-			StageData _data = m_area_list.GetListItem(m_area_index);
-			return _data.StagePrefab; 
+			StageData _data = m_area_list[m_area_index].GetListItem(m_area_index);
+			return _data.StagePrefab;
 		}
 	}
 }

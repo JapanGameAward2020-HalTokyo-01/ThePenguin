@@ -30,7 +30,7 @@ public class StageMetaParam : ScriptableObject
 	{
 		get
 		{
-			StageData _data = m_area_list[m_area_index].GetListItem(m_area_index);
+			StageData _data = m_area_list[m_area_index].GetListItem(m_stage_index);
 			return _data.StagePrefab;
 		}
 	}

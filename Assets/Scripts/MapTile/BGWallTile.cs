@@ -1,6 +1,6 @@
 ﻿/**
-* @file     FloorTile.cs
-* @brief    フロアタイル
+* @file     BGWallTile.cs
+* @brief    バックグラウンドウォールタイル
 * @author   李　爾捷
 */
 
@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorTile : MonoBehaviour
+public class BGWallTile : MonoBehaviour
 {
     public enum FieldType
     {

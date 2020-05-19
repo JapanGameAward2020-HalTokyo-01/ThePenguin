@@ -1,6 +1,6 @@
 ﻿/**
-* @file     FloorTile.cs
-* @brief    フロアタイル
+* @file     BGGroundTile.cs
+* @brief    バックグラウンド床タイル
 * @author   李　爾捷
 */
 
@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorTile : MonoBehaviour
+public class BGGrondTile : MonoBehaviour
 {
     public enum FieldType
     {
@@ -31,5 +31,4 @@ public class FloorTile : MonoBehaviour
 
         this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
     }
-
 }

@@ -15,10 +15,9 @@ public class StageCreater : MonoBehaviour
 	public void Awake()
 	{
 		//! 現在のメタデータを読み取ってステージのプレハブを生成
-		GameObject _stage_obj = m_stage_info.LevelPrefab;
+		GameObject _stage_obj = Instantiate(m_stage_info.LevelPrefab);
+		_stage_obj.name = "----- LevelAssets -----";
 
-
-		Instantiate(_stage_obj);
 	}
 
 	/**

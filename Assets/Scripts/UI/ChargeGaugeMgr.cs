@@ -4,6 +4,7 @@
  * @author  谷沢 瑞己
  */
 
+using System.Collections;
 using UnityEngine;
 
 /**
@@ -29,9 +30,19 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void Start()
 	{
 		//! InputHandlerにEvent登録
-		m_input = m_target_obj.GetInputHandler();
+		m_input = FindObjectOfType<InputHandler>();
 		m_input.RegisterInputEvent(new InputEvent(this));
 	}
+
+	/**
+	 * @brief   更新
+	 */
+	public void Update()
+	{
+		if (m_Processor.isActiveAndEnabled) m_Processor.OnUpdate(m_input);
+
+	}
+
 
 	/**
 	 * @brief   ゲージ表示をノンアクティブにする

@@ -15,7 +15,6 @@ public class ChargeGaugeProc : MonoBehaviour
 	//! 追従ターゲット
 	[SerializeField]
 	private ParentPenguin m_target_obj;
-	private InputHandler m_input;
 
 	//! キャンバスのRectTransform
 	[SerializeField]
@@ -49,14 +48,12 @@ public class ChargeGaugeProc : MonoBehaviour
 		m_gauge_rect = m_gauge_obj.GetComponent<RectTransform>();
 		Image _image = m_gauge_obj.GetComponent<Image>();
 		m_gauge_mat = _image.material;
-
-		m_input = m_target_obj.GetInputHandler();
 	}
 
 	/**
 	 * @brief   更新
 	 */
-	public void Update()
+	public void OnUpdate(InputHandler _input)
 	{
 		//! ターゲットのスクリーン座標取得
 		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, m_target_obj.transform.position);
@@ -68,7 +65,7 @@ public class ChargeGaugeProc : MonoBehaviour
 
 		// ゲージの長さ、テクスチャuv再計算
 		Vector4 _tiling = new Vector4();
-		_tiling.x = Mathf.Clamp(m_input.Power / m_input.PowerMax, 0.0f, 1.0f);
+		_tiling.x = Mathf.Clamp(_input.Power / _input.PowerMax, 0.0f, 1.0f);
 		_tiling.y = 1.0f;
 
 		// テクスチャのuv値更新(テクスチャが引き延ばされないように)

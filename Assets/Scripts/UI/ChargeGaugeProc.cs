@@ -12,10 +12,6 @@ using UnityEngine.UI;
  */
 public class ChargeGaugeProc : MonoBehaviour
 {
-	//! キャンバスのRectTransform
-	[SerializeField]
-	private RectTransform m_camvas_rect;
-
 	//! 自分のRectTransform
 	private RectTransform m_self_rect;
 
@@ -49,14 +45,14 @@ public class ChargeGaugeProc : MonoBehaviour
 	/**
 	 * @brief   更新
 	 */
-	public void OnUpdate(InputHandler _input, Vector3 _target_pos)
+	public void OnUpdate(InputHandler _input, RectTransform _camvas_rect, Vector3 _target_pos)
 	{
 		//! ターゲットのスクリーン座標取得
 		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, _target_pos);
 
 		// ターゲット追従座標更新
 		Vector2 output;
-		RectTransformUtility.ScreenPointToLocalPointInRectangle(m_camvas_rect, _screen_pos, Camera.main, out output);
+		RectTransformUtility.ScreenPointToLocalPointInRectangle(_camvas_rect, _screen_pos, Camera.main, out output);
 		m_self_rect.localPosition = output + m_offset;
 
 		// ゲージの長さ、テクスチャuv再計算

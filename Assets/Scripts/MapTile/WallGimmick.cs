@@ -11,7 +11,7 @@ using UnityEngine;
 * @class    WallGimmick
 * @brief    押し出す壁
 */
-public class WallGimmick : MonoBehaviour
+public class WallGimmick : BaseGimmick
 {
     //パラメータ宣言
     [SerializeField, Tooltip("飛び出す長さ"),Range(0,50)]
@@ -35,7 +35,7 @@ public class WallGimmick : MonoBehaviour
     private Transform trans;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
         //タイマーのオフセットを設定
         m_timer = m_offset;
@@ -44,7 +44,7 @@ public class WallGimmick : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         //タイマー更新
         m_timer += Time.deltaTime;
@@ -90,5 +90,15 @@ public class WallGimmick : MonoBehaviour
                 m_timer = 0.0f;
             }
         }
+    }
+
+    public override void Activate()
+    {
+    
+    }
+
+    public override void Deactivate()
+    {
+        
     }
 }

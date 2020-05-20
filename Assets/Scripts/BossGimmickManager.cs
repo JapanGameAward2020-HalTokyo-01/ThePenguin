@@ -4,30 +4,48 @@ using UnityEngine;
 
 public class BossGimmickManager : MonoBehaviour
 {
+    //前Emitからのの時間
     [SerializeField,NonEditableField]
     private float m_Timer = 0f;
 
     [SerializeField]
     private List<GimmickEmitter> m_GimmickEmmiter = new List<GimmickEmitter>();
 
+    private int m_EmitCounter = 0;
+    private int m_MaxCount = 0;
+
+    private GimmickEmitter m_CurrentEmitter;
+
     // Start is called before the first frame update
     void Start()
     {
+        m_EmitCounter = 0;
+
+        m_MaxCount = m_GimmickEmmiter.Count;
+
         foreach(var emitter in m_GimmickEmmiter)
         {
             emitter.SetActive(false);
+        }
+
+        if (m_GimmickEmmiter.Count != 0)
+        {
+            m_CurrentEmitter = m_GimmickEmmiter[m_EmitCounter];
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach(var emitter in m_GimmickEmmiter)
+        if (m_EmitCounter >= m_MaxCount) return;
+
+        if (m_Timer >= m_CurrentEmitter.m_BeforeEmitTime)
         {
-            if (m_Timer >= emitter.m_EmitTime)
-            {
-                emitter.Emit();
-            }
+            m_CurrentEmitter.Emit();
+
+            m_Timer = 0f;
+            m_EmitCounter++;
+            m_CurrentEmitter = m_GimmickEmmiter[m_EmitCounter];
         }
 
         m_Timer += Time.deltaTime;
@@ -36,27 +54,24 @@ public class BossGimmickManager : MonoBehaviour
     [System.Serializable]
     public class GimmickEmitter
     {
-        public float m_EmitTime = 0f;
+        [Tooltip("開始または前攻撃からの時間")]
+        public float m_BeforeEmitTime = 0f;
 
-        public List<GameObject> m_Gimmicks;
-
-        private bool m_IsEmitted = false;
+        public List<BaseGimmick> m_Gimmicks;
 
         public void Emit()
         {
             foreach (var obj in m_Gimmicks)
             {
-                obj.SetActive(true);
+                obj.Activate();
             }
-
-            m_IsEmitted = true;
         }
 
         public void SetActive(bool active)
         {
             foreach (var obj in m_Gimmicks)
             {
-                obj.SetActive(active);
+                obj.gameObject.SetActive(active);
             }
         }
     }

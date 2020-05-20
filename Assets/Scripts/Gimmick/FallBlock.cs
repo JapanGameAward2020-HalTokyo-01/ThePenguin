@@ -85,20 +85,6 @@ public class FallBlock : BaseGimmick
         Destroy(this.gameObject);
     }
 
-    private void OnValidate()
-    {
-        m_DownPoint.transform.position = this.transform.position + Vector3.down * m_Height;
-
-        if (this.TryGetComponent<LineRenderer>(out LineRenderer lineRenderer))
-        {
-            lineRenderer.startWidth = lineRenderer.endWidth = 1.0f;
-            lineRenderer.SetPosition(0, this.transform.position);
-            lineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
-        }
-
-       
-    }
-
     public virtual void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
@@ -107,9 +93,18 @@ public class FallBlock : BaseGimmick
 
         if (!UnityEditor.EditorApplication.isPlaying)
         {
-            Gizmos.DrawLine(this.transform.position,this.transform.position + Vector3.down * m_Height);
+            Gizmos.DrawLine(this.transform.position, this.transform.position + Vector3.down * m_Height);
+
+            m_DownPoint.transform.position = this.transform.position + Vector3.down * m_Height;
+
+            if (this.TryGetComponent<LineRenderer>(out LineRenderer lineRenderer))
+            {
+                lineRenderer.startWidth = lineRenderer.endWidth = 1.0f;
+                lineRenderer.SetPosition(0, this.transform.position);
+                lineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
+            }
         }
-        
+
 #endif
 
     }

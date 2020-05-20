@@ -7,10 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class DownUpBlock : FallBlock
 {
     [SerializeField]
@@ -85,19 +81,4 @@ public class DownUpBlock : FallBlock
             hit.Kill(true);
         }
     }
-
-    public override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
-
-#if UNITY_EDITOR
-
-        if (UnityEditor.EditorApplication.isPlaying)
-        {
-            Gizmos.DrawLine(this.transform.position, this.transform.position + Vector3.down * m_Height);
-        }
-
-#endif
-    }
-
 }

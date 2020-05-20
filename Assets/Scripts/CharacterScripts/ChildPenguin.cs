@@ -160,8 +160,43 @@ public class ChildPenguin : Penguin
             {
                 Parent.AddToPack(this);
 
+                //if (Effect != null)
+                //    Effect.PlayerEffect("friend", transform.position);
+
                 if (Effect != null)
+                {
+                    var pos = transform.position;
+
+                    pos.y += 1.0f;
+
+                    var scale = new Vector3(0.5f, 0.5f, 0.5f);
+
+                    //!なき声
+                    //!反転
+                    if (m_ReverseMove)
+                    {
+                        Effect.PlayerEffect("PU!", pos, scale);
+
+                    }
+                    //!速い
+                    else if (m_BaseSpeed > 1.0f)
+                    {
+                        Effect.PlayerEffect("PA!", pos, scale);
+
+                    }
+                    //!遅い
+                    else if (m_BaseSpeed < 1.0f)
+                    {
+                        Effect.PlayerEffect("PO!", pos, scale);
+                    }
+                    //!ノーマル
+                    else
+                    {
+                        Effect.PlayerEffect("PE!", pos, scale);
+                    }
+
                     Effect.PlayerEffect("friend", transform.position);
+                }
             }
 
         }

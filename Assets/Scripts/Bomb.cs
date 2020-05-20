@@ -81,7 +81,7 @@ public class Bomb : MonoBehaviour
     private void Explode()
     {
         //すべてのペンギンを取得
-        GameObject[] _penguins = GameObject.FindGameObjectsWithTag("Penguin");
+        Penguin[] _penguins = FindObjectsOfType<Penguin>();
         for (int i = 0; i < _penguins.Length; i++)
         {
             //ペンギンと爆弾距離
@@ -92,7 +92,7 @@ public class Bomb : MonoBehaviour
             {
                 //仮のプレイヤー死亡処理
                 Debug.Log("dead");
-                Destroy(_penguins[i]);
+                _penguins[i].Kill(true);
             }
 
             //ペンギンが爆心地半径外かつ爆風半径内にいたら

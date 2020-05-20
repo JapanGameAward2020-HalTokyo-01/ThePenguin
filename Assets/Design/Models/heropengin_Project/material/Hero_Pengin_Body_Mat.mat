@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hero_Pengin_Body_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 87346ba2f177c3745bdbe0f3cf16a71e,
+  m_Shader: {fileID: -6465566751694194690, guid: ae12a1574a6e4734b9a5281c157093e6,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _METALLICSPECGLOSSMAP _NORMALMAP _RECEIVE_SHADOWS_OFF
   m_LightmapFlags: 4
@@ -33,6 +33,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_C05D16B0:
+        m_Texture: {fileID: 2800000, guid: e7b1b960ac6137149901294c32629752, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo:
         m_Texture: {fileID: 2800000, guid: e7b1b960ac6137149901294c32629752, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -68,8 +72,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: e7b1b960ac6137149901294c32629752, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Matelness:
+        m_Texture: {fileID: 2800000, guid: b26f76faeb173fc4f872fb18d8f78588, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: b26f76faeb173fc4f872fb18d8f78588, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 9278c53dfce9f0c4aa48f32c86a940ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -93,8 +105,8 @@ Material:
     - Vector1_55413278: 1
     - Vector1_7B649248: 0
     - Vector1_A2E08000: 0
-    - Vector1_B0C988C5: 0
-    - Vector1_CDA5E7E9: 0.574
+    - Vector1_B0C988C5: 1
+    - Vector1_CDA5E7E9: 0.459
     - Vector1_F4DCA3C8: 0
     - _AlphaClip: 1
     - _Blend: 0

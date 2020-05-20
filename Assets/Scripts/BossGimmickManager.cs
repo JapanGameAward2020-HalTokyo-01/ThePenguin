@@ -9,7 +9,7 @@ public class BossGimmickManager : MonoBehaviour
     private float m_Timer = 0f;
 
     [SerializeField]
-    private List<GimmickEmitter> m_GimmickEmmiter = new List<GimmickEmitter>();
+    private List<GimmickEmitter> m_GimmickEmitter = new List<GimmickEmitter>();
 
     private int m_EmitCounter = 0;
     private int m_MaxCount = 0;
@@ -21,16 +21,16 @@ public class BossGimmickManager : MonoBehaviour
     {
         m_EmitCounter = 0;
 
-        m_MaxCount = m_GimmickEmmiter.Count;
+        m_MaxCount = m_GimmickEmitter.Count;
 
-        foreach(var emitter in m_GimmickEmmiter)
+        foreach(var emitter in m_GimmickEmitter)
         {
             emitter.SetActive(false);
         }
 
-        if (m_GimmickEmmiter.Count != 0)
+        if (m_GimmickEmitter.Count != 0)
         {
-            m_CurrentEmitter = m_GimmickEmmiter[m_EmitCounter];
+            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
         }
     }
 
@@ -45,7 +45,7 @@ public class BossGimmickManager : MonoBehaviour
 
             m_Timer = 0f;
             m_EmitCounter++;
-            m_CurrentEmitter = m_GimmickEmmiter[m_EmitCounter];
+            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
         }
 
         m_Timer += Time.deltaTime;

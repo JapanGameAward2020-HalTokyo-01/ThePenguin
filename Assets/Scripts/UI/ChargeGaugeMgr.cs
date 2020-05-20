@@ -4,6 +4,7 @@
  * @author  谷沢 瑞己
  */
 
+using System.Collections;
 using UnityEngine;
 
 /**
@@ -14,7 +15,7 @@ public class ChargeGaugeMgr : MonoBehaviour
 {
 	//! 追従ターゲット
 	[SerializeField]
-	private ParentPenguin m_target_obj;
+	private Transform m_target_pos;
 
 	//! オンオフを切り替えるオブジェクト
 	[SerializeField]
@@ -29,9 +30,19 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void Start()
 	{
 		//! InputHandlerにEvent登録
-		m_input = m_target_obj.GetInputHandler();
+		m_input = FindObjectOfType<InputHandler>();
 		m_input.RegisterInputEvent(new InputEvent(this));
 	}
+
+	/**
+	 * @brief   更新
+	 */
+	public void Update()
+	{
+		if (m_Processor.isActiveAndEnabled) m_Processor.OnUpdate(m_input, m_target_pos.position);
+
+	}
+
 
 	/**
 	 * @brief   ゲージ表示をノンアクティブにする

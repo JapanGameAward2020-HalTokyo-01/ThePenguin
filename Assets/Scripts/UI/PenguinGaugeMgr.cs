@@ -21,6 +21,8 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ")]
 	private Vector2 m_gauge_max_size;
 
+	[Header("UI objects")]
+
 	//! UIオブジェクト
 	[SerializeField, Tooltip("群れペンギンゲージ画像のオブジェクト")]
 	private GameObject m_living_gauge;
@@ -36,6 +38,28 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("ステージ内のペンギン数を表示するテキストオブジェクト")]
 	private Text m_total_text;
 
+	[SerializeField, Tooltip("群れの数の状況を顔で表現するオブジェクト")]
+	private FaceIcon m_face_icon;
+
+	[Header("outer object")]
+
+	//! ペンギンの数を管理しているもの
+	[SerializeField]
+	private PenguinManager m_penguin_mgr;
+
+    //! クリアのボーダーラインペンギン数
+    [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
+    private int m_clear_num;
+
+	[Header("Dammy Parameters")]
+	//! 各種閾値(ステージのメタデータから読み取りになるため仮配置)
+	[SerializeField, Tooltip("Goodの顔に変化する群れ数の閾値であり、\nクリア条件とは現状関係ない")]
+	private int m_border_good;
+	[SerializeField, Tooltip("Maxの顔に変化する群れ数の閾値であり、\nステージ上のペンギン総数とは現状関係ない")]
+	private int m_border_max;
+	[SerializeField, Tooltip("Dangerの顔に変化する死亡数の閾値")]
+	private int m_border_danger;
+
 	//! 座標情報 
 	private RectTransform m_living_pos;
 	private RectTransform m_death_pos;
@@ -45,17 +69,10 @@ public class PenguinGaugeMgr : MonoBehaviour
 	private Material m_living_mat;
 	private Material m_death_mat;
 
-	//! ペンギンの数を管理しているもの
-	[SerializeField]
-	private PenguinManager m_penguin_mgr;
-
     //! それぞれの状態のペンギン数
     private float m_living_ratio = 0.0f;
 	private float m_death_ratio = 0.0f;
 
-    //! クリアのボーダーラインペンギン数
-    [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
-    private int m_clear_num;
 
     /**
 	 * @brief	初期化
@@ -143,6 +160,25 @@ public class PenguinGaugeMgr : MonoBehaviour
 		{
 			m_pack_num_text.text = m_penguin_mgr.m_PackCount.ToString();
 			m_dead_num_text.text = m_penguin_mgr.m_DeadCount.ToString();
+		}
+
+		// 顔グラ
+		{
+			// 死亡数が基準未満
+			if(m_penguin_mgr.m_DeadCount < m_border_danger)
+			{
+				// 群れ数が Good未満
+				if (m_penguin_mgr.m_PackCount < m_border_good)		m_face_icon.ChangeState(FaceIcon.kState.Normal);
+				// 群れ数が Good以上 Max 未満
+				else if (m_penguin_mgr.m_PackCount < m_border_max)	m_face_icon.ChangeState(FaceIcon.kState.Good);
+				// 群れ数が Max以上
+				else												m_face_icon.ChangeState(FaceIcon.kState.Max);
+			}
+			// 死亡数が基準超え
+			else
+			{
+				m_face_icon.ChangeState(FaceIcon.kState.Danger);
+			}
 		}
 
 	}

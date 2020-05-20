@@ -45,7 +45,6 @@ public class ChargeGaugeMgr : MonoBehaviour
 	{
 		if (m_Processor.isActiveAndEnabled)
 		{
-			Debug.Log(m_target_pos.position);
 			m_Processor.OnUpdate(m_input, m_camvas_rect, m_target_pos.position);
 		}
 

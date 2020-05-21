@@ -34,12 +34,18 @@ public class Bomb : BaseGimmick
     //カウントダウン表示（仮）オブジェクト
     private GameObject m_CountDownObject;
 
+    [SerializeField]
+    private GameObject m_Model;
+
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
 
-        this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
+        //this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
     }
 
 
@@ -71,6 +77,15 @@ public class Bomb : BaseGimmick
             {
                 //爆発処理
                 Explode();
+
+                //!エフェクト関連
+                {
+                    Effect = GetComponent<EffectSpawner>();
+                    if (Effect != null)
+                        Effect.PlayerEffect("Boom!", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+
+                }
+
                 //消滅
                 Destroy(this.transform.parent.gameObject);
             }
@@ -138,7 +153,7 @@ public class Bomb : BaseGimmick
             //以下はすべて仮の演出処理
             m_DetectionSizeObject.SetActive(false);
             m_CountDownObject.SetActive(true);
-            this.transform.parent.GetComponent<Renderer>().material.color = Color.red;
+            //this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
         }
     }
 

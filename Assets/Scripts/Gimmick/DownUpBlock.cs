@@ -72,6 +72,7 @@ public class DownUpBlock : FallBlock
     {
         base.Activate();
         m_Time += m_UpWaitTime;
+        this.gameObject.SetActive(true);
     }
 
     public override void OnTriggerEnter(Collider other)

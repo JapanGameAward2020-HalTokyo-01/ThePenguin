@@ -14,7 +14,8 @@ public class FloorTile : MonoBehaviour
     {
         SNOW = 0,
         DESERT,
-
+        JUNGLE,
+        VOLCANIC
     }
 
     [SerializeField]
@@ -23,13 +24,12 @@ public class FloorTile : MonoBehaviour
     [SerializeField]
     TextureData m_Data;
 
-    [SerializeField]
-    MeshRenderer m_Mesh;
-
     private void OnDrawGizmos()
     {
-        Material m = m_Mesh.sharedMaterial;
+        var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
         m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+
+        this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
     }
 
 }

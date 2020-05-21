@@ -13,9 +13,13 @@ using UnityEngine;
  */
 public class ChargeGaugeMgr : MonoBehaviour
 {
+	//! キャンバスのRectTransform
+	[SerializeField]
+	private RectTransform m_camvas_rect;
+
 	//! 追従ターゲット
 	[SerializeField]
-	private ParentPenguin m_target_obj;
+	private Transform m_target_pos;
 
 	//! オンオフを切り替えるオブジェクト
 	[SerializeField]
@@ -39,7 +43,10 @@ public class ChargeGaugeMgr : MonoBehaviour
 	 */
 	public void Update()
 	{
-		if (m_Processor.isActiveAndEnabled) m_Processor.OnUpdate(m_input);
+		if (m_Processor.isActiveAndEnabled)
+		{
+			m_Processor.OnUpdate(m_input, m_camvas_rect, m_target_pos.position);
+		}
 
 	}
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 35916589941730369}
   - component: {fileID: 35916589941730368}
   - component: {fileID: 35916589941730399}
+  - component: {fileID: 5708558163129202266}
   m_Layer: 0
   m_Name: BoundWall
   m_TagString: Untagged
@@ -94,6 +95,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5708558163129202266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35916589941730397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectAssets:
+  - {fileID: 11400000, guid: 9690291dd11f0bf479b7480c3aa874e8, type: 2}
+  m_CurrentEffect: {fileID: 0}
 --- !u!1 &2251874263746929698
 GameObject:
   m_ObjectHideFlags: 0

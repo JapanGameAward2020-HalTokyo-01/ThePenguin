@@ -97,16 +97,14 @@ public class WallGimmick : BaseGimmick
             //!エフェクト関連処理
             {
                 var pos = trans.localPosition;
-                pos.y += 1.0f;
+                pos.y += 1.5f;
                 effeck.gameObject.transform.localPosition = pos;
 
                 if (!effeck.exists && t > 0.1 && t < 0.9)
                 {
                     effeck.Play();
-                }
-                else
-                {
-                    effeck.StopRoot();
+
+                    effeck.speed = 3.0f * m_speed;
                 }
             }
 
@@ -114,6 +112,8 @@ public class WallGimmick : BaseGimmick
             if (m_timer>=2.0f*m_speed+m_cooltime+m_waittime)
             {
                 m_timer = 0.0f;
+
+                effeck.StopRoot();
             }
         }
     }

@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 /**
 * @class    WallGimmick
@@ -34,6 +35,9 @@ public class WallGimmick : BaseGimmick
 
     private Transform trans;
 
+    [SerializeField]
+    private EffekseerEmitter effeck;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -41,6 +45,7 @@ public class WallGimmick : BaseGimmick
         m_timer = m_offset;
 
         trans=GetComponent<Transform>();
+
     }
 
     // Update is called once per frame
@@ -56,6 +61,7 @@ public class WallGimmick : BaseGimmick
             float t = 0.0f;
             if(m_timer>m_cooltime+m_speed)
             {
+
                 if (m_timer > m_speed + m_cooltime + m_waittime)
                 {
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
@@ -63,11 +69,14 @@ public class WallGimmick : BaseGimmick
                 else
                 {
                     t = 1.0f;
+
+                    effeck.StopRoot();
                 }
             }
             else
             {
                 t = (m_timer-m_cooltime) / m_speed;
+
             }
             if(t>1.0f)
             {
@@ -76,6 +85,7 @@ public class WallGimmick : BaseGimmick
             if(t<0.0f)
             {
                 t = 0.0f;
+
             }
 
             //三次関数補間
@@ -83,6 +93,22 @@ public class WallGimmick : BaseGimmick
 
             //ブロックを移動させる
             trans.localPosition = new Vector3(t*m_length, 0.0f, 0.0f);
+
+            //!エフェクト関連処理
+            {
+                var pos = trans.localPosition;
+                pos.y += 1.0f;
+                effeck.gameObject.transform.localPosition = pos;
+
+                if (!effeck.exists && t > 0.1 && t < 0.9)
+                {
+                    effeck.Play();
+                }
+                else
+                {
+                    effeck.StopRoot();
+                }
+            }
 
             //終了
             if (m_timer>=2.0f*m_speed+m_cooltime+m_waittime)

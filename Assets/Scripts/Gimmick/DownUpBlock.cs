@@ -21,11 +21,16 @@ public class DownUpBlock : FallBlock
     private bool m_IsDown = true;
     private bool m_IsKill = false;
 
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
     public override void Start()
     {
         base.Start();
 
         m_Time += m_UpWaitTime;
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame
@@ -44,7 +49,7 @@ public class DownUpBlock : FallBlock
     void DownState()
     {
         if (m_Time < m_UpWaitTime) return;
-        
+
         m_IsKill = true;
         m_CurrentHeight += m_DownSpeed * Time.deltaTime;
 
@@ -53,6 +58,15 @@ public class DownUpBlock : FallBlock
         m_Time = 0f;
         m_IsKill = false;
         m_IsDown = !m_IsDown;
+
+        //!エフェクト関連
+        {
+            var pos = transform.position;
+            pos.y += -1.0f;
+
+            if (Effect != null)
+                Effect.PlayerEffect("DOSIN", pos);
+        }
     }
 
     void UpState()

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Bomb : MonoBehaviour
+public class Bomb : BaseGimmick
 {
     [SerializeField, Tooltip("探知範囲")]
     private float m_DetectionSize = 1.0f;
@@ -35,8 +35,10 @@ public class Bomb : MonoBehaviour
     private GameObject m_CountDownObject;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
         this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
     }
 
@@ -56,8 +58,10 @@ public class Bomb : MonoBehaviour
 
     // Update is called once per frame  
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
+
         //カウントダウン開始
         if(m_IsCountDown)
         {          
@@ -71,6 +75,26 @@ public class Bomb : MonoBehaviour
                 Destroy(this.transform.parent.gameObject);
             }
         }
+    }
+
+    /**
+     * @bief ギミックの有効化時
+     * @param none
+     * @return none
+     */
+    public override void Activate()
+    {
+        
+    }
+
+    /**
+     * @bief ギミックの無効化(終了)時
+     * @param none
+     * @return none
+     */
+    public override void Deactivate()
+    {
+
     }
 
     /**

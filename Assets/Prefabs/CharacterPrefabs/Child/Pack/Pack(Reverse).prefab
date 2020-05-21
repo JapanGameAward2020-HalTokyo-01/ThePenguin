@@ -50,7 +50,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ae39a2d6a83474f458f9637c2439de4e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ae39a2d6a83474f458f9637c2439de4e,
         type: 3}
@@ -82,6 +82,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: ae39a2d6a83474f458f9637c2439de4e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b99054cf16e63a14baa84cccf92003ee, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae39a2d6a83474f458f9637c2439de4e, type: 3}
 --- !u!1001 &6934079759613727156
@@ -95,6 +100,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pack(Reverse)
+      objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Reverse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_ReverseMove
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 61366251547262258, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
@@ -160,16 +175,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_Reverse
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_ReverseMove
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3703137657654764360, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}

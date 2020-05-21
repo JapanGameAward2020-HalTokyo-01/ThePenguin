@@ -89,6 +89,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e708e175a26a6e042a844db5c5d4056c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 392230811f6b3404e8c30eb9b5309a81, type: 3}
+--- !u!1 &2483783042468382079 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 392230811f6b3404e8c30eb9b5309a81,
+    type: 3}
+  m_PrefabInstance: {fileID: 5861934720760732790}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9110476609008966483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,25 +102,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 61366251547262261, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_Name
-      value: Pack(Slow)
-      objectReference: {fileID: 0}
-    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_Delay
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_BaseSpeed
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 61366251547262258, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.592
       objectReference: {fileID: 0}
     - target: {fileID: 61366251547262258, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
@@ -176,16 +167,36 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 5585326962194135302, guid: 86b3590c84161bc4fbdc710323c8be7c,
+    - target: {fileID: 61366251547262261, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
-      propertyPath: m_Mass
-      value: 0.6
+      propertyPath: m_Name
+      value: Pack(Slow)
       objectReference: {fileID: 0}
     - target: {fileID: 1339416615208831818, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.78
       objectReference: {fileID: 0}
+    - target: {fileID: 5585326962194135302, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Delay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_BaseSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 2483783042468382079}
     - target: {fileID: 2651997342824249689, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_IsActive

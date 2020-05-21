@@ -11,7 +11,7 @@
  * @brief   シーンのファイル名がそのままインデックスの文字列になる
  */
 [Serializable]
-public enum KSceneIndex{ None = -1, Title, Select, GameMain, Movie }
+public enum KSceneIndex{ None = -1, Title, Select, Movie, DammyLevel_0, DammyLevel_1, DammyLevel_2 }
 
 /**
  * @class シーンインデックスクラス

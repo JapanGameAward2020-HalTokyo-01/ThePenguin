@@ -43,7 +43,7 @@ public class SelectTransition : TransitionCtrlBase
 
 		// 遷移条件：選択肢毎に異なる
 		if (m_select_ctrl.SelectToTitle) m_transitioner = new TransScene(KSceneIndex.Title);
-		else m_transitioner = new TransScene(KSceneIndex.GameMain);
+		//else m_transitioner = new TransScene(KSceneIndex.GameMain);
 
 		// シーン遷移があれば実行する
 		if (m_transitioner != null) m_transitioner.Transition();

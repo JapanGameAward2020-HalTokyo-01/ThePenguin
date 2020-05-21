@@ -24,12 +24,16 @@ public class OpeningTransition : TransitionCtrlBase
 	//! 現在の表示ページ番号
 	private int m_sequence = 0;
 
+	//! ステージのメタパラメータ
+	[SerializeField]
+	private StageMetaParam m_stage_meta;
+
 	/**
 	 * @brief	初期化
 	 */
 	public void Start()
 	{
-		m_transitioner = new TransScene(KSceneIndex.GameMain);
+		m_transitioner = new TransScene(m_stage_meta.LevelScene);
 	}
 
 	/**

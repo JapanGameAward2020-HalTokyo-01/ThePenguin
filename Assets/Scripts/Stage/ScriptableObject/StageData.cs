@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(menuName = "CreateData/Stage/StageData", fileName = "StageData")]
 public class StageData : ScriptableObject
 {
 	[Header("Stage Object")]
 
-	//! ステージのPrefab
+	//! ステージのシーン
 	[SerializeField]
-	private GameObject m_stage_prefab;
-	public GameObject StagePrefab
+	private SceneAsset m_stage_scene;
+	public SceneAsset StageScene
 	{
-		get { return m_stage_prefab; }
+		get { return m_stage_scene; }
 	}
 
-
-	[Header("Stage Parameter")]
+	[Header("Stage Params")]
 
 	//! 制限時間
 	[SerializeField]
@@ -31,5 +32,4 @@ public class StageData : ScriptableObject
 	{
 		get { return Mathf.Max(1, m_clear_border); }
 	}
-
 }

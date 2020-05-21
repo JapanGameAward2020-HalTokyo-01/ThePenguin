@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(menuName = "CreateData/Stage/StageMetaParam", fileName = "StageMetaParam")]
 public class StageMetaParam : ScriptableObject
@@ -25,13 +27,13 @@ public class StageMetaParam : ScriptableObject
 		}
 	}
 
-	//! ステージのPrefabを呼び出す
-	public GameObject LevelPrefab
+	//! ステージのSceneを呼び出す
+	public SceneAsset LevelScene
 	{
 		get
 		{
 			StageData _data = m_area_list[m_area_index].GetListItem(m_stage_index);
-			return _data.StagePrefab;
+			return _data.StageScene;
 		}
 	}
 }

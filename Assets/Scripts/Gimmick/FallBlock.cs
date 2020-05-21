@@ -78,6 +78,7 @@ public class FallBlock : BaseGimmick
     {
         m_CurrentHeight = 0f;
         m_Time = -m_OffsetTime;
+        this.gameObject.SetActive(true);
     }
 
     public override void Deactivate()

@@ -11,10 +11,14 @@ public class BossGimmickManager : MonoBehaviour
     [SerializeField]
     private List<GimmickEmitter> m_GimmickEmitter = new List<GimmickEmitter>();
 
+    [SerializeField]
     private int m_EmitCounter = 0;
+    [SerializeField]
     private int m_MaxCount = 0;
 
     private GimmickEmitter m_CurrentEmitter;
+
+    private bool m_IsEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +49,8 @@ public class BossGimmickManager : MonoBehaviour
 
             m_Timer = 0f;
             m_EmitCounter++;
-            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+            if (m_EmitCounter < m_MaxCount)
+                m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
         }
 
         m_Timer += Time.deltaTime;

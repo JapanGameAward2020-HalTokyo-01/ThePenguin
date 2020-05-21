@@ -27,6 +27,10 @@ public class Penguin : MonoBehaviour
     [SerializeField, NonEditableField]
     protected InputHandler m_InputHandler;
 
+    //! 再移動可能数値
+    [SerializeField, Space(20)]
+    private float m_MoveThreshhold = 0.01f;
+
     //! Rigidbody
     protected Rigidbody m_Rigidbody;
 
@@ -69,6 +73,11 @@ public class Penguin : MonoBehaviour
     protected virtual void Update()
     {
         m_CurrentState.OnUpdate();
+
+        if (this.IsMoving())
+        {
+            m_CurrentState.OnMoving();
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -82,6 +91,16 @@ public class Penguin : MonoBehaviour
     public virtual void Invincible(bool inv)
     {
         m_Invincible = inv;
+    }
+
+    /// <summary>
+    /// @brief      InputHandlerに親ペンギンが動いているかを渡す
+    /// @return     動いているか(bool)
+    /// </summary>
+    public bool IsMoving()
+    {
+        //! 移動force残ってるか
+        return m_Rigidbody.velocity.magnitude > m_MoveThreshhold;
     }
 
     /// <summary>

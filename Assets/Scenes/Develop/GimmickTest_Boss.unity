@@ -1790,6 +1790,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 245571663}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &262357359 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7178452102961335441, guid: 5e64590247312d84992b2df0d5c23792,
+    type: 3}
+  m_PrefabInstance: {fileID: 1471180304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390d10d78d1ef6344802718e095ebfb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &270009873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2375,7 +2387,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Timer: 0
-  m_GimmickEmmiter: []
+  m_GimmickEmitter:
+  - m_BeforeEmitTime: 2
+    m_Gimmicks:
+    - {fileID: 599150717}
+  - m_BeforeEmitTime: 2
+    m_Gimmicks:
+    - {fileID: 639082423}
+  - m_BeforeEmitTime: 2
+    m_Gimmicks:
+    - {fileID: 262357359}
+  m_EmitCounter: 0
+  m_MaxCount: 0
 --- !u!1001 &321673727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4711,6 +4734,37 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+--- !u!1 &523375040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 563070365}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 523375041}
+  m_Layer: 0
+  m_Name: Bomb (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &523375041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 563070365}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523375040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 563070366}
+  m_Father: {fileID: 1341401583}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &533650873
 Material:
   serializedVersion: 6
@@ -5321,12 +5375,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c32a03e656ab4347840caf2f8b7d77f, type: 3}
---- !u!4 &563070366 stripped
+--- !u!4 &563070366
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 2962175050057913667, guid: 1c32a03e656ab4347840caf2f8b7d77f,
     type: 3}
   m_PrefabInstance: {fileID: 563070365}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414842115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 523375041}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &566953795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5741,6 +5804,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 575084575}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &599150717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8301833298683507272, guid: ad106010211c03d43983d1ed8a0edeb0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8301833297552573439}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ee1e1adfe3f7c459a555186ec1a1a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!21 &605919605
 Material:
   serializedVersion: 6
@@ -6188,6 +6263,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 636275916}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &639082423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3106245836851483165, guid: 1da1932bfb713a74389d112320fbbd25,
+    type: 3}
+  m_PrefabInstance: {fileID: 3106245838336548608}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5031752f41f6f41a5289d138135853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!21 &641205492
 Material:
   serializedVersion: 6
@@ -12258,7 +12345,7 @@ Transform:
   m_Children:
   - {fileID: 483273089}
   - {fileID: 1374466357}
-  - {fileID: 563070366}
+  - {fileID: 523375041}
   - {fileID: 1533430752}
   - {fileID: 1571533238}
   - {fileID: 1770278175}
@@ -13136,6 +13223,22 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+--- !u!1 &1414842115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 563070365}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563070366}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!21 &1418404595
 Material:
   serializedVersion: 6

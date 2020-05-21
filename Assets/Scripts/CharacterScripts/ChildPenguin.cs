@@ -194,8 +194,6 @@ public class ChildPenguin : Penguin
                     {
                         Effect.PlayerEffect("PE!", pos, scale);
                     }
-
-                    Effect.PlayerEffect("friend", transform.position);
                 }
             }
 

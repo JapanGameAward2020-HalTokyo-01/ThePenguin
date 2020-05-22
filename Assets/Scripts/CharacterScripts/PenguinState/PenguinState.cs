@@ -46,4 +46,10 @@ public class PenguinState : MonoBehaviour
     {
 
     }
+
+    //! 移動中
+    public virtual void OnMoving()
+    {
+
+    }
 }

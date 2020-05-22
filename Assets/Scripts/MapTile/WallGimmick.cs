@@ -6,12 +6,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 /**
 * @class    WallGimmick
 * @brief    押し出す壁
 */
-public class WallGimmick : MonoBehaviour
+public class WallGimmick : BaseGimmick
 {
     //パラメータ宣言
     [SerializeField, Tooltip("飛び出す長さ"),Range(0,50)]
@@ -34,17 +35,21 @@ public class WallGimmick : MonoBehaviour
 
     private Transform trans;
 
+    [SerializeField]
+    private EffekseerEmitter effeck;
+
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
         //タイマーのオフセットを設定
         m_timer = m_offset;
 
         trans=GetComponent<Transform>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         //タイマー更新
         m_timer += Time.deltaTime;
@@ -56,6 +61,7 @@ public class WallGimmick : MonoBehaviour
             float t = 0.0f;
             if(m_timer>m_cooltime+m_speed)
             {
+
                 if (m_timer > m_speed + m_cooltime + m_waittime)
                 {
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
@@ -63,11 +69,14 @@ public class WallGimmick : MonoBehaviour
                 else
                 {
                     t = 1.0f;
+
+                    effeck.StopRoot();
                 }
             }
             else
             {
                 t = (m_timer-m_cooltime) / m_speed;
+
             }
             if(t>1.0f)
             {
@@ -76,6 +85,7 @@ public class WallGimmick : MonoBehaviour
             if(t<0.0f)
             {
                 t = 0.0f;
+
             }
 
             //三次関数補間
@@ -84,11 +94,37 @@ public class WallGimmick : MonoBehaviour
             //ブロックを移動させる
             trans.localPosition = new Vector3(t*m_length, 0.0f, 0.0f);
 
+            //!エフェクト関連処理
+            {
+                var pos = trans.localPosition;
+                pos.y += 1.5f;
+                effeck.gameObject.transform.localPosition = pos;
+
+                if (!effeck.exists && t > 0.1 && t < 0.9)
+                {
+                    effeck.Play();
+
+                    effeck.speed = 3.0f * m_speed;
+                }
+            }
+
             //終了
             if (m_timer>=2.0f*m_speed+m_cooltime+m_waittime)
             {
                 m_timer = 0.0f;
+
+                effeck.StopRoot();
             }
         }
+    }
+
+    public override void Activate()
+    {
+    
+    }
+
+    public override void Deactivate()
+    {
+        
     }
 }

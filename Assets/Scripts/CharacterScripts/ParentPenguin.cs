@@ -25,10 +25,6 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private float m_InvincibleDuration;
 
-    //! 再移動可能数値
-    [SerializeField, Space(20)]
-    private float m_MoveThreshhold = 0.01f;
-
     //! 子ペンギンの群れリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
@@ -138,16 +134,6 @@ public class ParentPenguin : Penguin
         {
             _child.MoveHandler(move);
         }
-    }
-
-    /// <summary>
-    /// @brief      InputHandlerに親ペンギンが動いているかを渡す
-    /// @return     動いているか(bool)
-    /// </summary>
-    private bool IsMoving()
-    {
-        //! 移動force残ってるか
-        return m_Rigidbody.velocity.magnitude > m_MoveThreshhold;
     }
 
     /// <summary>

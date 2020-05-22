@@ -51,7 +51,7 @@ public class WallAttack : BaseGimmick
 
     public override void Deactivate()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public void OnDrawGizmos()

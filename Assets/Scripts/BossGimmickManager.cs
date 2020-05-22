@@ -11,9 +11,9 @@ public class BossGimmickManager : MonoBehaviour
     [SerializeField]
     private List<GimmickEmitter> m_GimmickEmitter = new List<GimmickEmitter>();
 
-    [SerializeField]
+    [SerializeField,NonEditableField]
     private int m_EmitCounter = 0;
-    [SerializeField]
+    [SerializeField,NonEditableField]
     private int m_MaxCount = 0;
 
     private GimmickEmitter m_CurrentEmitter;
@@ -48,9 +48,8 @@ public class BossGimmickManager : MonoBehaviour
             m_CurrentEmitter.Emit();
 
             m_Timer = 0f;
-            m_EmitCounter++;
-            if (m_EmitCounter < m_MaxCount)
-                m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+            m_EmitCounter = (m_EmitCounter + 1) % m_MaxCount;
+            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
         }
 
         m_Timer += Time.deltaTime;

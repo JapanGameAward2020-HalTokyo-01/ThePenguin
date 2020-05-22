@@ -15,7 +15,6 @@ public class BGWallTile : MonoBehaviour
         SNOW = 0,
         DESERT,
         JUNGLE,
-        VOLCANIC
     }
 
     [SerializeField]

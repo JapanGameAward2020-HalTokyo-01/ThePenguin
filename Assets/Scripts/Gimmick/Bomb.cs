@@ -29,17 +29,27 @@ public class Bomb : BaseGimmick
     //! 状態
     private bool m_IsCountDown = false;
 
-    //探知範囲表示（仮）オブジェクト
+    //! 探知範囲表示（仮）オブジェクト
     private GameObject m_DetectionSizeObject;
-    //カウントダウン表示（仮）オブジェクト
+    //! カウントダウン表示（仮）オブジェクト
     private GameObject m_CountDownObject;
+    //! モデルオブジェクト
+    private GameObject m_Model;
+
+    [SerializeField]
+    private Material m_NormalMaterial;
+    [SerializeField]
+    private Material m_CountDownMaterial;
+
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
-
-        this.transform.parent.GetComponent<Renderer>().material.color = Color.black;
+        m_Model = this.transform.parent.Find("Model").gameObject;
+        m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
     }
 
 
@@ -71,10 +81,23 @@ public class Bomb : BaseGimmick
             {
                 //爆発処理
                 Explode();
+
+                //!エフェクト関連
+                {
+                    Effect = GetComponent<EffectSpawner>();
+                    if (Effect != null)
+                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+
+                }
+
                 //消滅
                 Destroy(this.transform.parent.gameObject);
             }
         }
+
+        //探知範囲とカウントダウンの座標更新
+        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
     }
 
     /**
@@ -109,7 +132,7 @@ public class Bomb : BaseGimmick
         for (int i = 0; i < _penguins.Length; i++)
         {
             //ペンギンと爆弾距離
-            float _length = Vector3.Distance(this.transform.position, _penguins[i].transform.position);
+            float _length = Vector3.Distance(m_Model.transform.position, _penguins[i].transform.position);
 
             //ペンギンが爆心地半径内にいたら
             if(_length <= m_ExplosionSize)
@@ -123,7 +146,7 @@ public class Bomb : BaseGimmick
             else if (_length <= m_BlastSize)
             {
                 Debug.Log("blast");
-                Vector3 _power = (_penguins[i].transform.position - this.transform.position) * m_BlastPower;
+                Vector3 _power = (_penguins[i].transform.position - m_Model.transform.position).normalized * m_BlastPower;
                 _penguins[i].GetComponent<Rigidbody>().AddForce(_power, ForceMode.Impulse);
             }
         }
@@ -135,10 +158,10 @@ public class Bomb : BaseGimmick
         if (other.gameObject.layer == 8)
         {
             m_IsCountDown = true;
+            m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
             //以下はすべて仮の演出処理
-            m_DetectionSizeObject.SetActive(false);
+            //m_DetectionSizeObject.SetActive(false);
             m_CountDownObject.SetActive(true);
-            this.transform.parent.GetComponent<Renderer>().material.color = Color.red;
         }
     }
 

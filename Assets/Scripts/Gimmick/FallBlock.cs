@@ -83,7 +83,7 @@ public class FallBlock : BaseGimmick
 
     public override void Deactivate()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public virtual void OnDrawGizmos()

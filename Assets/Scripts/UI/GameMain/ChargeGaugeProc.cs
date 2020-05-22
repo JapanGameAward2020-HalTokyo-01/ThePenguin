@@ -3,6 +3,7 @@
  * @brief   インプットチャージに関する状況を示すゲージUIのパラメータ操作クラス
  * @author  谷沢 瑞己
  */
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +11,9 @@ using UnityEngine.UI;
  * @file    ChargeGaugeProcクラス
  * @brief   インプットチャージに関する状況を示すゲージUIのパラメータ操作クラス
  */
+[RequireComponent(typeof(RectTransform))]
 public class ChargeGaugeProc : MonoBehaviour
 {
-	//! 自分のRectTransform
-	private RectTransform m_self_rect;
-
 	//! ゲージオブジェクト
 	[SerializeField]
 	private GameObject m_gauge_obj;
@@ -36,16 +35,16 @@ public class ChargeGaugeProc : MonoBehaviour
 	 */
 	public void Awake()
 	{
-		m_self_rect = gameObject.GetComponent<RectTransform>();
 		m_gauge_rect = m_gauge_obj.GetComponent<RectTransform>();
 		Image _image = m_gauge_obj.GetComponent<Image>();
 		m_gauge_mat = _image.material;
+
 	}
 
 	/**
-	 * @brief   更新
+	 * @brief   表示座標の初期化
 	 */
-	public void OnUpdate(InputHandler _input, RectTransform _camvas_rect, Vector3 _target_pos)
+	public void SetPosition(RectTransform _camvas_rect, Vector3 _target_pos)
 	{
 		//! ターゲットのスクリーン座標取得
 		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, _target_pos);
@@ -53,8 +52,16 @@ public class ChargeGaugeProc : MonoBehaviour
 		// ターゲット追従座標更新
 		Vector2 output;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(_camvas_rect, _screen_pos, Camera.main, out output);
-		m_self_rect.localPosition = output + m_offset;
 
+		RectTransform _self_rect = gameObject.GetComponent<RectTransform>();
+		_self_rect.localPosition = output + m_offset;
+	}
+
+	/**
+	 * @brief   更新
+	 */
+	public void OnUpdate(InputHandler _input)
+	{
 		// ゲージの長さ、テクスチャuv再計算
 		Vector4 _tiling = new Vector4();
 		_tiling.x = Mathf.Clamp(_input.Power / _input.PowerMax, 0.0f, 1.0f);

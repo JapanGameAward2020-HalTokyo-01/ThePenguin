@@ -22,18 +22,6 @@ public class SelectTransition : TransitionCtrlBase
 	private StageSelectCtrl m_select_ctrl = null;
 
 	/**
-	 * @brief	フレーム更新処理
-	 */
-	public void Update()
-	{
-		// キー入力があればシーン遷移する
-		if (Input.GetButtonDown("Fire1")) SceneTransition();
-		m_text.text = "SelectScene\nSelect Stage";
-
-		// フレーム更新
-	}
-
-	/**
 	 * @brief	選択したコマンドを実行する
 	 */
 	private void SceneTransition()

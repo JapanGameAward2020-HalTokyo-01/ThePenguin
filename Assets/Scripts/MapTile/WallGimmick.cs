@@ -36,7 +36,7 @@ public class WallGimmick : BaseGimmick
     private Transform trans;
 
     [SerializeField]
-    private EffekseerEmitter effeck;
+    private EffekseerEmitter[] effeck;
 
     // Start is called before the first frame update
     public override void Start()
@@ -70,7 +70,7 @@ public class WallGimmick : BaseGimmick
                 {
                     t = 1.0f;
 
-                    effeck.StopRoot();
+                    effeck[0].StopRoot();
                 }
             }
             else
@@ -97,14 +97,19 @@ public class WallGimmick : BaseGimmick
             //!エフェクト関連処理
             {
                 var pos = trans.localPosition;
-                pos.y += 1.5f;
-                effeck.gameObject.transform.localPosition = pos;
+                pos.y += 1.0f;
+                effeck[0].gameObject.transform.localPosition = pos;
+                effeck[1].gameObject.transform.localPosition = pos;
 
-                if (!effeck.exists && t > 0.1 && t < 0.9)
+                if (!effeck[0].exists && t > 0.1 && t < 0.9)
                 {
-                    effeck.Play();
+                    effeck[0].Play();
+                    effeck[1].Play();
+                }
 
-                    effeck.speed = 3.0f * m_speed;
+                if (effeck[1].exists && (t < 0.1f || t > 0.9f))
+                {
+                    effeck[1].StopRoot();
                 }
             }
 
@@ -113,7 +118,7 @@ public class WallGimmick : BaseGimmick
             {
                 m_timer = 0.0f;
 
-                effeck.StopRoot();
+                effeck[0].StopRoot();
             }
         }
     }

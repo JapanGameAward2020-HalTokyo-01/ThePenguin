@@ -1,6 +1,6 @@
 ﻿/**
 * @file     Bomb.cs
-* @brief    爆弾ギミック
+* @brief    ボスステージ用爆弾ギミック
 * @author   Taku Hekisen
 */
 
@@ -9,11 +9,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Bomb : BaseGimmick
+public class BossBomb : BaseGimmick
 {
-    [SerializeField, Tooltip("探知範囲")]
-    private float m_DetectionSize = 1.0f;
-
     [SerializeField, Tooltip("カウントダウン秒数")]
     private float m_CountDown = 3.0f;
 
@@ -26,44 +23,60 @@ public class Bomb : BaseGimmick
     [SerializeField, Tooltip("爆風強さ")]
     private float m_BlastPower = 0.0f;
 
+    [SerializeField, Tooltip("爆弾投げる勢い")]
+    private float m_ThrowSpeed = 1.0f;
+
     //! 状態
     private bool m_IsCountDown = false;
+    private bool m_IsThrow = false;
+    //! カウントダウン秒数初期数値
+    private float m_CountDownInit;
 
-    //! 探知範囲表示（仮）オブジェクト
-    private GameObject m_DetectionSizeObject;
     //! カウントダウン表示（仮）オブジェクト
     private GameObject m_CountDownObject;
     //! モデルオブジェクト
     private GameObject m_Model;
 
-    [SerializeField]
-    private Material m_NormalMaterial;
-    [SerializeField]
-    private Material m_CountDownMaterial;
+    [SerializeField]private Material m_NormalMaterial;
+    [SerializeField]private Material m_CountDownMaterial;
 
-    //!エフェクトスポーンナー
+    //! エフェクトスポーンナー
     private EffectSpawner Effect;
+
+    //! 爆弾投げられ開始地点
+    private GameObject m_Start;
+    //! 爆弾投げられ落下地点
+    private GameObject m_End;
+    //! 爆弾投げられ勢い
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
-        m_Model = this.transform.parent.Find("Model").gameObject;
+
+        m_Model = this.transform.Find("Model").gameObject;
         m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
+
+        m_Start = this.transform.Find("Start").gameObject;
+        m_End = this.transform.Find("End").gameObject;
+        m_Start.GetComponent<Renderer>().enabled = false;
+        m_End.GetComponent<Renderer>().enabled = false;
+
+        m_Model.transform.position = m_Start.transform.position;
+        m_Model.GetComponent<Rigidbody>().isKinematic = true;
+
+        m_CountDownInit = m_CountDown;
+        m_CountDownObject.SetActive(false);
     }
 
 
     void OnValidate()
     {
-        //探知範囲初期化
-        this.GetComponent<SphereCollider>().radius = m_DetectionSize * 0.5f;
-        //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
-        m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
-        m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
         //カウントダウン表示（仮）初期化
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
         m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
-        m_CountDownObject.SetActive(false);
+
+        m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  
@@ -72,9 +85,15 @@ public class Bomb : BaseGimmick
     {
         base.Update();
 
+        //投げる
+        if(m_IsThrow)
+        {
+            this.Throw();
+        }
+
         //カウントダウン開始
-        if(m_IsCountDown)
-        {          
+        if (m_IsCountDown)
+        {
             m_CountDown -= Time.deltaTime;
             m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
             if (m_CountDown <= 0.0f)
@@ -91,12 +110,11 @@ public class Bomb : BaseGimmick
                 }
 
                 //消滅
-                Destroy(this.transform.parent.gameObject);
+                this.Deactivate();
             }
         }
 
         //探知範囲とカウントダウンの座標更新
-        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
         m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
     }
 
@@ -107,7 +125,9 @@ public class Bomb : BaseGimmick
      */
     public override void Activate()
     {
-        
+        this.gameObject.SetActive(true);
+        //m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
+        m_IsThrow = true;
     }
 
     /**
@@ -117,7 +137,12 @@ public class Bomb : BaseGimmick
      */
     public override void Deactivate()
     {
-
+        m_CountDown = m_CountDownInit;
+        m_Model.transform.position = m_Start.transform.position;
+        m_Model.transform.rotation = new Quaternion(0,0,0,0);
+        m_Model.GetComponent<Rigidbody>().isKinematic = true;
+        m_CountDownObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     /**
@@ -135,7 +160,7 @@ public class Bomb : BaseGimmick
             float _length = Vector3.Distance(m_Model.transform.position, _penguins[i].transform.position);
 
             //ペンギンが爆心地半径内にいたら
-            if(_length <= m_ExplosionSize)
+            if (_length <= m_ExplosionSize)
             {
                 //仮のプレイヤー死亡処理
                 Debug.Log("dead");
@@ -152,17 +177,25 @@ public class Bomb : BaseGimmick
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    /**
+    * @brief    投げる曲線
+    * @param(value)   Param Description
+    * @return   None
+    */
+    private void Throw()
     {
-        //探知範囲に当たったオブジェクトのLayerが8番のlayerPackPenguinだったら
-        if (other.gameObject.layer == 8)
+        Vector3 _vecNormalized = (m_End.transform.position - m_Start.transform.position).normalized;
+        Vector3 _vec = _vecNormalized * m_ThrowSpeed * 0.1f;
+        m_Model.transform.position += _vec;
+        if ((m_Model.transform.position- m_End.transform.position).sqrMagnitude<0.1f)
         {
-            m_IsCountDown = true;
-            m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
-            //以下はすべて仮の演出処理
-            //m_DetectionSizeObject.SetActive(false);
+            m_Model.transform.position = m_End.transform.position;
+            m_Model.GetComponent<Rigidbody>().isKinematic = false;
+
             m_CountDownObject.SetActive(true);
+            m_IsCountDown = true;
+
+            m_IsThrow = false;
         }
     }
-
 }

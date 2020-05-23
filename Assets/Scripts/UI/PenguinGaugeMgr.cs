@@ -159,7 +159,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 		// テキスト
 		{
 			m_pack_num_text.text = m_penguin_mgr.m_PackCount.ToString();
-			m_dead_num_text.text = m_penguin_mgr.m_DeadCount.ToString();
+
+			if (m_penguin_mgr.m_DeadCount > 0)
+				m_dead_num_text.text = m_penguin_mgr.m_DeadCount.ToString();
+			else
+				m_dead_num_text.text = "";
 		}
 
 		// 顔グラ

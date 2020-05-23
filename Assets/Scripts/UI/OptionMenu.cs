@@ -244,7 +244,8 @@ public class OptionMenu : MonoBehaviour
         this.gameObject.SetActive(false);
 
         //!　Pause画面を有効
-        m_PauseMenu.gameObject.SetActive(true);
+        m_PauseMenu.OnEnable();
+        //m_PauseMenu.gameObject.SetActive(true);
 
         yield break;
     }

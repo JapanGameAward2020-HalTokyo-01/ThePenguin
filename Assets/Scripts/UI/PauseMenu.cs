@@ -49,15 +49,21 @@ public class PauseMenu : MonoBehaviour
     //! 現在のシーン
     private string m_ActiveScene;
 
+    //! メニュー群
     [SerializeField, Space(20)]
     private OptionMenu m_OptionMenu;
 
-    [SerializeField,Space(20)]
+    [SerializeField]
+    private Animator m_Animator;
+
+    [SerializeField, Space(20)]
     //! タイトルのシーン
     private string m_TitleScene;
     [SerializeField]
     //! ステージ選択のシーン
     private string m_StageSelectScene;
+
+    
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -83,7 +89,7 @@ public class PauseMenu : MonoBehaviour
     /// <summary>
     /// @brief      active時呼ばれるやつ
     /// </summary>
-    private void OnEnable()
+    public void OnEnable()
     {
         //! 初期選択ボタン
         m_LastSelected = m_RestartButton.gameObject;
@@ -92,9 +98,10 @@ public class PauseMenu : MonoBehaviour
         m_CoroutineA = false;
         m_CoroutineB = false;
 
-
         //!　ゲームを止める
         Time.timeScale = 0;
+
+        m_Animator.SetBool("Open", true);
 
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
@@ -250,8 +257,9 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     IEnumerator OptionCo()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
         m_OptionMenu.gameObject.SetActive(true);
+        m_CoroutineB = true;
 
         yield break;
     }
@@ -289,6 +297,10 @@ public class PauseMenu : MonoBehaviour
 
         //!　ゲームを再開
         Time.timeScale = 1;
+
+        m_Animator.SetBool("Open", false);
+        yield return new WaitForSecondsRealtime(0.6f);
+
         //!　ポーズ画面を消す
         this.gameObject.SetActive(false);
 

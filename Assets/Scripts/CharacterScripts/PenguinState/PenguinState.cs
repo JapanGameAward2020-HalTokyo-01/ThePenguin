@@ -9,12 +9,12 @@ using UnityEngine;
 
 public class PenguinState : MonoBehaviour
 {
-
     public Penguin penguin { get; private set; }
 
-    public void Init(Penguin penguin)
+    public virtual void Init(Penguin penguin)
     {
         this.penguin = penguin;
+
     }
 
     //! 初期化処理

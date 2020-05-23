@@ -22,6 +22,7 @@ public class ChildPenguin : Penguin
     private bool m_Boss = false;
     public void Boss() { m_Boss = true; }
 
+
     //! 群れ化当たり判定
     [SerializeField]
     [Tooltip("群れ化当たり判定")]

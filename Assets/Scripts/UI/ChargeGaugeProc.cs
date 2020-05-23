@@ -28,7 +28,7 @@ public class ChargeGaugeProc : MonoBehaviour
 
 	//! ターゲットのスクリーン座標からのオフセット
 	[SerializeField]
-	private Vector2 m_offset;
+	private Vector3 m_offset;
 
 	/**
 	 * @brief   初期化
@@ -47,14 +47,14 @@ public class ChargeGaugeProc : MonoBehaviour
 	public void SetPosition(RectTransform _camvas_rect, Vector3 _target_pos)
 	{
 		//! ターゲットのスクリーン座標取得
-		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, _target_pos);
+		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, _target_pos + m_offset);
 
 		// ターゲット追従座標更新
 		Vector2 output;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(_camvas_rect, _screen_pos, Camera.main, out output);
 
 		RectTransform _self_rect = gameObject.GetComponent<RectTransform>();
-		_self_rect.localPosition = output + m_offset;
+		_self_rect.localPosition = output;
 	}
 
 	/**

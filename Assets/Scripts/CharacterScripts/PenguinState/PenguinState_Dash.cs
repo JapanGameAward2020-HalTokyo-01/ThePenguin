@@ -11,18 +11,12 @@ using Effekseer;
 
 public class PenguinState_Dash : PenguinState
 {
-    //!エフェクトスポーンナー
-    [SerializeField]
-    private EffectSpawner Effect;
-
     [SerializeField]
     private EffekseerEmitter[] effeck;
 
     //! 初期化処理
     public override void OnStart()
     {
-        Effect = GetComponent<EffectSpawner>();
-
         effeck[0].speed = 2.0f;
     }
 
@@ -33,11 +27,11 @@ public class PenguinState_Dash : PenguinState
         //!エフェクト関連処理
         {
             //!通常エフェクト
-            if (Effect != null)
+            if (penguin.GetEffectSpawner() != null)
             {
                 var pos = transform.position;
                 pos.y -= 1.0f;
-                Effect.PlayerEffect("dash", pos);
+                penguin.GetEffectSpawner().PlayerEffect("dash", pos);
             }
 
             //!文字エフェクト

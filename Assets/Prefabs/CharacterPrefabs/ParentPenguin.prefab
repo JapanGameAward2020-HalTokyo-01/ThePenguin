@@ -130,7 +130,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8506921417305026794}
   - component: {fileID: 5378106873440166034}
-  - component: {fileID: 9173849675419272275}
   - component: {fileID: 1799753158928367798}
   - component: {fileID: 1903658021790884041}
   m_Layer: 8
@@ -166,25 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34a192bd412a47043a426b79509b67de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Effect: {fileID: 0}
   effeck:
   - {fileID: 1799753158928367798}
   - {fileID: 1903658021790884041}
---- !u!114 &9173849675419272275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5149996253227907543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectAssets:
-  - {fileID: 11400000, guid: 408b86ec1589a084dbc2d5a0d46daec0, type: 2}
-  m_CurrentEffect: {fileID: 0}
 --- !u!114 &1799753158928367798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +306,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17af8f58aef661a4c835eb267c8b5bee, type: 2}
   - {fileID: 11400000, guid: a5c88b1e974c8d4459cd00ae35209643, type: 2}
   - {fileID: 11400000, guid: 25a5623cc65797043941ca207eabd2d2, type: 2}
+  - {fileID: 11400000, guid: 408b86ec1589a084dbc2d5a0d46daec0, type: 2}
+  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
+  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
+  - {fileID: 11400000, guid: 67fbf150828d47b48bfaa7040c4300a4, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!1 &7813284569911605419
 GameObject:
@@ -334,7 +321,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5946134024056261646}
   - component: {fileID: 5307260178643396471}
-  - component: {fileID: 661151730315294629}
   m_Layer: 8
   m_Name: Walk
   m_TagString: Untagged
@@ -368,23 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c023ca7e5147b4478da34d89d32e32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &661151730315294629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7813284569911605419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectAssets:
-  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
-  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
-  - {fileID: 11400000, guid: 67fbf150828d47b48bfaa7040c4300a4, type: 2}
-  m_CurrentEffect: {fileID: 0}
 --- !u!1001 &224244342803912045
 PrefabInstance:
   m_ObjectHideFlags: 0

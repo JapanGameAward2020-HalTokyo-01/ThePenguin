@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 5149996253227907543}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 5771266318698067761}
   m_RootOrder: 1
@@ -277,8 +277,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b7a904d18b6b404aa5ae4a06d5c4587, type: 2}
   - {fileID: 11400000, guid: 7ed725cb93e77d84bae91f351ecae5cf, type: 2}
   - {fileID: 11400000, guid: 17af8f58aef661a4c835eb267c8b5bee, type: 2}
-  - {fileID: 11400000, guid: 67fbf150828d47b48bfaa7040c4300a4, type: 2}
-  - {fileID: 11400000, guid: 408b86ec1589a084dbc2d5a0d46daec0, type: 2}
   - {fileID: 11400000, guid: a5c88b1e974c8d4459cd00ae35209643, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!1 &7813284569911605419
@@ -326,6 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Effect: {fileID: 0}
+  EffectTimer: 0
 --- !u!114 &661151730315294629
 MonoBehaviour:
   m_ObjectHideFlags: 0

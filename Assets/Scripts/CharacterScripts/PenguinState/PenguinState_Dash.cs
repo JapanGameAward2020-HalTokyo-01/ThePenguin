@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+* @file     PenguinState_Dash.cs
+* @brief    ペンギンステート＿高速
+* @author   李　爾捷
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
@@ -24,16 +30,17 @@ public class PenguinState_Dash : PenguinState
     public override void OnUpdate()
     {
 
-
-        if (Effect != null)
-        {
-            var pos = transform.position;
-            pos.y -= 1.0f;
-            Effect.PlayerEffect("dash", pos);
-        }
-
         //!エフェクト関連処理
         {
+            //!通常エフェクト
+            if (Effect != null)
+            {
+                var pos = transform.position;
+                pos.y -= 1.0f;
+                Effect.PlayerEffect("dash", pos);
+            }
+
+            //!文字エフェクト
             if (!effeck[0].exists)
             {
                 effeck[1].Play();
@@ -52,9 +59,4 @@ public class PenguinState_Dash : PenguinState
         }
 
      }
-
-    //! 終了処理
-    public override void OnRelease()
-    {
-    }
 }

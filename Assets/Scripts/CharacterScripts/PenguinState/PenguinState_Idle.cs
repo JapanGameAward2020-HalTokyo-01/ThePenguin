@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+* @file     PenguinState_Idle.cs
+* @brief    ペンギンステート＿通常
+* @author   李　爾捷
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

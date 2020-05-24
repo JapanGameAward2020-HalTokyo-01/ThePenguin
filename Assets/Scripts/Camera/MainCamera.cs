@@ -16,9 +16,9 @@ public class MainCamera : MonoBehaviour
     private float m_InitDistance = 20.0f;
     //カメラ初期角度
     [SerializeField]
-    private int m_InitAngle_XZ = 0;
+    private float m_InitAngle_XZ = 0;
     [SerializeField]
-    private int m_InitAngle_Y = 45;
+    private float m_InitAngle_Y = 45;
     //追尾オブジェクト
     [SerializeField]
     private GameObject m_focusObject;
@@ -29,7 +29,13 @@ public class MainCamera : MonoBehaviour
     [SerializeField]
     private float m_Fov_2 = 60.0f;
     [SerializeField]
-    private float m_SwitchTime = 1.0f;
+    private float m_SwitchTime = 0.5f;
+
+    //Rotate
+    [SerializeField]
+    private float m_RotateSpeed = 50.0f;
+    [SerializeField]
+    private bool m_RotateReverse = false;
 
     //
     private bool m_IsSwitch = false;
@@ -59,8 +65,16 @@ public class MainCamera : MonoBehaviour
         {
             FovSwitch();
         }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            RotateCamera(true);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            RotateCamera(false);
+        }
 
-        if(m_IsSwitch)
+        if (m_IsSwitch)
         {
             m_SwitchTimer += Time.deltaTime;
             float t = m_SwitchTimer / m_SwitchTime;
@@ -82,7 +96,8 @@ public class MainCamera : MonoBehaviour
         v_camera[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = m_InitAngle_XZ;
     }
 
-    void FovSwitch()
+    //Fov切替関数
+    public void FovSwitch()
     {
         if (!m_IsSwitch)
         {
@@ -98,5 +113,21 @@ public class MainCamera : MonoBehaviour
                 m_CurrentFov = m_Fov_1;
             }
         }
+    }
+
+    //回転関数
+    public void RotateCamera(bool direction,float scale=1.0f)
+    {
+        float dir;
+        if((direction && !m_RotateReverse)||(!direction&&m_RotateReverse))
+        {
+            dir = 1.0f;
+        }
+        else
+        {
+            dir = -1.0f;
+        }
+        m_InitAngle_XZ -= scale * dir * m_RotateSpeed*Time.deltaTime;
+        v_camera[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = m_InitAngle_XZ;
     }
 }

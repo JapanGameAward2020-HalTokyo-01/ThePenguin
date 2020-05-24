@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Effekseer;
 
 public class Bomb : BaseGimmick
 {
@@ -41,6 +42,11 @@ public class Bomb : BaseGimmick
     [SerializeField]
     private Material m_CountDownMaterial;
 
+    [SerializeField]
+    private EffekseerEffectAsset m_SaveEffect;
+    [SerializeField]
+    private EffekseerEffectAsset m_DangerEffect;
+
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
@@ -50,6 +56,9 @@ public class Bomb : BaseGimmick
         base.Start();
         m_Model = this.transform.parent.Find("Model").gameObject;
         m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
+
+        m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
+        m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
     }
 
 
@@ -162,6 +171,9 @@ public class Bomb : BaseGimmick
             //以下はすべて仮の演出処理
             //m_DetectionSizeObject.SetActive(false);
             m_CountDownObject.SetActive(true);
+
+            m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
+            m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_DangerEffect);
         }
     }
 

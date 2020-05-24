@@ -57,12 +57,9 @@ public class WallAttack : BaseGimmick
     public void OnDrawGizmos()
     {
 #if UNITY_EDITOR
-
-        Vector3 scale = m_Wall.transform.lossyScale;
-        scale = new Vector3(scale.x,scale.y,Mathf.Max(m_Length + 1.0f,scale.z));
-
-        Gizmos.color = new Color(1f,0f,0f,0.5f);
-        Gizmos.DrawCube(this.transform.position + this.transform.forward * m_Length * 0.5f,scale);
+        //Gizmos.color = new Color(1f,0f,0f,0.5f);
+        //Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
+        //Gizmos.DrawCube(m_WarningArrow.transform.position,m_WarningArrow.transform.lossyScale);
 #endif
     }
 
@@ -76,7 +73,7 @@ public class WallAttack : BaseGimmick
             Vector3 pos = m_WarningArrow.transform.localPosition;
 
             m_WarningArrow.transform.localScale = new Vector3(m_WarningArrow.transform.localScale.x, m_Length + 1f, m_WarningArrow.transform.localScale.z);
-            m_WarningArrow.transform.localPosition = new Vector3(pos.x,pos.y,0f) + this.transform.forward * m_Length * 0.5f;
+            m_WarningArrow.transform.position = this.transform.position + this.transform.forward * m_Length * 0.5f - new Vector3(0f,m_Wall.transform.lossyScale.y * 0.5f,0f);
 
         }
 

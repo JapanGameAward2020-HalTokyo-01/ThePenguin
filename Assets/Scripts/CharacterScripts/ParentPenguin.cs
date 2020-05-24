@@ -225,11 +225,6 @@ public class ParentPenguin : Penguin
             {
                 m_Handler.ChangeState(InputHandler.State.Idle);
             }
-
-            if (Effect != null)
-            {
-                Effect.PlayerEffect("bigfoot", m_ParentPenguin.transform.position, m_ParentPenguin.m_Model.transform.rotation);
-            }
         }
 
         //! Run状態になった時(一回だけの処理)

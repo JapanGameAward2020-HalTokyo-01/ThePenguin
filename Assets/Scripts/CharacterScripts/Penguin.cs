@@ -39,7 +39,7 @@ public class Penguin : MonoBehaviour
     protected bool m_Invincible = false;
 
     //!エフェクトスポーンナー
-    protected EffectSpawner Effect { get; set; }
+    public EffectSpawner Effect { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -121,10 +121,11 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
+        
         //! オブジェを無効にする
         gameObject.SetActive(false);
 
-        if (!m_Invincible && Gimmick)
+        if (m_Invincible && Gimmick)
         {
             return;
         }
@@ -155,8 +156,11 @@ public class Penguin : MonoBehaviour
         return false;
     }
 
-    public EffectSpawner GetEffectSpawner()
+    /// <summary>
+    /// @brief      落ちてるか判定
+    /// </summary>
+    public bool GetFall()
     {
-        return Effect;
+        return m_Rigidbody.velocity.y < 0;
     }
 }

@@ -9,6 +9,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
  
 
 public class PauseMenu : MonoBehaviour
@@ -49,10 +50,17 @@ public class PauseMenu : MonoBehaviour
     //! 現在のシーン
     private string m_ActiveScene;
 
+    //! メニュー群
     [SerializeField, Space(20)]
     private OptionMenu m_OptionMenu;
+    //! Animator
+    [SerializeField]
+    private Animator m_Animator;
+    //! 入力
+    [SerializeField]
+    private PlayerInput m_Input;
 
-    [SerializeField,Space(20)]
+    [SerializeField, Space(20)]
     //! タイトルのシーン
     private string m_TitleScene;
     [SerializeField]
@@ -83,7 +91,7 @@ public class PauseMenu : MonoBehaviour
     /// <summary>
     /// @brief      active時呼ばれるやつ
     /// </summary>
-    private void OnEnable()
+    public void OnEnable()
     {
         //! 初期選択ボタン
         m_LastSelected = m_RestartButton.gameObject;
@@ -92,12 +100,28 @@ public class PauseMenu : MonoBehaviour
         m_CoroutineA = false;
         m_CoroutineB = false;
 
-
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        m_Animator.SetBool("Open", true);
+
+        //! InputにBButtonのEventを追加
+        m_Input.actions["B Button"].performed += BButtonPause;
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void BButtonPause(InputAction.CallbackContext ctx)
+    {
+        //! 戻る(Bボタン)処理
+        //if (Input.GetKeyDown("joystick button 1") && !m_CoroutineB)
+
+        Debug.Log("PauseMenu: message received");
+        if(!m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB());
+        }
     }
 
     /// <summary>
@@ -114,12 +138,6 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //! 戻る(Bボタン)処理
-        if (Input.GetKeyDown("joystick button 1")　&& !m_CoroutineB)
-        {
-            StartCoroutine(ClickTimerB());
-        }
-
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
@@ -242,6 +260,8 @@ public class PauseMenu : MonoBehaviour
         ////!　ゲームを再開
         //Time.timeScale = 1;
         //SceneManager.LoadScene(m_ActiveScene);
+        ////! InputからBButtonのEventを削除
+        //m_Input.actions["B Button"].performed -= BButtonPause;
         yield break;
     }
 
@@ -250,8 +270,11 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     IEnumerator OptionCo()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
         m_OptionMenu.gameObject.SetActive(true);
+        m_CoroutineB = true;
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonPause;
 
         yield break;
     }
@@ -266,7 +289,8 @@ public class PauseMenu : MonoBehaviour
         ////!　ゲームを再開
         //Time.timeScale = 1;
         //SceneManager.LoadScene(m_TitleScene);
-
+        ////! InputからBButtonのEventを削除
+        //m_Input.actions["B Button"].performed -= BButtonPause;
         yield break;
     }
 
@@ -280,6 +304,9 @@ public class PauseMenu : MonoBehaviour
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
 
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonPause;
+
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
@@ -289,6 +316,10 @@ public class PauseMenu : MonoBehaviour
 
         //!　ゲームを再開
         Time.timeScale = 1;
+
+        m_Animator.SetBool("Open", false);
+        yield return new WaitForSecondsRealtime(0.6f);
+
         //!　ポーズ画面を消す
         this.gameObject.SetActive(false);
 

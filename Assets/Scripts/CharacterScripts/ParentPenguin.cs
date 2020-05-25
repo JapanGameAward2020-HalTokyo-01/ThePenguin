@@ -181,7 +181,7 @@ public class ParentPenguin : Penguin
         {
             m_ParentPenguin = penguin;
 
-            Effect = m_ParentPenguin.GetEffectSpawner();
+            Effect = m_ParentPenguin.Effect;
         }
 
         //!Idle状態
@@ -227,4 +227,14 @@ public class ParentPenguin : Penguin
         }
     }
 
+
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
 }

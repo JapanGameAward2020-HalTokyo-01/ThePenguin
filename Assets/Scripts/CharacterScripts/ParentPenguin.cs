@@ -227,4 +227,14 @@ public class ParentPenguin : Penguin
         }
     }
 
+
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
 }

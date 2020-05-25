@@ -16,45 +16,23 @@ public class ChargeGaugeProc : MonoBehaviour
 {
 	//! ゲージオブジェクト
 	[SerializeField]
-	private GameObject m_gauge_obj;
 	private RectTransform m_gauge_rect;
 	private Material m_gauge_mat;
 
 	//! ゲージ部分の座標と大きさ
 	[SerializeField]
 	private Vector2 m_gauge_left;
-	[SerializeField]
 	private Vector2 m_gauge_size;
-
-	//! ターゲットのスクリーン座標からのオフセット
-	[SerializeField]
-	private Vector2 m_offset;
 
 	/**
 	 * @brief   初期化
 	 */
 	public void Awake()
 	{
-		m_gauge_rect = m_gauge_obj.GetComponent<RectTransform>();
-		Image _image = m_gauge_obj.GetComponent<Image>();
+		Image _image = m_gauge_rect.gameObject.GetComponent<Image>();
 		m_gauge_mat = _image.material;
 
-	}
-
-	/**
-	 * @brief   表示座標の初期化
-	 */
-	public void SetPosition(RectTransform _camvas_rect, Vector3 _target_pos)
-	{
-		//! ターゲットのスクリーン座標取得
-		Vector2 _screen_pos = RectTransformUtility.WorldToScreenPoint(Camera.main, _target_pos);
-
-		// ターゲット追従座標更新
-		Vector2 output;
-		RectTransformUtility.ScreenPointToLocalPointInRectangle(_camvas_rect, _screen_pos, Camera.main, out output);
-
-		RectTransform _self_rect = gameObject.GetComponent<RectTransform>();
-		_self_rect.localPosition = output + m_offset;
+		m_gauge_size = m_gauge_rect.sizeDelta;
 	}
 
 	/**

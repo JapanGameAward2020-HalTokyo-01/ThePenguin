@@ -25,10 +25,8 @@ public class BGWallTile : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-        m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+        this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
 
-        this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
     }
 
 }

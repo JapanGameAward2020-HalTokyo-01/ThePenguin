@@ -31,9 +31,6 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action<ParentPenguin> onKillEvent;
 
-    //!エフェクトスポーンナー
-    private EffectSpawner Effect;
-
     protected override void Awake()
     {
         base.Awake();
@@ -166,13 +163,8 @@ public class ParentPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position);
+                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
-    }
-
-    public EffectSpawner GetEffectSpawner()
-    {
-        return Effect;
     }
 
     /// <summary>
@@ -224,11 +216,6 @@ public class ParentPenguin : Penguin
             if (!m_ParentPenguin.IsMoving())
             {
                 m_Handler.ChangeState(InputHandler.State.Idle);
-            }
-
-            if (Effect != null)
-            {
-                Effect.PlayerEffect("bigfoot", m_ParentPenguin.transform.position, m_ParentPenguin.m_Model.transform.rotation);
             }
         }
 

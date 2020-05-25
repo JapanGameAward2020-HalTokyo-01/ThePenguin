@@ -18,7 +18,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の左端座標")]
 	private Vector2 m_left_pos;
 	//! 最大の大きさ
-	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ")]
+	[SerializeField, NonEditableField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ\n子オブジェクトから読み取り")]
 	private Vector2 m_gauge_max_size;
 
 	[Header("UI objects")]
@@ -88,7 +88,10 @@ public class PenguinGaugeMgr : MonoBehaviour
 		_image = m_death_gauge.GetComponent<Image>();
 		m_death_mat = _image.material;
 
-        StartCoroutine(DelayStart());
+		RectTransform _gauge_rect = m_living_gauge.GetComponent<RectTransform>();
+		m_gauge_max_size = _gauge_rect.sizeDelta;
+
+		StartCoroutine(DelayStart());
 	}
 
     /// <summary>

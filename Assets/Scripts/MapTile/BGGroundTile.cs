@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BGGrondTile : MonoBehaviour
+public class BGGroundTile : MonoBehaviour
 {
     public enum FieldType
     {

@@ -14,7 +14,6 @@ using UnityEngine.UI;
 public class StageTimer : MonoBehaviour
 {
 	//! 制限時間
-	[SerializeField]
 	private float m_time;
 
 	//! 操作対象のUI要素
@@ -41,5 +40,8 @@ public class StageTimer : MonoBehaviour
 		m_mini_sec_text.text = (Mathf.FloorToInt(m_time * 100) % 100).ToString("D2");
 	}
 
-
+    public void SetTime(int time)
+    {
+        m_time = time;
+    }
 }

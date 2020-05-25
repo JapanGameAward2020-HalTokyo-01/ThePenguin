@@ -11,7 +11,6 @@ using UnityEngine;
  * @file    ChargeGaugeMgrクラス
  * @brief   チャージゲージの表示/非表示を切り替える
  */
- [RequireComponent(typeof(Transform))]
 public class ChargeGaugeMgr : MonoBehaviour
 {
 	//! オンオフを切り替えるオブジェクト

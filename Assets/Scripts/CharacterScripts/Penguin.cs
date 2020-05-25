@@ -118,13 +118,13 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
-        //! オブジェを無効にする
-        gameObject.SetActive(false);
-
-        if (!m_Invincible && Gimmick)
+        if (m_Invincible && Gimmick)
         {
             return;
         }
+
+        //! オブジェを無効にする
+        gameObject.SetActive(false);
 
         //! 現ステートの死亡処理呼び出し
         m_CurrentState.OnKill();
@@ -150,5 +150,13 @@ public class Penguin : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// @brief      落ちてるか判定
+    /// </summary>
+    public bool GetFall()
+    {
+        return m_Rigidbody.velocity.y < 0;
     }
 }

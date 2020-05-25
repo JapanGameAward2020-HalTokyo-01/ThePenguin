@@ -161,6 +161,6 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public bool GetFall()
     {
-        return m_Rigidbody.velocity.y < 0;
+        return m_Rigidbody.velocity.y < -2.0f;
     }
 }

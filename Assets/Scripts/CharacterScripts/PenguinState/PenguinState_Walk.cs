@@ -52,6 +52,11 @@ public class PenguinState_Walk : PenguinState
 
         if (!penguin.IsMoving())
         {
+            if (penguin.GetFall())
+            {
+                penguin.ChangeState<PenguinState_Fall>();
+            }
+
             penguin.ChangeState<PenguinState_Idle>();
         }
     }

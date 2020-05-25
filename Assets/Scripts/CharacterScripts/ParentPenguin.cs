@@ -31,6 +31,9 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action<ParentPenguin> onKillEvent;
 
+    [SerializeField]
+    private float testvelocity;
+
     protected override void Awake()
     {
         base.Awake();
@@ -61,6 +64,8 @@ public class ParentPenguin : Penguin
 
         //! Rigidbodyのvelocityを格納
         m_Magnitude = m_Rigidbody.velocity.magnitude;
+
+        testvelocity = m_Rigidbody.velocity.y;
     }
 
     /// <summary>

@@ -23,7 +23,6 @@ public class ChargeGaugeProc : MonoBehaviour
 	//! ゲージ部分の座標と大きさ
 	[SerializeField]
 	private Vector2 m_gauge_left;
-	[SerializeField]
 	private Vector2 m_gauge_size;
 
 	/**
@@ -35,6 +34,7 @@ public class ChargeGaugeProc : MonoBehaviour
 		Image _image = m_gauge_obj.GetComponent<Image>();
 		m_gauge_mat = _image.material;
 
+		m_gauge_size = m_gauge_rect.sizeDelta;
 	}
 
 	/**

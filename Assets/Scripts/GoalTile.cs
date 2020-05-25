@@ -49,9 +49,9 @@ public class GoalTile : MonoBehaviour
         {
             if(!m_CanClear)
             {
-                var m = new Material(GetComponent<MeshRenderer>().sharedMaterial);
-                m.SetTexture("_BaseMap", m_Tex_Enable);
-                GetComponent<MeshRenderer>().material = m;
+                var m = new Material(GetComponentInChildren<MeshRenderer>().material);
+                m.SetTexture("_Albedo", m_Tex_Enable);
+                GetComponentInChildren<MeshRenderer>().material = m;
 
                 m_Image[0].sprite = m_Icon_Enable;
 
@@ -62,9 +62,9 @@ public class GoalTile : MonoBehaviour
         {
             if(m_CanClear)
             {
-                var m = new Material(GetComponent<MeshRenderer>().sharedMaterial);
-                m.SetTexture("_BaseMap", m_Tex_Unenable);
-                GetComponent<MeshRenderer>().material = m;
+                var m = new Material(GetComponentInChildren<MeshRenderer>().material);
+                m.SetTexture("_Albedo", m_Tex_Unenable);
+                GetComponentInChildren<MeshRenderer>().material = m;
 
                 m_Image[0].sprite = m_Icon_Unenable;
 

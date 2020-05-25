@@ -6,9 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 /// <summary>
 /// @class FlipChargeInputModule
@@ -39,35 +37,42 @@ public class FlipChargeInputModule : InputModuleBase
     [SerializeField, Tooltip("誤差しきい値"), Range(0.0f, 1.0f)]
     private float m_Threshold = 0.1f;
 
-    private float m_Horizontal = 0f;
-    private float m_Vertical = 0f;
+    //private float m_Horizontal = 0f;
+    //private float m_Vertical = 0f;
 
     private float m_TimeCounter = 0f;
     private float m_MarginCounter = 0f;
     private Vector3 m_InputVector;
 
-    private InputSystem.DefaultInput input;
-
     private bool m_IsChargeUp = true;
 
-    private void Awake()        => input = new InputSystem.DefaultInput();
-    private void OnDisable()    => input.Disable();
-    private void OnEnable()     => input.Enable();
-    private void OnDestroy()    => input.Disable();
+    [SerializeField]
+    //! 入力
+    private PlayerInput m_Input;
+    [SerializeField]
+    private Vector2 m_Move;
 
     public override void Start()
     {
         base.Start();
         ResetParameter();
+
+        //これは直接GameInputから読み込む方法
+        //GameInput a = new GameInput();
+        //a.Input.Move.performed += ctx => m_Move = ctx.ReadValue<Vector2>();
+
+        //Inputを一つにまとめて参照しながら読み込む方法
+        m_Input.actions["Move"].performed += ctx => m_Move = ctx.ReadValue<Vector2>();
     }
 
     public override void Behaviour()
     {
-        m_Horizontal = input.Player.Horizontal.ReadValue <float>();
-        m_Vertical = input.Player.Vertical.ReadValue<float>();
+        //m_Horizontal = Input.GetAxis("Horizontal");
+        //m_Vertical = Input.GetAxis("Vertical");
 
-        //! 入力無し
-        if (Mathf.Abs(m_Horizontal) <= m_Deadzone && Mathf.Abs(m_Vertical) <= m_Deadzone)
+        ////! 入力無し
+        //if (Mathf.Abs(m_Horizontal) <= m_Deadzone && Mathf.Abs(m_Vertical) <= m_Deadzone)
+        if (Mathf.Abs(m_Move.x) <= m_Deadzone && Mathf.Abs(m_Move.y) <= m_Deadzone)
         {
             ResetParameter();
 
@@ -76,7 +81,8 @@ public class FlipChargeInputModule : InputModuleBase
             return;
         }
 
-        m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Horizontal, 0f, m_Vertical));
+        //m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Horizontal, 0f, m_Vertical));
+        m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Move.x, 0f, m_Move.y));
         m_InputVector.y = 0f;
         //! 誤差許容処理
         if (m_IsTolerate && m_InputHandler.InputVector != m_InputVector)

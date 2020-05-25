@@ -7,6 +7,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+
 /// <summary>
 /// @class FlipChargeInputModule
 /// @brief コントローラー入力処理
@@ -43,7 +46,14 @@ public class FlipChargeInputModule : InputModuleBase
     private float m_MarginCounter = 0f;
     private Vector3 m_InputVector;
 
+    private InputSystem.DefaultInput input;
+
     private bool m_IsChargeUp = true;
+
+    private void Awake()        => input = new InputSystem.DefaultInput();
+    private void OnDisable()    => input.Disable();
+    private void OnEnable()     => input.Enable();
+    private void OnDestroy()    => input.Disable();
 
     public override void Start()
     {
@@ -53,8 +63,8 @@ public class FlipChargeInputModule : InputModuleBase
 
     public override void Behaviour()
     {
-        m_Horizontal = Input.GetAxis("Horizontal");
-        m_Vertical = Input.GetAxis("Vertical");
+        m_Horizontal = input.Player.Horizontal.ReadValue <float>();
+        m_Vertical = input.Player.Vertical.ReadValue<float>();
 
         //! 入力無し
         if (Mathf.Abs(m_Horizontal) <= m_Deadzone && Mathf.Abs(m_Vertical) <= m_Deadzone)

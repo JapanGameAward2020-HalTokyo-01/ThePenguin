@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3000693652257531560}
   - component: {fileID: 3000693652257531563}
   - component: {fileID: 3000693652257531562}
+  - component: {fileID: 6576002330304199261}
   m_Layer: 5
   m_Name: GameMain
   m_TagString: Untagged
@@ -101,6 +102,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6576002330304199261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000693652257531565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e3bc8a1ab09ec40ba8bdc61fb0b35b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3042175632699008128
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -554,6 +567,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2417898971014705107, guid: 99ed8d89e6dab984c92ee75bf81b8226,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5568548972091778321, guid: 99ed8d89e6dab984c92ee75bf81b8226,
         type: 3}
       propertyPath: m_camvas_rect
@@ -563,11 +581,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_target_pos
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2417898971014705107, guid: 99ed8d89e6dab984c92ee75bf81b8226,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99ed8d89e6dab984c92ee75bf81b8226, type: 3}

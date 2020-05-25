@@ -39,7 +39,7 @@ public class Penguin : MonoBehaviour
     protected bool m_Invincible = false;
 
     //!エフェクトスポーンナー
-    protected EffectSpawner Effect { get; set; }
+    public EffectSpawner Effect { get; protected set; }
 
     protected virtual void Awake()
     {

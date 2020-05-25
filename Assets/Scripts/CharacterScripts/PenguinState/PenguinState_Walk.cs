@@ -23,20 +23,20 @@ public class PenguinState_Walk : PenguinState
     //! 更新処理
     public override void OnUpdate()
     {
-        if (penguin.GetEffectSpawner() != null)
+        if (penguin.Effect != null)
         {
             var pos = this.gameObject.GetComponentInParent<Transform>().position;
 
             if(penguin.TryGetComponent<ParentPenguin>(out var pp))
             {
-                pp.GetEffectSpawner().PlayerEffect("bigfoot", pos);
+                pp.Effect.PlayerEffect("bigfoot", pos);
 
                 if ((int)EffectTimer >= 4.0f)
                 {
                     pos.y += 0.5f;
-                    pp.GetEffectSpawner().PlayerEffect("PE", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    pp.Effect.PlayerEffect("PE", pos, new Vector3(0.5f, 0.5f, 0.5f));
                     pos.y -= 0.5f;
-                    pp.GetEffectSpawner().PlayerEffect("TA", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    pp.Effect.PlayerEffect("TA", pos, new Vector3(0.5f, 0.5f, 0.5f));
                 }
 
                 EffectTimer -= 30.0f * Time.deltaTime;
@@ -46,7 +46,7 @@ public class PenguinState_Walk : PenguinState
             }
             else
             {
-                penguin.GetEffectSpawner().PlayerEffect("smallfoot", pos);
+                penguin.Effect.PlayerEffect("smallfoot", pos);
             }
         }
 

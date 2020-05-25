@@ -181,7 +181,7 @@ public class ParentPenguin : Penguin
         {
             m_ParentPenguin = penguin;
 
-            Effect = m_ParentPenguin.GetEffectSpawner();
+            Effect = m_ParentPenguin.Effect;
         }
 
         //!Idle状態

@@ -8,6 +8,7 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class ConfirmMenu : MonoBehaviour
 {
@@ -45,6 +46,9 @@ public class ConfirmMenu : MonoBehaviour
     [SerializeField, Space(20)]
     private OptionMenu m_OptionMenu;
 
+    //! 入力
+    [SerializeField]
+    private PlayerInput m_Input;
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -78,8 +82,20 @@ public class ConfirmMenu : MonoBehaviour
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        //! InputにBButtonのEventを追加
+        m_Input.actions["B Button"].performed += BButtonConfirm;
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void BButtonConfirm(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("ConfirmMenu: message received");
+        if (!m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB());
+        }
     }
 
     /// <summary>
@@ -190,6 +206,9 @@ public class ConfirmMenu : MonoBehaviour
         //!　Option画面にfocusを戻す
         m_OptionMenu.OnEnable();
 
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonConfirm;
+
         //!　確認画面を消す
         this.gameObject.SetActive(false);
 
@@ -205,6 +224,9 @@ public class ConfirmMenu : MonoBehaviour
         Debug.Log("B Button");
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
+
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonConfirm;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);

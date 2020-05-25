@@ -194,17 +194,17 @@ public class ParentPenguin : Penguin
                 if (m_Handler.Power > (m_Handler.PowerMax * 2) / 3)
                 {
 
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(1.2f, 1.2f, 1.2f));
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
                 }
                 else if (m_Handler.Power > m_Handler.PowerMax / 3)
                 {
 
-                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(1.1f, 1.1f, 1.1f));
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
                 else if (m_Handler.Power > 1.0f)
                 {
 
-                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
             }
         }

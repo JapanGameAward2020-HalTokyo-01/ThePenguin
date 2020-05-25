@@ -44,7 +44,7 @@ public class PenguinState : MonoBehaviour
     //! 死亡処理
     public virtual void OnKill()
     {
-
+        penguin.ChangeState<PenguinState_Dead>();
     }
 
     //! 移動中

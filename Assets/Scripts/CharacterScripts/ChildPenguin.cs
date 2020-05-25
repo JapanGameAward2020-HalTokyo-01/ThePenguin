@@ -63,9 +63,6 @@ public class ChildPenguin : Penguin
     //! 群れ化処理
     public System.Action onPackEvent;
 
-    //!エフェクトスポーンナー
-    private EffectSpawner Effect;
-
     protected override void Awake()
     {
         base.Awake();
@@ -118,9 +115,6 @@ public class ChildPenguin : Penguin
         }
 
         base.MoveHandler(move * m_BaseSpeed);
-
-        if (Effect != null)
-            Effect.PlayerEffect("smallfoot", transform.position);
     }
 
     /// <summary>
@@ -209,7 +203,7 @@ public class ChildPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position);
+                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
 

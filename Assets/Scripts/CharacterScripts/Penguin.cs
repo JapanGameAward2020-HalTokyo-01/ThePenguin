@@ -38,6 +38,9 @@ public class Penguin : MonoBehaviour
     [SerializeField, NonEditableField]
     protected bool m_Invincible = false;
 
+    //!エフェクトスポーンナー
+    protected EffectSpawner Effect { get; set; }
+
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();
@@ -150,5 +153,10 @@ public class Penguin : MonoBehaviour
         }
 
         return false;
+    }
+
+    public EffectSpawner GetEffectSpawner()
+    {
+        return Effect;
     }
 }

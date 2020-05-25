@@ -16,7 +16,6 @@ public class ChargeGaugeProc : MonoBehaviour
 {
 	//! ゲージオブジェクト
 	[SerializeField]
-	private GameObject m_gauge_obj;
 	private RectTransform m_gauge_rect;
 	private Material m_gauge_mat;
 
@@ -30,8 +29,7 @@ public class ChargeGaugeProc : MonoBehaviour
 	 */
 	public void Awake()
 	{
-		m_gauge_rect = m_gauge_obj.GetComponent<RectTransform>();
-		Image _image = m_gauge_obj.GetComponent<Image>();
+		Image _image = m_gauge_rect.gameObject.GetComponent<Image>();
 		m_gauge_mat = _image.material;
 
 		m_gauge_size = m_gauge_rect.sizeDelta;

@@ -25,6 +25,7 @@ public class RandomGimmickEmitter : BaseGimmickEmitter
 
         while (num > 0)
         {
+
             int index = Random.Range(0,gimmicks.Count);
 
             gimmicks[index].Activate();
@@ -32,6 +33,8 @@ public class RandomGimmickEmitter : BaseGimmickEmitter
             gimmicks.RemoveAt(index);
 
             num--;
+
+            if (gimmicks.Count == 0) break;
         }
     }
 }

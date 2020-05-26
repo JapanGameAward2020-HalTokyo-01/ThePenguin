@@ -114,9 +114,9 @@ public class Bomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Activate()
+    public override void OnActivate()
     {
-        
+
     }
 
     /**
@@ -124,7 +124,7 @@ public class Bomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
 
     }

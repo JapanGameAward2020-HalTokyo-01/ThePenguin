@@ -244,4 +244,9 @@ public class ParentPenguin : Penguin
     {
         return m_InputHandler.PowerMax;
     }
+
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
+    }
 }

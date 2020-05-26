@@ -9,6 +9,13 @@ using UnityEngine;
 
 public abstract class BaseGimmick : MonoBehaviour
 {
+    private bool m_IsActiveGimmick = false;
+    public bool IsActiveGimmick
+    {
+        get { return m_IsActiveGimmick; }
+        protected set { m_IsActiveGimmick = value; }
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -22,9 +29,21 @@ public abstract class BaseGimmick : MonoBehaviour
     }
 
     //ギミックが有効化された時
-    public abstract void Activate();
+    public void Activate()
+    {
+        IsActiveGimmick = true;
+        OnActivate();
+    }
+
+    public abstract void OnActivate();
 
     //ギミックが無効化された時
-    public abstract void Deactivate();
+    public void Deactivate()
+    {
+        IsActiveGimmick = false;
+        OnDeactivate();
+    }
+
+    public abstract void OnDeactivate();
 
 }

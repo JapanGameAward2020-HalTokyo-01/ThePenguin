@@ -31,6 +31,9 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action<ParentPenguin> onKillEvent;
 
+    [SerializeField]
+    private float testvelocity;
+
     protected override void Awake()
     {
         base.Awake();
@@ -61,6 +64,8 @@ public class ParentPenguin : Penguin
 
         //! Rigidbodyのvelocityを格納
         m_Magnitude = m_Rigidbody.velocity.magnitude;
+
+        testvelocity = m_Rigidbody.velocity.y;
     }
 
     /// <summary>
@@ -181,7 +186,7 @@ public class ParentPenguin : Penguin
         {
             m_ParentPenguin = penguin;
 
-            Effect = m_ParentPenguin.GetEffectSpawner();
+            Effect = m_ParentPenguin.Effect;
         }
 
         //!Idle状態
@@ -189,22 +194,24 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
+            m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+
             if (Effect != null)
             {
-                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 3)
+                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                 {
 
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(1.2f, 1.2f, 1.2f));
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
                 }
-                else if (m_Handler.Power > m_Handler.PowerMax / 3)
+                else if (m_Handler.Power > m_Handler.PowerMax / 4)
                 {
 
-                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(1.1f, 1.1f, 1.1f));
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
-                else if (m_Handler.Power > 1.0f)
+                else if (m_Handler.Power > 0.0f)
                 {
 
-                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
             }
         }
@@ -227,4 +234,19 @@ public class ParentPenguin : Penguin
         }
     }
 
+
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
+
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
+    }
 }

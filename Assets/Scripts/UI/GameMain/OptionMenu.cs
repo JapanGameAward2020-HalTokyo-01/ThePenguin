@@ -8,6 +8,7 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -51,6 +52,10 @@ public class OptionMenu : MonoBehaviour
     [SerializeField]
     private ConfirmMenu m_ConfirmMenu;
 
+    //! 入力
+    [SerializeField]
+    private PlayerInput m_Input;
+
     //! 音設定格納
     [Space(20)]
     public float m_VolumeValue;
@@ -91,8 +96,20 @@ public class OptionMenu : MonoBehaviour
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        //! InputにBButtonのEventを追加
+        m_Input.actions["B Button"].performed += BButtonOption;
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void BButtonOption(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("OptionMenu: message received");
+        if (!m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB());
+        }
     }
 
     /// <summary>
@@ -109,12 +126,6 @@ public class OptionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //! 戻る(Bボタン)処理
-        if (Input.GetKeyDown("joystick button 1") && !m_CoroutineB)
-        {
-            StartCoroutine(ClickTimerB());
-        }
-
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
@@ -218,6 +229,9 @@ public class OptionMenu : MonoBehaviour
         m_ConfirmMenu.gameObject.SetActive(true);
         m_CoroutineB = true;
 
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonOption;
+
         yield break;
     }
 
@@ -230,6 +244,9 @@ public class OptionMenu : MonoBehaviour
         Debug.Log("B Button");
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
+
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonOption;
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
@@ -244,7 +261,8 @@ public class OptionMenu : MonoBehaviour
         this.gameObject.SetActive(false);
 
         //!　Pause画面を有効
-        m_PauseMenu.gameObject.SetActive(true);
+        m_PauseMenu.OnEnable();
+        //m_PauseMenu.gameObject.SetActive(true);
 
         yield break;
     }

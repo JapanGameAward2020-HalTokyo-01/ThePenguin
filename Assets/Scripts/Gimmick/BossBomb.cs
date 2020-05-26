@@ -37,8 +37,11 @@ public class BossBomb : BaseGimmick
     //! モデルオブジェクト
     private GameObject m_Model;
 
-    [SerializeField]private Material m_NormalMaterial;
-    [SerializeField]private Material m_CountDownMaterial;
+    [SerializeField]
+    private Material m_NormalMaterial;
+    [SerializeField]
+    private Material m_CountDownMaterial;
+
 
     //! エフェクトスポーンナー
     private EffectSpawner Effect;
@@ -47,7 +50,7 @@ public class BossBomb : BaseGimmick
     private GameObject m_Start;
     //! 爆弾投げられ落下地点
     private GameObject m_End;
-    //! 爆弾投げられ勢い
+
 
     // Start is called before the first frame update
     public override void Start()
@@ -76,7 +79,7 @@ public class BossBomb : BaseGimmick
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
         m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
 
-        m_Model.transform.position = m_End.transform.position;
+        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  
@@ -123,7 +126,7 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Activate()
+    public override void OnActivate()
     {
         this.gameObject.SetActive(true);
         //m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
@@ -135,7 +138,7 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
         m_Model.transform.position = m_Start.transform.position;
@@ -173,6 +176,28 @@ public class BossBomb : BaseGimmick
                 Debug.Log("blast");
                 Vector3 _power = (_penguins[i].transform.position - m_Model.transform.position).normalized * m_BlastPower;
                 _penguins[i].GetComponent<Rigidbody>().AddForce(_power, ForceMode.Impulse);
+            }
+        }
+
+        //壊れる壁
+        CrashWall[] _crashWall = FindObjectsOfType<CrashWall>();
+        for (int i = 0; i < _crashWall.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashWall[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashWall[i].DestroyByBoom();
+            }
+        }
+
+        //壊れる床
+        CrashTile[] _crashTile = FindObjectsOfType<CrashTile>();
+        for (int i = 0; i < _crashTile.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashTile[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashTile[i].DestroyByBoom();
             }
         }
     }

@@ -20,10 +20,43 @@ public class CrashTile : MonoBehaviour
     //Debug表示用
     private int m_DebugCount = 0;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         m_DebugCount = (int)m_MaxCount;
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame
@@ -45,6 +78,9 @@ public class CrashTile : MonoBehaviour
         //カウントダウンがゼロになると崩れる
         if(m_MaxCount<=0.0f)
         {
+            if (Effect != null)
+                Effect.PlayerEffect("BORO", gameObject.transform.position);
+
             Destroy(this.gameObject);
         }
     }
@@ -56,5 +92,16 @@ public class CrashTile : MonoBehaviour
         {
             m_IsOn = true;
         }
+    }
+
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsOn = true;
+        m_MaxCount = 0;
     }
 }

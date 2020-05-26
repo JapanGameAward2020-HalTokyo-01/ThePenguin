@@ -17,19 +17,18 @@ public class PenguinGaugeMgr : MonoBehaviour
 	//! 左上端の座標
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の左端座標")]
 	private Vector2 m_left_pos;
-	//! 最大の大きさ
-	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ")]
+	//! ゲージ最大の大きさ
 	private Vector2 m_gauge_max_size;
 
 	[Header("UI objects")]
 
-	//! UIオブジェクト
+	//! UI座標情報
 	[SerializeField, Tooltip("群れペンギンゲージ画像のオブジェクト")]
-	private GameObject m_living_gauge;
+	private RectTransform m_living_pos;
 	[SerializeField, Tooltip("死んだペンギンゲージ画像のオブジェクト")]
-	private GameObject m_death_gauge;
+	private RectTransform m_death_pos;
 	[SerializeField, Tooltip("クリア目標ライン画像のオブジェクト")]
-	private GameObject m_deadline;
+	private RectTransform m_deadline_pos;
 
 	[SerializeField, Tooltip("群れのペンギン数を表示するテキストオブジェクト")]
 	private Text m_pack_num_text;
@@ -47,12 +46,12 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField]
 	private PenguinManager m_penguin_mgr;
 
+
+	[Header("Dammy Parameters")]
     //! クリアのボーダーラインペンギン数
     [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
     private int m_clear_num;
-
-	[Header("Dammy Parameters")]
-	//! 各種閾値(ステージのメタデータから読み取りになるため仮配置)
+	//! 各種閾値(ステージの設定データから読み取りにしたい仮配置)
 	[SerializeField, Tooltip("Goodの顔に変化する群れ数の閾値であり、\nクリア条件とは現状関係ない")]
 	private int m_border_good;
 	[SerializeField, Tooltip("Maxの顔に変化する群れ数の閾値であり、\nステージ上のペンギン総数とは現状関係ない")]
@@ -60,35 +59,24 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("Dangerの顔に変化する死亡数の閾値")]
 	private int m_border_danger;
 
-	//! 座標情報 
-	private RectTransform m_living_pos;
-	private RectTransform m_death_pos;
-	private RectTransform m_deadline_pos;
-
 	//! マテリアル
 	private Material m_living_mat;
 	private Material m_death_mat;
-
-    //! それぞれの状態のペンギン数
-    private float m_living_ratio = 0.0f;
-	private float m_death_ratio = 0.0f;
-
 
     /**
 	 * @brief	初期化
 	 */
     public void Start()
 	{
-		m_living_pos = m_living_gauge.GetComponent<RectTransform>();
-		m_death_pos = m_death_gauge.GetComponent<RectTransform>();
-		m_deadline_pos = m_deadline.GetComponent<RectTransform>();
-
-		Image _image = m_living_gauge.GetComponent<Image>();
+		Image _image = m_living_pos.gameObject.GetComponent<Image>();
 		m_living_mat = _image.material;
-		_image = m_death_gauge.GetComponent<Image>();
+		_image = m_death_pos.gameObject.GetComponent<Image>();
 		m_death_mat = _image.material;
 
-        StartCoroutine(DelayStart());
+		RectTransform _gauge_rect = m_living_pos.gameObject.GetComponent<RectTransform>();
+		m_gauge_max_size = _gauge_rect.sizeDelta;
+
+		StartCoroutine(DelayStart());
 	}
 
     /// <summary>
@@ -120,7 +108,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 		// 群れに加わったペンギンゲージ
 		{
 			// 群れ率 = 現在の群れペン数 / 全ペン数 (0.0 ~ 1.0)
-			m_living_ratio = (float)m_penguin_mgr.m_PackCount / (float)m_penguin_mgr.m_TotalCount;
+			float m_living_ratio = (float)m_penguin_mgr.m_PackCount / (float)m_penguin_mgr.m_TotalCount;
 			_tiling.x = Mathf.Clamp(m_living_ratio, 0.0f, 1.0f);
 			_tiling.y = 1.0f;
 
@@ -139,7 +127,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 		// 死んだペンギンゲージ
 		{
 			// 死亡率 = 現在の死ペン数 / 全ペン数 (0.0 ~ 1.0)
-			m_death_ratio = (float)m_penguin_mgr.m_DeadCount / (float)m_penguin_mgr.m_TotalCount;
+			float m_death_ratio = (float)m_penguin_mgr.m_DeadCount / (float)m_penguin_mgr.m_TotalCount;
 			_tiling.x = Mathf.Clamp(m_death_ratio, 0.0f, 1.0f);
 
 			// テクスチャのuv値更新(テクスチャが引き延ばされないように)

@@ -11,17 +11,8 @@ using UnityEngine;
  * @file    ChargeGaugeMgrクラス
  * @brief   チャージゲージの表示/非表示を切り替える
  */
- [RequireComponent(typeof(Transform))]
 public class ChargeGaugeMgr : MonoBehaviour
 {
-	//! キャンバスのRectTransform
-	[SerializeField, Tooltip("GameUIsを入れてください")]
-	private RectTransform m_camvas_rect;
-
-	//! 追従ターゲット
-	[SerializeField, Tooltip("主人公のGameObjectを入れてください")]
-	private ParentPenguin m_target;
-
 	//! オンオフを切り替えるオブジェクト
 	[SerializeField, Tooltip("子要素のオブジェクトが入ります(表示/非表示を切り替える対象)")]
 	private ChargeGaugeProc m_Processor;
@@ -38,8 +29,7 @@ public class ChargeGaugeMgr : MonoBehaviour
 		m_input = FindObjectOfType<InputHandler>();
 		m_input.RegisterInputEvent(new InputEvent(this));
 
-		// ゲージ枠の座標を決める
-		m_Processor.SetPosition(m_camvas_rect, m_target.gameObject.transform.position);
+		// ゲージ座標は必ず中央やや上部に配置するように変更(演出などでカメラ注視点が変更される可能性は無視)
 	}
 
 	/**

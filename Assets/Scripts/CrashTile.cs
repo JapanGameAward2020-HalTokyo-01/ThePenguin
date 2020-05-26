@@ -20,6 +20,34 @@ public class CrashTile : MonoBehaviour
     //Debug表示用
     private int m_DebugCount = 0;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -32,5 +32,9 @@ public class PenguinState_Idle : PenguinState
                 penguin.ChangeState<PenguinState_Walk>();
             }
         }
+        else if(penguin.GetFall())
+        {
+            penguin.ChangeState<PenguinState_Fall>();
+        }
     }
 }

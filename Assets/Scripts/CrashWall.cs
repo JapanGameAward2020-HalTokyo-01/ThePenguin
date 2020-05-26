@@ -29,12 +29,17 @@ public class CrashWall : MonoBehaviour
     //
     private uint temp;
 
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
     // Start is called before the first frame update
     void Start()
     {
         temp = m_MaxCount;
         m_Percent = (float)m_MaxCount / temp;
         GetComponent<Renderer>().material.color = new Color(2.0f*(1.0f - m_Percent), 2.0f*m_Percent, 0);
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame
@@ -47,6 +52,9 @@ public class CrashWall : MonoBehaviour
             //完全に崩れる
             if(m_Count>=m_WaitTime)
             {
+                if (Effect != null)
+                    Effect.PlayerEffect("BORO", gameObject.transform.position);
+
                 Destroy(this.gameObject);
             }
         }
@@ -84,6 +92,9 @@ public class CrashWall : MonoBehaviour
             {
                 m_IsCrash = true;
             }
+
+            if (Effect != null)
+                Effect.PlayerEffect("DON", gameObject.transform.position);
         }
     }
 

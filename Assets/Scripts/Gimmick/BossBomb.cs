@@ -76,7 +76,7 @@ public class BossBomb : BaseGimmick
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
         m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
 
-        m_Model.transform.position = m_End.transform.position;
+        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  

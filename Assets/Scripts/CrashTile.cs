@@ -85,4 +85,15 @@ public class CrashTile : MonoBehaviour
             m_IsOn = true;
         }
     }
+
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsOn = true;
+        m_MaxCount = 0;
+    }
 }

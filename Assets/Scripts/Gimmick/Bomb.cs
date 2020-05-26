@@ -144,7 +144,7 @@ public class Bomb : BaseGimmick
             float _length = Vector3.Distance(m_Model.transform.position, _penguins[i].transform.position);
 
             //ペンギンが爆心地半径内にいたら
-            if(_length <= m_ExplosionSize)
+            if (_length <= m_ExplosionSize)
             {
                 //仮のプレイヤー死亡処理
                 Debug.Log("dead");
@@ -157,6 +157,28 @@ public class Bomb : BaseGimmick
                 Debug.Log("blast");
                 Vector3 _power = (_penguins[i].transform.position - m_Model.transform.position).normalized * m_BlastPower;
                 _penguins[i].GetComponent<Rigidbody>().AddForce(_power, ForceMode.Impulse);
+            }
+        }
+
+        //壊れる壁
+        CrashWall[] _crashWall = FindObjectsOfType<CrashWall>();
+        for (int i = 0; i < _crashWall.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashWall[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashWall[i].DestroyByBoom();
+            }
+        }
+
+        //壊れる床
+        CrashTile[] _crashTile = FindObjectsOfType<CrashTile>();
+        for (int i = 0; i < _crashTile.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashTile[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashTile[i].DestroyByBoom();
             }
         }
     }

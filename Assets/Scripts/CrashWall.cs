@@ -98,4 +98,14 @@ public class CrashWall : MonoBehaviour
         }
     }
 
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsCrash =true;
+        m_WaitTime = 0;
+    }
 }

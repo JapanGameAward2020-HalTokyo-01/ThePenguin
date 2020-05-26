@@ -123,13 +123,13 @@ public class WallGimmick : BaseGimmick
         }
     }
 
-    public override void Activate()
+    public override void OnActivate()
     {
-    
+
     }
 
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
-        
+
     }
 }

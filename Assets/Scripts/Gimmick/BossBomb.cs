@@ -126,7 +126,7 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Activate()
+    public override void OnActivate()
     {
         this.gameObject.SetActive(true);
         //m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
@@ -138,7 +138,7 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
         m_Model.transform.position = m_Start.transform.position;

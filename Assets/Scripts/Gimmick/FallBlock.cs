@@ -74,14 +74,14 @@ public class FallBlock : BaseGimmick
         }
     }
 
-    public override void Activate()
+    public override void OnActivate()
     {
         m_CurrentHeight = 0f;
         m_Time = -m_OffsetTime;
         this.gameObject.SetActive(true);
     }
 
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
         this.gameObject.SetActive(false);
     }

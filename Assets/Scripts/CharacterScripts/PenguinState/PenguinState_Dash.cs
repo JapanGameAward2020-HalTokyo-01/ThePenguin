@@ -44,6 +44,15 @@ public class PenguinState_Dash : PenguinState
             effeck[0].speed -= 0.1f * Time.deltaTime;
         }
 
+        if (penguin.GetFall())
+        {
+            effeck[0].StopRoot();
+            effeck[1].StopRoot();
+
+            penguin.ChangeState<PenguinState_Fall>();
+            return;
+        }
+
         if (!penguin.IsMoving())
         {
             effeck[0].StopRoot();

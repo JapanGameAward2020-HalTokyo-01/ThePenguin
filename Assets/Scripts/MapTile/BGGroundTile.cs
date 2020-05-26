@@ -21,12 +21,20 @@ public class BGGroundTile : MonoBehaviour
     [SerializeField]
     FieldType m_Type;
 
+    FieldType m_TypeLast;
+
     [SerializeField]
     TextureData m_Data;
 
     private void OnDrawGizmos()
     {
-        this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
-
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
     }
 }

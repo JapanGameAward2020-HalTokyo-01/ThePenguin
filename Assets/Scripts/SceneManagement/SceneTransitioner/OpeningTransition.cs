@@ -33,7 +33,7 @@ public class OpeningTransition : TransitionCtrlBase
 	 */
 	public void Start()
 	{
-		m_transitioner = new TransScene(m_stage_meta.LevelScene);
+		m_transitioner = new TransScene(m_stage_meta.CurrentLevelData.StageScene);
 	}
 
 	/**

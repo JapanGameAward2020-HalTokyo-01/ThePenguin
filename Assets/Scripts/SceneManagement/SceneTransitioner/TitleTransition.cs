@@ -79,9 +79,9 @@ public class TitleTransition : TransitionCtrlBase
 		if (m_select_ctrl.m_exist_data)
 		{
 			//! セーブデータからステージの進行度読み取って一時データ更新
-			m_stage_param.m_area_index = m_area_stage_index[0];
-			m_stage_param.m_stage_index = m_area_stage_index[1];
-			return new TransScene(m_stage_param.LevelScene);
+			m_stage_param.m_current_area_index = m_area_stage_index[0];
+			m_stage_param.m_current_stage_index = m_area_stage_index[1];
+			return new TransScene(m_stage_param.CurrentLevelData.StageScene);
 		}
 
 		// セーブデータが無ければオープニングシーン

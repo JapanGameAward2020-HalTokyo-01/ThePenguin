@@ -1,27 +1,9 @@
-﻿using EffekseerTool.Data.Value;
-using System;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 public class Select_ButtonUnit : MonoBehaviour
 {
-	[Header("Necessary Outer Data")]
-
-	[SerializeField, Tooltip("エリアインデックス")]
-	private StageSelect_ImageList.AreaIndex m_area_index;
-
-	[SerializeField, Tooltip("ステージ番号")]
-	private int m_stage_index;
-
-	[Tooltip("ステージのアンロック状態")]
-	public bool m_unlocked = false;
-
-	[Tooltip("取得できたグレードリスト")]
-	public bool[] m_Grade = new bool[3];
-
 	[Header("Resource and Components")]
 
 	[SerializeField, NonEditableField, Tooltip("画像リスト")]
@@ -34,26 +16,32 @@ public class Select_ButtonUnit : MonoBehaviour
 	private Text m_num_text;
 	private readonly string m_format = "{0}-{1}";
 
-
-	public void Awake()
+	// ボタン背景イメージの変更
+	public void SetButtonImage(StageSelect_ImageList.AreaIndex _area_index, bool _is_unlocked)
 	{
 		// 背景画像
 		Image _background = GetComponent<Image>();
-		_background.sprite = m_image_list.GetImage_ButtonBase(m_area_index);
+		_background.sprite = m_image_list.GetImage_ButtonBase(_area_index);
 
 		// ロックされていれば暗くなる
-		if(!m_unlocked) _background.color = UnityEngine.Color.gray;
+		if (!_is_unlocked) _background.color = UnityEngine.Color.gray;
+	}
 
+	// エリア-レベル表記の変更
+	public void SetStageNumber(StageSelect_ImageList.AreaIndex _area_index, int _stage_index)
+	{
+		m_num_text.text = string.Format(m_format, (int)_area_index + 1, _stage_index + 1);
+	}
+
+	// 実績スター変更
+	public void SetStar(bool[] _grade)
+	{
 		// 星の点灯
-		for (int cnt = 0; cnt < m_Grade.Length; cnt++)
+		for (int cnt = 0; cnt < _grade.Length; cnt++)
 		{
-			if (m_Grade[cnt]) m_score_image[cnt].sprite = m_image_list.ImageLightStar;
+			if (_grade[cnt]) m_score_image[cnt].sprite = m_image_list.ImageLightStar;
 			else m_score_image[cnt].sprite = m_image_list.ImageDarkStar;
 		}
-
-		// エリア-レベル表記の変更
-		m_num_text.text = string.Format(m_format, (int)m_area_index + 1, m_stage_index);
-
 	}
 
 }

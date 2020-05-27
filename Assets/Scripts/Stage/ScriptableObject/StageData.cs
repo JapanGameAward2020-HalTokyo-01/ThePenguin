@@ -32,4 +32,8 @@ public class StageData : ScriptableObject
 	{
 		get { return Mathf.Max(1, m_clear_border); }
 	}
+
+	//! 実績数
+	public bool[] m_grade = new bool[3];
+
 }

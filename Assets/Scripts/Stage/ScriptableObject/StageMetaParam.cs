@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 public class StageMetaParam : ScriptableObject
 {
 	//! 現在のエリア番号
-	public byte m_area_index;
+	public byte m_current_area_index;
 
 	//! 現在のステージ番号
-	public byte m_stage_index;
-
+	public byte m_current_stage_index;
 
 	[Header("List")]
 
@@ -19,21 +18,20 @@ public class StageMetaParam : ScriptableObject
 	private AreaData[] m_area_list = new AreaData[4];
 
 	//! 現在指定されているエリアのリストを呼び出す
-	public AreaData LevelList
+	public AreaData CurrentAreaList
 	{
-		get
-		{
-			return m_area_list[m_area_index];
-		}
+		get{ return m_area_list[m_current_area_index % m_area_list.Length]; }
 	}
 
-	//! ステージのSceneを呼び出す
-	public SceneAsset LevelScene
+	//! 現在指定されているステージのデータを呼び出す
+	public StageData CurrentLevelData
 	{
-		get
-		{
-			StageData _data = m_area_list[m_area_index].GetListItem(m_stage_index);
-			return _data.StageScene;
-		}
+		get{ return m_area_list[m_current_area_index % m_area_list.Length].GetListItem(m_current_stage_index); }
+	}
+
+	// 任意のエリアを取り出す
+	public AreaData GetAreaList(int _area_index)
+	{
+		return m_area_list[_area_index % m_area_list.Length];
 	}
 }

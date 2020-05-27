@@ -105,11 +105,8 @@ public class PenguinManager : MonoBehaviour
         m_NomadCount--;
     }
 
-
-    public string[] joystickNames;
     void Update()
     {
-        joystickNames = Input.GetJoystickNames();
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3192135705549296362}
   - component: {fileID: 3192135705549296365}
   - component: {fileID: 3192135705549296364}
+  - component: {fileID: 1984421510024013889}
   m_Layer: 0
   m_Name: CrashTile
   m_TagString: Untagged
@@ -75,6 +76,21 @@ MonoBehaviour:
   m_MaxCount: 4
   m_Type: 0
   m_Data: {fileID: 11400000, guid: a4bb72a6535671c4bb39c2e4bc66aa03, type: 2}
+--- !u!114 &1984421510024013889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192135705549296367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectAssets:
+  - {fileID: 11400000, guid: 7bc27775477db7246b9f0f4c265c01cf, type: 2}
+  m_CurrentEffect: {fileID: 0}
 --- !u!1001 &5733905567180042040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,11 +98,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3192135705549296361}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
-        type: 3}
-      propertyPath: m_Name
-      value: Mo_TileBlock1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -142,6 +153,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
+        type: 3}
+      propertyPath: m_Name
+      value: Mo_TileBlock1
+      objectReference: {fileID: 0}
     - target: {fileID: 1534363395323045961, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -161,7 +177,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: af2d41accd35f314599baf18fe918c92, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1b589cc4a2fcb49a9df4b64c273a03, type: 3}
 --- !u!4 &785975396037231650 stripped

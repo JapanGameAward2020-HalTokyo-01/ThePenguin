@@ -9,15 +9,19 @@ public class BossGimmickManager : MonoBehaviour
     private float m_Timer = 0f;
 
     [SerializeField]
-    private List<GimmickEmitter> m_GimmickEmitter = new List<GimmickEmitter>();
+    private EmitParameter m_FirstEmitter = null;
+
+    [SerializeField]
+    private List<EmitParameter> m_GimmickEmitter = new List<EmitParameter>();
 
     [SerializeField,NonEditableField]
     private int m_EmitCounter = 0;
     [SerializeField,NonEditableField]
     private int m_MaxCount = 0;
 
-    private GimmickEmitter m_CurrentEmitter;
+    private EmitParameter m_CurrentEmitter;
 
+    //終了
     private bool m_IsEnd = false;
 
     // Start is called before the first frame update
@@ -27,57 +31,72 @@ public class BossGimmickManager : MonoBehaviour
 
         m_MaxCount = m_GimmickEmitter.Count;
 
-        foreach(var emitter in m_GimmickEmitter)
+        if (m_MaxCount != 0)
         {
-            emitter.SetActive(false);
+            foreach (var emitter in m_GimmickEmitter)
+            {
+                emitter.SetActive(false);
+            }
+
+            if (m_GimmickEmitter.Count != 0)
+                m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+            
         }
 
-        if (m_GimmickEmitter.Count != 0)
+        if (m_FirstEmitter != null)
         {
-            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+            m_FirstEmitter.SetActive(false);
+            m_CurrentEmitter = m_FirstEmitter;
+            m_EmitCounter = -1;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_EmitCounter >= m_MaxCount) return;
+        if (m_IsEnd) return;
 
         if (m_Timer >= m_CurrentEmitter.m_BeforeEmitTime)
         {
             m_CurrentEmitter.Emit();
 
             m_Timer = 0f;
-            m_EmitCounter = (m_EmitCounter + 1) % m_MaxCount;
-            m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+
+            if(m_MaxCount == 0)
+            {
+                m_IsEnd = true;
+            }
+            else
+            {
+                m_EmitCounter = (m_EmitCounter + 1) % m_MaxCount;
+                m_CurrentEmitter = m_GimmickEmitter[m_EmitCounter];
+            }
         }
 
         m_Timer += Time.deltaTime;
     }
 
     [System.Serializable]
-    public class GimmickEmitter
+    public class EmitParameter
     {
-        [Tooltip("開始または前攻撃からの時間")]
         public float m_BeforeEmitTime = 0f;
 
-        public List<BaseGimmick> m_Gimmicks;
-
-        public void Emit()
-        {
-            foreach (var obj in m_Gimmicks)
-            {
-                obj.Activate();
-            }
-        }
+        public List<BaseGimmickEmitter> m_GimmickEmitter;
 
         public void SetActive(bool active)
         {
-            foreach (var obj in m_Gimmicks)
+            foreach(var emitter in m_GimmickEmitter)
             {
-                obj.gameObject.SetActive(active);
+                emitter.SetActive(active);
+            }
+        }
+
+        public void Emit()
+        {
+            foreach(var emitter in m_GimmickEmitter)
+            {
+                emitter.Emit();
             }
         }
     }
-
 }

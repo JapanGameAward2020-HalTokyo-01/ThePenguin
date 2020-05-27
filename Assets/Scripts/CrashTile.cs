@@ -36,6 +36,9 @@ public class CrashTile : MonoBehaviour
     [SerializeField]
     TextureData m_Data;
 
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
     private void OnDrawGizmos()
     {
         if (m_Type != m_TypeLast)
@@ -52,6 +55,8 @@ public class CrashTile : MonoBehaviour
     void Start()
     {
         m_DebugCount = (int)m_MaxCount;
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame
@@ -73,6 +78,9 @@ public class CrashTile : MonoBehaviour
         //カウントダウンがゼロになると崩れる
         if(m_MaxCount<=0.0f)
         {
+            if (Effect != null)
+                Effect.PlayerEffect("BORO", gameObject.transform.position);
+
             Destroy(this.gameObject);
         }
     }
@@ -84,5 +92,16 @@ public class CrashTile : MonoBehaviour
         {
             m_IsOn = true;
         }
+    }
+
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsOn = true;
+        m_MaxCount = 0;
     }
 }

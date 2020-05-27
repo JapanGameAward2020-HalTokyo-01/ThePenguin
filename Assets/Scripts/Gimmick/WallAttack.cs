@@ -41,7 +41,7 @@ public class WallAttack : BaseGimmick
         m_CurrentLength += value;
     }
 
-    public override void Activate()
+    public override void OnActivate()
     {
         this.gameObject.SetActive(true);
 
@@ -49,7 +49,7 @@ public class WallAttack : BaseGimmick
         m_Wall.transform.localPosition = Vector3.zero;
     }
 
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
         this.gameObject.SetActive(false);
     }

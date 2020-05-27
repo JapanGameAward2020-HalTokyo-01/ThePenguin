@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -119,6 +117,8 @@ public class SaveSystem : MonoBehaviour
 
     /// <summary>
     /// @brief      ゲームクリア時のセーブ処理
+    /// @param (data)	        stage情報
+    /// @param (stagenumber)	stage番号
     /// </summary>
     public void SetStageData(GameData data, int stagenumber)
     {
@@ -133,6 +133,7 @@ public class SaveSystem : MonoBehaviour
 
     /// <summary>
     /// @brief      オプション画面のセーブ処理
+    /// @param (data)	sound情報
     /// </summary>
     public void SetSoundData(Sounddata data)
     {

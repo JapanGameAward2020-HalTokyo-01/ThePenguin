@@ -1,23 +1,46 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
 public class Select_Background : MonoBehaviour
 {
-	[SerializeField, NonEditableField, Tooltip("画像リスト")]
-	private StageSelect_ImageList m_image_list;
+	//! 背景画像のオブジェクト(Imageコンポーネント)
+	[SerializeField, NonEditableField, Tooltip("子要素のImageコンポーネント")]
+	private Image[] m_image_list;
 
-	//! イメージコンポーネント
-	private Image m_image;
+	//! 現在はっきり見えるべきオブジェクトインデックス
+	private int m_select_index = 0;
+
+	//! フェード速度
+	[SerializeField, Tooltip("フェードの速度")]
+	private float m_fade_speed = 0.02f;
 
 	public void Awake()
 	{
-		m_image = GetComponent<Image>();
+		m_image_list = GetComponentsInChildren<Image>();
 	}
 
-	public void Change(StageSelect_ImageList.AreaIndex _type)
+	public void Update()
 	{
-		m_image.sprite = m_image_list.GetImage_BackgroundImage(_type);
+		UpdateBGIAlpha();
 	}
 
+	public void Change(int _index)
+	{
+		m_select_index = _index % m_image_list.Length;
+	}
+
+	public void UpdateBGIAlpha()
+	{
+		Color _main_color = m_image_list[m_select_index].color;
+		_main_color.a = Mathf.Min(1.0f, _main_color.a + m_fade_speed);
+		m_image_list[m_select_index].color = _main_color;
+
+		for (int cnt = 1; cnt < m_image_list.Length; cnt++)
+		{
+			int _index = (m_select_index + cnt) % m_image_list.Length;
+			Color _sub_color = m_image_list[_index].color;
+			_sub_color.a = Mathf.Max(0.0f, _sub_color.a - m_fade_speed);
+			m_image_list[_index].color = _sub_color;
+		}
+	}
 }

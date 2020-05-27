@@ -25,6 +25,7 @@ public class Select_Button : MonoBehaviour
 	public void Awake()
 	{
 		m_self = GetComponent<RectTransform>();
+		SetPos();
 	}
 
 	public void Update()
@@ -51,10 +52,10 @@ public class Select_Button : MonoBehaviour
 		m_self.position = _button_rect.position;
 
 		// 背景切り替え
-		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Snaw) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Snaw);
-		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Jungle) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Jungle);
-		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Desert) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Desert);
-		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Volcano);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Snaw) m_background_obj.Change(0);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Jungle) m_background_obj.Change(1);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Desert) m_background_obj.Change(2);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(3);
 
 
 	}

@@ -11,7 +11,7 @@ public class PenguinManager : MonoBehaviour
     [SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
     private int m_Time = 0;
 
-    [Space(30)]
+    [SerializeField, NonEditableField, Space(30)]
     //! ゲームオーバー判定
     public bool m_GameOver = false;
     //! 子ペンギンの総数
@@ -28,7 +28,7 @@ public class PenguinManager : MonoBehaviour
     public int m_NomadCount = 0;
 
     [SerializeField]
-    private StageTimer m_Timer;// = null;
+    private StageTimer m_Timer;
 
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
@@ -42,6 +42,8 @@ public class PenguinManager : MonoBehaviour
         m_GameOver = false;
 
         m_Timer.SetTime(m_Time);
+
+        m_Timer.onTimerEnd = GameOver;
 
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
@@ -93,7 +95,7 @@ public class PenguinManager : MonoBehaviour
     }
 
     //! 死亡時イベント(親ペンギン)
-    public void GameOver(ParentPenguin parent)
+    public void GameOver()
     {
         m_GameOver = true;
     }

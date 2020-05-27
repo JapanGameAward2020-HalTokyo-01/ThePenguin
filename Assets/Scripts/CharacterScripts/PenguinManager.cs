@@ -10,6 +10,8 @@ public class PenguinManager : MonoBehaviour
     public int m_MaxDead = 0;
     [SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
     private int m_Time = 0;
+    [SerializeField, Tooltip("ステージ番号")]
+    private int m_StateNumber = 0;
 
     [SerializeField, NonEditableField, Space(30)]
     //! ゲームオーバー判定
@@ -39,12 +41,18 @@ public class PenguinManager : MonoBehaviour
     //! ステージゴール
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
+    private SaveSystem m_SaveSystem;
+
+    private GameData m_GameData;
+
     // Start is called before the first frame update
     void Start()
     {
+        SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
+
         m_GameOver = false;
 
-        m_Timer.SetTime(m_Time);
+        m_Timer.StageTime = m_Time;
 
         m_Timer.onTimerEnd = GameOver;
 

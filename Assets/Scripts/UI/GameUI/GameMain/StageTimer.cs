@@ -15,9 +15,10 @@ public class StageTimer : MonoBehaviour
 {
 	//! 制限時間
 	private float m_time;
+    public float StageTime { get => m_time; set => m_time = value; }
 
-	//! 操作対象のUI要素
-	[SerializeField]
+    //! 操作対象のUI要素
+    [SerializeField]
 	private Text m_minute_text;
 	[SerializeField]
 	private Text m_second_text;
@@ -26,6 +27,8 @@ public class StageTimer : MonoBehaviour
 
     //! Timerが終わった時の処理
     public System.Action onTimerEnd;
+
+
 
     private void Awake()
     {
@@ -52,11 +55,4 @@ public class StageTimer : MonoBehaviour
 		m_second_text.text = (Mathf.FloorToInt(m_time) % 60).ToString("D2");
 		m_mini_sec_text.text = (Mathf.FloorToInt(m_time * 100) % 100).ToString("D2");
 	}
-
-    public void SetTime(int time)
-    {
-        m_time = time;
-    }
-
-
 }

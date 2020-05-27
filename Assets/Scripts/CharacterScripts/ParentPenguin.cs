@@ -194,6 +194,8 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
+            m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+
             if (Effect != null)
             {
                 if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
@@ -241,5 +243,10 @@ public class ParentPenguin : Penguin
     public float GetPowerMax()
     {
         return m_InputHandler.PowerMax;
+    }
+
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
     }
 }

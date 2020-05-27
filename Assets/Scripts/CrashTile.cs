@@ -115,4 +115,15 @@ public class CrashTile : MonoBehaviour
             EffectEmitter.Play();
         }
     }
+
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsOn = true;
+        m_MaxCount = 0;
+    }
 }

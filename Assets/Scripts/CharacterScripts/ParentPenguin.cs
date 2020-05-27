@@ -34,6 +34,10 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private float testvelocity;
 
+    [SerializeField]
+    public ParentPenguinAnimator m_AnimatorHandler;
+    public ParentPenguinAnimator AnimatorHandler { get { return m_AnimatorHandler; } }
+
     protected override void Awake()
     {
         base.Awake();

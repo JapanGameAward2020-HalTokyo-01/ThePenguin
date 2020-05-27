@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 /**
 * @class    CrashTile
@@ -38,6 +39,8 @@ public class CrashTile : MonoBehaviour
 
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter EffectEmitter;
 
     private void OnDrawGizmos()
     {
@@ -88,9 +91,11 @@ public class CrashTile : MonoBehaviour
     void OnTriggerEnter(Collider c)
     {
         //ペンギンレイヤーのオブジェクトと接触
-        if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&!m_IsOn)
+        if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin") && !m_IsOn)
         {
             m_IsOn = true;
+
+            EffectEmitter.Play();
         }
     }
 }

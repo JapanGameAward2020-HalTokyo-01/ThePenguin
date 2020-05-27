@@ -85,6 +85,13 @@ public class CrashWall : MonoBehaviour
 
                 //Debug
                 Debug.Log("CrashWall Percent:" + m_Percent);
+
+                if (Effect != null)
+                {
+                    Effect.PlayerEffect("DON", gameObject.transform.position);
+                    Effect.PlayerEffect("CrashRock", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                }
+
             }
 
             //カウントがゼロになると崩れる
@@ -93,8 +100,7 @@ public class CrashWall : MonoBehaviour
                 m_IsCrash = true;
             }
 
-            if (Effect != null)
-                Effect.PlayerEffect("DON", gameObject.transform.position);
+
         }
     }
 

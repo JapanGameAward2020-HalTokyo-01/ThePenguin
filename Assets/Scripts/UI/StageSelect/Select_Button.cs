@@ -8,10 +8,15 @@ public class Select_Button : MonoBehaviour
 
 	//! カーソルの位置を記憶する変数(x：エリア y：レベル)
 	private Vector2Int m_command_pos = new Vector2Int(0, 0);
+	//private StageSelect_ImageList.AreaIndex m_type;
 
 	// コマンドエリア
 	[SerializeField]
 	private Select_CommandMgr m_commnad_mgr;
+
+	// 背景
+	[SerializeField]
+	private Select_Background m_background_obj;
 
 	//! テスト用
 	float _cnter = 1.0f;
@@ -41,8 +46,17 @@ public class Select_Button : MonoBehaviour
 
 	private void SetPos()
 	{
+		// 座標変更
 		RectTransform _button_rect = m_commnad_mgr.GetButtonPos(m_command_pos.x, m_command_pos.y);
 		m_self.position = _button_rect.position;
+
+		// 背景切り替え
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Snaw) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Snaw);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Jungle) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Jungle);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Desert) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Desert);
+		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(StageSelect_ImageList.AreaIndex.Volcano);
+
+
 	}
 
 }

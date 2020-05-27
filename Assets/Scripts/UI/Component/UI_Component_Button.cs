@@ -43,8 +43,16 @@ public class UI_Component_Button : MonoBehaviour
 
         if (m_IsEnable)
         {
-            m_HighLight.CrossFadeAlpha(1, 0, true);
-            m_UnHighLight.CrossFadeAlpha(1, 0, true);
+            if (m_IsAcive)
+            {
+                m_HighLight.CrossFadeAlpha(1, 0, true);
+                m_UnHighLight.CrossFadeAlpha(0, 0, true);
+            }
+            else
+            {
+                m_HighLight.CrossFadeAlpha(0, 0, true);
+                m_UnHighLight.CrossFadeAlpha(1, 0, true);
+            }
         }
     }
 
@@ -112,6 +120,10 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetActive(bool active)
     {
+        if(m_IsAcive==active)
+        {
+            return;
+        }
         if (m_IsEnable)
         {
             if (active)

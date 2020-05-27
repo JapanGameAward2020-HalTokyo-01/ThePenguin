@@ -85,7 +85,6 @@ public class UI_Component_Counter : MonoBehaviour
             
             int ver = temp_count % weight/ (int)Mathf.Pow(10, i);
             temp_count -= ver * (int)Mathf.Pow(10, i);
-            Debug.Log(ver);
             number.SetNumber((uint)Mathf.Abs(ver));
             i++;
         }

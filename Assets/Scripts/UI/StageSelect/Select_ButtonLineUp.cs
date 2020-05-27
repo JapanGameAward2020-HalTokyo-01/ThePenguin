@@ -40,12 +40,11 @@ public class Select_ButtonLineUp : MonoBehaviour
 			m_button_list.Add(_unit);
 
 			// パラメータ設定
-			_unit.SetButtonImage(m_area_index, false);
-			_unit.SetStageNumber(m_area_index, level);
-
-			// ダミーデータ
 			StageData _stage_data = _area_data.GetListItem(level);
+			_unit.SetButtonImage(m_area_index, _stage_data.isUnlocked);
+			_unit.SetStageNumber(m_area_index, level);
 			_unit.SetStar(_stage_data.m_grade);
+
 
 			// 座標変更
 			RectTransform _trans = _unit.gameObject.GetComponent<RectTransform>();

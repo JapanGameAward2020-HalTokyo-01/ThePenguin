@@ -17,6 +17,14 @@ public class StageData : ScriptableObject
 
 	[Header("Stage Params")]
 
+	//! アンロック状態
+	[SerializeField]
+	private bool m_unlocked;
+	public bool isUnlocked
+	{
+		get { return m_unlocked; }
+	}
+
 	//! 制限時間
 	[SerializeField]
 	private float m_time_limit;

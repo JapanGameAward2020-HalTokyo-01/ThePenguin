@@ -36,6 +36,9 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    //! ステージゴール
+    private List<GoalTile> m_GoalTiles = new List<GoalTile>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +49,19 @@ public class PenguinManager : MonoBehaviour
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
+
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -103,6 +119,16 @@ public class PenguinManager : MonoBehaviour
     {
         m_PackCount++;
         m_NomadCount--;
+    }
+
+    public void OnClearEvent(Vector3 goalPos)
+    {
+        m_ParentPenguin.clear();
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.StageClear(goalPosition);
+        }
     }
 
     void Update()

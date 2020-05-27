@@ -29,8 +29,36 @@ public class CrashWall : MonoBehaviour
     //
     private uint temp;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            //var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            //m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            //m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            //this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -89,7 +117,24 @@ public class CrashWall : MonoBehaviour
                 if (Effect != null)
                 {
                     Effect.PlayerEffect("DON", gameObject.transform.position);
-                    Effect.PlayerEffect("CrashRock", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+
+                    switch (m_Type)
+                    {
+                        case FieldType.SNOW:
+                            Effect.PlayerEffect("CrashRock_Snow", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.DESERT:
+                            Effect.PlayerEffect("CrashRock_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.JUNGLE:
+                            Effect.PlayerEffect("CrashRock_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.VOLCANIC:
+                            Effect.PlayerEffect("CrashRock_Volcanic", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                    }
+
+                    
                 }
 
             }

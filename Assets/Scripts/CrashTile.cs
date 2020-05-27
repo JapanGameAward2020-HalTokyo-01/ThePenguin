@@ -50,6 +50,7 @@ public class CrashTile : MonoBehaviour
             m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
             m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
             this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+
             m_TypeLast = m_Type;
         }
     }
@@ -60,6 +61,22 @@ public class CrashTile : MonoBehaviour
         m_DebugCount = (int)m_MaxCount;
 
         Effect = GetComponent<EffectSpawner>();
+
+        switch (m_Type)
+        {
+            case FieldType.SNOW:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Snow");
+                break;
+            case FieldType.DESERT:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Desert");
+                break;
+            case FieldType.JUNGLE:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Jungle");
+                break;
+            case FieldType.VOLCANIC:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Volcanic");
+                break;
+        }
     }
 
     // Update is called once per frame

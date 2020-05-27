@@ -123,11 +123,11 @@ public class PenguinManager : MonoBehaviour
 
     public void OnClearEvent(Vector3 goalPos)
     {
-        m_ParentPenguin.clear();
+        m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
-            child.StageClear(goalPosition);
+            child.StageClear(goalPos);
         }
     }
 

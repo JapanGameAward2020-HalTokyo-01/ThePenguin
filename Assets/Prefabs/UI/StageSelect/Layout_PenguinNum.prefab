@@ -234,8 +234,9 @@ GameObject:
   - component: {fileID: 9008896524552921095}
   - component: {fileID: 9008896524552921093}
   - component: {fileID: 9008896524552921094}
+  - component: {fileID: 6547984273074048667}
   m_Layer: 5
-  m_Name: Layout_ClearScore
+  m_Name: Layout_PenguinNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,6 +301,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6547984273074048667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008896524552921088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53aeaace2911f994ea3c9c72b84ea475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_image_list: {fileID: 11400000, guid: b3bec53c81e61b042bc0fb4f72b5ad1d, type: 2}
+  m_stage_param: {fileID: 11400000, guid: a816953a3acee144ab31cbc70ce199bd, type: 2}
+  m_face: {fileID: 1297029356074415465}
+  m_gauge_rect: {fileID: 9008896523235491526}
+  m_gauge_mat: {fileID: 0}
+  m_left_pos: {x: -102.5, y: 0}
+  m_text: {fileID: 9008896524514390608}
 --- !u!1 &9008896524760421287
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +331,7 @@ GameObject:
   - component: {fileID: 9008896524760421286}
   - component: {fileID: 9008896524760421284}
   - component: {fileID: 9008896524760421285}
-  - component: {fileID: 9008896524760421275}
+  - component: {fileID: 1297029356074415465}
   m_Layer: 5
   m_Name: FaceIcon
   m_TagString: Untagged
@@ -374,7 +394,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9008896524760421275
+--- !u!114 &1297029356074415465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -21,6 +21,10 @@ public class Select_Button : MonoBehaviour
 	[SerializeField]
 	private Select_Score m_score;
 
+	//! スコアゲージエリア
+	[SerializeField]
+	private Select_PenguinNum m_penguin_gauge;
+
 	//! テスト用
 	float _cnter = 1.0f;
 
@@ -64,6 +68,8 @@ public class Select_Button : MonoBehaviour
 		m_score.LoadStar(m_command_pos.x, m_command_pos.y);
 		m_score.LoadTime(m_command_pos.x, m_command_pos.y);
 
+		// ゲージの整形
+		m_penguin_gauge.SetGauge(m_command_pos.x, m_command_pos.y);
 	}
 
 }

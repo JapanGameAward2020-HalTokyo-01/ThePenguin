@@ -33,6 +33,14 @@ public class StageData : ScriptableObject
 		get { return Mathf.Clamp(m_time_limit, 0.0f, 5940.0f); }
 	}
 
+	//! ステージ上総ペンギン数
+	[SerializeField]
+	private int m_max_penguin_num;
+	public int MaxPenguinNum
+	{
+		get { return m_max_penguin_num; }
+	}
+
 	//! クリア条件ペンギン数
 	[SerializeField]
 	private int m_clear_border;
@@ -40,6 +48,8 @@ public class StageData : ScriptableObject
 	{
 		get { return Mathf.Max(1, m_clear_border); }
 	}
+
+	[Header("Dammy Progress")]
 
 	//! 取得した実績数
 	public bool[] m_grade = new bool[3];
@@ -50,4 +60,12 @@ public class StageData : ScriptableObject
 	{
 		get { return Mathf.Clamp(m_clear_time, 0.0f, 5940.0f); }
 	}
+
+	//! クリア時最高ペンギン数
+	public int m_rescued_num;
+	public int RescuedNum
+	{
+		get { return Mathf.Min(m_max_penguin_num, m_rescued_num); }
+	}
+
 }

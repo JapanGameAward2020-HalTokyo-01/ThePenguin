@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file   Fade.cs
+/// @brief	画面遷移のFade制御
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +22,7 @@ public class Fade : MonoBehaviour
     {
         m_FadeImage.color = new Color(0, 0, 0, 0);
 
-        Fader();
+        //Fader();
     }
 
     // Update is called once per frame
@@ -25,11 +31,17 @@ public class Fade : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// @brief      FadeIn/Out処理Coroutine
+    /// </summary>
     public void Fader()
     {
         StartCoroutine(FadeOut());
     }
 
+    /// <summary>
+    /// @brief      FadeOut処理Coroutine
+    /// </summary>
     IEnumerator FadeOut()
     {
         for (float i = 0; i <= 1; i += (Time.deltaTime / FadeDuration))
@@ -41,6 +53,9 @@ public class Fade : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
+    /// <summary>
+    /// @brief      FadeIn処理Coroutine
+    /// </summary>
     IEnumerator FadeIn()
     {
         for (float i = 1; i >= 0; i -= (Time.deltaTime / FadeDuration))

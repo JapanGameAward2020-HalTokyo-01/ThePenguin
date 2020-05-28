@@ -29,7 +29,7 @@ public class ParentPenguin : Penguin
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! 親ペンギンの死亡処理
-    public System.Action<ParentPenguin> onKillEvent;
+    public System.Action onKillEvent;
 
     [SerializeField]
     private float testvelocity;
@@ -39,7 +39,7 @@ public class ParentPenguin : Penguin
         base.Awake();
 
         //! 親ペンギンの死亡処理に自分を渡す(今後必要かも知れないので)
-        onKillEvent = delegate (ParentPenguin parent) { };
+        onKillEvent = delegate () { };
 
         Effect = GetComponent<EffectSpawner>();
     }
@@ -76,7 +76,7 @@ public class ParentPenguin : Penguin
         //! ベースクラス
         base.Kill(Gimmick);
         //! ゲームオーバーになる
-        onKillEvent(this);
+        onKillEvent();
     }
 
     /// <summary>
@@ -249,4 +249,5 @@ public class ParentPenguin : Penguin
     {
         return m_Model.transform.forward;
     }
+
 }

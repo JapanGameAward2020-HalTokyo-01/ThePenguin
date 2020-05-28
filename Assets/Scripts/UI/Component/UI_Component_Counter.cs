@@ -66,6 +66,12 @@ public class UI_Component_Counter : MonoBehaviour
     public void SetCount(int count)
     {
         m_Counter = count;
+        SetDigit();
+    }
+    public void SetCurrentCount(int count)
+    {
+        m_CurrentCounter = count;
+        SetDigit();
     }
     public void SetEnable(bool enable)
     {

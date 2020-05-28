@@ -40,10 +40,19 @@ public class UI_Component_Number : MonoBehaviour
 
     public void SetNumber(uint number)
     {
+        if (m_Image == null)
+        {
+            return;
+        }
         m_Image.sprite = m_Number_Image[number % 10];
     }
     public void SetEnable(bool enable)
     {
+        if(m_Image==null)
+        {
+            return;
+        }
+
         if (enable)
         {
             m_Image.CrossFadeAlpha(1, m_EnableTime, true);

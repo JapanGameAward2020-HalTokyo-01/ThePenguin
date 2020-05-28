@@ -74,6 +74,6 @@ public class SceneData : MonoBehaviour
     }
     static public float GetStarClearTime()
     {
-        return m_Static_ClearTime;
+        return m_Static_Star_ClearTime;
     }
 }

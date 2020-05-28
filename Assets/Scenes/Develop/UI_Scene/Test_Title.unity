@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj:
-    m_SceneName: GameOver
+    m_SceneName: Result
 --- !u!4 &432142003
 Transform:
   m_ObjectHideFlags: 0
@@ -332,6 +332,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NextStage.m_SceneName
       value: Test_StageSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007296044244671309, guid: 048a5e15100e2664fb29689df6e7ea1d,
+        type: 3}
+      propertyPath: m_Star_ClearCount
+      value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007296044244671309, guid: 048a5e15100e2664fb29689df6e7ea1d,
+        type: 3}
+      propertyPath: m_Star_ClearTime
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048a5e15100e2664fb29689df6e7ea1d, type: 3}

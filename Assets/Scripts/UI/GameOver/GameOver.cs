@@ -106,6 +106,8 @@ public class GameOver : MonoBehaviour
                 if(GetBButtonUp())
                 {
                     //Bボタン
+                    Debug.Log("Retry");
+                    StartCoroutine(SceneEnd(SceneData.GetCurrentScene()));
                 }
             }
         }

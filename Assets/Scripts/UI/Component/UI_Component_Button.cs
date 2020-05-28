@@ -100,10 +100,19 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetEnable(bool enable)
     {
-        if(enable)
+        if (enable)
         {
-            m_HighLight.CrossFadeAlpha(1, m_EnableTime, true);
-            m_UnHighLight.CrossFadeAlpha(1, m_EnableTime, true);
+            if (m_IsAcive)
+            {
+                m_HighLight.CrossFadeAlpha(1, m_EnableTime, true);
+                m_UnHighLight.CrossFadeAlpha(0, m_EnableTime, true);
+            }
+            else
+            {
+                m_HighLight.CrossFadeAlpha(0, m_EnableTime, true);
+                m_UnHighLight.CrossFadeAlpha(1, m_EnableTime, true);
+            }
+
         }
         else
         {

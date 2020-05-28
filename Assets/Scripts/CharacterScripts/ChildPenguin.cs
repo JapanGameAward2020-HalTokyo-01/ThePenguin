@@ -231,4 +231,10 @@ public class ChildPenguin : Penguin
         m_InPack = true;
     }
 
+    private override void Enshutsu()
+    {
+
+    }
+    write overwrite method for enshutsu to check for pack Status
+
 }

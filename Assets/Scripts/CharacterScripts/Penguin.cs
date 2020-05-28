@@ -38,6 +38,21 @@ public class Penguin : MonoBehaviour
     [SerializeField, NonEditableField]
     protected bool m_Invincible = false;
 
+    #region ゴール演出関係
+    //! ステージクリア演出判定
+    private bool m_ClearAnimation = false;
+
+    //! ステージクリア演出用、ゴール座標
+    private Vector3 m_GoalPos = Vector3.zero;
+
+    //! ステージクリア演出_移動速度
+    private float m_GoalSpeed = 4.0f;
+
+    //! ステージクリア演出_到着判定
+    private float m_GoalRadius = 1.3f;
+
+    #endregion
+
     //!エフェクトスポーンナー
     public EffectSpawner Effect { get; protected set; }
 
@@ -81,6 +96,11 @@ public class Penguin : MonoBehaviour
         {
             m_CurrentState.OnMoving();
         }
+
+        if (m_ClearAnimation)
+        {
+            Enshutsu();
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -112,7 +132,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     protected virtual void MoveHandler(Vector3 move)
     {
-        m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f,ForceMode.Force);
+        m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f, ForceMode.Force);
         m_Model.transform.forward = move;
     }
 
@@ -121,7 +141,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
-        
+
         //! オブジェを無効にする
         gameObject.SetActive(false);
 
@@ -140,7 +160,7 @@ public class Penguin : MonoBehaviour
     public bool ChangeState<Type>() where Type : PenguinState
     {
         //! リストから探査する
-        foreach(PenguinState state in m_PenguinStates)
+        foreach (PenguinState state in m_PenguinStates)
         {
             if (state.GetType() != typeof(Type)) continue;
 
@@ -164,8 +184,23 @@ public class Penguin : MonoBehaviour
         return m_Rigidbody.velocity.y < -2.0f;
     }
 
+    /// <summary>
+    /// @brief      ステージクリア判定
+    /// </summary>
     public void StageClear(Vector3 goalPos)
     {
+        m_GoalPos = goalPos;
+        m_ClearAnimation = true;
+    }
 
+    /// <summary>
+    /// @brief      ステージクリア演出処理
+    /// </summary>
+    public virtual void Enshutsu()
+    {
+        if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+        }
     }
 }

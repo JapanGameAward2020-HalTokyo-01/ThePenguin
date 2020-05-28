@@ -198,23 +198,26 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
-            m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+            if (m_Handler.Power > 0)
+            {
+                m_ParentPenguin.AnimatorHandler.SetIsCharge(true);
+                m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+            }
 
             if (Effect != null)
             {
                 if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                 {
-
                     Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
+                    m_ParentPenguin.AnimatorHandler.SetIsChargeMax(true);
                 }
                 else if (m_Handler.Power > m_Handler.PowerMax / 4)
                 {
-
                     Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                    m_ParentPenguin.AnimatorHandler.SetIsChargeMax(false);
                 }
                 else if (m_Handler.Power > 0.0f)
                 {
-
                     Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
             }
@@ -226,14 +229,34 @@ public class ParentPenguin : Penguin
             base.OnRun();
             if (!m_ParentPenguin.IsMoving())
             {
-                m_Handler.ChangeState(InputHandler.State.Idle);
+                m_ParentPenguin.StartCoroutine(IdleStateCorutine());
             }
+        }
+
+        IEnumerator IdleStateCorutine()
+        {
+            var info = m_ParentPenguin.AnimatorHandler.animator.GetNextAnimatorStateInfo(0);
+
+            m_ParentPenguin.AnimatorHandler.SetIsStop(true);
+
+            yield return new WaitForSeconds(info.length);
+
+            m_Handler.ChangeState(InputHandler.State.Idle);
+
+            yield return null;
+        }
+
+        public override void TickStateIdle()
+        {
+            base.TickStateIdle();
+            m_ParentPenguin.AnimatorHandler.SetIsStop(false);
         }
 
         //! Run状態になった時(一回だけの処理)
         public override void TickStateRun()
         {
             base.TickStateRun();
+            m_ParentPenguin.AnimatorHandler.SetIsCharge(false);
             m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
     }
@@ -252,5 +275,10 @@ public class ParentPenguin : Penguin
     public Vector3 GetForward()
     {
         return m_Model.transform.forward;
+    }
+
+    public int GetChildCount()
+    {
+        return m_ChildPenguins.Count;
     }
 }

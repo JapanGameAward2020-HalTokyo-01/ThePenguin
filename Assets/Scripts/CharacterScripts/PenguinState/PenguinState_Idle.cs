@@ -10,21 +10,34 @@ using UnityEngine;
 
 public class PenguinState_Idle : PenguinState
 {
+    private ParentPenguin parentPenguin = null;
+
+    public override void OnStart()
+    {
+        base.OnStart();
+
+        parentPenguin = penguin.GetComponent<ParentPenguin>();
+    }
 
     //! 更新処理
     public override void OnUpdate()
     {
+        if(parentPenguin != null)
+        {
+            parentPenguin.AnimatorHandler.SetIsHaveChild(parentPenguin.GetChildCount() != 0);
+        }
+
         if (penguin.IsMoving())
         {
-            if (penguin.TryGetComponent<ParentPenguin>(out var pp))
+            if (parentPenguin != null)
             {
-                if (pp.GetInputHandler().Power > pp.GetInputHandler().PowerMax * 0.4f)
+                if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
                 {
-                    pp.ChangeState<PenguinState_Dash>();
+                    parentPenguin.ChangeState<PenguinState_Dash>();
                 }
                 else
                 {
-                    pp.ChangeState<PenguinState_Walk>();
+                    parentPenguin.ChangeState<PenguinState_Walk>();
                 }
             }
             else

@@ -30,25 +30,23 @@ public class ParentPenguinAnimator : BaseAnimatorHandler
         animator.SetBool("IsEvent",enable);
     }
 
-    
-    //Trigger Parameters
-
     //
-    public void SetMoveStartTrigger()
+    public void SetIsCharge(bool enable)
     {
-        animator.SetTrigger("MoveStart");
+        animator.SetBool("IsCharge",enable);
     }
+    
+    public void SetIsStop(bool enable)
+    {
+        animator.SetBool("IsStop",enable);
+    }
+
+    //Trigger Parameters
 
     //
     public void SetIdleTrigger()
     {
         animator.SetTrigger("IdleTrigger");
-    }
-
-    //
-    public void SetChargeTrigger()
-    {
-        animator.SetTrigger("ChargeTrigger");
     }
 
     //

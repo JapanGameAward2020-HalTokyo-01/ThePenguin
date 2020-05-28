@@ -65,14 +65,6 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Y Button"",
-                    ""type"": ""Button"",
-                    ""id"": ""ba543ea6-4e83-4f38-bc8f-8db207281030"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -89,30 +81,8 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f355360f-b0d5-451a-be5d-1158735a29d9"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate L"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d0c00306-48e0-4f5d-b43e-5179cecbf85f"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate R"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""33c89f3b-9a7f-4ada-9314-f542b492f8af"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -163,17 +133,6 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1b3ca989-b0a8-4260-aa5e-2c9ec4f67c70"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Y Button"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,7 +147,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Input_BButton = m_Input.FindAction("B Button", throwIfNotFound: true);
         m_Input_Pause = m_Input.FindAction("Pause", throwIfNotFound: true);
         m_Input_Move = m_Input.FindAction("Move", throwIfNotFound: true);
-        m_Input_YButton = m_Input.FindAction("Y Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -244,7 +202,6 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Input_BButton;
     private readonly InputAction m_Input_Pause;
     private readonly InputAction m_Input_Move;
-    private readonly InputAction m_Input_YButton;
     public struct InputActions
     {
         private @GameInput m_Wrapper;
@@ -255,7 +212,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @BButton => m_Wrapper.m_Input_BButton;
         public InputAction @Pause => m_Wrapper.m_Input_Pause;
         public InputAction @Move => m_Wrapper.m_Input_Move;
-        public InputAction @YButton => m_Wrapper.m_Input_YButton;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -283,9 +239,6 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
-                @YButton.started -= m_Wrapper.m_InputActionsCallbackInterface.OnYButton;
-                @YButton.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnYButton;
-                @YButton.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnYButton;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -308,9 +261,6 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @YButton.started += instance.OnYButton;
-                @YButton.performed += instance.OnYButton;
-                @YButton.canceled += instance.OnYButton;
             }
         }
     }
@@ -323,6 +273,5 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnBButton(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
-        void OnYButton(InputAction.CallbackContext context);
     }
 }

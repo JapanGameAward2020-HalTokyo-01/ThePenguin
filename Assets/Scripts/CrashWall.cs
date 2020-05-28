@@ -43,7 +43,7 @@ public class CrashWall : MonoBehaviour
     FieldType m_TypeLast;
 
     [SerializeField]
-    TextureData m_Data;
+    TextureData[] m_Data;
 
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
@@ -52,10 +52,10 @@ public class CrashWall : MonoBehaviour
     {
         if (m_Type != m_TypeLast)
         {
-            //var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-            //m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
-            //m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
-            //this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data[0].GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
             m_TypeLast = m_Type;
         }
     }
@@ -65,7 +65,6 @@ public class CrashWall : MonoBehaviour
     {
         temp = m_MaxCount;
         m_Percent = (float)m_MaxCount / temp;
-        GetComponent<Renderer>().material.color = new Color(2.0f*(1.0f - m_Percent), 2.0f*m_Percent, 0);
 
         Effect = GetComponent<EffectSpawner>();
     }
@@ -108,8 +107,12 @@ public class CrashWall : MonoBehaviour
                 //壊れ具合計算
                 m_Percent = (float)m_MaxCount / temp;
 
-                //色変更
-                GetComponent<Renderer>().material.color = new Color(2.0f * (1.0f - m_Percent), 2.0f * m_Percent, 0);
+                //テクスチャー変更
+                var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+                int texcnt = (int)(2 * (1.0f - m_Percent));
+                m.SetTexture("_BaseMap", m_Data[texcnt].GetTexture((int)m_Type));
+                m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+                this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
 
                 //Debug
                 Debug.Log("CrashWall Percent:" + m_Percent);

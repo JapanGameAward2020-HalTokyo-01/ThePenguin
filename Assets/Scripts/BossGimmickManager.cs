@@ -19,6 +19,7 @@ public class BossGimmickManager : MonoBehaviour
     [SerializeField,NonEditableField]
     private int m_MaxCount = 0;
 
+    [SerializeField,NonEditableField]
     private EmitParameter m_CurrentEmitter;
 
     //終了

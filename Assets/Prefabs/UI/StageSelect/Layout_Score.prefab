@@ -232,7 +232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1367369313071608451}
-  - component: {fileID: 1367369313071608452}
+  - component: {fileID: 4591521149349782479}
   m_Layer: 5
   m_Name: Layout_Score
   m_TagString: Untagged
@@ -264,14 +264,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1367369313071608452
-CanvasRenderer:
+--- !u!114 &4591521149349782479
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367369313071608450}
-  m_CullTransparentMesh: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10cc86f5b0a33c4394c53b536511798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_image_list: {fileID: 11400000, guid: b3bec53c81e61b042bc0fb4f72b5ad1d, type: 2}
+  m_stage_param: {fileID: 11400000, guid: a816953a3acee144ab31cbc70ce199bd, type: 2}
+  m_stars:
+  - {fileID: 1367369313514892293}
+  - {fileID: 1367369312505830608}
+  - {fileID: 1367369311975253300}
+  m_text: {fileID: 1367369312899576182}
 --- !u!1 &1367369313121982054
 GameObject:
   m_ObjectHideFlags: 0

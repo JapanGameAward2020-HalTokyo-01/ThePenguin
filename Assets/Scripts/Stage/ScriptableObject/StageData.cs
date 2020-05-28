@@ -41,7 +41,13 @@ public class StageData : ScriptableObject
 		get { return Mathf.Max(1, m_clear_border); }
 	}
 
-	//! 実績数
+	//! 取得した実績数
 	public bool[] m_grade = new bool[3];
 
+	//! クリアタイム
+	public float m_clear_time = 5940.0f;
+	public float ClearTime
+	{
+		get { return Mathf.Clamp(m_clear_time, 0.0f, 5940.0f); }
+	}
 }

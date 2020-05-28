@@ -8,7 +8,6 @@ public class Select_Button : MonoBehaviour
 
 	//! カーソルの位置を記憶する変数(x：エリア y：レベル)
 	private Vector2Int m_command_pos = new Vector2Int(0, 0);
-	//private StageSelect_ImageList.AreaIndex m_type;
 
 	// コマンドエリア
 	[SerializeField]
@@ -17,6 +16,10 @@ public class Select_Button : MonoBehaviour
 	// 背景
 	[SerializeField]
 	private Select_Background m_background_obj;
+
+	//! スコアエリア
+	[SerializeField]
+	private Select_Score m_score;
 
 	//! テスト用
 	float _cnter = 1.0f;
@@ -57,6 +60,9 @@ public class Select_Button : MonoBehaviour
 		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Desert) m_background_obj.Change(2);
 		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(3);
 
+		// スコア読み込み
+		m_score.LoadStar(m_command_pos.x, m_command_pos.y);
+		m_score.LoadTime(m_command_pos.x, m_command_pos.y);
 
 	}
 

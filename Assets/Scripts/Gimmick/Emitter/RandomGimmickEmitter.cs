@@ -16,7 +16,7 @@ public class RandomGimmickEmitter : BaseGimmickEmitter
     {
         int num = m_ActiveNum;
 
-        List<BaseGimmick> gimmicks = m_Gimmicks;
+        List<BaseGimmick> gimmicks = new List<BaseGimmick>(m_Gimmicks);
 
         if(num > gimmicks.Count)
         {

@@ -24,7 +24,7 @@ public class PenguinState_Idle : PenguinState
     {
         if(parentPenguin != null)
         {
-            parentPenguin.AnimatorHandler.SetIsHaveChild(parentPenguin.GetChildCount() != 0);
+            parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
         }
 
         if (penguin.IsMoving())

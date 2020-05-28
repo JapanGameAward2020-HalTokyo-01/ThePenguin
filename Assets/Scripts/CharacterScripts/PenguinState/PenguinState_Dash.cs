@@ -18,16 +18,13 @@ public class PenguinState_Dash : PenguinState
     public override void OnStart()
     {
         effeck[0].speed = 2.0f;
-
-        if(penguin.TryGetComponent<ParentPenguin>(out var parentPenguin))
-        {
-            parentPenguin.AnimatorHandler.SetIsDash(true);
-        }
     }
 
     //! 更新処理
     public override void OnUpdate()
     {
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
         //!エフェクト関連処理
         {
             //!通常エフェクト
@@ -66,12 +63,4 @@ public class PenguinState_Dash : PenguinState
         }
 
      }
-
-    public void OnDisable()
-    {
-        if (penguin.TryGetComponent<ParentPenguin>(out var parentPenguin))
-        {
-            parentPenguin.AnimatorHandler.SetIsDash(false);
-        }
-    }
 }

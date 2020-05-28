@@ -23,6 +23,8 @@ public class PenguinState_Walk : PenguinState
     //! 更新処理
     public override void OnUpdate()
     {
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
         if (penguin.Effect != null)
         {
             var pos = this.gameObject.GetComponentInParent<Transform>().position;

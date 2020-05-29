@@ -7847,7 +7847,7 @@ PrefabInstance:
     - target: {fileID: 7178452102961335441, guid: 5e64590247312d84992b2df0d5c23792,
         type: 3}
       propertyPath: m_DownSpeed
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7633525748957878399, guid: 5e64590247312d84992b2df0d5c23792,
         type: 3}
@@ -9575,16 +9575,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 248993982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 1184519585}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 505ab6f06c8dbd54abb8694646fbfdb0,
+    type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: 6272406619186593923, guid: 505ab6f06c8dbd54abb8694646fbfdb0,
+    type: 3}
+  m_SubmitAction: {fileID: 3949329674386870243, guid: 505ab6f06c8dbd54abb8694646fbfdb0,
+    type: 3}
+  m_CancelAction: {fileID: -2531600821738008369, guid: 505ab6f06c8dbd54abb8694646fbfdb0,
+    type: 3}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!114 &248993984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48770,6 +48782,20 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1182981839}
   m_PrefabAsset: {fileID: 0}
+--- !u!115 &1184519585
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 5
+  m_Script: 
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_ExecutionOrder: 0
+  m_ClassName: InputSystemUIInputModule
+  m_Namespace: UnityEngine.InputSystem.UI
 --- !u!4 &1185103871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2354706432149640294, guid: 891e92d6ef17a184b931f660378dfc51,
@@ -50362,6 +50388,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1902135535}
     m_Modifications:
+    - target: {fileID: 2530997638191638723, guid: 8e906084e76925340b2fb5d8022fdf22,
+        type: 3}
+      propertyPath: m_Name
+      value: InputSystem
+      objectReference: {fileID: 0}
     - target: {fileID: 2530997638191638732, guid: 8e906084e76925340b2fb5d8022fdf22,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50416,11 +50447,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2530997638191638723, guid: 8e906084e76925340b2fb5d8022fdf22,
-        type: 3}
-      propertyPath: m_Name
-      value: InputSystem
       objectReference: {fileID: 0}
     - target: {fileID: 2530997638191638722, guid: 8e906084e76925340b2fb5d8022fdf22,
         type: 3}
@@ -80676,6 +80702,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 192548253}
     m_Modifications:
+    - target: {fileID: 4818569212357788724, guid: 51502bf63f9ba0c4ea23cc07059a1600,
+        type: 3}
+      propertyPath: m_Name
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 4818569212357788727, guid: 51502bf63f9ba0c4ea23cc07059a1600,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -80745,11 +80776,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_InitAngle_Y
       value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 4818569212357788724, guid: 51502bf63f9ba0c4ea23cc07059a1600,
-        type: 3}
-      propertyPath: m_Name
-      value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4818569211980486468, guid: 51502bf63f9ba0c4ea23cc07059a1600,
         type: 3}

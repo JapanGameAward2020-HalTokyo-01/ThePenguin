@@ -46,7 +46,7 @@ public class PenguinState_Walk : PenguinState
             }
             else
             {
-                penguin.Effect.PlayerEffect("smallfoot", pos);
+                penguin.Effect.PlayerEffect("SmallFoot_New", pos);
             }
         }
 

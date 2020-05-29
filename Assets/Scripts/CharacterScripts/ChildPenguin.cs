@@ -155,8 +155,8 @@ public class ChildPenguin : Penguin
             {
                 Parent.AddToPack(this);
 
-                //if (Effect != null)
-                //    Effect.PlayerEffect("friend", transform.position);
+                if (Effect != null)
+                    Effect.PlayerEffect("friend_Ver2", transform.position);
 
                 if (Effect != null)
                 {
@@ -204,7 +204,7 @@ public class ChildPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
 

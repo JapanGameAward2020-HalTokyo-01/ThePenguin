@@ -168,7 +168,7 @@ public class ParentPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
 
@@ -196,24 +196,21 @@ public class ParentPenguin : Penguin
 
             m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
 
-            if (Effect != null)
-            {
-                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
-                {
-
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
-                }
-                else if (m_Handler.Power > m_Handler.PowerMax / 4)
-                {
-
-                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-                }
-                else if (m_Handler.Power > 0.0f)
-                {
-
-                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-                }
-            }
+            //if(Effect != null)
+            //{
+            //    if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
+            //    {
+            //        Effect.PlayerEffect("ChargeNew_P3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
+            //    }
+            //    else if (m_Handler.Power > m_Handler.PowerMax / 4)
+            //    {
+            //        Effect.PlayerEffect("ChargeNew_P2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+            //    }
+            //    else if (m_Handler.Power > 0.0f)
+            //    {
+            //        Effect.PlayerEffect("ChargeNew_P1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+            //    }
+            //}
         }
 
         //! Run状態

@@ -1,5 +1,6 @@
 ﻿/**
-* @file     CrashWall.cs
+* @file     Crash
+* ll.cs
 * @brief    崩れる壁
 * @author   En Yuki
 */
@@ -119,21 +120,21 @@ public class CrashWall : MonoBehaviour
 
                 if (Effect != null)
                 {
-                    Effect.PlayerEffect("DON", gameObject.transform.position);
+                   // Effect.PlayerEffect("DON", gameObject.transform.position);
 
                     switch (m_Type)
                     {
                         case FieldType.SNOW:
-                            Effect.PlayerEffect("CrashRock_Snow", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashing_Ice", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.DESERT:
-                            Effect.PlayerEffect("CrashRock_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrash_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.JUNGLE:
-                            Effect.PlayerEffect("CrashRock_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrash_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.VOLCANIC:
-                            Effect.PlayerEffect("CrashRock_Volcanic", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrash_Vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                     }
 

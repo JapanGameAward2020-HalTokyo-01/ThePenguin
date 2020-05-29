@@ -9,12 +9,12 @@ using UnityEngine;
 
 public class PenguinState : MonoBehaviour
 {
-
     public Penguin penguin { get; private set; }
 
-    public void Init(Penguin penguin)
+    public virtual void Init(Penguin penguin)
     {
         this.penguin = penguin;
+
     }
 
     //! 初期化処理
@@ -43,6 +43,12 @@ public class PenguinState : MonoBehaviour
 
     //! 死亡処理
     public virtual void OnKill()
+    {
+        penguin.ChangeState<PenguinState_Dead>();
+    }
+
+    //! 移動中
+    public virtual void OnMoving()
     {
 
     }

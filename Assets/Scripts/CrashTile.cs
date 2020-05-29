@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 /**
 * @class    CrashTile
@@ -20,10 +21,62 @@ public class CrashTile : MonoBehaviour
     //Debug表示用
     private int m_DebugCount = 0;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter EffectEmitter;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+
+            m_TypeLast = m_Type;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         m_DebugCount = (int)m_MaxCount;
+
+        Effect = GetComponent<EffectSpawner>();
+
+        switch (m_Type)
+        {
+            case FieldType.SNOW:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Snow");
+                break;
+            case FieldType.DESERT:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Desert");
+                break;
+            case FieldType.JUNGLE:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Jungle");
+                break;
+            case FieldType.VOLCANIC:
+                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Volcanic");
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -45,6 +98,9 @@ public class CrashTile : MonoBehaviour
         //カウントダウンがゼロになると崩れる
         if(m_MaxCount<=0.0f)
         {
+            if (Effect != null)
+                Effect.PlayerEffect("BORO", gameObject.transform.position);
+
             Destroy(this.gameObject);
         }
     }
@@ -52,9 +108,22 @@ public class CrashTile : MonoBehaviour
     void OnTriggerEnter(Collider c)
     {
         //ペンギンレイヤーのオブジェクトと接触
-        if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&!m_IsOn)
+        if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin") && !m_IsOn)
         {
             m_IsOn = true;
+
+            EffectEmitter.Play();
         }
+    }
+
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsOn = true;
+        m_MaxCount = 0;
     }
 }

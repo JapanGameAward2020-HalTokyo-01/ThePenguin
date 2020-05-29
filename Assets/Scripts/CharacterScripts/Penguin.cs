@@ -27,12 +27,19 @@ public class Penguin : MonoBehaviour
     [SerializeField, NonEditableField]
     protected InputHandler m_InputHandler;
 
+    //! 再移動可能数値
+    [SerializeField, Space(20)]
+    private float m_MoveThreshhold = 0.01f;
+
     //! Rigidbody
     protected Rigidbody m_Rigidbody;
 
     //! 無敵状態判定
     [SerializeField, NonEditableField]
     protected bool m_Invincible = false;
+
+    //!エフェクトスポーンナー
+    public EffectSpawner Effect { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -69,6 +76,11 @@ public class Penguin : MonoBehaviour
     protected virtual void Update()
     {
         m_CurrentState.OnUpdate();
+
+        if (this.IsMoving())
+        {
+            m_CurrentState.OnMoving();
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -82,6 +94,16 @@ public class Penguin : MonoBehaviour
     public virtual void Invincible(bool inv)
     {
         m_Invincible = inv;
+    }
+
+    /// <summary>
+    /// @brief      InputHandlerに親ペンギンが動いているかを渡す
+    /// @return     動いているか(bool)
+    /// </summary>
+    public bool IsMoving()
+    {
+        //! 移動force残ってるか
+        return m_Rigidbody.velocity.magnitude > m_MoveThreshhold;
     }
 
     /// <summary>
@@ -99,10 +121,11 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
+        
         //! オブジェを無効にする
         gameObject.SetActive(false);
 
-        if (!m_Invincible && Gimmick)
+        if (m_Invincible && Gimmick)
         {
             return;
         }
@@ -131,5 +154,18 @@ public class Penguin : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// @brief      落ちてるか判定
+    /// </summary>
+    public bool GetFall()
+    {
+        return m_Rigidbody.velocity.y < -2.0f;
+    }
+
+    public void StageClear(Vector3 goalPos)
+    {
+
     }
 }

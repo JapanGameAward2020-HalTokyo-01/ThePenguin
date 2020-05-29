@@ -66,4 +66,20 @@ public class EffectSpawner: MonoBehaviour
             }
         }
     }
+
+    public EffekseerEffectAsset GetEffect(string name)
+    {
+        int a = 0;
+
+        foreach (var effectAsset in m_EffectAssets)
+        {
+            if (effectAsset.name == name)
+            {
+
+                return effectAsset;
+            }
+        }
+
+        return null;
+    }
 }

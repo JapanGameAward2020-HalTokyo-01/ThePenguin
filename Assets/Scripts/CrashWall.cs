@@ -29,12 +29,44 @@ public class CrashWall : MonoBehaviour
     //
     private uint temp;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData[] m_Data;
+
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data[0].GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         temp = m_MaxCount;
         m_Percent = (float)m_MaxCount / temp;
-        GetComponent<Renderer>().material.color = new Color(2.0f*(1.0f - m_Percent), 2.0f*m_Percent, 0);
+
+        Effect = GetComponent<EffectSpawner>();
     }
 
     // Update is called once per frame
@@ -47,6 +79,9 @@ public class CrashWall : MonoBehaviour
             //完全に崩れる
             if(m_Count>=m_WaitTime)
             {
+                if (Effect != null)
+                    Effect.PlayerEffect("BORO", gameObject.transform.position);
+
                 Destroy(this.gameObject);
             }
         }
@@ -72,11 +107,39 @@ public class CrashWall : MonoBehaviour
                 //壊れ具合計算
                 m_Percent = (float)m_MaxCount / temp;
 
-                //色変更
-                GetComponent<Renderer>().material.color = new Color(2.0f * (1.0f - m_Percent), 2.0f * m_Percent, 0);
+                //テクスチャー変更
+                var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+                int texcnt = (int)(2 * (1.0f - m_Percent));
+                m.SetTexture("_BaseMap", m_Data[texcnt].GetTexture((int)m_Type));
+                m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+                this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
 
                 //Debug
                 Debug.Log("CrashWall Percent:" + m_Percent);
+
+                if (Effect != null)
+                {
+                    Effect.PlayerEffect("DON", gameObject.transform.position);
+
+                    switch (m_Type)
+                    {
+                        case FieldType.SNOW:
+                            Effect.PlayerEffect("CrashRock_Snow", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.DESERT:
+                            Effect.PlayerEffect("CrashRock_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.JUNGLE:
+                            Effect.PlayerEffect("CrashRock_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                        case FieldType.VOLCANIC:
+                            Effect.PlayerEffect("CrashRock_Volcanic", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            break;
+                    }
+
+                    
+                }
+
             }
 
             //カウントがゼロになると崩れる
@@ -84,7 +147,19 @@ public class CrashWall : MonoBehaviour
             {
                 m_IsCrash = true;
             }
+
+
         }
     }
 
+    /**
+    * @brief    爆弾に壊れたら
+    * @param(value)   Param Description
+    * @return   None
+    */
+    public void DestroyByBoom()
+    {
+        m_IsCrash =true;
+        m_WaitTime = 0;
+    }
 }

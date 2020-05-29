@@ -8,8 +8,12 @@ public class PenguinManager : MonoBehaviour
     //! ゲームオーバーになる為の子ペンギンの死亡数
     [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f)]
     public int m_MaxDead = 0;
+    [SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
+    private int m_Time = 0;
+    [SerializeField, Tooltip("ステージ番号")]
+    private int m_StateNumber = 0;
 
-    [Space(30)]
+    [SerializeField, NonEditableField, Space(30)]
     //! ゲームオーバー判定
     public bool m_GameOver = false;
     //! 子ペンギンの総数
@@ -25,20 +29,49 @@ public class PenguinManager : MonoBehaviour
     [SerializeField,NonEditableField]
     public int m_NomadCount = 0;
 
+    [SerializeField]
+    private StageTimer m_Timer;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    //! ステージゴール
+    private List<GoalTile> m_GoalTiles = new List<GoalTile>();
+
+    private SaveSystem m_SaveSystem;
+
+    private GameData m_GameData;
+
     // Start is called before the first frame update
     void Start()
     {
+        SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
+
         m_GameOver = false;
+
+        m_Timer.StageTime = m_Time;
+
+        m_Timer.onTimerEnd = GameOver;
 
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
+
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -86,7 +119,7 @@ public class PenguinManager : MonoBehaviour
     }
 
     //! 死亡時イベント(親ペンギン)
-    public void GameOver(ParentPenguin parent)
+    public void GameOver()
     {
         m_GameOver = true;
     }
@@ -98,7 +131,15 @@ public class PenguinManager : MonoBehaviour
         m_NomadCount--;
     }
 
-    public float deltaTime;
+    public void OnClearEvent(Vector3 goalPos)
+    {
+        m_ParentPenguin.StageClear(goalPos);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.StageClear(goalPos);
+        }
+    }
 
     void Update()
     {

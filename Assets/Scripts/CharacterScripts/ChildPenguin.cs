@@ -22,6 +22,7 @@ public class ChildPenguin : Penguin
     private bool m_Boss = false;
     public void Boss() { m_Boss = true; }
 
+
     //! 群れ化当たり判定
     [SerializeField]
     [Tooltip("群れ化当たり判定")]
@@ -62,9 +63,6 @@ public class ChildPenguin : Penguin
     public System.Action<ChildPenguin> onKillEvent;
     //! 群れ化処理
     public System.Action onPackEvent;
-
-    //!エフェクトスポーンナー
-    private EffectSpawner Effect;
 
     protected override void Awake()
     {
@@ -118,9 +116,6 @@ public class ChildPenguin : Penguin
         }
 
         base.MoveHandler(move * m_BaseSpeed);
-
-        if (Effect != null)
-            Effect.PlayerEffect("smallfoot", transform.position);
     }
 
     /// <summary>
@@ -160,8 +155,41 @@ public class ChildPenguin : Penguin
             {
                 Parent.AddToPack(this);
 
+                //if (Effect != null)
+                //    Effect.PlayerEffect("friend", transform.position);
+
                 if (Effect != null)
-                    Effect.PlayerEffect("friend", transform.position);
+                {
+                    var pos = transform.position;
+
+                    pos.y += 1.0f;
+
+                    var scale = new Vector3(0.5f, 0.5f, 0.5f);
+
+                    //!なき声
+                    //!反転
+                    if (m_ReverseMove)
+                    {
+                        Effect.PlayerEffect("PU!", pos, scale);
+
+                    }
+                    //!速い
+                    else if (m_BaseSpeed > 1.0f)
+                    {
+                        Effect.PlayerEffect("PA!", pos, scale);
+
+                    }
+                    //!遅い
+                    else if (m_BaseSpeed < 1.0f)
+                    {
+                        Effect.PlayerEffect("PO!", pos, scale);
+                    }
+                    //!ノーマル
+                    else
+                    {
+                        Effect.PlayerEffect("PE!", pos, scale);
+                    }
+                }
             }
 
         }
@@ -176,7 +204,7 @@ public class ChildPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position);
+                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
 

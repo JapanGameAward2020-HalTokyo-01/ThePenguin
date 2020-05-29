@@ -25,25 +25,21 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private float m_InvincibleDuration;
 
-    //! 再移動可能数値
-    [SerializeField, Space(20)]
-    private float m_MoveThreshhold = 0.01f;
-
     //! 子ペンギンの群れリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! 親ペンギンの死亡処理
-    public System.Action<ParentPenguin> onKillEvent;
+    public System.Action onKillEvent;
 
-    //!エフェクトスポーンナー
-    private EffectSpawner Effect;
+    [SerializeField]
+    private float testvelocity;
 
     protected override void Awake()
     {
         base.Awake();
 
         //! 親ペンギンの死亡処理に自分を渡す(今後必要かも知れないので)
-        onKillEvent = delegate (ParentPenguin parent) { };
+        onKillEvent = delegate () { };
 
         Effect = GetComponent<EffectSpawner>();
     }
@@ -68,6 +64,8 @@ public class ParentPenguin : Penguin
 
         //! Rigidbodyのvelocityを格納
         m_Magnitude = m_Rigidbody.velocity.magnitude;
+
+        testvelocity = m_Rigidbody.velocity.y;
     }
 
     /// <summary>
@@ -78,7 +76,7 @@ public class ParentPenguin : Penguin
         //! ベースクラス
         base.Kill(Gimmick);
         //! ゲームオーバーになる
-        onKillEvent(this);
+        onKillEvent();
     }
 
     /// <summary>
@@ -141,16 +139,6 @@ public class ParentPenguin : Penguin
     }
 
     /// <summary>
-    /// @brief      InputHandlerに親ペンギンが動いているかを渡す
-    /// @return     動いているか(bool)
-    /// </summary>
-    private bool IsMoving()
-    {
-        //! 移動force残ってるか
-        return m_Rigidbody.velocity.magnitude > m_MoveThreshhold;
-    }
-
-    /// <summary>
     /// @brief      ペンギンを群れに追加する
     /// @param      群れ化の対象(ChildPenguinMove)
     /// </summary>
@@ -180,13 +168,8 @@ public class ParentPenguin : Penguin
         if (other.gameObject.layer == 14)
         {
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position);
+                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
-    }
-
-    public EffectSpawner GetEffectSpawner()
-    {
-        return Effect;
     }
 
     /// <summary>
@@ -203,7 +186,7 @@ public class ParentPenguin : Penguin
         {
             m_ParentPenguin = penguin;
 
-            Effect = m_ParentPenguin.GetEffectSpawner();
+            Effect = m_ParentPenguin.Effect;
         }
 
         //!Idle状態
@@ -211,22 +194,24 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
+            m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+
             if (Effect != null)
             {
-                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 3)
+                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                 {
 
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(1.2f, 1.2f, 1.2f));
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
                 }
-                else if (m_Handler.Power > m_Handler.PowerMax / 3)
+                else if (m_Handler.Power > m_Handler.PowerMax / 4)
                 {
 
-                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(1.1f, 1.1f, 1.1f));
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
-                else if (m_Handler.Power > 1.0f)
+                else if (m_Handler.Power > 0.0f)
                 {
 
-                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
             }
         }
@@ -239,11 +224,6 @@ public class ParentPenguin : Penguin
             {
                 m_Handler.ChangeState(InputHandler.State.Idle);
             }
-
-            if (Effect != null)
-            {
-                Effect.PlayerEffect("bigfoot", m_ParentPenguin.transform.position, m_ParentPenguin.m_Model.transform.rotation);
-            }
         }
 
         //! Run状態になった時(一回だけの処理)
@@ -252,6 +232,22 @@ public class ParentPenguin : Penguin
             base.TickStateRun();
             m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
+    }
+
+
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
+
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
     }
 
 }

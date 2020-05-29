@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2354706432149640294}
   - component: {fileID: 2419621359611543663}
-  - component: {fileID: 3330277841481916636}
-  - component: {fileID: 7549197357249617010}
+  - component: {fileID: 2144986277689025097}
+  - component: {fileID: 1904717415387040365}
   m_Layer: 13
   m_Name: FloorTile
   m_TagString: Untagged
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8236162919623028636}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &3330277841481916636
+--- !u!65 &2144986277689025097
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +55,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7549197357249617010
+--- !u!114 &1904717415387040365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,7 +69,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Type: 0
   m_Data: {fileID: 11400000, guid: 86f0e4ab4a159074db10fb6abf40e001, type: 2}
-  m_Mesh: {fileID: 5226042481177236325}
 --- !u!1001 &5698459904537871057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,11 +136,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 83884adfb8d03f64b8024f00e8ff5193, type: 2}
     - target: {fileID: 1534363395323045961, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -157,17 +151,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 83884adfb8d03f64b8024f00e8ff5193, type: 2}
+    - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1b589cc4a2fcb49a9df4b64c273a03, type: 3}
 --- !u!4 &751621587111832011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
-    type: 3}
-  m_PrefabInstance: {fileID: 5698459904537871057}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &5226042481177236325 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
     type: 3}
   m_PrefabInstance: {fileID: 5698459904537871057}
   m_PrefabAsset: {fileID: 0}

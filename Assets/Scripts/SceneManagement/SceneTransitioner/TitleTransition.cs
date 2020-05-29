@@ -21,6 +21,13 @@ public class TitleTransition : TransitionCtrlBase
 	[SerializeField]
 	private TitleSelectCtrl m_select_ctrl = null;
 
+	//! ゲームシーン一時メタデータ
+	[SerializeField]
+	private StageMetaParam m_stage_param;
+
+	[SerializeField]
+	private byte[] m_area_stage_index = new byte[2];
+
 	/**
 	 * @brief	フレーム更新処理
 	 */
@@ -45,7 +52,7 @@ public class TitleTransition : TransitionCtrlBase
 	/**
 	 * @brief	選択したコマンドを実行する
 	 */
-	 private void SceneTransition()
+	private void SceneTransition()
 	{
 		//! 選択肢のインデックス
 		int _select = m_select_ctrl.SelectIndex;
@@ -53,7 +60,10 @@ public class TitleTransition : TransitionCtrlBase
 		// 遷移条件：選択肢毎に異なる
 		if (_select == 0) m_transitioner = FirstCommand();
 		if (_select == 1) m_transitioner = new TransScene(KSceneIndex.Select);
-		if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Option);
+		if (_select == 2)
+		{
+			// オプション画面
+		}
 		if (_select == 3) ExitApp();
 
 		// シーン遷移があれば実行する
@@ -66,10 +76,16 @@ public class TitleTransition : TransitionCtrlBase
 	private TransScene FirstCommand()
 	{
 		// セーブデータがあった場合は続きから(ゲームメインシーン)
-		if (m_select_ctrl.m_exist_data) return new TransScene(KSceneIndex.GameMain);
+		if (m_select_ctrl.m_exist_data)
+		{
+			//! セーブデータからステージの進行度読み取って一時データ更新
+			m_stage_param.m_current_area_index = m_area_stage_index[0];
+			m_stage_param.m_current_stage_index = m_area_stage_index[1];
+			return new TransScene(m_stage_param.CurrentLevelData.StageScene);
+		}
 
 		// セーブデータが無ければオープニングシーン
-		else return new TransScene(KSceneIndex.Opening);
+		else return new TransScene(KSceneIndex.Movie);
 	}
 
 }

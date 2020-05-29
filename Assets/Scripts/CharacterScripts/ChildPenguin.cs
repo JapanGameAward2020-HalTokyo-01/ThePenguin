@@ -203,6 +203,7 @@ public class ChildPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
+            animator.SetTrigger("OnCrash");
             if (Effect != null)
                 Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }

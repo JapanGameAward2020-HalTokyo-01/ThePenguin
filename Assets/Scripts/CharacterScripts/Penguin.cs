@@ -45,6 +45,9 @@ public class Penguin : MonoBehaviour
     private Animator m_Animator;
     public Animator animator { get { return m_Animator; } }
 
+    public PenguinManager manager { get; set; }
+
+
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();

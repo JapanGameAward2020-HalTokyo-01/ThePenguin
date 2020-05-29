@@ -40,14 +40,27 @@ public class PenguinState_Idle : PenguinState
                     parentPenguin.ChangeState<PenguinState_Walk>();
                 }
             }
-            else
+
+            if (penguin.GetFall())
             {
-                penguin.ChangeState<PenguinState_Walk>();
+                penguin.ChangeState<PenguinState_Fall>();
+                return;
             }
+
+            penguin.ChangeState<PenguinState_Walk>();
+            return;
         }
-        else if(penguin.GetFall())
+
+        if (penguin.manager.GetIsClear())
         {
-            penguin.ChangeState<PenguinState_Fall>();
+            penguin.ChangeState<PenguinState_Goal>();
+            return;
+        }
+
+        if (penguin.manager.GetIsGameOver())
+        {
+            penguin.ChangeState<PenguinState_Failed>();
+            return;
         }
     }
 }

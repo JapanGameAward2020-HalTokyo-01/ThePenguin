@@ -59,8 +59,26 @@ public class PenguinState_Dash : PenguinState
             effeck[0].StopRoot();
             effeck[1].StopRoot();
             penguin.ChangeState<PenguinState_Idle>();
-
+            return;
         }
 
+        if (penguin.manager.GetIsClear())
+        {
+            penguin.ChangeState<PenguinState_Goal>();
+            return;
+        }
+
+        if (penguin.manager.GetIsGameOver())
+        {
+            penguin.ChangeState<PenguinState_Failed>();
+            return;
+        }
      }
+
+    public override void OnRelease()
+    {
+        base.OnRelease();
+
+        penguin.animator.SetFloat("Power",0f);
+    }
 }

@@ -167,9 +167,31 @@ public class ParentPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
+            animator.SetTrigger("OnCrash");
+
             if (Effect != null)
                 Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
+    }
+
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
+
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
+    }
+
+    public int GetChildCount()
+    {
+        return m_ChildPenguins.Count;
     }
 
     /// <summary>
@@ -180,6 +202,8 @@ public class ParentPenguin : Penguin
         private ParentPenguin m_ParentPenguin;
 
         private EffectSpawner Effect;
+
+        private bool IsWait = false;
 
         //! コンストラクタ
         public InputEvent(ParentPenguin penguin)
@@ -204,13 +228,13 @@ public class ParentPenguin : Penguin
             {
                 if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                 {
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
                     m_ParentPenguin.animator.SetBool("IsChargeMax",true);
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
                 }
                 else if (m_Handler.Power > m_Handler.PowerMax / 4)
                 {
-                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                     m_ParentPenguin.animator.SetBool("IsChargeMax", false);
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
                 else if (m_Handler.Power > 0.0f)
                 {
@@ -224,7 +248,7 @@ public class ParentPenguin : Penguin
         {
             base.OnRun();
 
-            if (!m_ParentPenguin.IsMoving())
+            if (!IsWait && !m_ParentPenguin.IsMoving())
             {
                 //終了後入力を許可する
                 m_Handler.ChangeState(InputHandler.State.Idle);
@@ -240,30 +264,30 @@ public class ParentPenguin : Penguin
         public override void TickStateRun()
         {
             base.TickStateRun();
+            
             m_ParentPenguin.animator.SetBool("IsCharge", false);
 
-            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
+            IsWait = true;
+
+            m_ParentPenguin.StartCoroutine(MoveCorutine());
         }
-    }
+
+        IEnumerator MoveCorutine()
+        {
+            Vector3 vec = m_Handler.GetMoveVector();
+
+            m_ParentPenguin.animator.SetFloat("Power", m_Handler.Power);
+
+            var info = m_ParentPenguin.animator.GetCurrentAnimatorStateInfo(0);
 
 
-    public float GetPower()
-    {
-        return m_InputHandler.Power;
-    }
+            yield return new WaitForSeconds(0.5f);
 
-    public float GetPowerMax()
-    {
-        return m_InputHandler.PowerMax;
-    }
+            m_ParentPenguin.MoveHandler(vec);
+ 
+            IsWait = false;
 
-    public Vector3 GetForward()
-    {
-        return m_Model.transform.forward;
-    }
-
-    public int GetChildCount()
-    {
-        return m_ChildPenguins.Count;
+            yield return null;
+        }
     }
 }

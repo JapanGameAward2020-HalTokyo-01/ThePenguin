@@ -78,18 +78,21 @@ public class MainMenu : MonoBehaviour
         {
             m_State = MenuState.MAIN;
             m_OpenAnimator.enabled = true;
+            return;
         }
 
         //メインメニュー処理
         if (m_State == MenuState.MAIN)
         {
             MainMenuUpdate();
+            return;
         }
 
         //終了ワーニング処理
         if (m_State == MenuState.FINISH)
         {
             FinishWarningUpdate();
+            return;
         }
     }
 

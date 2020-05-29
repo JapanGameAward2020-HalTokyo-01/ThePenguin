@@ -14,6 +14,12 @@ public class Select_CommandMgr : MonoBehaviour
 	private Select_ButtonLineUp[] _area_list = new Select_ButtonLineUp[4];
 	public RectTransform GetButtonPos(int _area_index, int _level_index)
 	{
-		return _area_list[_area_index].GetButtonRect(_level_index);
+		GameObject _obj = _area_list[_area_index].GetButtonObj(_level_index);
+		return _obj.GetComponent<RectTransform>();
 	}
+	public GameObject GetButtonObject(int _area_index, int _level_index)
+	{
+		return _area_list[_area_index].GetButtonObj(_level_index);
+	}
+
 }

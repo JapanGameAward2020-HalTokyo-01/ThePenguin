@@ -55,10 +55,10 @@ public class Select_ButtonLineUp : MonoBehaviour
 		}
 	}
 
-	// 指定されたボタンの座標を取得
-	public RectTransform GetButtonRect(int _index)
+	// 指定されたボタンのオブジェクトを取得
+	public GameObject GetButtonObj(int _index)
 	{
-		return m_button_list[_index % m_button_list.Count].GetComponent<RectTransform>();
+		return m_button_list[_index % m_button_list.Count].gameObject;
 	}
 
 }

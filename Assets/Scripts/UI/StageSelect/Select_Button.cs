@@ -46,9 +46,6 @@ public class Select_Button : MonoBehaviour
 
 	public void Start()
 	{
-		//SetPos();
-		//SetImage();
-
 		m_input.actions["A Button"].performed += Cancel;
 		m_input.actions["B Button"].performed += Decide;
 	}
@@ -72,14 +69,23 @@ public class Select_Button : MonoBehaviour
 	// 選んだステージ読み込む
 	private void Decide(InputAction.CallbackContext _context)
 	{
-		Debug.Log("AButton");
-		StartCoroutine("TransitionToGame");
+		// 選択したステージが挑戦可能か
+		m_stage_list.m_current_area_index = m_command_pos.x;
+		m_stage_list.m_current_stage_index = m_command_pos.y;
+
+		if(m_stage_list.CurrentLevelData.isUnlocked)
+		{
+			StartCoroutine("TransitionToGame");
+		}
+		else
+		{
+			Debug.Log("The level " + m_command_pos.ToString() + " is not available.");
+		}
 	}
 
 	// キャンセル動作
 	private void Cancel(InputAction.CallbackContext _context)
 	{
-		Debug.Log("BButton");
 		StartCoroutine("TransitionToTitle");
 	}
 
@@ -141,8 +147,6 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		m_stage_list.m_current_area_index = m_command_pos.x;
-		m_stage_list.m_current_stage_index = m_command_pos.y;
 		SceneManager.LoadSceneAsync(m_stage_list.CurrentLevelData.StageScene.name);
 		yield return null;
 	}

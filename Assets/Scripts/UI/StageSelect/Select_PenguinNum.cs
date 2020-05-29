@@ -29,7 +29,7 @@ public class Select_PenguinNum : MonoBehaviour
 
 	//! ペンギン数テキストのオブジェクト
 	[SerializeField, Tooltip("ペンギン数の表示用テキストオブジェクト")]
-	private Text m_text;
+	private Text[] m_text = new Text[2];
 	private readonly string m_format = "{0}/{1}";
 
 	public void Awake()
@@ -66,7 +66,8 @@ public class Select_PenguinNum : MonoBehaviour
 
 		// テキスト部分
 		{
-			m_text.text = string.Format(m_format, _data.RescuedNum.ToString("D3"), _data.MaxPenguinNum.ToString("D3"));
+			m_text[0].text = _data.RescuedNum.ToString("D3");
+			m_text[1].text = _data.MaxPenguinNum.ToString("D3");
 		}
 
 		// 顔グラ

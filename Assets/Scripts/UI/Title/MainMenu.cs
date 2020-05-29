@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -16,26 +17,46 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private UI_Component_Button m_Fade;
     [SerializeField]
+    private GameObject m_FinishWarning;
+    [SerializeField]
+    private UI_Component_Button m_FinishYes;
+    [SerializeField]
+    private UI_Component_Button m_FinishNo;
+    [SerializeField]
     private Animator m_OpenAnimator;
     [SerializeField]
     private Animator m_IconAnimator;
 
-    private bool m_IsInputEnable = false;
+    //シーン
+    [SerializeField]
+    private SceneObject m_GameStartScene = null;
 
+
+    //入力関連
+    private bool m_IsInputEnable = false;
     private int m_Past_H = 0;
     private int m_Past_V = 0;
     private int m_Current_H = 0;
     private int m_Current_V = 0;
 
+    //メインメニュー用
     private int m_Select = 0;
     private int m_SelectPrev = -1;
+    private bool m_SelectIsCD = false;
+    private int m_SelectCDFrame = 0;
+
+    //終了ワーニング用
+    private int m_FinishSelect = 0;
+
+    private bool m_HasSaveData;
 
     enum MenuState
     {
         LOGO = 0,
-        MAIN
+        MAIN,
+        FINISH
     }
-    MenuState m_State;
+    private MenuState m_State;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +64,6 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(SceneStart());
         m_State = MenuState.LOGO;
         m_OpenAnimator.enabled = false;
-        //m_IconAnimator.enabled = false;
     }
 
     // Update is called once per frame
@@ -65,13 +85,66 @@ public class MainMenu : MonoBehaviour
         {
             MainMenuUpdate();
         }
+
+        //終了ワーニング処理
+        if (m_State == MenuState.FINISH)
+        {
+            FinishWarningUpdate();
+        }
+    }
+
+    /// <summary>
+    /// @brief      終了ワーニング処理
+    /// </summary>
+    /// 
+    private void FinishWarningUpdate()
+    {
+        if (!GetAButton() && !GetBButton())
+        {
+            //ABボタンが押されてない
+            if (GetLeftUp())
+            {
+                m_FinishSelect = 0;
+            }
+            if (GetRightUp())
+            {
+                m_FinishSelect = 1;
+            }
+
+            if (m_FinishSelect == 0)
+            {
+                m_FinishYes.SetActive(true);
+                m_FinishNo.SetActive(false);
+            }
+            if (m_FinishSelect == 1)
+            {
+                m_FinishYes.SetActive(false);
+                m_FinishNo.SetActive(true);
+            }
+
+            if (GetAButtonUp())
+            {
+                //Aボタン
+                if (m_FinishSelect == 0)
+                {
+                    Debug.Log("Finish Yes");
+                }
+                else if (m_FinishSelect == 1)
+                {
+                    Debug.Log("Finish No");
+                    m_FinishWarning.SetActive(false);
+                    m_State = MenuState.MAIN;
+                    m_FinishSelect = -1;
+                }
+            }
+        }
     }
 
     /// <summary>
     /// @brief      メインメニュー処理
     /// </summary>
     /// 
-    void MainMenuUpdate()
+    private void MainMenuUpdate()
     {
         //アニメーション完了判断
         AnimatorStateInfo info = m_OpenAnimator.GetCurrentAnimatorStateInfo(0);
@@ -79,18 +152,18 @@ public class MainMenu : MonoBehaviour
             return;
 
         m_SelectPrev = m_Select;
-        if (!GetAButton() && !GetBButton())
+        if (!GetAButton() && !GetBButton()&&!m_SelectIsCD)
         {
-            
-
             //ABボタンが押されてない
             if (GetUpUp())
             {
                 m_Select -= 1;
+                m_SelectIsCD = true;
             }
             if (GetDownUp())
             {
                 m_Select += 1;
+                m_SelectIsCD = true;
             }
             m_Select = (m_Select + 4) % 4;
 
@@ -132,6 +205,7 @@ public class MainMenu : MonoBehaviour
                 if (m_Select == 0)
                 {
                     Debug.Log("Game Start");
+                    StartCoroutine(SceneEnd(m_GameStartScene));
                 }
                 else if (m_Select == 1)
                 {
@@ -141,10 +215,23 @@ public class MainMenu : MonoBehaviour
                 {
                     Debug.Log("Option");
                 }
-                else if (m_Select == 2)
+                else if (m_Select == 3)
                 {
                     Debug.Log("Finish");
+                    m_FinishWarning.SetActive(true);
+                    m_State = MenuState.FINISH;
+                    m_FinishSelect = 0;
                 }
+            }
+        }
+
+        if (m_SelectIsCD)
+        {
+            m_SelectCDFrame++;
+            if (m_SelectCDFrame >= 20)
+            {
+                m_SelectIsCD = false;
+                m_SelectCDFrame = 0;
             }
         }
     }
@@ -265,6 +352,38 @@ public class MainMenu : MonoBehaviour
             return false;
         }
         return (m_Past_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.DownArrow);
+    }
+    private bool GetRightDown()
+    {
+        if (!m_IsInputEnable)
+        {
+            return false;
+        }
+        return (m_Current_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.LeftArrow);
+    }
+    private bool GetRightUp()
+    {
+        if (!m_IsInputEnable)
+        {
+            return false;
+        }
+        return (m_Past_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.LeftArrow);
+    }
+    private bool GetLeftDown()
+    {
+        if (!m_IsInputEnable)
+        {
+            return false;
+        }
+        return (m_Current_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.RightArrow);
+    }
+    private bool GetLeftUp()
+    {
+        if (!m_IsInputEnable)
+        {
+            return false;
+        }
+        return (m_Past_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.RightArrow);
     }
 
     private bool GetAnyKeyDown()

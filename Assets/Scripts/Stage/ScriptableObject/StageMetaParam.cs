@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class StageMetaParam : ScriptableObject
 {
 	//! 現在のエリア番号
-	public byte m_current_area_index;
+	public int m_current_area_index;
 
 	//! 現在のステージ番号
-	public byte m_current_stage_index;
+	public int m_current_stage_index;
 
 	[Header("List")]
 

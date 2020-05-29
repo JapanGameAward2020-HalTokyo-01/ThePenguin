@@ -58,7 +58,6 @@ public class Select_PenguinNum : MonoBehaviour
 			// 群れゲージ画像自体の長さ変更
 			m_gauge_rect.sizeDelta = new Vector2(_tiling.x, _tiling.y) * m_gauge_max_size;
 
-
 			// 群れゲージの座標変更
 			Vector2 _pos = m_left_pos;
 			_pos.x += m_gauge_rect.sizeDelta.x * 0.5f;

@@ -4,17 +4,20 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class Select_ButtonUnit : MonoBehaviour
 {
-	[Header("Resource and Components")]
-
 	[SerializeField, NonEditableField, Tooltip("画像リスト")]
 	private StageSelect_ImageList m_image_list;
 
-	[SerializeField, Tooltip("星の画像オブジェクト")]
+	[SerializeField, Space(10), Tooltip("星の画像オブジェクト")]
 	private Image[] m_score_image = new Image[3];
-
 	[SerializeField, Tooltip("ステージ番号の表示オブジェクト")]
 	private Text m_num_text;
 	private readonly string m_format = "{0}-{1}";
+
+	//! このボタンが担当するエリア、レベルインデックス
+	[SerializeField, NonEditableField]
+	private  Vector2Int m_command_index = new Vector2Int(0, 0);
+	public int SelectingArea { get { return m_command_index.x; } }
+	public int SelectingLevel { get { return m_command_index.y; } }
 
 	// ボタン背景イメージの変更
 	public void SetButtonImage(StageSelect_ImageList.AreaIndex _area_index, bool _is_unlocked)
@@ -22,6 +25,14 @@ public class Select_ButtonUnit : MonoBehaviour
 		// 背景画像
 		Image _background = GetComponent<Image>();
 		_background.sprite = m_image_list.GetImage_ButtonBase(_area_index);
+
+		//! ボタンとしての状態ごとの画像設定
+		Button m_button = GetComponent<Button>();
+		SpriteState _sprite = m_button.spriteState;
+		_sprite.highlightedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
+		_sprite.pressedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
+		_sprite.selectedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
+		m_button.spriteState = _sprite;
 
 		// ロックされていれば暗くなる
 		if (!_is_unlocked) _background.color = UnityEngine.Color.gray;
@@ -31,6 +42,7 @@ public class Select_ButtonUnit : MonoBehaviour
 	public void SetStageNumber(StageSelect_ImageList.AreaIndex _area_index, int _stage_index)
 	{
 		m_num_text.text = string.Format(m_format, (int)_area_index + 1, _stage_index + 1);
+		m_command_index = new Vector2Int((int)_area_index, _stage_index);
 	}
 
 	// 実績スター変更

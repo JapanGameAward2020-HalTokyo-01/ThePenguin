@@ -41,5 +41,4 @@ public class StageSelect_ImageList : ScriptableObject
 	{
 		return m_bgi_list[(int)index];
 	}
-
 }

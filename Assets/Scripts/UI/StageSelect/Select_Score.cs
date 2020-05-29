@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    Select_Score.cs
+ * @brief   ステージセレクトで選択中のステージの実績、クリアタイムを表現する
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @file    Select_Scoreクラス
+ * @brief   ステージセレクトで選択中のステージの実績、クリアタイムを表現する
+ */
 public class Select_Score : MonoBehaviour
 {
-	//! セレクト画面画像リスト
 	[SerializeField, NonEditableField, Tooltip("セレクト画面画像リスト")]
 	private StageSelect_ImageList m_image_list;
 
-	//! ステージパラメータ
 	[SerializeField, NonEditableField, Tooltip("ステージのパラメータオブジェクト")]
 	private StageMetaParam m_stage_param;
 
-	//! 実績星の画像用
 	[SerializeField, Tooltip("実績の星の画像オブジェクト")]
 	private Image[] m_stars = new Image[3];
 
-	//! タイムテキストのオブジェクト
 	[SerializeField, Tooltip("クリアタイムの表示用テキストオブジェクト")]
 	private Text[] m_text = new Text[3];
 

@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    Select_ButtonUnit.cs
+ * @brief   ステージセレクトのコマンドとなる画像群
+ *			ステージ数に合わせてSelect_ButtonLineUpクラスで必要な数生成されることになる
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @class   Select_ButtonUnitクラス
+ * @brief   ステージセレクトのコマンドとなる画像群
+ */
 [RequireComponent(typeof(Image))]
 public class Select_ButtonUnit : MonoBehaviour
 {
@@ -10,8 +20,7 @@ public class Select_ButtonUnit : MonoBehaviour
 	[SerializeField, Space(10), Tooltip("星の画像オブジェクト")]
 	private Image[] m_score_image = new Image[3];
 	[SerializeField, Tooltip("ステージ番号の表示オブジェクト")]
-	private Text m_num_text;
-	private readonly string m_format = "{0}-{1}";
+	private Text[] m_num_text = new Text[2];
 
 	//! このボタンが担当するエリア、レベルインデックス
 	[SerializeField, NonEditableField]
@@ -41,7 +50,8 @@ public class Select_ButtonUnit : MonoBehaviour
 	// エリア-レベル表記の変更
 	public void SetStageNumber(StageSelect_ImageList.AreaIndex _area_index, int _stage_index)
 	{
-		m_num_text.text = string.Format(m_format, (int)_area_index + 1, _stage_index + 1);
+		m_num_text[0].text = ((int)_area_index + 1).ToString();
+		m_num_text[1].text = (_stage_index + 1).ToString();
 		m_command_index = new Vector2Int((int)_area_index, _stage_index);
 	}
 

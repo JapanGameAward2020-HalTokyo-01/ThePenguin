@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿/**
+ * @file    Select_Background.cs
+ * @brief   ステージセレクトの背景
+ * @author  谷沢 瑞己
+ */
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @class   Select_Backgroundクラス
+ * @brief   ステージセレクトの背景
+ */
 public class Select_Background : MonoBehaviour
 {
-	//! 背景画像のオブジェクト(Imageコンポーネント)
 	[SerializeField, NonEditableField, Tooltip("子要素のImageコンポーネント")]
 	private Image[] m_image_list;
 
@@ -15,17 +23,26 @@ public class Select_Background : MonoBehaviour
 	[SerializeField, Tooltip("フェードの速度")]
 	private float m_fade_speed = 0.02f;
 
+	/**
+	 * @brief	初期化
+	 */
 	public void Awake()
 	{
 		m_image_list = GetComponentsInChildren<Image>();
 	}
 
+	/**
+	 * @brief	背景画像の変更開始
+	 */
 	public void Change(int _index)
 	{
 		m_select_index = _index % m_image_list.Length;
 		StartCoroutine("UpdateBGIAlpha");
 	}
 
+	/**
+	 * @brief	背景画像のフェード更新処理
+	 */
 	IEnumerator UpdateBGIAlpha()
 	{
 		Color _main_color = m_image_list[m_select_index].color;

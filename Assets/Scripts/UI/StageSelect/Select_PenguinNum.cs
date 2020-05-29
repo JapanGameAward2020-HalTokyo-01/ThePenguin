@@ -1,37 +1,41 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    Select_PenguinNum.cs
+ * @brief   ステージセレクトで選択中のステージの救出ペンギン数を表現する
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * @file    Select_PenguinNumクラス
+ * @brief   ステージセレクトで選択中のステージの救出ペンギン数を表現する
+ */
 public class Select_PenguinNum : MonoBehaviour
 {
-	//! セレクト画面画像リスト
 	[SerializeField, NonEditableField, Tooltip("セレクト画面画像リスト")]
 	private StageSelect_ImageList m_image_list;
-
-	//! ステージパラメータ
 	[SerializeField, NonEditableField, Tooltip("ステージのパラメータオブジェクト")]
 	private StageMetaParam m_stage_param;
 
-	//! ペンギンの顔部分
 	[SerializeField, Tooltip("顔部分のImageコンポーネント")]
 	private FaceIcon m_face;
 
-	//! ゲージ部分の変形、マテリアルコンポーネント
 	[SerializeField, Tooltip("ゲージ部分の変形コンポーネント")]
 	private RectTransform m_gauge_rect;
 	[SerializeField, NonEditableField, Tooltip("ゲージ部分のマテリアル")]
 	private Material m_gauge_mat;
 
-	//! ゲージ部分座標(左端)
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の左端座標")]
 	private Vector2 m_left_pos;
 	//! ゲージ部分の大きさ
 	private Vector2 m_gauge_max_size;
 
-	//! ペンギン数テキストのオブジェクト
 	[SerializeField, Tooltip("ペンギン数の表示用テキストオブジェクト")]
 	private Text[] m_text = new Text[2];
-	private readonly string m_format = "{0}/{1}";
 
+	/**
+	 * @brief	初期化
+	 */
 	public void Awake()
 	{
 		// ゲージからマテリアルの取得
@@ -40,6 +44,9 @@ public class Select_PenguinNum : MonoBehaviour
 		m_gauge_max_size = m_gauge_rect.sizeDelta;
 	}
 
+	/**
+	 * @brief	ゲージのパラメータや見た目変更
+	 */
 	public void SetGauge(int _area, int _level)
 	{
 		Vector4 _tiling = new Vector4();

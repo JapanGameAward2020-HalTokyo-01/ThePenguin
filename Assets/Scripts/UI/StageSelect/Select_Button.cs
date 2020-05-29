@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿/**
+ * @file    Select_Button.cs
+ * @brief   ステージセレクトのコマンド変更、カーソル移動、コマンド実行処理
+ * @author  谷沢 瑞己
+ */
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/**
+ * @class   Select_Buttonクラス
+ * @brief   ステージセレクトのコマンド変更、カーソル移動、コマンド実行処理
+ */
 [RequireComponent(typeof(RectTransform))]
 public class Select_Button : MonoBehaviour
 {
@@ -37,6 +46,9 @@ public class Select_Button : MonoBehaviour
 	//! カーソルの位置を記憶する変数(x：エリア y：レベル)
 	private Vector2Int m_command_pos = new Vector2Int(0, 0);
 
+	/**
+	 * @brief	初期化(参照回収)
+	 */
 	public void Awake()
 	{
 		m_self = GetComponent<RectTransform>();
@@ -44,12 +56,18 @@ public class Select_Button : MonoBehaviour
 		m_last_selected = m_commnad_mgr.GetButtonObject(m_command_pos.x, m_command_pos.y).GetComponent<Button>();
 	}
 
+	/**
+	 * @brief	初期化(設定)
+	 */
 	public void Start()
 	{
 		m_input.actions["A Button"].performed += Cancel;
 		m_input.actions["B Button"].performed += Decide;
 	}
 
+	/**
+	 * @brief	更新
+	 */
 	public void Update()
 	{
 		// 選択中のオブジェクトが無ければ初期選択コマンドを選択する
@@ -89,6 +107,9 @@ public class Select_Button : MonoBehaviour
 		StartCoroutine("TransitionToTitle");
 	}
 
+	/**
+	 * @brief	カーソルをコマンドの座標に移動開始させる
+	 */
 	private void SetPos()
 	{
 		// コマンドを選択中にする
@@ -101,7 +122,10 @@ public class Select_Button : MonoBehaviour
 		m_event_system.SetSelectedGameObject(_button_rect.gameObject);
 		StartCoroutine("MoveCursor");
 	}
-	
+
+	/**
+	 * @brief	選択中コマンドに合わせて対応する画像を変更する
+	 */
 	private void SetImage()
 	{
 		// 背景切り替え
@@ -118,6 +142,9 @@ public class Select_Button : MonoBehaviour
 		m_penguin_gauge.SetGauge(m_command_pos.x, m_command_pos.y);
 	}
 
+	/**
+	 * @brief	カーソルの座標移動処理
+	 */
 	IEnumerator MoveCursor()
 	{
 		while(Vector2.Distance(m_self.position, m_selecting_pos.position) > 0.01f)
@@ -131,6 +158,9 @@ public class Select_Button : MonoBehaviour
 		}
 	}
 
+	/**
+	 * @brief	タイトル画面への遷移処理
+	 */
 	IEnumerator TransitionToTitle()
 	{
 		// フェードを待つ
@@ -141,6 +171,9 @@ public class Select_Button : MonoBehaviour
 		yield return null;
 	}
 
+	/**
+	 * @brief	ゲームメインシーンへの遷移処理
+	 */
 	IEnumerator TransitionToGame()
 	{
 		// フェードを待つ

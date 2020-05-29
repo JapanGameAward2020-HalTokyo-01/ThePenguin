@@ -1,8 +1,20 @@
-﻿using UnityEngine;
+﻿/**
+ * @file    StageSelect_ImageList.cs
+ * @brief   ステージセレクト画面で使われる、動的な切り替えが発生する画像のリスト
+ * @author  谷沢 瑞己
+ */
+using UnityEngine;
 
+/**
+ * @class   StageSelect_ImageListクラス
+ * @brief   ステージセレクト画面で使われる、動的な切り替えが発生する画像のリスト
+ */
 [CreateAssetMenu(menuName = "CreateData/Select/ImageList", fileName = "StageSelect_ImageList")]
 public class StageSelect_ImageList : ScriptableObject
 {
+	/**
+	 * @enum    AreaIndex列挙型
+	 */
 	public enum AreaIndex { Snaw, Jungle, Desert, Volcano, Max }
 
 

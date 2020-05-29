@@ -1,8 +1,15 @@
-﻿using System.Collections;
+﻿/**
+ * @file    Select_ButtonLineUp.cs
+ * @brief   ステージセレクトのボタンをエリア単位で作成、並べ、保持する
+ * @author  谷沢 瑞己
+ */
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+/**
+ * @class   Select_ButtonLineUpクラス
+ * @brief   ステージセレクトのボタンをエリア単位で作成、並べ、保持する
+ */
 public class Select_ButtonLineUp : MonoBehaviour
 {
 	[SerializeField, NonEditableField, Tooltip("ステージ一覧のメタデータ")]
@@ -20,7 +27,9 @@ public class Select_ButtonLineUp : MonoBehaviour
 	[SerializeField, Tooltip("ボタンの表示領域サイズ")]
 	private Rect m_button_rect;
 
-
+	/**
+	 * @brief	初期化
+	 */
 	public void Awake()
 	{
 		//! エリアのレベル数

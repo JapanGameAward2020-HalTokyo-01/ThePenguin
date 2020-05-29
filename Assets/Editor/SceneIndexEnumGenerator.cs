@@ -105,6 +105,8 @@ public class {0}
             {
                 //! 単体ファイル名加工用の一時変数
                 string _file_path = Path.GetFileNameWithoutExtension(scene.path);
+                _file_path = _file_path.Replace('-', '_');
+                Debug.Log(_file_path);
                 _enum_items += $"{_file_path}, ";
             }
         }

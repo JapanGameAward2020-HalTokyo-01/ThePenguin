@@ -63,4 +63,13 @@ public class UI_Component_Number : MonoBehaviour
         }
         m_IsEnable = enable;
     }
+
+    public void SetEnableTime(float enabletime)
+    {
+        if (m_Image == null)
+        {
+            return;
+        }
+        m_EnableTime = enabletime;
+    }
 }

@@ -38,6 +38,8 @@ public class ConfirmMenu : MonoBehaviour
     [SerializeField]
     private Sprite m_BDefault;
     private bool m_CoroutineB = false;
+    [SerializeField]
+    private UnityEngine.UI.Image m_DeleteMessage;
 
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
@@ -50,6 +52,8 @@ public class ConfirmMenu : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    SaveSystem m_SaveSystem;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
@@ -61,6 +65,7 @@ public class ConfirmMenu : MonoBehaviour
         //! 押したら実行する関数を設定
         m_YesButton.onClick.AddListener(Yes);
         m_NoButton.onClick.AddListener(No);
+        m_SaveSystem = FindObjectOfType<SaveSystem>();
 
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
@@ -78,6 +83,7 @@ public class ConfirmMenu : MonoBehaviour
         m_CoroutineA = false;
         m_CoroutineB = false;
 
+        m_DeleteMessage.CrossFadeAlpha(0, 0, true);
 
         //!　ゲームを止める
         Time.timeScale = 0;
@@ -163,6 +169,7 @@ public class ConfirmMenu : MonoBehaviour
         //! ボタン選択処理
         Debug.Log("A Button");
         m_CoroutineA = true;
+        m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
@@ -170,7 +177,8 @@ public class ConfirmMenu : MonoBehaviour
 
         //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
-        m_CoroutineA = false;
+        m_CoroutineA = true;
+        m_CoroutineB = true;
 
         //! 処理の分岐
         switch (a)
@@ -193,7 +201,24 @@ public class ConfirmMenu : MonoBehaviour
     /// </summary>
     IEnumerator YesCo()
     {
+        m_SaveSystem.ClearData();
 
+        m_DeleteMessage.CrossFadeAlpha(1, 0.6f, true);
+
+        yield return new WaitForSecondsRealtime(1.6f);
+
+        m_DeleteMessage.CrossFadeAlpha(0, 0.6f, true);
+
+        yield return new WaitForSecondsRealtime(0.6f);
+
+        //!　Option画面にfocusを戻す
+        m_OptionMenu.OnEnable();
+
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonConfirm;
+
+        //!　確認画面を消す
+        this.gameObject.SetActive(false);
 
         yield break;
     }

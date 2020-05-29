@@ -18,8 +18,8 @@ public class testobj : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            SceneData.m_Static_ClearCount = 95;
-            SceneData.m_Static_ClearTime = 123.59f;
+            SceneData.m_Static_ClearCount = 90;
+            SceneData.m_Static_ClearTime =119.99f;
             UnityEngine.SceneManagement.SceneManager.LoadScene(obj);
         }
     }

@@ -22,18 +22,6 @@ public class SelectTransition : TransitionCtrlBase
 	private StageSelectCtrl m_select_ctrl = null;
 
 	/**
-	 * @brief	フレーム更新処理
-	 */
-	public void Update()
-	{
-		// キー入力があればシーン遷移する
-		if (Input.GetButtonDown("Fire1")) SceneTransition();
-		m_text.text = "SelectScene\nSelect Stage";
-
-		// フレーム更新
-	}
-
-	/**
 	 * @brief	選択したコマンドを実行する
 	 */
 	private void SceneTransition()
@@ -43,7 +31,7 @@ public class SelectTransition : TransitionCtrlBase
 
 		// 遷移条件：選択肢毎に異なる
 		if (m_select_ctrl.SelectToTitle) m_transitioner = new TransScene(KSceneIndex.Title);
-		else m_transitioner = new TransScene(KSceneIndex.GameMain);
+		//else m_transitioner = new TransScene(KSceneIndex.GameMain);
 
 		// シーン遷移があれば実行する
 		if (m_transitioner != null) m_transitioner.Transition();

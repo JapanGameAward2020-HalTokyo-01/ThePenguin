@@ -264,9 +264,60 @@ public class ResultUI : MonoBehaviour
         //次へ
         m_Page1_A_Button.SetEnable(true);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         m_IsInputEnable = true;
+
+        //演出スピード調整
+        float new_time = 0.2f;
+        m_Page1_MenuBack.SetEnableTime(new_time);
+        m_Page1_StageClear.SetEnableTime(new_time);
+        m_Page1_Count.SetEnableTime(new_time);
+        m_Page1_Time.SetEnableTime(new_time);
+        m_Page1_SmallStar1.SetEnableTime(new_time);
+        m_Page1_SmallStar2.SetEnableTime(new_time);
+        m_Page1_SmallStar3.SetEnableTime(new_time);
+        m_Page1_BigStar1.SetEnableTime(new_time);
+        m_Page1_BigStar2.SetEnableTime(new_time);
+        m_Page1_BigStar3.SetEnableTime(new_time);
+        m_Page1_Clear.SetEnableTime(new_time);
+        m_Page1_Slash.SetEnableTime(new_time);
+        m_Page1_StarCounter.SetEnableTime(new_time);
+        m_Page1_ClearCounter.SetEnableTime(new_time);
+        m_Page1_MinuteCounter.SetEnableTime(new_time);
+        m_Page1_Minute.SetEnableTime(new_time);
+        m_Page1_SecondCounter.SetEnableTime(new_time);
+        m_Page1_Second.SetEnableTime(new_time);
+        m_Page1_MiliSecondCounter.SetEnableTime(new_time);
+        m_Page1_A_Button.SetEnableTime(new_time);
+        m_Page2_MenuBack.SetEnableTime(new_time);
+        m_Page2_Continue.SetEnableTime(new_time);
+        m_Page2_StageSelect.SetEnableTime(new_time);
+        m_Page2_Retry.SetEnableTime(new_time);
+        m_Page2_A_Button.SetEnableTime(new_time);
+        m_Page2_B_Button.SetEnableTime(new_time);
+
+        m_Page1_MenuBack.SetCrossTime(new_time);
+        m_Page1_StageClear.SetCrossTime(new_time);
+        m_Page1_Count.SetCrossTime(new_time);
+        m_Page1_Time.SetCrossTime(new_time);
+        m_Page1_SmallStar1.SetCrossTime(new_time);
+        m_Page1_SmallStar2.SetCrossTime(new_time);
+        m_Page1_SmallStar3.SetCrossTime(new_time);
+        m_Page1_BigStar1.SetCrossTime(new_time);
+        m_Page1_BigStar2.SetCrossTime(new_time);
+        m_Page1_BigStar3.SetCrossTime(new_time);
+        m_Page1_Clear.SetCrossTime(new_time);
+        m_Page1_Slash.SetCrossTime(new_time);
+        m_Page1_Minute.SetCrossTime(new_time);
+        m_Page1_Second.SetCrossTime(new_time);
+        m_Page1_A_Button.SetCrossTime(new_time);
+        m_Page2_MenuBack.SetCrossTime(new_time);
+        //m_Page2_Continue.SetCrossTime(new_time);
+        //m_Page2_StageSelect.SetCrossTime(new_time);
+        //m_Page2_Retry.SetCrossTime(new_time);
+        m_Page2_A_Button.SetCrossTime(new_time);
+        m_Page2_B_Button.SetCrossTime(new_time);
     }
 
     private IEnumerator SceneEnd(SceneObject next)
@@ -299,7 +350,7 @@ public class ResultUI : MonoBehaviour
         m_Page2_A_Button.SetEnable(false);
         m_Page2_B_Button.SetEnable(false);
 
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.15f);
 
         //Page1を開く
         m_Page1_MenuBack.SetEnable(true);
@@ -359,7 +410,7 @@ public class ResultUI : MonoBehaviour
         //次へ
         m_Page1_A_Button.SetEnable(true);
         
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         m_IsInputEnable = true;
     }
@@ -392,7 +443,7 @@ public class ResultUI : MonoBehaviour
         m_Page1_MiliSecondCounter.SetEnable(false);
         m_Page1_A_Button.SetEnable(false);
 
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.15f);
 
         //Page2を開く
         m_Page2_MenuBack.SetEnable(true);
@@ -406,7 +457,7 @@ public class ResultUI : MonoBehaviour
         m_Page2_A_Button.SetEnable(true);
         m_Page2_B_Button.SetEnable(true);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         m_IsInputEnable = true;
     }

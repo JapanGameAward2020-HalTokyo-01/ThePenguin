@@ -152,4 +152,14 @@ public class UI_Component_Button : MonoBehaviour
             m_IsAcive = active;
         }
     }
+
+    public void SetEnableTime(float enabletime)
+    {
+        m_EnableTime = enabletime;
+    }
+
+    public void SetCrossTime(float crosstime)
+    {
+        m_CrossTime = crosstime;
+    }
 }

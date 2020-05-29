@@ -1,5 +1,5 @@
 ﻿/**
-* @file     FieldObj.cs
+* @file     WallBoard.cs
 * @brief    フィールドオブジェクトテクスチャー切り替えクラス
 * @author   李　爾捷
 */
@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldObj : MonoBehaviour
+public class WallBoard : MonoBehaviour
 {
     public enum FieldType
     {
@@ -30,11 +30,11 @@ public class FieldObj : MonoBehaviour
     {
         if (m_Type != m_TypeLast)
         {
-            //var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-            //m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
-            //m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
-            //this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
-            //m_TypeLast = m_Type;
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            //m.shader = Shader.Find("Lightweight Render Pipeline/Lit");
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
         }
     }
 }

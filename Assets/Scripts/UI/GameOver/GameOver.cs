@@ -36,9 +36,18 @@ public class GameOver : MonoBehaviour
 
     private int m_Select = 0;
 
+    //他のシーンから引き継ぐ情報
+    private SceneObject m_PastScene;
+
     // Start is called before the first frame update
     void Start()
     {
+        //他のシーンから情報を引き継ぐ
+        m_PastScene = SceneData.GetCurrentScene();
+
+
+        ////////////////////////////
+
         StartCoroutine(SceneStart());
     }
 
@@ -90,7 +99,7 @@ public class GameOver : MonoBehaviour
                     if(m_Select==0)
                     {
                         Debug.Log("Retry");
-                        StartCoroutine(SceneEnd(SceneData.GetCurrentScene()));
+                        StartCoroutine(SceneEnd(m_PastScene));
                     }
                     else if(m_Select==1)
                     {
@@ -107,7 +116,7 @@ public class GameOver : MonoBehaviour
                 {
                     //Bボタン
                     Debug.Log("Retry");
-                    StartCoroutine(SceneEnd(SceneData.GetCurrentScene()));
+                    StartCoroutine(SceneEnd(m_PastScene));
                 }
             }
         }

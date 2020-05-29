@@ -95,4 +95,12 @@ public class UI_Component_Counter : MonoBehaviour
             i++;
         }
     }
+
+    public void SetEnableTime(float enabletime)
+    {
+        foreach (var number in m_Numbers)
+        {
+            number.SetEnableTime(enabletime);
+        }
+    }
 }

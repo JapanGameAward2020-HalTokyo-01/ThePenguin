@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2144986277689025097}
   - component: {fileID: 1904717415387040365}
   m_Layer: 13
-  m_Name: FloorTileSnow
+  m_Name: FloorTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,8 +69,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Type: 0
   m_Data: {fileID: 11400000, guid: 86f0e4ab4a159074db10fb6abf40e001, type: 2}
-  m_Mat: []
-  a: 
 --- !u!1001 &5698459904537871057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +156,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 83884adfb8d03f64b8024f00e8ff5193, type: 2}
+    - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1b589cc4a2fcb49a9df4b64c273a03, type: 3}
 --- !u!4 &751621587111832011 stripped

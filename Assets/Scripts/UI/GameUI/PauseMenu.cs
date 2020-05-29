@@ -17,6 +17,7 @@ public class PauseMenu : MonoBehaviour
     //! EventSystem格納
     private EventSystem m_EventSystem;
 
+    ISelectHandler a;
     //! 選択用のボタン群
     [SerializeField]
     private UnityEngine.UI.Button m_RestartButton;
@@ -80,7 +81,6 @@ public class PauseMenu : MonoBehaviour
         m_StageButton.onClick.AddListener(StageSelect);
         m_OptionButton.onClick.AddListener(Option);
         m_TitleButton.onClick.AddListener(Title);
-
         //! 現在のシーン取得
         m_ActiveScene = SceneManager.GetActiveScene().name;
 
@@ -99,6 +99,8 @@ public class PauseMenu : MonoBehaviour
         //! ABボタンの初期化
         m_CoroutineA = false;
         m_CoroutineB = false;
+
+        m_AButtonImage.CrossFadeAlpha(1, 0, true);
 
         //!　ゲームを止める
         Time.timeScale = 0;
@@ -206,6 +208,7 @@ public class PauseMenu : MonoBehaviour
         //! ボタン選択処理
         Debug.Log("A Button");
         m_CoroutineA = true;
+        m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
@@ -214,7 +217,7 @@ public class PauseMenu : MonoBehaviour
         //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
         m_CoroutineA = false;
-
+        m_CoroutineB = false;
         //! 処理の分岐
         switch (a)
         {
@@ -271,6 +274,7 @@ public class PauseMenu : MonoBehaviour
     IEnumerator OptionCo()
     {
         //this.gameObject.SetActive(false);
+        m_AButtonImage.CrossFadeAlpha(0, 0, true);
         m_OptionMenu.gameObject.SetActive(true);
         m_CoroutineB = true;
         //! InputからBButtonのEventを削除
@@ -301,6 +305,7 @@ public class PauseMenu : MonoBehaviour
     {
         //! ボタン選択処理
         Debug.Log("B Button");
+        m_CoroutineA = true;
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
 
@@ -312,6 +317,7 @@ public class PauseMenu : MonoBehaviour
 
         //! ボタン解除処理
         m_BButtonImage.sprite = m_BDefault;
+        m_CoroutineA = false;
         m_CoroutineB = false;
 
         //!　ゲームを再開

@@ -75,12 +75,37 @@ public class ResultUI : MonoBehaviour
     private int m_Select = 0;
     private bool m_Page1_Flag = true;
 
+    //他のシーンから引き継ぐ情報
+    private SceneObject m_PastScene;
+    private SceneObject m_NextScene;
+    //星を獲得する必要なペンギン数とクリア情報
+    private int m_StarCount;
+    private float m_StarTime;
+    //クリア時実際のペンギン数と時間
+    private int m_ClearCount;
+    private float m_ClearTime;
+
+    //星獲得フラグ
+    private bool m_Flag_Count = false;
+    private bool m_Flag_Time = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-        m_Page1_StarCounter.SetCount((int)SceneData.GetStarClearCount());
-        m_Page1_StarCounter.SetCurrentCount((int)SceneData.GetStarClearCount());
+        //他のシーンから情報を引き継ぐ
+        m_PastScene = SceneData.GetCurrentScene();
+        m_NextScene = SceneData.GetNextScene();
+        m_StarCount = (int)SceneData.GetStarClearCount();
+        m_StarTime = SceneData.GetStarClearTime();
+        m_ClearCount = (int)SceneData.m_Static_ClearCount;
+        m_ClearTime = SceneData.m_Static_ClearTime;
+
+
+        ////////////////////////////////////////////////
+        m_Flag_Count = (m_ClearCount >= m_StarCount);
+        m_Flag_Time = (m_ClearTime <= m_StarTime);
+        m_Page1_StarCounter.SetCount(m_StarCount);
+        m_Page1_StarCounter.SetCurrentCount(m_StarCount);
 
         StartCoroutine(SceneStart());
     }
@@ -142,7 +167,7 @@ public class ResultUI : MonoBehaviour
                         if (m_Select == 0)
                         {
                             Debug.Log("Next");
-                            StartCoroutine(SceneEnd(SceneData.GetNextScene()));
+                            StartCoroutine(SceneEnd(m_NextScene));
                         }
                         else if (m_Select == 1)
                         {
@@ -152,7 +177,7 @@ public class ResultUI : MonoBehaviour
                         else if (m_Select == 2)
                         {
                             Debug.Log("Retry");
-                            StartCoroutine(SceneEnd(SceneData.GetCurrentScene()));
+                            StartCoroutine(SceneEnd(m_PastScene));
                         }
                     }
 
@@ -212,42 +237,87 @@ public class ResultUI : MonoBehaviour
         m_Page1_Slash.SetActive(true);
         m_Page1_StarCounter.SetEnable(true);
         m_Page1_ClearCounter.SetEnable(true);
-        m_Page1_ClearCounter.SetCount((int)SceneData.m_Static_ClearCount);
+        m_Page1_ClearCounter.SetCount(m_ClearCount);
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        m_Page1_SmallStar2.SetActive(SceneData.m_Static_ClearCount>=SceneData.GetStarClearCount());
+        m_Page1_SmallStar2.SetActive(m_Flag_Count);
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        m_Page1_MinuteCounter.SetEnable(true);
-        m_Page1_Minute.SetEnable(true);
-        m_Page1_Minute.SetActive(true);
-        m_Page1_SecondCounter.SetEnable(true);
-        m_Page1_Second.SetEnable(true);
-        m_Page1_Second.SetActive(true);
-        m_Page1_MiliSecondCounter.SetEnable(true);
+        StartCoroutine(SetClearTimeDigit(m_ClearTime));
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        m_Page1_SmallStar3.SetActive(SceneData.m_Static_ClearTime<=SceneData.GetStarClearTime());
+        m_Page1_SmallStar3.SetActive(m_Flag_Time);
 
         yield return new WaitForSecondsRealtime(1.0f);
 
         //大きな星
         m_Page1_BigStar1.SetActive(true);
         yield return new WaitForSecondsRealtime(0.05f);
-        m_Page1_BigStar2.SetActive(SceneData.m_Static_ClearCount >= SceneData.GetStarClearCount());
+        m_Page1_BigStar2.SetActive(m_Flag_Count);
         yield return new WaitForSecondsRealtime(0.05f);
-        m_Page1_BigStar3.SetActive(SceneData.m_Static_ClearTime <= SceneData.GetStarClearTime());
+        m_Page1_BigStar3.SetActive(m_Flag_Time);
         yield return new WaitForSecondsRealtime(1.0f);
 
         //次へ
         m_Page1_A_Button.SetEnable(true);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         m_IsInputEnable = true;
+
+        //演出スピード調整
+        float new_time = 0.2f;
+        m_Page1_MenuBack.SetEnableTime(new_time);
+        m_Page1_StageClear.SetEnableTime(new_time);
+        m_Page1_Count.SetEnableTime(new_time);
+        m_Page1_Time.SetEnableTime(new_time);
+        m_Page1_SmallStar1.SetEnableTime(new_time);
+        m_Page1_SmallStar2.SetEnableTime(new_time);
+        m_Page1_SmallStar3.SetEnableTime(new_time);
+        m_Page1_BigStar1.SetEnableTime(new_time);
+        m_Page1_BigStar2.SetEnableTime(new_time);
+        m_Page1_BigStar3.SetEnableTime(new_time);
+        m_Page1_Clear.SetEnableTime(new_time);
+        m_Page1_Slash.SetEnableTime(new_time);
+        m_Page1_StarCounter.SetEnableTime(new_time);
+        m_Page1_ClearCounter.SetEnableTime(new_time);
+        m_Page1_MinuteCounter.SetEnableTime(new_time);
+        m_Page1_Minute.SetEnableTime(new_time);
+        m_Page1_SecondCounter.SetEnableTime(new_time);
+        m_Page1_Second.SetEnableTime(new_time);
+        m_Page1_MiliSecondCounter.SetEnableTime(new_time);
+        m_Page1_A_Button.SetEnableTime(new_time);
+        m_Page2_MenuBack.SetEnableTime(new_time);
+        m_Page2_Continue.SetEnableTime(new_time);
+        m_Page2_StageSelect.SetEnableTime(new_time);
+        m_Page2_Retry.SetEnableTime(new_time);
+        m_Page2_A_Button.SetEnableTime(new_time);
+        m_Page2_B_Button.SetEnableTime(new_time);
+
+        m_Page1_MenuBack.SetCrossTime(new_time);
+        m_Page1_StageClear.SetCrossTime(new_time);
+        m_Page1_Count.SetCrossTime(new_time);
+        m_Page1_Time.SetCrossTime(new_time);
+        m_Page1_SmallStar1.SetCrossTime(new_time);
+        m_Page1_SmallStar2.SetCrossTime(new_time);
+        m_Page1_SmallStar3.SetCrossTime(new_time);
+        m_Page1_BigStar1.SetCrossTime(new_time);
+        m_Page1_BigStar2.SetCrossTime(new_time);
+        m_Page1_BigStar3.SetCrossTime(new_time);
+        m_Page1_Clear.SetCrossTime(new_time);
+        m_Page1_Slash.SetCrossTime(new_time);
+        m_Page1_Minute.SetCrossTime(new_time);
+        m_Page1_Second.SetCrossTime(new_time);
+        m_Page1_A_Button.SetCrossTime(new_time);
+        m_Page2_MenuBack.SetCrossTime(new_time);
+        //m_Page2_Continue.SetCrossTime(new_time);
+        //m_Page2_StageSelect.SetCrossTime(new_time);
+        //m_Page2_Retry.SetCrossTime(new_time);
+        m_Page2_A_Button.SetCrossTime(new_time);
+        m_Page2_B_Button.SetCrossTime(new_time);
     }
 
     private IEnumerator SceneEnd(SceneObject next)
@@ -280,7 +350,7 @@ public class ResultUI : MonoBehaviour
         m_Page2_A_Button.SetEnable(false);
         m_Page2_B_Button.SetEnable(false);
 
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.15f);
 
         //Page1を開く
         m_Page1_MenuBack.SetEnable(true);
@@ -315,7 +385,7 @@ public class ResultUI : MonoBehaviour
         m_Page1_ClearCounter.SetEnable(true);
 
 
-        m_Page1_SmallStar2.SetActive(SceneData.m_Static_ClearCount >= SceneData.GetStarClearCount());
+        m_Page1_SmallStar2.SetActive(m_Flag_Count);
 
 
         m_Page1_MinuteCounter.SetEnable(true);
@@ -327,20 +397,20 @@ public class ResultUI : MonoBehaviour
         m_Page1_MiliSecondCounter.SetEnable(true);
 
 
-        m_Page1_SmallStar3.SetActive(SceneData.m_Static_ClearTime <= SceneData.GetStarClearTime());
+        m_Page1_SmallStar3.SetActive(m_Flag_Time);
 
 
         //大きな星
         m_Page1_BigStar1.SetActive(true);
-        m_Page1_BigStar2.SetActive(SceneData.m_Static_ClearCount >= SceneData.GetStarClearCount());
-        m_Page1_BigStar3.SetActive(SceneData.m_Static_ClearTime <= SceneData.GetStarClearTime());
+        m_Page1_BigStar2.SetActive(m_Flag_Count);
+        m_Page1_BigStar3.SetActive(m_Flag_Time);
 
         yield return new WaitForSecondsRealtime(0.5f);
 
         //次へ
         m_Page1_A_Button.SetEnable(true);
         
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         m_IsInputEnable = true;
     }
@@ -373,7 +443,7 @@ public class ResultUI : MonoBehaviour
         m_Page1_MiliSecondCounter.SetEnable(false);
         m_Page1_A_Button.SetEnable(false);
 
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.15f);
 
         //Page2を開く
         m_Page2_MenuBack.SetEnable(true);
@@ -387,9 +457,29 @@ public class ResultUI : MonoBehaviour
         m_Page2_A_Button.SetEnable(true);
         m_Page2_B_Button.SetEnable(true);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
         m_IsInputEnable = true;
+    }
+
+    IEnumerator SetClearTimeDigit(float time)
+    {
+        int minute = (int)(time / 60);
+        int second = (int)(time - minute*60);
+        int milisecond = (int)((time - minute * 60 - second) * 100);
+
+        m_Page1_MinuteCounter.SetEnable(true);
+        m_Page1_Minute.SetEnable(true);
+        m_Page1_Minute.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        m_Page1_SecondCounter.SetEnable(true);
+        m_Page1_Second.SetEnable(true);
+        m_Page1_Second.SetActive(true);
+        m_Page1_SecondCounter.SetCount(second);
+        yield return new WaitForSeconds(0.2f);
+        m_Page1_MiliSecondCounter.SetEnable(true);
+        m_Page1_MinuteCounter.SetCount(minute);
+        m_Page1_MiliSecondCounter.SetCount(milisecond);
     }
 
     //汎用入力関数

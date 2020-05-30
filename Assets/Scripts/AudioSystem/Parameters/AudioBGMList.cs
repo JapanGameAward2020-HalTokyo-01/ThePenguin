@@ -15,18 +15,26 @@ using UnityEngine.Audio;
 public class AudioBGMList : ScriptableObject
 {
     //! このオーディオリスト用ミキサー
-    [SerializeField]
+    [SerializeField, NonEditableField, Tooltip("BGM用オーディオミキサー")]
     private AudioMixerGroup m_bgm_mixer = null;
     public AudioMixerGroup BGMMixer
     {
         get { return m_bgm_mixer; }
     }
 
-    //! オーディオリスト
-    [SerializeField]
-    private List<AudioBGMParams> m_bgm_list = new List<AudioBGMParams>();
-    public List<AudioBGMParams> BGMList
+    //! システムオーディオリスト
+    [SerializeField, Tooltip("シーン別オーディオリスト")]
+    private List<AudioBGMParams> m_system_bgm_list = new List<AudioBGMParams>();
+    public List<AudioBGMParams> SystemBGMList
     {
-        get { return m_bgm_list; }
+        get { return m_system_bgm_list; }
+    }
+
+    //! レベル別オーディオリスト
+    [SerializeField, Tooltip("ゲームメイン・エリア別オーディオリスト")]
+    private List<AudioBGMParams> m_area_bgm_list = new List<AudioBGMParams>();
+    public List<AudioBGMParams> AreaBGMList
+    {
+        get { return m_area_bgm_list; }
     }
 }

@@ -47,6 +47,10 @@ public class Penguin : MonoBehaviour
 
     public PenguinManager manager { get; set; }
 
+    public Vector3 m_ModelUp;
+    public Vector3 m_ModelForward;
+    private bool m_Tilting;
+    public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
 
     protected virtual void Awake()
     {
@@ -91,6 +95,12 @@ public class Penguin : MonoBehaviour
         {
             m_CurrentState.OnMoving();
         }
+
+        m_Model.transform.forward = m_ModelForward;
+        m_ModelForward = Vector3.Cross(m_Model.transform.right, m_ModelUp);
+        m_Model.transform.rotation = Quaternion.LookRotation(m_ModelForward, m_ModelUp);
+        Debug.DrawRay(m_Model.transform.position, m_Model.transform.up, Color.red);
+        Debug.DrawRay(m_Model.transform.position, m_Model.transform.forward, Color.red);
     }
 
     protected virtual void FixedUpdate()
@@ -182,5 +192,10 @@ public class Penguin : MonoBehaviour
     public void StageClear(Vector3 goalPos)
     {
 
+    }
+
+    public void SetModelRotation(Vector3 newup)
+    {
+        m_ModelUp = newup;
     }
 }

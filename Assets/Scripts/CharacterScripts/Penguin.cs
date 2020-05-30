@@ -173,9 +173,14 @@ public class Penguin : MonoBehaviour
     {
         return m_Rigidbody.velocity.y < -2.0f;
     }
-
+    
     public float GetSpeed()
     {
         return m_Rigidbody.velocity.magnitude;
+    }
+
+    public void StageClear(Vector3 goalPos)
+    {
+
     }
 }

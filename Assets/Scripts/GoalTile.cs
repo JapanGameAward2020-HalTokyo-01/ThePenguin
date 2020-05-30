@@ -28,11 +28,16 @@ public class GoalTile : MonoBehaviour
     private bool m_CanClear = false;
 
     //アイコン
-    private Image[] m_Image; 
+    private Image[] m_Image;
+
+    //! ステージクリア処理
+    public System.Action<Vector3> OnClearEvent;
 
     // Start is called before the first frame update
     void Start()
     {
+        OnClearEvent = delegate (Vector3 goalPos) { };
+
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
     }
 
@@ -92,6 +97,7 @@ public class GoalTile : MonoBehaviour
     {
         //仮処理
         Debug.Log("Goal");
+        OnClearEvent(transform.position);
     }
 
     /**

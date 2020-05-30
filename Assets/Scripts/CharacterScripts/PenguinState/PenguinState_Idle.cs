@@ -17,13 +17,14 @@ public class PenguinState_Idle : PenguinState
         base.OnStart();
 
         parentPenguin = penguin.GetComponent<ParentPenguin>();
-
     }
 
     //! 更新処理
     public override void OnUpdate()
     {
-        if(parentPenguin != null)
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
+        if (parentPenguin != null)
         {
             parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
         }

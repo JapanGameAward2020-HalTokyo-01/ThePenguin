@@ -278,16 +278,18 @@ public class ParentPenguin : Penguin
 
             m_ParentPenguin.animator.SetFloat("Power", m_Handler.Power);
 
-            var info = m_ParentPenguin.animator.GetCurrentAnimatorStateInfo(0);
-
-
             yield return new WaitForSeconds(0.5f);
 
             m_ParentPenguin.MoveHandler(vec);
- 
-            IsWait = false;
 
             yield return null;
+            yield return new WaitWhile(() => m_ParentPenguin.IsMoving());
+
+            yield return new WaitForSeconds(0.5f);
+
+            IsWait = false;
+
+            yield break;
         }
     }
 }

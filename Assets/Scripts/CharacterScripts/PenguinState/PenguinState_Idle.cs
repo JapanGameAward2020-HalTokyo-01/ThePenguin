@@ -17,6 +17,7 @@ public class PenguinState_Idle : PenguinState
         base.OnStart();
 
         parentPenguin = penguin.GetComponent<ParentPenguin>();
+
     }
 
     //! 更新処理
@@ -61,6 +62,16 @@ public class PenguinState_Idle : PenguinState
         {
             penguin.ChangeState<PenguinState_Failed>();
             return;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        if(parentPenguin == null)
+        {
+            int rand = Random.Range(0, 3);
+
+            penguin.animator.SetInteger("IdleNum", rand);
         }
     }
 }

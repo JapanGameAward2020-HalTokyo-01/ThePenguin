@@ -222,6 +222,8 @@ public class ChildPenguin : Penguin
 
         this.onPackEvent();
 
+        animator.SetBool("IsJoin",true);
+
         //! collision layerをpack penguinにする
         gameObject.layer = m_PackLayer;
 

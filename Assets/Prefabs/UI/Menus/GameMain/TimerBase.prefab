@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 8498062375769154874}
   - component: {fileID: 1045207143145207542}
   - component: {fileID: 9048599364666871858}
+  - component: {fileID: 5056706651503715951}
   m_Layer: 5
   m_Name: TimerBase
   m_TagString: Untagged
@@ -292,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acec4b634db405e419a73505114f735f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_time: 90
   m_minute_text: {fileID: 0}
   m_second_text: {fileID: 0}
   m_mini_sec_text: {fileID: 0}
@@ -324,3 +324,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5056706651503715951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8914422233087885355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8cb2995d41b7fa47ad73e8b55b903f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Hide_Y: 650
+  m_Switch_Speed: 0.2
+  m_IsEnable: 1
+  m_IsShow: 1
+  test_Enable: 1
+  test_Show: 1

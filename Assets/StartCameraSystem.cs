@@ -57,6 +57,8 @@ public class StartCameraSystem : MonoBehaviour
                 v_camera[1].Priority = 2;
             }
         }
+
+        //FindObjectOfType<GameMain>().ShowTutorialUI(Input.GetKey(KeyCode.N));
     }
 
     public bool GetNowPlaying()
@@ -72,6 +74,12 @@ public class StartCameraSystem : MonoBehaviour
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_InTime;
         v_camera[0].Priority = 2;
         v_camera[1].Priority = 0;
+
+        var main_ui = FindObjectOfType<GameMain>();
+        if(main_ui!=null)
+        {
+            main_ui.SetEnable(false);
+        }
     }
 
     public void StopPlaying()
@@ -82,5 +90,18 @@ public class StartCameraSystem : MonoBehaviour
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;
         v_camera[1].Priority = 0;
+
+        StartCoroutine(EnableUI(m_OutTime));
+    }
+
+    IEnumerator EnableUI(float time)
+    {
+        yield return new WaitForSeconds(time);
+        var main_ui = FindObjectOfType<GameMain>();
+        if (main_ui != null)
+        {
+            main_ui.SetEnable(true);
+            main_ui.ShowMainUI(true);
+        }
     }
 }

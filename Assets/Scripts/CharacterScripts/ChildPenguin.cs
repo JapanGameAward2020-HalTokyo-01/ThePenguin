@@ -231,10 +231,34 @@ public class ChildPenguin : Penguin
         m_InPack = true;
     }
 
-    private override void Enshutsu()
+    protected override void Enshutsu()
     {
+        GetComponent<CapsuleCollider>().enabled = false;
+        m_Rigidbody.useGravity = false;
 
+        if (m_InPack)
+        {
+
+            if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+                transform.LookAt(m_GoalPos);
+            } 
+
+            else
+            {
+                GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
+
+                if (!GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("GoalEnshutsu"))
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
-    write overwrite method for enshutsu to check for pack Status
-
 }

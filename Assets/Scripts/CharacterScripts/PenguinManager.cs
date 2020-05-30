@@ -123,7 +123,6 @@ public class PenguinManager : MonoBehaviour
 
     public void OnClearEvent(Vector3 goalPos)
     {
-        print("call manager");
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)

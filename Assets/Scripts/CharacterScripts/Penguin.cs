@@ -43,13 +43,13 @@ public class Penguin : MonoBehaviour
     private bool m_ClearAnimation = false;
 
     //! ステージクリア演出用、ゴール座標
-    private Vector3 m_GoalPos = Vector3.zero;
+    protected Vector3 m_GoalPos = Vector3.zero;
 
     //! ステージクリア演出_移動速度
-    private float m_GoalSpeed = 4.0f;
+    protected float m_GoalSpeed = 4.0f;
 
     //! ステージクリア演出_到着判定
-    private float m_GoalRadius = 1.3f;
+    protected float m_GoalRadius = 1.3f;
 
     #endregion
 
@@ -196,7 +196,7 @@ public class Penguin : MonoBehaviour
     /// <summary>
     /// @brief      ステージクリア演出処理
     /// </summary>
-    public virtual void Enshutsu()
+    protected virtual void Enshutsu()
     {
         if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
         {

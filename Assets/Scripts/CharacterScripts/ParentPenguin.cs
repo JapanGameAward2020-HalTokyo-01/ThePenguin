@@ -34,6 +34,9 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private float testvelocity;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
+
     protected override void Awake()
     {
         base.Awake();
@@ -55,6 +58,8 @@ public class ParentPenguin : Penguin
 
         //! InputHandlerにEvent登録
         m_InputHandler.RegisterInputEvent(new InputEvent(this));
+
+        m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
 
 
@@ -159,6 +164,11 @@ public class ParentPenguin : Penguin
         return m_InputHandler;
     }
 
+    public ControllerVibration GetControllerVibration()
+    {
+        return m_ControllerVibration;
+    }
+
     /// <summary>
     /// @brief      物体に当たる時のエフェクト発生処理
     /// @param (a)	物体と衝突判定するcollision
@@ -167,8 +177,8 @@ public class ParentPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
+            m_ControllerVibration.AddShake(0.4f, 0.2f);
             animator.SetTrigger("OnCrash");
-
             if (Effect != null)
                 Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
@@ -223,6 +233,8 @@ public class ParentPenguin : Penguin
                 m_ParentPenguin.animator.SetBool("IsCharge",true);
                 m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
             }
+
+            m_ParentPenguin.GetControllerVibration().ChargeShake(m_Handler.Power * 0.1f);
 
             if (Effect != null)
             {

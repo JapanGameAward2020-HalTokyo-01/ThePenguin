@@ -33,6 +33,8 @@ public class PenguinState_Idle : PenguinState
         {
             if (parentPenguin != null)
             {
+                parentPenguin.GetControllerVibration().ChargeShake(0.0f);
+                parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
                 if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
                 {
                     parentPenguin.ChangeState<PenguinState_Dash>();

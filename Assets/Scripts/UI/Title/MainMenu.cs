@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
     private SaveSystem m_SaveData;
 
+    [SerializeField]
+    private Image m_Logo;
     [SerializeField]
     private UI_Component_Button m_GameStart;
     [SerializeField]
@@ -18,19 +19,25 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private UI_Component_Button m_Option;
     [SerializeField]
+    private OptionMenu m_OptionMenu;
+    [SerializeField]
     private UI_Component_Button m_Finish;
     [SerializeField]
-    private UI_Component_Button m_Fade;
-    [SerializeField]
     private GameObject m_FinishWarning;
+    [SerializeField]
+    private UI_Component_Button m_Fade;
     [SerializeField]
     private UI_Component_Button m_FinishYes;
     [SerializeField]
     private UI_Component_Button m_FinishNo;
     [SerializeField]
-    private Animator m_OpenAnimator;
+    private Animator m_MenuAnimator;
+    [SerializeField]
+    private Animator m_LogoAnimator;
     [SerializeField]
     private Animator m_IconAnimator;
+    [SerializeField]
+    private Animator m_OptionAnimator;
 
     //シーン
     [SerializeField]
@@ -62,6 +69,7 @@ public class MainMenu : MonoBehaviour
     {
         LOGO = 0,
         MAIN,
+        OPTION,
         FINISH
     }
     private MenuState m_State;
@@ -71,9 +79,11 @@ public class MainMenu : MonoBehaviour
     {
         StartCoroutine(SceneStart());
         m_State = MenuState.LOGO;
-        m_OpenAnimator.enabled = false;
+        m_MenuAnimator.enabled = false;
+        m_LogoAnimator.enabled = false;
 
-        if(!m_SaveData.Stages1[1].m_Unlocked)
+        m_SaveData = FindObjectOfType<SaveSystem>();
+        if (!m_SaveData.Stages1[1].m_Unlocked)
         {
             m_IsNewStart = true;
             m_GameStart.gameObject.SetActive(true);
@@ -98,7 +108,8 @@ public class MainMenu : MonoBehaviour
         if(m_State== MenuState.LOGO && GetAnyKeyDown())
         {
             m_State = MenuState.MAIN;
-            m_OpenAnimator.enabled = true;
+            m_MenuAnimator.enabled = true;
+            m_LogoAnimator.enabled = true;
             return;
         }
 
@@ -162,6 +173,14 @@ public class MainMenu : MonoBehaviour
                     m_FinishSelect = -1;
                 }
             }
+
+            if (GetBButtonUp())
+            {
+                //Bボタン
+                m_FinishWarning.SetActive(false);
+                m_State = MenuState.MAIN;
+                m_FinishSelect = -1;
+            }
         }
     }
 
@@ -172,11 +191,11 @@ public class MainMenu : MonoBehaviour
     private void MainMenuUpdate()
     {
         //アニメーション完了判断
-        AnimatorStateInfo info = m_OpenAnimator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = m_MenuAnimator.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime < 1.0f)
             return;
 
-        m_SelectPrev = m_Select;
+            m_SelectPrev = m_Select;
         if (!GetAButton() && !GetBButton()&&!m_SelectIsCD)
         {
             //ABボタンが押されてない
@@ -258,6 +277,10 @@ public class MainMenu : MonoBehaviour
                 else if (m_Select == 2)
                 {
                     Debug.Log("Option");
+                    m_OptionMenu.gameObject.SetActive(true);
+                    m_MenuAnimator.SetBool("Close", true);
+                    m_Logo.CrossFadeAlpha(0, 0.5f, true);
+                    m_State = MenuState.OPTION;
                 }
                 else if (m_Select == 3)
                 {
@@ -278,6 +301,18 @@ public class MainMenu : MonoBehaviour
                 m_SelectCDFrame = 0;
             }
         }
+    }
+
+    /// <summary>
+    /// @brief      オプション閉じれる演出処理
+    /// </summary>
+    /// 
+    public void ReturnByOption()
+    {
+        m_MenuAnimator.SetBool("Close", false);       
+        m_OptionAnimator.SetBool("Close", true);
+        m_Logo.CrossFadeAlpha(1, 0.5f, true);
+        m_State = MenuState.MAIN;
     }
 
     //汎用的Fade

@@ -43,7 +43,8 @@ public class Penguin : MonoBehaviour
 
     [SerializeField]
     private Animator m_Animator;
-    public Animator animator { get { return m_Animator; } }
+    //public Animator animator { get { return m_Animator; } get { return m_Animator; } }
+    public Animator animator { get => m_Animator; set => m_Animator = value; }
 
     public PenguinManager manager { get; set; }
 
@@ -62,6 +63,8 @@ public class Penguin : MonoBehaviour
     {
         //! Rigidbody設定
         m_Rigidbody = this.GetComponent<Rigidbody>();
+        m_ModelForward = m_Model.transform.forward;
+        m_ModelUp = m_Model.transform.up;
 
         if (m_Animator == null)
             m_Animator.GetComponentInChildren<Animator>();
@@ -181,7 +184,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public bool GetFall()
     {
-        return m_Rigidbody.velocity.y < -2.0f;
+        return m_Rigidbody.velocity.y < -100.0f;
     }
     
     public float GetSpeed()

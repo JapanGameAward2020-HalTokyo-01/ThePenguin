@@ -11,7 +11,8 @@ public class PenguinState_Fall : PenguinState
     //! 初期化処理
     public override void OnStart()
     {
-        effeck[1].speed *= 2.0f; 
+        effeck[1].speed *= 2.0f;
+        penguin.animator.SetTrigger("OnFall");
     }
 
     //! 更新処理
@@ -36,6 +37,5 @@ public class PenguinState_Fall : PenguinState
             penguin.ChangeState<PenguinState_Idle>();
 
         }
-
     }
 }

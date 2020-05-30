@@ -18,6 +18,8 @@ public class PenguinState_Idle : PenguinState
         {
             if (penguin.TryGetComponent<ParentPenguin>(out var pp))
             {
+                pp.GetControllerVibration().ChargeShake(0.0f);
+                pp.GetControllerVibration().AddShake(0.6f, 0.2f);
                 if (pp.GetInputHandler().Power > pp.GetInputHandler().PowerMax * 0.4f)
                 {
                     pp.ChangeState<PenguinState_Dash>();

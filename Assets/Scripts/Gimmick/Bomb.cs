@@ -50,6 +50,9 @@ public class Bomb : BaseGimmick
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -59,6 +62,8 @@ public class Bomb : BaseGimmick
 
         m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
         m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
+
+        m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
 
 
@@ -98,6 +103,8 @@ public class Bomb : BaseGimmick
                         Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
 
                 }
+
+                m_ControllerVibration.AddShake(0.7f, 0.3f);
 
                 //消滅
                 Destroy(this.transform.parent.gameObject);

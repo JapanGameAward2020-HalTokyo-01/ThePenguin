@@ -7,7 +7,12 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
+    private SaveSystem m_SaveData;
+
+    [SerializeField]
     private UI_Component_Button m_GameStart;
+    [SerializeField]
+    private UI_Component_Button m_GameCountinue;
     [SerializeField]
     private UI_Component_Button m_StageSelect;
     [SerializeField]
@@ -30,6 +35,8 @@ public class MainMenu : MonoBehaviour
     //シーン
     [SerializeField]
     private SceneObject m_GameStartScene = null;
+    [SerializeField]
+    private SceneObject m_StageSelectScene = null;
 
 
     //入力関連
@@ -40,6 +47,7 @@ public class MainMenu : MonoBehaviour
     private int m_Current_V = 0;
 
     //メインメニュー用
+    private bool m_IsNewStart;
     private int m_Select = 0;
     private int m_SelectPrev = -1;
     private bool m_SelectIsCD = false;
@@ -64,6 +72,19 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(SceneStart());
         m_State = MenuState.LOGO;
         m_OpenAnimator.enabled = false;
+
+        if(!m_SaveData.Stages1[1].m_Unlocked)
+        {
+            m_IsNewStart = true;
+            m_GameStart.gameObject.SetActive(true);
+            m_GameCountinue.gameObject.SetActive(false);
+        }
+        else
+        {
+            m_IsNewStart = false;
+            m_GameStart.gameObject.SetActive(false);
+            m_GameCountinue.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -74,7 +95,7 @@ public class MainMenu : MonoBehaviour
             return;
 
         //ロゴ画面処理
-        if(m_State== MenuState.LOGO&& GetAnyKeyDown())
+        if(m_State== MenuState.LOGO && GetAnyKeyDown())
         {
             m_State = MenuState.MAIN;
             m_OpenAnimator.enabled = true;
@@ -131,6 +152,7 @@ public class MainMenu : MonoBehaviour
                 if (m_FinishSelect == 0)
                 {
                     Debug.Log("Finish Yes");
+                    Application.Quit();
                 }
                 else if (m_FinishSelect == 1)
                 {
@@ -175,7 +197,14 @@ public class MainMenu : MonoBehaviour
 
             if (m_Select == 0)
             {
-                m_GameStart.SetActive(true);
+                if (m_IsNewStart)
+                {
+                    m_GameStart.SetActive(true);
+                }
+                else
+                {
+                    m_GameCountinue.SetActive(true);
+                }
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(false);
@@ -183,6 +212,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 1)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(true);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(false);
@@ -190,6 +220,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 2)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(true);
                 m_Finish.SetActive(false);
@@ -197,6 +228,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 3)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(true);
@@ -207,12 +239,21 @@ public class MainMenu : MonoBehaviour
                 //Aボタン
                 if (m_Select == 0)
                 {
-                    Debug.Log("Game Start");
-                    StartCoroutine(SceneEnd(m_GameStartScene));
+                    if (m_IsNewStart)
+                    {
+                        Debug.Log("New Game Start");
+                        StartCoroutine(SceneEnd(m_GameStartScene));
+                    }
+                    //これから追加するコンティニュー
+                    else
+                    {
+                        Debug.Log("Game Countinue");
+                    }
                 }
                 else if (m_Select == 1)
                 {
                     Debug.Log("Stage Select");
+                    StartCoroutine(SceneEnd(m_StageSelectScene));
                 }
                 else if (m_Select == 2)
                 {

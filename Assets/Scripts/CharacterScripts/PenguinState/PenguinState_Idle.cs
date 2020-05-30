@@ -10,31 +10,71 @@ using UnityEngine;
 
 public class PenguinState_Idle : PenguinState
 {
+    private ParentPenguin parentPenguin = null;
+
+    public override void OnStart()
+    {
+        base.OnStart();
+
+        parentPenguin = penguin.GetComponent<ParentPenguin>();
+    }
 
     //! 更新処理
     public override void OnUpdate()
     {
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
+        if (parentPenguin != null)
+        {
+            parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
+        }
+
         if (penguin.IsMoving())
         {
-            if (penguin.TryGetComponent<ParentPenguin>(out var pp))
+            if (parentPenguin != null)
             {
-                if (pp.GetInputHandler().Power > pp.GetInputHandler().PowerMax * 0.4f)
+                parentPenguin.GetControllerVibration().ChargeShake(0.0f);
+                parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
+                if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
                 {
-                    pp.ChangeState<PenguinState_Dash>();
+                    parentPenguin.ChangeState<PenguinState_Dash>();
                 }
                 else
                 {
-                    pp.ChangeState<PenguinState_Walk>();
+                    parentPenguin.ChangeState<PenguinState_Walk>();
                 }
             }
-            else
+
+            if (penguin.GetFall())
             {
-                penguin.ChangeState<PenguinState_Walk>();
+                penguin.ChangeState<PenguinState_Fall>();
+                return;
             }
+
+            penguin.ChangeState<PenguinState_Walk>();
+            return;
         }
-        else if(penguin.GetFall())
+
+        if (penguin.manager.GetIsClear())
         {
-            penguin.ChangeState<PenguinState_Fall>();
+            penguin.ChangeState<PenguinState_Goal>();
+            return;
+        }
+
+        if (penguin.manager.GetIsGameOver())
+        {
+            penguin.ChangeState<PenguinState_Failed>();
+            return;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        if(parentPenguin == null)
+        {
+            int rand = Random.Range(0, 3);
+
+            penguin.animator.SetInteger("IdleNum", rand);
         }
     }
 }

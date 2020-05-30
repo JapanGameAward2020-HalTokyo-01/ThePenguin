@@ -45,6 +45,11 @@ public class ControllerVibration : MonoBehaviour
     //!チャージ用振動パワー
     private float ChargePower;
 
+    [SerializeField, Tooltip("チャージ時最大振動値"), Range(0.1f, 1.0f)]
+    private float ChargeVibration_Max　= 0.6f;
+    [SerializeField, Tooltip("チャージ時最小振動値"), Range(0.1f, 1.0f)]
+    private float ChargeVibration_Min = 0.3f;
+
     void Start()
     {
         VibrationPower = 0.0f;
@@ -94,7 +99,7 @@ public class ControllerVibration : MonoBehaviour
             return;
         }
 
-        ChargePower = Mathf.Lerp(0.3f, 0.6f, p);
+        ChargePower = Mathf.Lerp(ChargeVibration_Min, ChargeVibration_Max, p);
     }
 
     //!振動リストに新しい振動を追加　ｐ→POWER　ｔ→TIME

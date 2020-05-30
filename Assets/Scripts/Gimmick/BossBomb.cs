@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Effekseer;
 
 public class BossBomb : BaseGimmick
 {
@@ -32,13 +33,20 @@ public class BossBomb : BaseGimmick
     //! カウントダウン秒数初期数値
     private float m_CountDownInit;
 
+    //! 探知範囲表示（仮）オブジェクト
+    private GameObject m_DetectionSizeObject;
     //! カウントダウン表示（仮）オブジェクト
     private GameObject m_CountDownObject;
+    //! 爆弾オブジェクト
+    private GameObject m_Bomb;
     //! モデルオブジェクト
     private GameObject m_Model;
 
-    [SerializeField]private Material m_NormalMaterial;
-    [SerializeField]private Material m_CountDownMaterial;
+    [SerializeField]
+    private Material m_NormalMaterial;
+    [SerializeField]
+    private Material m_CountDownMaterial;
+
 
     //! エフェクトスポーンナー
     private EffectSpawner Effect;
@@ -47,15 +55,18 @@ public class BossBomb : BaseGimmick
     private GameObject m_Start;
     //! 爆弾投げられ落下地点
     private GameObject m_End;
-    //! 爆弾投げられ勢い
+
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
 
-        m_Model = this.transform.Find("Model").gameObject;
-        m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
+        m_Bomb = this.transform.Find("Bomb").gameObject;
+        m_Model = m_Bomb.transform.Find("Model").gameObject;
+        m_Model.GetComponentInChildren<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
+        m_DetectionSizeObject = m_Bomb.transform.Find("Collider").gameObject;
+        m_DetectionSizeObject.transform.Find("Effect").gameObject.transform.localScale = new Vector3(0.15f * m_ExplosionSize, 0.15f * m_ExplosionSize, 0.15f * m_ExplosionSize);
 
         m_Start = this.transform.Find("Start").gameObject;
         m_End = this.transform.Find("End").gameObject;
@@ -63,7 +74,7 @@ public class BossBomb : BaseGimmick
         m_End.GetComponent<Renderer>().enabled = false;
 
         m_Model.transform.position = m_Start.transform.position;
-        m_Model.GetComponent<Rigidbody>().isKinematic = true;
+        m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
         m_CountDownInit = m_CountDown;
         m_CountDownObject.SetActive(false);
@@ -76,7 +87,7 @@ public class BossBomb : BaseGimmick
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
         m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
 
-        m_Model.transform.position = m_End.transform.position;
+        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  
@@ -107,6 +118,7 @@ public class BossBomb : BaseGimmick
                     if (Effect != null)
                         Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
 
+                    m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
                 }
 
                 //消滅
@@ -115,6 +127,7 @@ public class BossBomb : BaseGimmick
         }
 
         //探知範囲とカウントダウンの座標更新
+        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
         m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
     }
 
@@ -123,7 +136,7 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Activate()
+    public override void OnActivate()
     {
         this.gameObject.SetActive(true);
         //m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
@@ -135,12 +148,12 @@ public class BossBomb : BaseGimmick
      * @param none
      * @return none
      */
-    public override void Deactivate()
+    public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
         m_Model.transform.position = m_Start.transform.position;
         m_Model.transform.rotation = new Quaternion(0,0,0,0);
-        m_Model.GetComponent<Rigidbody>().isKinematic = true;
+        m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
         m_CountDownObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -175,6 +188,28 @@ public class BossBomb : BaseGimmick
                 _penguins[i].GetComponent<Rigidbody>().AddForce(_power, ForceMode.Impulse);
             }
         }
+
+        //壊れる壁
+        CrashWall[] _crashWall = FindObjectsOfType<CrashWall>();
+        for (int i = 0; i < _crashWall.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashWall[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashWall[i].DestroyByBoom();
+            }
+        }
+
+        //壊れる床
+        CrashTile[] _crashTile = FindObjectsOfType<CrashTile>();
+        for (int i = 0; i < _crashTile.Length; i++)
+        {
+            float _length = Vector3.Distance(m_Model.transform.position, _crashTile[i].transform.position);
+            if (_length <= m_ExplosionSize)
+            {
+                _crashTile[i].DestroyByBoom();
+            }
+        }
     }
 
     /**
@@ -190,8 +225,8 @@ public class BossBomb : BaseGimmick
         if ((m_Model.transform.position- m_End.transform.position).sqrMagnitude<0.1f)
         {
             m_Model.transform.position = m_End.transform.position;
-            m_Model.GetComponent<Rigidbody>().isKinematic = false;
-
+            m_Model.GetComponentInChildren<Rigidbody>().isKinematic = false;
+            m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play();
             m_CountDownObject.SetActive(true);
             m_IsCountDown = true;
 

@@ -82,9 +82,8 @@ public class DownUpBlock : FallBlock
         m_IsDown = !m_IsDown;
     }
 
-    public override void Activate()
+    public override void OnActivate()
     {
-        base.Activate();
         m_Time += m_UpWaitTime;
         this.gameObject.SetActive(true);
     }

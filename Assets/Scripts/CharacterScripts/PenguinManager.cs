@@ -13,9 +13,11 @@ public class PenguinManager : MonoBehaviour
     [SerializeField, Tooltip("ステージ番号")]
     private int m_StateNumber = 0;
 
-    [SerializeField, NonEditableField, Space(30)]
+    [SerializeField, Space(30)]
     //! ゲームオーバー判定
     public bool m_GameOver = false;
+    [SerializeField]
+    public bool m_GameClear = false;
     //! 子ペンギンの総数
     [SerializeField,NonEditableField]
     public int m_TotalCount = 0;
@@ -59,6 +61,7 @@ public class PenguinManager : MonoBehaviour
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
+        m_ParentPenguin.manager = this;
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -87,6 +90,8 @@ public class PenguinManager : MonoBehaviour
                 //! Event登録
                 child.onKillEvent = OnKillEvent;
                 child.onPackEvent = OnPackEvent;
+
+                child.manager = this;
 
                 //! 群れに追加
                 if (child.InPack)
@@ -129,6 +134,16 @@ public class PenguinManager : MonoBehaviour
     {
         m_PackCount++;
         m_NomadCount--;
+    }
+
+    public bool GetIsClear()
+    {
+        return m_GameClear;
+    }
+
+    public bool GetIsGameOver()
+    {
+        return m_GameOver;
     }
 
     public void OnClearEvent(Vector3 goalPos)

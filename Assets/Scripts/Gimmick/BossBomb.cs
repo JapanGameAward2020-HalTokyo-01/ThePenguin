@@ -56,6 +56,8 @@ public class BossBomb : BaseGimmick
     //! 爆弾投げられ落下地点
     private GameObject m_End;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
 
     // Start is called before the first frame update
     public override void Start()
@@ -78,6 +80,8 @@ public class BossBomb : BaseGimmick
 
         m_CountDownInit = m_CountDown;
         m_CountDownObject.SetActive(false);
+
+        m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
 
 
@@ -120,6 +124,8 @@ public class BossBomb : BaseGimmick
 
                     m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
                 }
+
+                m_ControllerVibration.AddShake(0.7f, 0.3f);
 
                 //消滅
                 this.Deactivate();

@@ -19,16 +19,16 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     public bool m_GameClear = false;
     //! 子ペンギンの総数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_TotalCount = 0;
     //! 死亡数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_DeadCount = 0;
     //! 群れ化数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_PackCount = 0;
     //! 野良ペンギン数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_NomadCount = 0;
 
     [SerializeField]
@@ -40,8 +40,18 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    #region ゴール演出関係
     //! ステージゴール
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
+
+    //! ゴール演出中判定
+    private bool m_InGoalEnshutsu = false;
+
+    //! ゴール演出用カメラ
+    [SerializeField]
+    private GameObject m_EndCamera;
+
+    #endregion
 
     private SaveSystem m_SaveSystem;
 
@@ -136,6 +146,24 @@ public class PenguinManager : MonoBehaviour
         m_NomadCount--;
     }
 
+    //! ステージクリアイベント
+    public void OnClearEvent(Vector3 goalPos)
+    {
+        if (m_EndCamera != null)
+        {
+            m_EndCamera.SetActive(true);
+        }
+
+        m_ParentPenguin.StageClear(goalPos);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.StageClear(goalPos);
+        }
+
+        m_InGoalEnshutsu = true;
+    }
+
     public bool GetIsClear()
     {
         return m_GameClear;
@@ -146,20 +174,31 @@ public class PenguinManager : MonoBehaviour
         return m_GameOver;
     }
 
-    public void OnClearEvent(Vector3 goalPos)
-    {
-        m_ParentPenguin.StageClear(goalPos);
-
-        foreach (ChildPenguin child in m_ChildPenguins)
-        {
-            child.StageClear(goalPos);
-        }
-    }
-
     void Update()
     {
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
+
+        //
+        if (m_InGoalEnshutsu)
+        {
+            int jumpedNum = 0;
+            foreach (ChildPenguin child in m_ChildPenguins)
+            {
+                if (child.InPack)
+                {
+                    if (child.GetComponentInChildren<Animator>().GetBool("GoalEnshutsuEnd"))
+                    {
+                        jumpedNum++;
+
+                        if (jumpedNum >= m_PackCount)
+                        {
+                            m_ParentPenguin.m_EveryoneJumped = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

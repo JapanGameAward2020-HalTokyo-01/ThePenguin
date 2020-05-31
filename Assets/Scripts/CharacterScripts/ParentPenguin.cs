@@ -37,6 +37,9 @@ public class ParentPenguin : Penguin
     //!振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
 
+    //ゴール演出 - 子ペンギン演出終了判定
+    public bool m_EveryoneJumped = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -183,6 +186,26 @@ public class ParentPenguin : Penguin
                 Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
+
+    //! ゴール演出処理
+    protected override void Enshutsu()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+        m_Rigidbody.useGravity = false;
+
+        if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.LookAt(m_GoalPos);
+        }
+
+        else if (m_EveryoneJumped)
+        {
+            GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
+        }
+    }
+
+
 
     public float GetPower()
     {

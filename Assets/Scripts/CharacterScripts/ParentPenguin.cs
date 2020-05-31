@@ -257,7 +257,7 @@ public class ParentPenguin : Penguin
                 m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
             }
 
-            m_ParentPenguin.GetControllerVibration().ChargeShake(m_Handler.Power * 0.1f);
+            //m_ParentPenguin.GetControllerVibration().ChargeShake(m_Handler.Power * 0.1f);
 
             if (Effect != null)
             {
@@ -283,7 +283,7 @@ public class ParentPenguin : Penguin
         {
             base.OnRun();
 
-            if (!IsWait && !m_ParentPenguin.IsMoving())
+            if (!m_ParentPenguin.IsMoving())
             {
                 //終了後入力を許可する
                 m_Handler.ChangeState(InputHandler.State.Idle);
@@ -299,24 +299,20 @@ public class ParentPenguin : Penguin
         public override void TickStateRun()
         {
             base.TickStateRun();
-            
+
+            //UnityEditor.EditorApplication.isPaused = true;
+
+            //IsWait = true;
+
+            m_ParentPenguin.animator.SetFloat("Power", m_Handler.Power);
             m_ParentPenguin.animator.SetBool("IsCharge", false);
 
-            IsWait = true;
-
-            m_ParentPenguin.StartCoroutine(MoveCorutine());
+            m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
 
         IEnumerator MoveCorutine()
         {
             Vector3 vec = m_Handler.GetMoveVector();
-
-            m_ParentPenguin.animator.SetFloat("Power", m_Handler.Power);
-
-            yield return new WaitForSeconds(0.5f);
-
-            m_ParentPenguin.MoveHandler(vec);
-
             yield return null;
             yield return new WaitWhile(() => m_ParentPenguin.IsMoving());
 

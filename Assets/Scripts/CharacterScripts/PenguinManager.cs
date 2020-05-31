@@ -188,7 +188,7 @@ public class PenguinManager : MonoBehaviour
             {
                 if (child.InPack)
                 {
-                    if (child.GetComponentInChildren<Animator>().GetBool("GoalEnshutsuEnd"))
+                    if (child.GetComponentInChildren<Animator>().GetBool("IsGoalOver"))
                     {
                         jumpedNum++;
 

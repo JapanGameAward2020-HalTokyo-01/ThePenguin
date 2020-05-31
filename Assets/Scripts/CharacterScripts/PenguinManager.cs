@@ -10,25 +10,29 @@ public class PenguinManager : MonoBehaviour
     public int m_MaxDead = 0;
     [SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
     private int m_Time = 0;
+    [SerializeField, Tooltip("ステージ番号")]
+    private int m_StateNumber = 0;
 
-    [Space(30)]
+    [SerializeField, Space(30)]
     //! ゲームオーバー判定
     public bool m_GameOver = false;
+    [SerializeField]
+    public bool m_GameClear = false;
     //! 子ペンギンの総数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_TotalCount = 0;
     //! 死亡数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_DeadCount = 0;
     //! 群れ化数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_PackCount = 0;
     //! 野良ペンギン数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_NomadCount = 0;
 
     [SerializeField]
-    private StageTimer m_Timer;// = null;
+    private StageTimer m_Timer;
 
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
@@ -36,29 +40,28 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
-    #region ゴール演出関係
     //! ステージゴール
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
-    //! ゴール演出中判定
-    private bool m_InGoalEnshutsu = false;
+    private SaveSystem m_SaveSystem;
 
-    //! ゴール演出用カメラ
-    [SerializeField]
-    private GameObject m_EndCamera;
-
-    #endregion
+    private GameData m_GameData;
 
     // Start is called before the first frame update
     void Start()
     {
+        SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
+
         m_GameOver = false;
 
-        m_Timer.SetTime(m_Time);
+        m_Timer.StageTime = m_Time;
+
+        m_Timer.onTimerEnd = GameOver;
 
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
+        m_ParentPenguin.manager = this;
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -87,6 +90,8 @@ public class PenguinManager : MonoBehaviour
                 //! Event登録
                 child.onKillEvent = OnKillEvent;
                 child.onPackEvent = OnPackEvent;
+
+                child.manager = this;
 
                 //! 群れに追加
                 if (child.InPack)
@@ -119,7 +124,7 @@ public class PenguinManager : MonoBehaviour
     }
 
     //! 死亡時イベント(親ペンギン)
-    public void GameOver(ParentPenguin parent)
+    public void GameOver()
     {
         m_GameOver = true;
     }
@@ -131,21 +136,24 @@ public class PenguinManager : MonoBehaviour
         m_NomadCount--;
     }
 
+    public bool GetIsClear()
+    {
+        return m_GameClear;
+    }
+
+    public bool GetIsGameOver()
+    {
+        return m_GameOver;
+    }
+
     public void OnClearEvent(Vector3 goalPos)
     {
-        if (m_EndCamera != null)
-        {
-            m_EndCamera.SetActive(true);
-        }
-
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goalPos);
         }
-
-        m_InGoalEnshutsu = true;
     }
 
     void Update()
@@ -153,25 +161,5 @@ public class PenguinManager : MonoBehaviour
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
-
-        if (m_InGoalEnshutsu)
-        {
-            int jumpedNum = 0;
-            foreach (ChildPenguin child in m_ChildPenguins)
-            {
-                if (child.InPack)
-                {
-                    if (child.GetComponentInChildren<Animator>().GetBool("GoalEnshutsuEnd"))
-                    {
-                        jumpedNum++;
-
-                        if (jumpedNum >= m_PackCount)
-                        {
-                            m_ParentPenguin.m_EveryoneJumped = true;
-                        }
-                    }
-                }
-            }
-        }
     }
 }

@@ -3,6 +3,7 @@
  * @brief   シーンを遷移するだけのクラス
  * @author  谷沢 瑞己
  */
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.SceneManagement
@@ -17,6 +18,9 @@ namespace Assets.Scripts.SceneManagement
         //! 遷移先シーンインデックス
         private KSceneIndex m_next_scene;
 
+        //! ゲームシーンの場合はシーンアセットを直接指定
+        private SceneAsset m_next_scene_asset = null;
+
         /**
          * @brief   遷移先シーンインデックスを必ず持って生成するようにする
          * @param   遷移先シーンインデックス
@@ -27,20 +31,29 @@ namespace Assets.Scripts.SceneManagement
         }
 
         /**
+         * @brief   遷移先シーンインデックスを必ず持って生成するようにする
+         * @param   (_scene) シーンアセット直接指定
+         */
+        public TransScene(SceneAsset _scene)
+        {
+            m_next_scene = KSceneIndex.None;
+            m_next_scene_asset = _scene;
+        }
+
+        /**
          * @brief   メンバのインデックスが指定するシーンに遷移する
          */
         public void Transition()
         {
             // 非同期読み込みによるシーン遷移
-            SceneManager.LoadSceneAsync((int)m_next_scene, LoadSceneMode.Single);
-        }
-
-        /**
-         * @brief   シーン遷移スタイル(未作成)を指定してシーン遷移する(予定)
-         */
-        public void Transition(int transition_style)
-        {
-            Transition();
+            if(m_next_scene == KSceneIndex.None)
+            {
+                SceneManager.LoadSceneAsync(m_next_scene_asset.name, LoadSceneMode.Single);
+            }
+            else
+            {
+                SceneManager.LoadSceneAsync((int)m_next_scene, LoadSceneMode.Single);
+            }
         }
     }
 }

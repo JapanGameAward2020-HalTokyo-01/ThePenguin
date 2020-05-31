@@ -56,6 +56,13 @@ public class Penguin : MonoBehaviour
     //!エフェクトスポーンナー
     public EffectSpawner Effect { get; protected set; }
 
+    [SerializeField]
+    private Animator m_Animator;
+    public Animator animator { get { return m_Animator; } }
+
+    public PenguinManager manager { get; set; }
+
+
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();
@@ -66,6 +73,9 @@ public class Penguin : MonoBehaviour
     {
         //! Rigidbody設定
         m_Rigidbody = this.GetComponent<Rigidbody>();
+
+        if (m_Animator == null)
+            m_Animator.GetComponentInChildren<Animator>();
 
         //! PenguinStateを設定
         if (m_States)
@@ -182,6 +192,11 @@ public class Penguin : MonoBehaviour
     public bool GetFall()
     {
         return m_Rigidbody.velocity.y < -2.0f;
+    }
+    
+    public float GetSpeed()
+    {
+        return m_Rigidbody.velocity.magnitude;
     }
 
     /// <summary>

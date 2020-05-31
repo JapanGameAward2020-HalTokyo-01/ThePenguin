@@ -248,11 +248,6 @@ public class ChildPenguin : Penguin
             else
             {
                 GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
-
-                if (!GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).IsName("GoalEnshutsu"))
-                {
-                    gameObject.SetActive(false);
-                }
             }
         }
 

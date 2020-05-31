@@ -34,6 +34,8 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private float testvelocity;
 
+    public bool m_EveryoneJumped = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -201,7 +203,7 @@ public class ParentPenguin : Penguin
                 if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                 {
 
-                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
                 else if (m_Handler.Power > m_Handler.PowerMax / 4)
                 {
@@ -234,6 +236,22 @@ public class ParentPenguin : Penguin
         }
     }
 
+    protected override void Enshutsu()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+        m_Rigidbody.useGravity = false;
+
+        if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.LookAt(m_GoalPos);
+        }
+
+        else if (m_EveryoneJumped)
+        {
+            GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
+        }
+    }
 
     public float GetPower()
     {

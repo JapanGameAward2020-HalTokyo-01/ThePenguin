@@ -46,7 +46,7 @@ public class Penguin : MonoBehaviour
     protected Vector3 m_GoalPos = Vector3.zero;
 
     //! ステージクリア演出_移動速度
-    protected float m_GoalSpeed = 4.0f;
+    protected float m_GoalSpeed = 6.0f;
 
     //! ステージクリア演出_到着判定
     protected float m_GoalRadius = 1.3f;
@@ -191,6 +191,7 @@ public class Penguin : MonoBehaviour
     {
         m_GoalPos = goalPos;
         m_ClearAnimation = true;
+        m_Rigidbody.velocity = Vector3.zero;
     }
 
     /// <summary>

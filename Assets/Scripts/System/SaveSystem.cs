@@ -28,7 +28,7 @@ public class SaveSystem : MonoBehaviour
             {
                 Stages[i] = new GameData();
             }
-            Stages[1].m_Unlocked = true;
+            Stages[0].m_Unlocked = true;
             instance = this;
         }
         else if (instance != this)

@@ -43,10 +43,15 @@ public class Penguin : MonoBehaviour
 
     [SerializeField]
     private Animator m_Animator;
-    public Animator animator { get { return m_Animator; } }
+    //public Animator animator { get { return m_Animator; } get { return m_Animator; } }
+    public Animator animator { get => m_Animator; set => m_Animator = value; }
 
     public PenguinManager manager { get; set; }
 
+    public Vector3 m_ModelUp;
+    public Vector3 m_ModelForward;
+    private bool m_Tilting;
+    public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
 
     protected virtual void Awake()
     {
@@ -58,6 +63,8 @@ public class Penguin : MonoBehaviour
     {
         //! Rigidbody設定
         m_Rigidbody = this.GetComponent<Rigidbody>();
+        m_ModelForward = m_Model.transform.forward;
+        m_ModelUp = m_Model.transform.up;
 
         if (m_Animator == null)
             m_Animator.GetComponentInChildren<Animator>();
@@ -91,6 +98,12 @@ public class Penguin : MonoBehaviour
         {
             m_CurrentState.OnMoving();
         }
+
+        m_Model.transform.forward = m_ModelForward;
+        m_ModelForward = Vector3.Cross(m_Model.transform.right, m_ModelUp);
+        m_Model.transform.rotation = Quaternion.LookRotation(m_ModelForward, m_ModelUp);
+        Debug.DrawRay(m_Model.transform.position, m_Model.transform.up, Color.red);
+        Debug.DrawRay(m_Model.transform.position, m_Model.transform.forward, Color.red);
     }
 
     protected virtual void FixedUpdate()
@@ -171,7 +184,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public bool GetFall()
     {
-        return m_Rigidbody.velocity.y < -2.0f;
+        return m_Rigidbody.velocity.y < -100.0f;
     }
     
     public float GetSpeed()
@@ -182,5 +195,10 @@ public class Penguin : MonoBehaviour
     public void StageClear(Vector3 goalPos)
     {
 
+    }
+
+    public void SetModelRotation(Vector3 newup)
+    {
+        m_ModelUp = newup;
     }
 }

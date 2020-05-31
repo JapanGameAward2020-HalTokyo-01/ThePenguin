@@ -61,8 +61,8 @@ public class Select_Button : MonoBehaviour
 	 */
 	public void Start()
 	{
-		m_input.actions["A Button"].performed += Cancel;
-		m_input.actions["B Button"].performed += Decide;
+		m_input.actions["B Button"].performed += Cancel;
+		m_input.actions["A Button"].performed += Decide;
 	}
 
 	/**

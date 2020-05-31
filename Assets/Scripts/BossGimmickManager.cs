@@ -77,6 +77,11 @@ public class BossGimmickManager : MonoBehaviour
         m_Timer += Time.deltaTime;
     }
 
+    public float GetTimer()
+    {
+        return m_Timer;
+    }
+
     [System.Serializable]
     public class EmitParameter
     {

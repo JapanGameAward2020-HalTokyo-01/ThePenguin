@@ -22,6 +22,32 @@ public class WallAttack : BaseGimmick
 
     private float m_CurrentLength = 0f;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     public override void Start()
     {
         base.Start();
@@ -54,14 +80,14 @@ public class WallAttack : BaseGimmick
         this.gameObject.SetActive(false);
     }
 
-    public void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
-        //Gizmos.color = new Color(1f,0f,0f,0.5f);
-        //Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
-        //Gizmos.DrawCube(m_WarningArrow.transform.position,m_WarningArrow.transform.lossyScale);
-#endif
-    }
+//    public void OnDrawGizmos()
+//    {
+//#if UNITY_EDITOR
+//        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+//        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
+//        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
+//#endif
+//    }
 
     private void OnValidate()
     {

@@ -40,12 +40,12 @@ public class SlopeTilt : MonoBehaviour
             {
                 if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() != null)
                 {
-                    Debug.Log("raycast on");
+                    Debug.Log("Penguin on Slope!");
                     Debug.DrawRay(penguin.transform.position, -penguin.transform.up * 5, Color.green);
                     penguin.SetModelRotation(m_Tilt);
                 }
             }
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.2f);
         }
     }
 

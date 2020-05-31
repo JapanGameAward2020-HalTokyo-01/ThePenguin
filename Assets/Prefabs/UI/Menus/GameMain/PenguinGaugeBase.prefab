@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 3396754662603725716}
   - component: {fileID: 3396754662603725717}
   - component: {fileID: 3396754662603725715}
+  - component: {fileID: 6107347595349748450}
   m_Layer: 5
   m_Name: PenguinGaugeBase
   m_TagString: Untagged
@@ -391,7 +392,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_left_pos: {x: 114, y: 12}
-  m_gauge_max_size: {x: 278, y: 46}
   m_living_pos: {fileID: 3396754661107996455}
   m_death_pos: {fileID: 3396754661630128309}
   m_deadline_pos: {fileID: 3396754662110273484}
@@ -404,6 +404,24 @@ MonoBehaviour:
   m_border_good: 5
   m_border_max: 8
   m_border_danger: 2
+--- !u!114 &6107347595349748450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3396754662603725719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8cb2995d41b7fa47ad73e8b55b903f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Hide_Y: 650
+  m_Switch_Speed: 0.2
+  m_IsEnable: 1
+  m_IsShow: 1
+  test_Enable: 1
+  test_Show: 1
 --- !u!1 &4225216982738873760
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,13 +3,8 @@
  * @brief   AudioSystem機能群：フェードアウト・イン機能
  * @author  谷沢 瑞己
  */
-using System;
+using System.Collections;
 using UnityEngine;
-
-public enum KAudioFade
-{
-    None = -1, In, Out
-}
 
 /**
  * @class   AudioFadeクラス
@@ -17,54 +12,48 @@ public enum KAudioFade
  */
 public class AudioFade
 {
+    //! フェード処理中かどうか
+    private bool m_is_fading = false;
+
+    //! 操作対象
+    private AudioSource m_source;
+    //! フェード後音量
+    private float       m_end_value;
     //! 処理時間
-    private float m_sec;
+    private float       m_proc_sec;
 
-    //! 現在の経過時間
-    private float m_current_sec;
-
-    //! 処理方向
-    private KAudioFade m_in_out_flag = KAudioFade.None;
-    private int m_inout;
-
-    // 呼ばれた時間からフェード(アウト/イン)を開始する
-    public void Start(KAudioFade _fade, float _fade_sec)
+    public void Set(AudioSource _source, float _end_value, float _proc_sec)
     {
-        m_sec = _fade_sec;
-        m_in_out_flag = _fade;
-
-        if (_fade == KAudioFade.In)
-        {
-            m_current_sec = 0.0f;
-            m_inout = 1;
-        }
-
-        if (_fade == KAudioFade.Out) 
-        {
-            m_current_sec = _fade_sec;
-            m_inout = -1;
-        }
-    }
-
-    public void OnUpdate(AudioSource _source)
-    {
-        if (m_in_out_flag == KAudioFade.None) return;
-
-        // 現在時刻の増減
-        m_current_sec = Mathf.Clamp(m_current_sec + m_inout * Time.deltaTime, 0, m_sec);
-
-        //　音量の操作
-        _source.volume = m_current_sec / m_sec;
-
-        // 終了チェック
-        float _volume = _source.volume;
-        if (m_in_out_flag == KAudioFade.Out) _volume = 1.0f - _volume;
-        if( _volume > 0.999999f) m_in_out_flag = KAudioFade.None;
+        m_source = _source;
+        m_end_value = _end_value;
+        m_proc_sec = _proc_sec;
     }
 
     public bool IsFading
     {
-        get { return m_in_out_flag != KAudioFade.None; }
+        get { return m_is_fading; }
     }
 
+    //! フェード処理
+    IEnumerator FadeUpdate()
+    {
+        float _start_value = m_source.volume;
+        m_is_fading = true;
+
+        //! 開始フレームは処理しない
+        yield return new WaitForEndOfFrame();
+
+        //! 経過時間の合計
+        float _sec = 0.0f;
+
+        //　音量の操作
+        while (Mathf.Abs(m_end_value - m_source.volume) > 0)
+        {
+            _sec = Mathf.Min(m_proc_sec, _sec + Time.deltaTime);
+            m_source.volume = Mathf.Lerp(_start_value, m_end_value, _sec / m_proc_sec);
+            yield return null;
+        }
+
+        m_is_fading = false;
+    }
 }

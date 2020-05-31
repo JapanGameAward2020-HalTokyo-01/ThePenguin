@@ -42,7 +42,7 @@ public class BGMManager : MonoBehaviour
 	/**
 	 * @brief   初期化
 	 */
-	public void Awake()
+	public void Start()
 	{
 		// AudioSource作成
 		m_source = gameObject.GetComponent<AudioSource>();
@@ -62,7 +62,16 @@ public class BGMManager : MonoBehaviour
 	public void FixedUpdate()
 	{
 		m_loop.OnUpdate(m_source, m_init_bgm);
-		m_fade.OnUpdate(m_source);
+	}
+
+
+	/**
+	 * @brief   フェード機能
+	 */
+	 public void fade(float _end_value, float _proc_sec)
+	{
+		m_fade.Set(m_source, _end_value, _proc_sec);
+		StartCoroutine("m_fade.FadeUpdate");
 	}
 
 }

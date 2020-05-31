@@ -4,6 +4,7 @@
  * @author  谷沢 瑞己
  */
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -20,12 +21,17 @@ public class Select_Button : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("ステージリスト")]
 	private StageMetaParam m_stage_list;
 
+	[SerializeField, Tooltip("タイトルシーン")]
+	private SceneAsset m_title_scene;
+
 	[SerializeField, Tooltip("プレイヤーからの入力")]
 	private PlayerInput m_input;
 	//! UIのボタンオブジェクトを使うため、選択状態の操作をEventSystemから行う
 	private EventSystem m_event_system;
 	//! カーソルが指す初期オブジェクト
 	private Button m_last_selected = null;
+
+	[Header("UIParts")]
 
 	[SerializeField, Tooltip("コマンドエリア")]
 	private Select_CommandMgr m_commnad_mgr;
@@ -35,6 +41,8 @@ public class Select_Button : MonoBehaviour
 	private Select_Score m_score;
 	[SerializeField, Tooltip("救出数ゲージエリア")]
 	private Select_PenguinNum m_penguin_gauge;
+
+	[Header("Parameter")]
 
 	[SerializeField, Tooltip("カーソルの移動速度"), Range(0.0001f, 0.03f)]
 	private float m_cursor_speed = 0.005f;
@@ -167,7 +175,7 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		SceneManager.LoadSceneAsync((int)KSceneIndex.Title);
+		SceneManager.LoadSceneAsync(m_title_scene.name);
 		yield return null;
 	}
 

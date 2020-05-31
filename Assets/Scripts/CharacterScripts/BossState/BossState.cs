@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+* @file     BossState.cs
+* @brief    状態遷移　ベース
+* @author   李　爾捷
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file	Boss.cs
+/// @brief	ボスクラス
+/// @author	李爾捷
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +23,9 @@ public class Boss : MonoBehaviour
     [SerializeField, NonEditableField]
     protected BossState m_CurrentState;
 
-    [SerializeField]
-    private Animator m_Animator;
-    public Animator animator { get { return m_Animator; } }
+    //[SerializeField]
+    //private Animator m_Animator;
+    //public Animator animator { get { return m_Animator; } }
 
     public BossGimmickManager m_BossGimmickManager { get; set; }
 
@@ -31,8 +37,8 @@ public class Boss : MonoBehaviour
     private void Start()
     {
 
-        if (m_Animator == null)
-            m_Animator.GetComponentInChildren<Animator>();
+        //if (m_Animator == null)
+        //    m_Animator.GetComponentInChildren<Animator>();
 
         //! PenguinStateを設定
         if (m_States)

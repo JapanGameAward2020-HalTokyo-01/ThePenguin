@@ -54,7 +54,7 @@ public class StateGameOver_GameMain : StateBase_GameMain
 		int _select = m_select_ctrl.SelectIndex;
 
 		// 遷移条件：選択肢毎に異なる
-		if (_select == 0) m_transitioner = new TransScene(KSceneIndex.GameMain);
+		//if (_select == 0) m_transitioner = new TransScene(KSceneIndex.GameMain);
 		if (_select == 1) m_owner_obj.ChangeState(KGameMainStateIndex.Option);
 		if (_select == 2) m_transitioner = new TransScene(KSceneIndex.Select);
 		if (_select == 3) m_transitioner = new TransScene(KSceneIndex.Title);

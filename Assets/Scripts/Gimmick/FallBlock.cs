@@ -78,6 +78,7 @@ public class FallBlock : BaseGimmick
     {
         m_CurrentHeight = 0f;
         m_Time = -m_OffsetTime;
+        m_Block.transform.position = this.transform.position;
         this.gameObject.SetActive(true);
     }
 

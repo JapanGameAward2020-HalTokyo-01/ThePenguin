@@ -11,115 +11,139 @@ using Effekseer;
 
 public class PenguinState_Idle : PenguinState
 {
+    private ParentPenguin parentPenguin = null;
 
-    EffekseerEmitter m_Effect;
-    //int old;
-    public  int now;
-    public float power;
-public override void OnStart()
+    private EffekseerEmitter m_Effect;
+
+    [SerializeField]
+    private int ChargeEffectNow;
+
+    public override void OnStart()
     {
+        base.OnStart();
+
+        parentPenguin = penguin.GetComponent<ParentPenguin>();
+
         m_Effect = GetComponent<EffekseerEmitter>();
-        now = 0;
-        power = 0;
+        ChargeEffectNow = 0;
     }
 
     //! 更新処理
     public override void OnUpdate()
     {
-        
-        if (penguin.TryGetComponent<ParentPenguin>(out var pp))
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
+        if (parentPenguin != null)
         {
-            power = pp.GetInputHandler().Power;
-            if (pp.GetInputHandler().Power > (pp.GetInputHandler().PowerMax * 2) / 4.0f)
+            parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
+
+            //!チャージエフェクト処理
             {
-                if (m_Effect.exists)
+                if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
                 {
-                    if (now != 3)
+                    if (m_Effect.exists)
                     {
-                        m_Effect.StopRoot();
-                        m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P3"));
-                        now = 3;
+                        if (ChargeEffectNow != 3)
+                        {
+                            m_Effect.StopRoot();
+                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P3"));
+                            ChargeEffectNow = 3;
+                        }
                     }
-                }
-                else
-                {
-                    m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P3"));
-                }
-              
-            }
-
-            else if (pp.GetInputHandler().Power > pp.GetInputHandler().PowerMax / 4.0f )
-            {
-                if (m_Effect.exists)
-                {
-                    if (now != 2)
+                    else
                     {
-                        m_Effect.StopRoot();
-                        m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P2"));
-                        now = 2;
+                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P3"));
                     }
-                }
-                else
-                {
-                    m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P2"));
+
                 }
 
-            }
-
-            else if (pp.GetInputHandler().Power > 0.0f)
-            {
-                if (m_Effect.exists)
+                else if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax / 4.0f)
                 {
-                    if (now != 1)
+                    if (m_Effect.exists)
                     {
-                        m_Effect.StopRoot();
-                        m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P1"));
-                        now = 1;
+                        if (ChargeEffectNow != 2)
+                        {
+                            m_Effect.StopRoot();
+                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P2"));
+                            ChargeEffectNow = 2;
+                        }
                     }
-                   
-                }
-                else
-                {
-                    m_Effect.Play(pp.Effect.GetEffect("ChargeNew_P1"));
+                    else
+                    {
+                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P2"));
+                    }
+
                 }
 
+                else if (parentPenguin.GetInputHandler().Power > 0.0f)
+                {
+                    if (m_Effect.exists)
+                    {
+                        if (ChargeEffectNow != 1)
+                        {
+                            m_Effect.StopRoot();
+                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
+                            ChargeEffectNow = 1;
+                        }
+
+                    }
+                    else
+                    {
+                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
+                    }
+
+                }
             }
 
-            if (pp.IsMoving())
-            {
-                m_Effect.Stop();
-                if (pp.GetInputHandler().Power > pp.GetInputHandler().PowerMax * 0.4f)
-                {
-                    pp.ChangeState<PenguinState_Dash>();
-                    return;
-                }
-                
-                {
-                    pp.ChangeState<PenguinState_Walk>();
-                    return;
-                }
-            }
-
-            else if (penguin.GetFall())
-            {
-                penguin.ChangeState<PenguinState_Fall>();
-                return;
-            }
         }
 
         if (penguin.IsMoving())
         {
+            if (parentPenguin != null)
             {
-                penguin.ChangeState<PenguinState_Walk>();
+                m_Effect.Stop();
+                parentPenguin.GetControllerVibration().ChargeShake(0.0f);
+                parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
+                if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
+                {
+                    parentPenguin.ChangeState<PenguinState_Dash>();
+                }
+                else
+                {
+                    parentPenguin.ChangeState<PenguinState_Walk>();
+                }
+            }
+
+            if (penguin.GetFall())
+            {
+                penguin.ChangeState<PenguinState_Fall>();
                 return;
             }
+
+            penguin.ChangeState<PenguinState_Walk>();
+            return;
         }
 
-        else if (penguin.GetFall())
+        if (penguin.manager.GetIsClear())
         {
-            penguin.ChangeState<PenguinState_Fall>();
+            penguin.ChangeState<PenguinState_Goal>();
+            return;
+        }
+
+        if (penguin.manager.GetIsGameOver())
+        {
+            penguin.ChangeState<PenguinState_Failed>();
             return;
         }
     }
 
+    public void FixedUpdate()
+    {
+        if(parentPenguin == null)
+        {
+            int rand = Random.Range(0, 3);
+
+            penguin.animator.SetInteger("IdleNum", rand);
+        }
+    }
 }

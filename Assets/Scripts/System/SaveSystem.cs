@@ -10,9 +10,13 @@ public class SaveSystem : MonoBehaviour
     [SerializeField]
     private GameData[] Stages = new GameData[28];
 
+    public GameData[] Stages1 { get => Stages; set => Stages = value; }
+
     //! 音声データ
     [SerializeField]
-    private Sounddata Volume;
+    private Sounddata Volume = new Sounddata();
+
+    public Sounddata VolumeData { get => Volume; set => Volume = value; }
 
     void Awake()
     {
@@ -24,7 +28,7 @@ public class SaveSystem : MonoBehaviour
             {
                 Stages[i] = new GameData();
             }
-            Stages[1].m_Unlocked = true;
+            Stages[0].m_Unlocked = true;
             instance = this;
         }
         else if (instance != this)

@@ -13,9 +13,11 @@ public class PenguinManager : MonoBehaviour
     [SerializeField, Tooltip("ステージ番号")]
     private int m_StateNumber = 0;
 
-    [SerializeField, NonEditableField, Space(30)]
+    [SerializeField, Space(30)]
     //! ゲームオーバー判定
     public bool m_GameOver = false;
+    [SerializeField]
+    public bool m_GameClear = false;
     //! 子ペンギンの総数
     [SerializeField,NonEditableField]
     public int m_TotalCount = 0;
@@ -39,6 +41,7 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! ステージゴール
+    [SerializeField, NonEditableField]
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
     private SaveSystem m_SaveSystem;
@@ -59,19 +62,7 @@ public class PenguinManager : MonoBehaviour
         //! ParentPenguinの取得
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
-
-        //! GoalTileの取得
-        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
-        if (goalTiles.Length > 0)
-        {
-            foreach (GoalTile goal in goalTiles)
-            {
-                m_GoalTiles.Add(goal);
-
-                //! Event登録
-                goal.OnClearEvent = OnClearEvent;
-            }
-        }
+        m_ParentPenguin.manager = this;
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -88,6 +79,8 @@ public class PenguinManager : MonoBehaviour
                 child.onKillEvent = OnKillEvent;
                 child.onPackEvent = OnPackEvent;
 
+                child.manager = this;
+
                 //! 群れに追加
                 if (child.InPack)
                 {
@@ -100,6 +93,21 @@ public class PenguinManager : MonoBehaviour
                 }
             }
         }
+
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+                goal.m_ClearCount = (uint)(m_TotalCount - m_MaxDead);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
+
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -112,7 +120,12 @@ public class PenguinManager : MonoBehaviour
 
         m_DeadCount++;
 
-        if (m_MaxDead >= m_DeadCount)
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+
+        if (m_MaxDead <= m_DeadCount)
         {
             m_GameOver = true;
         }
@@ -129,17 +142,37 @@ public class PenguinManager : MonoBehaviour
     {
         m_PackCount++;
         m_NomadCount--;
+
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+    }
+
+    public bool GetIsClear()
+    {
+        return m_GameClear;
+    }
+
+    public bool GetIsGameOver()
+    {
+        return m_GameOver;
     }
 
     public void OnClearEvent(Vector3 goalPos)
     {
+        Debug.Log("");
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goalPos);
         }
+
+        m_GameClear = true;
     }
+
+
 
     void Update()
     {

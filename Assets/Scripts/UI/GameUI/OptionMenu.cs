@@ -17,8 +17,6 @@ public class OptionMenu : MonoBehaviour
 
     //! 選択用のボタン群
     [SerializeField]
-    private UnityEngine.UI.Button m_ControlButton;
-    [SerializeField]
     private UnityEngine.UI.Slider m_VolumeSlider;
     [SerializeField]
     private UnityEngine.UI.Slider m_BGMSlider;
@@ -51,15 +49,18 @@ public class OptionMenu : MonoBehaviour
     private PauseMenu m_PauseMenu;
     [SerializeField]
     private ConfirmMenu m_ConfirmMenu;
+    [Header("↓これ前のメインのUIに変えて"),SerializeField]
+    private MainMenu m_MainMenu;
 
     //! 入力
     [SerializeField]
     private PlayerInput m_Input;
 
     //! 音設定格納
-    [Space(20)]
-    public float m_VolumeValue;
-    public float m_BGMValue;
+    [Space(20),SerializeField, NonEditableField]
+    Sounddata m_SoundData;
+
+    private SaveSystem m_SaveSystem;
 
 
     /// <summary>
@@ -70,12 +71,15 @@ public class OptionMenu : MonoBehaviour
         //! 現在のEventSystem取得
         m_EventSystem = EventSystem.current;
 
+        m_SaveSystem = FindObjectOfType<SaveSystem>();
+
         //! 押したら実行する関数を設定
-        m_ControlButton.onClick.AddListener(Control);
         m_VolumeSlider.onValueChanged.AddListener(delegate { VolumeChange(); });
         m_BGMSlider.onValueChanged.AddListener(delegate { BGMChange(); });
-        m_DeleteButton.onClick.AddListener(Confirm);
-
+        if (m_DeleteButton != null)
+        {
+            m_DeleteButton.onClick.AddListener(Confirm);
+        }
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
     }
@@ -86,15 +90,28 @@ public class OptionMenu : MonoBehaviour
     public void OnEnable()
     {
         //! 初期選択ボタン
-        m_LastSelected = m_ControlButton.gameObject;
+        m_LastSelected = m_VolumeSlider.gameObject;
 
         //! ABボタンの初期化
         m_CoroutineA = false;
         m_CoroutineB = false;
 
+        m_SoundData = m_SaveSystem.VolumeData;
+        m_VolumeSlider.value = m_SaveSystem.VolumeData.m_Music;
+        m_BGMSlider.value = m_SaveSystem.VolumeData.m_Soundeffects;
 
-        //!　ゲームを止める
-        Time.timeScale = 0;
+        if (m_DeleteButton != null)
+        {
+            m_AButtonImage.CrossFadeAlpha(1, 0, true);
+        }
+        else
+        {
+            m_CoroutineA = true;
+            m_AButtonImage.CrossFadeAlpha(0, 0, true);
+        }
+
+        //!　ゲームを止める(呼び出しアニメーション演出のためコメントアウトしました)
+        //Time.timeScale = 0;
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonOption;
@@ -129,25 +146,14 @@ public class OptionMenu : MonoBehaviour
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
+            Debug.Log("aaaaaaaa: " + m_LastSelected.name);
             m_EventSystem.SetSelectedGameObject(m_LastSelected);
         }
         else
         {
+            Debug.Log("bbbbbbbb: " + m_LastSelected.name);
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
-        }
-    }
-
-
-    /// <summary>
-    /// @brief      操作説明する関数
-    /// </summary>
-    void Control()
-    {
-        if (!m_CoroutineA)
-        {
-            //! Aボタンのスプライト変更処理
-            StartCoroutine(ClickTimerA(1));
         }
     }
 
@@ -156,7 +162,7 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     void VolumeChange()
     {
-        m_VolumeValue = m_VolumeSlider.value;
+        m_SoundData.m_Music = m_VolumeSlider.value;
     }
 
     /// <summary>
@@ -164,7 +170,7 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     void BGMChange()
     {
-        m_BGMValue = m_BGMSlider.value;
+        m_SoundData.m_Soundeffects = m_BGMSlider.value;
     }
 
     /// <summary>
@@ -175,18 +181,19 @@ public class OptionMenu : MonoBehaviour
         if (!m_CoroutineA)
         {
             //! Aボタンのスプライト変更処理
-            StartCoroutine(ClickTimerA(2));
+            StartCoroutine(ClickTimerA());
         }
     }
 
     /// <summary>
     /// @brief      Aボタンが押された時のCoroutine
     /// </summary>
-    IEnumerator ClickTimerA(int a)
+    IEnumerator ClickTimerA()
     {
         //! ボタン選択処理
         Debug.Log("A Button");
         m_CoroutineA = true;
+        m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
@@ -194,29 +201,10 @@ public class OptionMenu : MonoBehaviour
 
         //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
-        m_CoroutineA = false;
+        m_CoroutineA = true;
+        m_CoroutineB = true;
 
-        //! 処理の分岐
-        switch (a)
-        {
-            case 1:
-                yield return StartCoroutine(ControlCo());
-                break;
-            case 2:
-                yield return StartCoroutine(ConfirmCo());
-                break;
-            default:
-                break;
-        }
-
-        yield break;
-    }
-
-    /// <summary>
-    /// @brief      操作説明処理のCoroutine
-    /// </summary>
-    IEnumerator ControlCo()
-    {
+        yield return StartCoroutine(ConfirmCo());
 
         yield break;
     }
@@ -242,6 +230,7 @@ public class OptionMenu : MonoBehaviour
     {
         //! ボタン選択処理
         Debug.Log("B Button");
+        m_CoroutineA = true;
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;
 
@@ -253,16 +242,29 @@ public class OptionMenu : MonoBehaviour
 
         //! ボタン解除処理
         m_BButtonImage.sprite = m_BDefault;
-        m_CoroutineB = false;
+        m_CoroutineA = true;
+        m_CoroutineB = true;
+
+        m_SaveSystem.SetSoundData(m_SoundData);
 
         //!　ゲームを再開
         Time.timeScale = 1;
-        //!　Option画面を消す
-        this.gameObject.SetActive(false);
 
-        //!　Pause画面を有効
-        m_PauseMenu.OnEnable();
-        //m_PauseMenu.gameObject.SetActive(true);
+
+        if (m_MainMenu != null)
+        {
+            m_MainMenu.ReturnByOption();
+            yield return new WaitForSecondsRealtime(2.0f/3.0f);
+            //!　Option画面を消す
+            this.gameObject.SetActive(false);
+        }
+        if (m_PauseMenu != null)
+        {
+            //!　Option画面を消す
+            this.gameObject.SetActive(false);
+            //!　Pause画面を有効
+            m_PauseMenu.OnEnable();
+        }
 
         yield break;
     }

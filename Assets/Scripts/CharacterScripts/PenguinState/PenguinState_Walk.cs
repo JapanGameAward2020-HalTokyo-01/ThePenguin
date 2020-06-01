@@ -23,6 +23,8 @@ public class PenguinState_Walk : PenguinState
     //! 更新処理
     public override void OnUpdate()
     {
+        penguin.animator.SetFloat("Power", penguin.GetSpeed());
+
         if (penguin.Effect != null)
         {
             var pos = this.gameObject.GetComponentInParent<Transform>().position;
@@ -52,12 +54,26 @@ public class PenguinState_Walk : PenguinState
 
         if (!penguin.IsMoving())
         {
-            if (penguin.GetFall())
-            {
-                penguin.ChangeState<PenguinState_Fall>();
-            }
-
             penguin.ChangeState<PenguinState_Idle>();
+            return;
+        }
+
+        if (penguin.GetFall())
+        {
+            penguin.ChangeState<PenguinState_Fall>();
+            return;
+        }
+
+        if (penguin.manager.GetIsClear())
+        {
+            penguin.ChangeState<PenguinState_Goal>();
+            return;
+        }
+
+        if (penguin.manager.GetIsGameOver())
+        {
+            penguin.ChangeState<PenguinState_Failed>();
+            return;
         }
     }
 }

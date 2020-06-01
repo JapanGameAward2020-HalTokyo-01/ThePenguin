@@ -31,8 +31,8 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action onKillEvent;
 
-    [SerializeField]
-    private float testvelocity;
+    //! 振動管理用オブジェクト	
+    private ControllerVibration m_ControllerVibration;
 
     protected override void Awake()
     {
@@ -55,6 +55,8 @@ public class ParentPenguin : Penguin
 
         //! InputHandlerにEvent登録
         m_InputHandler.RegisterInputEvent(new InputEvent(this));
+
+        m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
 
 
@@ -64,8 +66,6 @@ public class ParentPenguin : Penguin
 
         //! Rigidbodyのvelocityを格納
         m_Magnitude = m_Rigidbody.velocity.magnitude;
-
-        testvelocity = m_Rigidbody.velocity.y;
     }
 
     /// <summary>
@@ -158,6 +158,10 @@ public class ParentPenguin : Penguin
     {
         return m_InputHandler;
     }
+    public ControllerVibration GetControllerVibration()
+    {
+        return m_ControllerVibration;
+    }
 
     /// <summary>
     /// @brief      物体に当たる時のエフェクト発生処理
@@ -167,9 +171,27 @@ public class ParentPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
+            m_ControllerVibration.AddShake(0.4f, 0.2f);
+            animator.SetTrigger("OnCrash");
             if (Effect != null)
-                Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
+    }
+    public float GetPower()
+    {
+        return m_InputHandler.Power;
+    }
+    public float GetPowerMax()
+    {
+        return m_InputHandler.PowerMax;
+    }
+    public Vector3 GetForward()
+    {
+        return m_Model.transform.forward;
+    }
+    public int GetChildCount()
+    {
+        return m_ChildPenguins.Count;
     }
 
     /// <summary>
@@ -180,6 +202,9 @@ public class ParentPenguin : Penguin
         private ParentPenguin m_ParentPenguin;
 
         private EffectSpawner Effect;
+
+        private bool IsWait = false;
+        private float oldPower = 0f;
 
         //! コンストラクタ
         public InputEvent(ParentPenguin penguin)
@@ -194,24 +219,41 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
-            m_ParentPenguin.m_Model.transform.forward = -m_Handler.InputVector;
+            if (m_Handler.Power != oldPower && oldPower == 0 && !m_ParentPenguin.animator.GetBool("IsCharge"))
+            {
+                m_ParentPenguin.animator.SetTrigger("OnCharge");
+            }
+            oldPower = m_Handler.Power;
 
-            //if(Effect != null)
-            //{
-            //    if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
-            //    {
-            //        Effect.PlayerEffect("ChargeNew_P3", m_ParentPenguin.transform.position,new Vector3(0.5f, 0.5f, 0.5f));
-            //    }
-            //    else if (m_Handler.Power > m_Handler.PowerMax / 4)
-            //    {
-            //        Effect.PlayerEffect("ChargeNew_P2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-            //    }
-            //    else if (m_Handler.Power > 0.0f)
-            //    {
-            //        Effect.PlayerEffect("ChargeNew_P1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-            //    }
-            //}
+            if (m_Handler.Power > 0)
+            {
+                m_ParentPenguin.animator.SetBool("IsCharge", true);
+                //! ペンギンの向きを設定
+                m_ParentPenguin.m_ModelForward = -m_Handler.InputVector;
+            }
+
+            m_ParentPenguin.GetControllerVibration().ChargeShake(m_Handler.Power * 0.1f);
+
+            if (Effect != null)
+            {
+                if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
+                {
+                    m_ParentPenguin.animator.SetBool("IsChargeMax", true);
+                    Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                }
+                else if (m_Handler.Power > m_Handler.PowerMax / 4)
+                {
+                    m_ParentPenguin.animator.SetBool("IsChargeMax", false);
+                    Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                }
+                else if (m_Handler.Power > 0.0f)
+                {
+                    Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                }
+            }
+
         }
+        
 
         //! Run状態
         public override void OnRun()
@@ -222,29 +264,33 @@ public class ParentPenguin : Penguin
                 m_Handler.ChangeState(InputHandler.State.Idle);
             }
         }
+        public override void TickStateIdle()
+        {
+            base.TickStateIdle();
+        }
 
         //! Run状態になった時(一回だけの処理)
         public override void TickStateRun()
         {
             base.TickStateRun();
+
+            //UnityEditor.EditorApplication.isPaused = true;
+
+            //IsWait = true;
+
+            m_ParentPenguin.animator.SetFloat("Power", m_Handler.Power);
+            m_ParentPenguin.animator.SetBool("IsCharge", false);
+
             m_ParentPenguin.MoveHandler(m_Handler.GetMoveVector());
         }
+        IEnumerator MoveCorutine()
+        {
+            Vector3 vec = m_Handler.GetMoveVector();
+            yield return null;
+            yield return new WaitWhile(() => m_ParentPenguin.IsMoving());
+            yield return new WaitForSeconds(0.5f);
+            IsWait = false;
+            yield break;
+        }
     }
-
-
-    public float GetPower()
-    {
-        return m_InputHandler.Power;
-    }
-
-    public float GetPowerMax()
-    {
-        return m_InputHandler.PowerMax;
-    }
-
-    public Vector3 GetForward()
-    {
-        return m_Model.transform.forward;
-    }
-
 }

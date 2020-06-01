@@ -19,16 +19,16 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     public bool m_GameClear = false;
     //! 子ペンギンの総数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_TotalCount = 0;
     //! 死亡数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_DeadCount = 0;
     //! 群れ化数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_PackCount = 0;
     //! 野良ペンギン数
-    [SerializeField,NonEditableField]
+    [SerializeField, NonEditableField]
     public int m_NomadCount = 0;
 
     [SerializeField]
@@ -47,10 +47,6 @@ public class PenguinManager : MonoBehaviour
 
     //! ゴール演出中判定
     private bool m_InGoalEnshutsu = false;
-
-    //! ゴール演出用カメラ
-    [SerializeField]
-    private GameObject m_EndCamera;
 
     #endregion
 
@@ -162,11 +158,6 @@ public class PenguinManager : MonoBehaviour
     //! ステージクリアイベント
     public void OnClearEvent(Vector3 goalPos)
     {
-        if (m_EndCamera != null)
-        {
-            m_EndCamera.SetActive(true);
-        }
-
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)
@@ -199,16 +190,13 @@ public class PenguinManager : MonoBehaviour
             int jumpedNum = 0;
             foreach (ChildPenguin child in m_ChildPenguins)
             {
-                if (child.InPack)
+                if (child.InPack && child.m_ClearAnimationEnded)
                 {
-                    if (child.GetComponentInChildren<Animator>().GetBool("IsGoalOver"))
-                    {
-                        jumpedNum++;
+                    jumpedNum++;
 
-                        if (jumpedNum >= m_PackCount)
-                        {
-                            m_ParentPenguin.m_EveryoneJumped = true;
-                        }
+                    if (jumpedNum >= m_PackCount)
+                    {
+                        m_ParentPenguin.m_EveryoneJumped = true;
                     }
                 }
             }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Effekseer;
+using System.Diagnostics.Eventing.Reader;
 
 public class ChildPenguin : Penguin
 {
@@ -244,18 +245,15 @@ public class ChildPenguin : Penguin
 
             if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
             {
-                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
                 transform.LookAt(m_GoalPos);
+                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
             } 
 
-            else
+            else if (!m_PlayedFirstGoal)
             {
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
-            }
-
-            if (!GetComponentInChildren<Animator>().GetBool("OnGoal"))
-            {
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
+                m_PlayedFirstGoal = true;
             }
         }
 

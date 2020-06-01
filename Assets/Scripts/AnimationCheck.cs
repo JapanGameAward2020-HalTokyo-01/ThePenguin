@@ -6,6 +6,6 @@ public class AnimationCheck : MonoBehaviour
 {
     public void EndGoalEnshutsu()
     {
-        GetComponent<Animator>().SetBool("GoalEnshutsuEnd", true);
+        GetComponentInParent<ChildPenguin>().m_ClearAnimationEnded = true;
     }
 }

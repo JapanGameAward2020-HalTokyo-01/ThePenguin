@@ -52,7 +52,10 @@ public class Penguin : MonoBehaviour
     protected float m_GoalRadius = 1.3f;
 
     //! ステージクリア演出終了判定
-    protected bool m_ClearAnimationEnded = false;
+    public bool m_ClearAnimationEnded = false;
+
+    //! 最初のゴールアニメーション再生判定
+    protected bool m_PlayedFirstGoal = false;
 
     #endregion
 

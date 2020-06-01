@@ -196,7 +196,12 @@ public class ParentPenguin : Penguin
 
         else if (m_EveryoneJumped)
         {
-            GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
+            if (!m_PlayedFirstGoal)
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnGoal");
+                GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
+                m_PlayedFirstGoal = true;
+            }
         }
     }
 

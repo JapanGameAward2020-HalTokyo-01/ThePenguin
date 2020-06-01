@@ -18,6 +18,9 @@ public class GoalTile : MonoBehaviour
     public Sprite m_Icon_Enable;
     public Sprite m_Icon_Gauge;
 
+    [SerializeField]
+    private GameObject m_EndCamera;
+
     //クリア必要なペンギンの数
     public uint m_ClearCount = 10;
 
@@ -99,6 +102,11 @@ public class GoalTile : MonoBehaviour
     {
         //仮処理
         Debug.Log("Goal");
+        if (m_EndCamera != null)
+        {
+            m_EndCamera.SetActive(true);
+        }
+
         OnClearEvent(transform.position);
     }
 

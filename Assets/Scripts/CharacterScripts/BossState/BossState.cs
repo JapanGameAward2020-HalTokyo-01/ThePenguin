@@ -39,7 +39,7 @@ public class BossState : MonoBehaviour
     //! 終了処理
     public virtual void OnRelease()
     {
-        m_Boss.animator.SetBool("OnGoal", true);
+        //m_Boss.animator.SetBool("OnGoal", true);
     }
 
     //! 死亡処理

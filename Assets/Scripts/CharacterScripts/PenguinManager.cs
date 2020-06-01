@@ -19,16 +19,16 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     public bool m_GameClear = false;
     //! 子ペンギンの総数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_TotalCount = 0;
     //! 死亡数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_DeadCount = 0;
     //! 群れ化数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_PackCount = 0;
     //! 野良ペンギン数
-    [SerializeField, NonEditableField]
+    [SerializeField,NonEditableField]
     public int m_NomadCount = 0;
 
     [SerializeField]
@@ -40,18 +40,9 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
-    #region ゴール演出関係
     //! ステージゴール
+    [SerializeField, NonEditableField]
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
-
-    //! ゴール演出中判定
-    private bool m_InGoalEnshutsu = false;
-
-    //! ゴール演出用カメラ
-    [SerializeField]
-    private GameObject m_EndCamera;
-
-    #endregion
 
     private SaveSystem m_SaveSystem;
 
@@ -72,19 +63,6 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
         m_ParentPenguin.manager = this;
-
-        //! GoalTileの取得
-        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
-        if (goalTiles.Length > 0)
-        {
-            foreach (GoalTile goal in goalTiles)
-            {
-                m_GoalTiles.Add(goal);
-
-                //! Event登録
-                goal.OnClearEvent = OnClearEvent;
-            }
-        }
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -115,6 +93,21 @@ public class PenguinManager : MonoBehaviour
                 }
             }
         }
+
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+                goal.m_ClearCount = (uint)(m_TotalCount - m_MaxDead);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
+
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -127,7 +120,12 @@ public class PenguinManager : MonoBehaviour
 
         m_DeadCount++;
 
-        if (m_MaxDead >= m_DeadCount)
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+
+        if (m_MaxDead <= m_DeadCount)
         {
             m_GameOver = true;
         }
@@ -144,24 +142,11 @@ public class PenguinManager : MonoBehaviour
     {
         m_PackCount++;
         m_NomadCount--;
-    }
 
-    //! ステージクリアイベント
-    public void OnClearEvent(Vector3 goalPos)
-    {
-        if (m_EndCamera != null)
+        foreach (GoalTile goal in m_GoalTiles)
         {
-            m_EndCamera.SetActive(true);
+            goal.m_PenguinCount = (uint)m_PackCount;
         }
-
-        m_ParentPenguin.StageClear(goalPos);
-
-        foreach (ChildPenguin child in m_ChildPenguins)
-        {
-            child.StageClear(goalPos);
-        }
-
-        m_InGoalEnshutsu = true;
     }
 
     public bool GetIsClear()
@@ -174,31 +159,25 @@ public class PenguinManager : MonoBehaviour
         return m_GameOver;
     }
 
+    public void OnClearEvent(Vector3 goalPos)
+    {
+        Debug.Log("");
+        m_ParentPenguin.StageClear(goalPos);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.StageClear(goalPos);
+        }
+
+        m_GameClear = true;
+    }
+
+
+
     void Update()
     {
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
-
-        //
-        if (m_InGoalEnshutsu)
-        {
-            int jumpedNum = 0;
-            foreach (ChildPenguin child in m_ChildPenguins)
-            {
-                if (child.InPack)
-                {
-                    if (child.GetComponentInChildren<Animator>().GetBool("IsGoalOver"))
-                    {
-                        jumpedNum++;
-
-                        if (jumpedNum >= m_PackCount)
-                        {
-                            m_ParentPenguin.m_EveryoneJumped = true;
-                        }
-                    }
-                }
-            }
-        }
     }
 }

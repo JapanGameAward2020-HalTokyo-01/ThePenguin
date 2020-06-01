@@ -41,6 +41,7 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! ステージゴール
+    [SerializeField, NonEditableField]
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
     private SaveSystem m_SaveSystem;
@@ -62,19 +63,6 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin = FindObjectOfType<ParentPenguin>();
         m_ParentPenguin.onKillEvent = GameOver;
         m_ParentPenguin.manager = this;
-
-        //! GoalTileの取得
-        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
-        if (goalTiles.Length > 0)
-        {
-            foreach (GoalTile goal in goalTiles)
-            {
-                m_GoalTiles.Add(goal);
-
-                //! Event登録
-                goal.OnClearEvent = OnClearEvent;
-            }
-        }
 
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
@@ -105,6 +93,21 @@ public class PenguinManager : MonoBehaviour
                 }
             }
         }
+
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+                goal.m_ClearCount = (uint)(m_TotalCount - m_MaxDead);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
+
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -122,7 +125,7 @@ public class PenguinManager : MonoBehaviour
             goal.m_PenguinCount = (uint)m_PackCount;
         }
 
-        if (m_MaxDead >= m_DeadCount)
+        if (m_MaxDead <= m_DeadCount)
         {
             m_GameOver = true;
         }
@@ -158,13 +161,18 @@ public class PenguinManager : MonoBehaviour
 
     public void OnClearEvent(Vector3 goalPos)
     {
+        Debug.Log("");
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goalPos);
         }
+
+        m_GameClear = true;
     }
+
+
 
     void Update()
     {

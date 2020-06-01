@@ -5,8 +5,13 @@ using UnityEngine;
 //! Penguinの総括
 public class PenguinManager : MonoBehaviour
 {
+    [SerializeField, NonEditableField, Tooltip("ステージの固定情報オブジェクト")]
+    private StageMetaParam m_stage_param = null;
+    [SerializeField, NonEditableField, Tooltip("セーブデータ(DontDestroyOnLoad から読み取り)")]
+    private SaveSystem m_save_system = null;
+
     //! ゲームオーバーになる為の子ペンギンの死亡数
-    [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f)]
+    [SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f), Space(30)]
     public int m_MaxDead = 0;
     [SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
     private int m_Time = 0;
@@ -94,6 +99,9 @@ public class PenguinManager : MonoBehaviour
             }
         }
 
+        // 子ペンギンの総数はステージ開始前には分からない模様
+        m_stage_param.CurrentLevelData.m_total_penguin = m_TotalCount;
+
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
         if (goalTiles.Length > 0)
@@ -101,7 +109,7 @@ public class PenguinManager : MonoBehaviour
             foreach (GoalTile goal in goalTiles)
             {
                 m_GoalTiles.Add(goal);
-                goal.m_ClearCount = (uint)(m_TotalCount - m_MaxDead);
+                goal.m_ClearCount = (uint)Mathf.Max(m_TotalCount - m_MaxDead, 0.0f);
 
                 //! Event登録
                 goal.OnClearEvent = OnClearEvent;
@@ -161,7 +169,6 @@ public class PenguinManager : MonoBehaviour
 
     public void OnClearEvent(Vector3 goalPos)
     {
-        Debug.Log("");
         m_ParentPenguin.StageClear(goalPos);
 
         foreach (ChildPenguin child in m_ChildPenguins)

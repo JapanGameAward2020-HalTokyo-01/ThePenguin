@@ -43,10 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2951d7ff6bfbf479f8a1f22845d6a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxDead: 1
+  m_stage_param: {fileID: 11400000, guid: a816953a3acee144ab31cbc70ce199bd, type: 2}
+  m_MaxDead: 0
+  m_Time: 0
+  m_StateNumber: 0
   m_GameOver: 0
+  m_GameClear: 0
   m_TotalCount: 0
   m_DeadCount: 0
   m_PackCount: 0
   m_NomadCount: 0
-  deltaTime: 0
+  m_Timer: {fileID: 0}
+  m_GoalTiles: []

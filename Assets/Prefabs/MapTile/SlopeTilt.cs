@@ -10,6 +10,34 @@ public class SlopeTilt : MonoBehaviour
     [SerializeField, NonEditableField]
     private Vector3 m_Tilt;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        DESERT,
+        JUNGLE,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponent<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponent<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

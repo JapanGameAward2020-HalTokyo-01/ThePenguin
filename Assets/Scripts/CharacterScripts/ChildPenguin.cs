@@ -250,7 +250,7 @@ public class ChildPenguin : Penguin
 
             else
             {
-                GetComponentInChildren<Animator>().SetBool("GoalEnshutsu", true);
+                GetComponentInChildren<Animator>().SetTrigger("OnGoal");
             }
         }
 

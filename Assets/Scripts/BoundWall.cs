@@ -1,5 +1,6 @@
 ﻿/**
-* @file     BoundWall.cs
+* @file     Bound
+* ll.cs
 * @brief    バウンドする壁
 * @author   Taku Hekisen
 */

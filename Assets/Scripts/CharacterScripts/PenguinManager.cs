@@ -122,7 +122,7 @@ public class PenguinManager : MonoBehaviour
             goal.m_PenguinCount = (uint)m_PackCount;
         }
 
-        if (m_MaxDead >= m_DeadCount)
+        if (m_MaxDead <= m_DeadCount)
         {
             m_GameOver = true;
         }

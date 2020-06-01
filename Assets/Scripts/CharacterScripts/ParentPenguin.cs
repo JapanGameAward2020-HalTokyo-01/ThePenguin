@@ -204,6 +204,7 @@ public class ParentPenguin : Penguin
         private EffectSpawner Effect;
 
         private bool IsWait = false;
+        private float oldPower = 0f;
 
         //! コンストラクタ
         public InputEvent(ParentPenguin penguin)
@@ -218,12 +219,19 @@ public class ParentPenguin : Penguin
         {
             base.OnIdle();
 
+            if (m_Handler.Power != oldPower && oldPower == 0 && !m_ParentPenguin.animator.GetBool("IsCharge"))
+            {
+                m_ParentPenguin.animator.SetTrigger("OnCharge");
+            }
+            oldPower = m_Handler.Power;
+
             if (m_Handler.Power > 0)
             {
                 m_ParentPenguin.animator.SetBool("IsCharge", true);
                 //! ペンギンの向きを設定
                 m_ParentPenguin.m_ModelForward = -m_Handler.InputVector;
             }
+
             m_ParentPenguin.GetControllerVibration().ChargeShake(m_Handler.Power * 0.1f);
 
             if (Effect != null)
@@ -243,6 +251,7 @@ public class ParentPenguin : Penguin
                     Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                 }
             }
+
         }
         
 

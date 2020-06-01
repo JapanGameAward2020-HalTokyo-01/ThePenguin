@@ -31,7 +31,7 @@ public class PenguinState_Dash : PenguinState
             {
                 var pos = transform.position;
                 pos.y -= 1.0f;
-                penguin.Effect.PlayerEffect("dash", pos);
+                penguin.Effect.PlayerEffect("BigFoot_New", pos);
             }
 
             //!文字エフェクト

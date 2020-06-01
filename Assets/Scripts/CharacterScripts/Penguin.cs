@@ -51,6 +51,9 @@ public class Penguin : MonoBehaviour
     //! ステージクリア演出_到着判定
     protected float m_GoalRadius = 1.3f;
 
+    //! ステージクリア演出終了判定
+    protected bool m_ClearAnimationEnded = false;
+
     #endregion
 
     //!エフェクトスポーンナー

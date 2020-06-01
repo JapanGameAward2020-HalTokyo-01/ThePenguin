@@ -252,6 +252,11 @@ public class ChildPenguin : Penguin
             {
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
             }
+
+            if (!GetComponentInChildren<Animator>().GetBool("OnGoal"))
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
+            }
         }
 
         else

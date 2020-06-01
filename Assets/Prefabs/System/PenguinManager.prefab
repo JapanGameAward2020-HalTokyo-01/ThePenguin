@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1613855624882917027}
   - component: {fileID: 1613855624882917026}
+  - component: {fileID: 9165346586936798858}
   m_Layer: 0
   m_Name: PenguinManager
   m_TagString: Untagged
@@ -43,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2951d7ff6bfbf479f8a1f22845d6a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_stage_param: {fileID: 11400000, guid: a816953a3acee144ab31cbc70ce199bd, type: 2}
+  m_settings: {fileID: 0}
   m_MaxDead: 0
   m_Time: 0
   m_StateNumber: 0
@@ -55,3 +56,21 @@ MonoBehaviour:
   m_NomadCount: 0
   m_Timer: {fileID: 0}
   m_GoalTiles: []
+--- !u!114 &9165346586936798858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613855624882917024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b76fb8221d3911459fae12b1fb63c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_time_limit: 10
+  m_rescue_task: 10
+  m_deadline: 10
+  m_good_threshold: 8
+  m_max_threshold: 10
+  m_danger_threshold: 10

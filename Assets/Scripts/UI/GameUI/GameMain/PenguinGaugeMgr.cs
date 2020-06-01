@@ -89,7 +89,7 @@ public class PenguinGaugeMgr : MonoBehaviour
         // ゲージの座標変更
         Vector2 _pos = m_left_pos;
 
-        _pos.x += m_gauge_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_MaxDead) / (float)m_penguin_mgr.m_TotalCount;
+        _pos.x += m_gauge_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_settings.DeadLine) / (float)m_penguin_mgr.m_TotalCount;
         m_deadline_pos.anchoredPosition = _pos;
 
         // ステージ上のペンギン数

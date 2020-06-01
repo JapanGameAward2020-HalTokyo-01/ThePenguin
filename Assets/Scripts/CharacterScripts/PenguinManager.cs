@@ -117,7 +117,7 @@ public class PenguinManager : MonoBehaviour
 
         m_DeadCount++;
 
-        if (m_MaxDead >= m_DeadCount)
+        if (m_MaxDead <= m_DeadCount)
         {
             m_GameOver = true;
         }

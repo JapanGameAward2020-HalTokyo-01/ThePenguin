@@ -7,11 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9130184522390300257}
     m_Modifications:
+    - target: {fileID: -6057140222963153312, guid: 392230811f6b3404e8c30eb9b5309a81,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e708e175a26a6e042a844db5c5d4056c, type: 2}
+    - target: {fileID: -6649846612543318929, guid: 392230811f6b3404e8c30eb9b5309a81,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 08d2830b46322904ea8aee315d4a1a9d,
         type: 3}
       propertyPath: m_Name
       value: FatPenguin
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
     - target: {fileID: -4216859302048453862, guid: 08d2830b46322904ea8aee315d4a1a9d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -82,22 +97,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
     - target: {fileID: 5926366877792971923, guid: 08d2830b46322904ea8aee315d4a1a9d,
-        type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 392230811f6b3404e8c30eb9b5309a81,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: e708e175a26a6e042a844db5c5d4056c, type: 2}
-    - target: {fileID: -6649846612543318929, guid: 392230811f6b3404e8c30eb9b5309a81,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -193,11 +193,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 5585326962194135302, guid: 86b3590c84161bc4fbdc710323c8be7c,
-        type: 3}
-      propertyPath: m_Mass
-      value: 0.6
-      objectReference: {fileID: 0}
     - target: {fileID: 932133971632798526, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_Delay
@@ -218,6 +213,11 @@ PrefabInstance:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 2808632434308098199}
+    - target: {fileID: 5585326962194135302, guid: 86b3590c84161bc4fbdc710323c8be7c,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1339416615208831818, guid: 86b3590c84161bc4fbdc710323c8be7c,
         type: 3}
       propertyPath: m_LocalPosition.y

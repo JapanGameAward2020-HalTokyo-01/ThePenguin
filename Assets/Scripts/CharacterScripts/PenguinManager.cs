@@ -117,7 +117,12 @@ public class PenguinManager : MonoBehaviour
 
         m_DeadCount++;
 
-        if (m_MaxDead <= m_DeadCount)
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+
+        if (m_MaxDead >= m_DeadCount)
         {
             m_GameOver = true;
         }
@@ -134,6 +139,11 @@ public class PenguinManager : MonoBehaviour
     {
         m_PackCount++;
         m_NomadCount--;
+
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
     }
 
     public bool GetIsClear()

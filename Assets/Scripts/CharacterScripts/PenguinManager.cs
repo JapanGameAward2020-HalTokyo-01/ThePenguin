@@ -69,6 +69,20 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.onKillEvent = GameOver;
         m_ParentPenguin.manager = this;
 
+        //! GoalTileの取得
+        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
+        if (goalTiles.Length > 0)
+        {
+            foreach (GoalTile goal in goalTiles)
+            {
+                m_GoalTiles.Add(goal);
+                goal.m_ClearCount = (uint)Mathf.Max(m_TotalCount - m_MaxDead, 0.0f);
+
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
+            }
+        }
+
         //! 各カウントの開始
         ChildPenguin[] childPenguins = FindObjectsOfType<ChildPenguin>();
         if (childPenguins.Length > 0)
@@ -98,24 +112,6 @@ public class PenguinManager : MonoBehaviour
                 }
             }
         }
-
-        // 子ペンギンの総数はステージ開始前には分からない模様
-        m_stage_param.CurrentLevelData.m_total_penguin = m_TotalCount;
-
-        //! GoalTileの取得
-        GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
-        if (goalTiles.Length > 0)
-        {
-            foreach (GoalTile goal in goalTiles)
-            {
-                m_GoalTiles.Add(goal);
-                goal.m_ClearCount = (uint)Mathf.Max(m_TotalCount - m_MaxDead, 0.0f);
-
-                //! Event登録
-                goal.OnClearEvent = OnClearEvent;
-            }
-        }
-
     }
 
     //! 死亡時イベント(子ペンギン)

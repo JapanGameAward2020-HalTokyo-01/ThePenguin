@@ -31,7 +31,7 @@ public class PenguinState_Walk : PenguinState
 
             if(penguin.TryGetComponent<ParentPenguin>(out var pp))
             {
-                pp.Effect.PlayerEffect("bigfoot", pos);
+                pp.Effect.PlayerEffect("BigFoot_New", pos);
 
                 if ((int)EffectTimer >= 4.0f)
                 {
@@ -48,7 +48,7 @@ public class PenguinState_Walk : PenguinState
             }
             else
             {
-                penguin.Effect.PlayerEffect("smallfoot", pos);
+                penguin.Effect.PlayerEffect("SmallFoot_New", pos);
             }
         }
 

@@ -40,9 +40,19 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
+
+    //! ゴール演出中判定
+    private bool m_InGoalEnshutsu = false;
+
+    //! ゴール演出用カメラ
+    [SerializeField]
+    private GameObject m_EndCamera;
+
+    #endregion
 
     private SaveSystem m_SaveSystem;
 
@@ -149,6 +159,24 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    //! ステージクリアイベント
+    public void OnClearEvent(Vector3 goalPos)
+    {
+        if (m_EndCamera != null)
+        {
+            m_EndCamera.SetActive(true);
+        }
+
+        m_ParentPenguin.StageClear(goalPos);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            child.StageClear(goalPos);
+        }
+
+        m_InGoalEnshutsu = true;
+    }
+
     public bool GetIsClear()
     {
         return m_GameClear;
@@ -159,25 +187,31 @@ public class PenguinManager : MonoBehaviour
         return m_GameOver;
     }
 
-    public void OnClearEvent(Vector3 goalPos)
-    {
-        Debug.Log("");
-        m_ParentPenguin.StageClear(goalPos);
-
-        foreach (ChildPenguin child in m_ChildPenguins)
-        {
-            child.StageClear(goalPos);
-        }
-
-        m_GameClear = true;
-    }
-
-
-
     void Update()
     {
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
+
+        //
+        if (m_InGoalEnshutsu)
+        {
+            int jumpedNum = 0;
+            foreach (ChildPenguin child in m_ChildPenguins)
+            {
+                if (child.InPack)
+                {
+                    if (child.GetComponentInChildren<Animator>().GetBool("IsGoalOver"))
+                    {
+                        jumpedNum++;
+
+                        if (jumpedNum >= m_PackCount)
+                        {
+                            m_ParentPenguin.m_EveryoneJumped = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -54,6 +54,8 @@ public class MainCamera : MonoBehaviour
 
     private CinemachineVirtualCamera[] v_camera;
 
+    public bool m_IsInRotate = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,11 +71,7 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //動作確認用
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            LookToVec();
-        }
+        m_IsInRotate = false;
 
         //カメラリセット
         if (m_IsReset)
@@ -145,6 +143,8 @@ public class MainCamera : MonoBehaviour
         }
         m_InitAngle_XZ -= scale * dir * m_RotateSpeed * Time.deltaTime;
         v_camera[0].GetCinemachineComponent<CinemachineOrbitalTransposer>().m_Heading.m_Bias = m_InitAngle_XZ;
+
+        m_IsInRotate = true;
     }
 
     //向き指定関数

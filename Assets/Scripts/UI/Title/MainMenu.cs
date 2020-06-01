@@ -1,35 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    private SaveSystem m_SaveData;
+
+    [SerializeField]
+    private Image m_Logo;
     [SerializeField]
     private UI_Component_Button m_GameStart;
+    [SerializeField]
+    private UI_Component_Button m_GameCountinue;
     [SerializeField]
     private UI_Component_Button m_StageSelect;
     [SerializeField]
     private UI_Component_Button m_Option;
     [SerializeField]
+    private OptionMenu m_OptionMenu;
+    [SerializeField]
     private UI_Component_Button m_Finish;
     [SerializeField]
-    private UI_Component_Button m_Fade;
-    [SerializeField]
     private GameObject m_FinishWarning;
+    [SerializeField]
+    private UI_Component_Button m_Fade;
     [SerializeField]
     private UI_Component_Button m_FinishYes;
     [SerializeField]
     private UI_Component_Button m_FinishNo;
     [SerializeField]
-    private Animator m_OpenAnimator;
+    private Animator m_MenuAnimator;
+    [SerializeField]
+    private Animator m_LogoAnimator;
     [SerializeField]
     private Animator m_IconAnimator;
+    [SerializeField]
+    private Animator m_OptionAnimator;
 
     //シーン
     [SerializeField]
     private SceneObject m_GameStartScene = null;
+    [SerializeField]
+    private SceneObject m_StageSelectScene = null;
 
 
     //入力関連
@@ -40,6 +54,7 @@ public class MainMenu : MonoBehaviour
     private int m_Current_V = 0;
 
     //メインメニュー用
+    private bool m_IsNewStart;
     private int m_Select = 0;
     private int m_SelectPrev = -1;
     private bool m_SelectIsCD = false;
@@ -54,6 +69,7 @@ public class MainMenu : MonoBehaviour
     {
         LOGO = 0,
         MAIN,
+        OPTION,
         FINISH
     }
     private MenuState m_State;
@@ -63,7 +79,22 @@ public class MainMenu : MonoBehaviour
     {
         StartCoroutine(SceneStart());
         m_State = MenuState.LOGO;
-        m_OpenAnimator.enabled = false;
+        m_MenuAnimator.enabled = false;
+        m_LogoAnimator.enabled = false;
+
+        m_SaveData = FindObjectOfType<SaveSystem>();
+        if (!m_SaveData.Stages1[1].m_Unlocked)
+        {
+            m_IsNewStart = true;
+            m_GameStart.gameObject.SetActive(true);
+            m_GameCountinue.gameObject.SetActive(false);
+        }
+        else
+        {
+            m_IsNewStart = false;
+            m_GameStart.gameObject.SetActive(false);
+            m_GameCountinue.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -74,10 +105,11 @@ public class MainMenu : MonoBehaviour
             return;
 
         //ロゴ画面処理
-        if(m_State== MenuState.LOGO&& GetAnyKeyDown())
+        if(m_State== MenuState.LOGO && GetAnyKeyDown())
         {
             m_State = MenuState.MAIN;
-            m_OpenAnimator.enabled = true;
+            m_MenuAnimator.enabled = true;
+            m_LogoAnimator.enabled = true;
             return;
         }
 
@@ -131,6 +163,7 @@ public class MainMenu : MonoBehaviour
                 if (m_FinishSelect == 0)
                 {
                     Debug.Log("Finish Yes");
+                    Application.Quit();
                 }
                 else if (m_FinishSelect == 1)
                 {
@@ -139,6 +172,14 @@ public class MainMenu : MonoBehaviour
                     m_State = MenuState.MAIN;
                     m_FinishSelect = -1;
                 }
+            }
+
+            if (GetBButtonUp())
+            {
+                //Bボタン
+                m_FinishWarning.SetActive(false);
+                m_State = MenuState.MAIN;
+                m_FinishSelect = -1;
             }
         }
     }
@@ -150,11 +191,11 @@ public class MainMenu : MonoBehaviour
     private void MainMenuUpdate()
     {
         //アニメーション完了判断
-        AnimatorStateInfo info = m_OpenAnimator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = m_MenuAnimator.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime < 1.0f)
             return;
 
-        m_SelectPrev = m_Select;
+            m_SelectPrev = m_Select;
         if (!GetAButton() && !GetBButton()&&!m_SelectIsCD)
         {
             //ABボタンが押されてない
@@ -175,7 +216,14 @@ public class MainMenu : MonoBehaviour
 
             if (m_Select == 0)
             {
-                m_GameStart.SetActive(true);
+                if (m_IsNewStart)
+                {
+                    m_GameStart.SetActive(true);
+                }
+                else
+                {
+                    m_GameCountinue.SetActive(true);
+                }
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(false);
@@ -183,6 +231,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 1)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(true);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(false);
@@ -190,6 +239,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 2)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(true);
                 m_Finish.SetActive(false);
@@ -197,6 +247,7 @@ public class MainMenu : MonoBehaviour
             else if (m_Select == 3)
             {
                 m_GameStart.SetActive(false);
+                m_GameCountinue.SetActive(false);
                 m_StageSelect.SetActive(false);
                 m_Option.SetActive(false);
                 m_Finish.SetActive(true);
@@ -207,16 +258,29 @@ public class MainMenu : MonoBehaviour
                 //Aボタン
                 if (m_Select == 0)
                 {
-                    Debug.Log("Game Start");
-                    StartCoroutine(SceneEnd(m_GameStartScene));
+                    if (m_IsNewStart)
+                    {
+                        Debug.Log("New Game Start");
+                        StartCoroutine(SceneEnd(m_GameStartScene));
+                    }
+                    //これから追加するコンティニュー
+                    else
+                    {
+                        Debug.Log("Game Countinue");
+                    }
                 }
                 else if (m_Select == 1)
                 {
                     Debug.Log("Stage Select");
+                    StartCoroutine(SceneEnd(m_StageSelectScene));
                 }
                 else if (m_Select == 2)
                 {
                     Debug.Log("Option");
+                    m_OptionMenu.gameObject.SetActive(true);
+                    m_MenuAnimator.SetBool("Close", true);
+                    m_Logo.CrossFadeAlpha(0, 0.5f, true);
+                    m_State = MenuState.OPTION;
                 }
                 else if (m_Select == 3)
                 {
@@ -237,6 +301,18 @@ public class MainMenu : MonoBehaviour
                 m_SelectCDFrame = 0;
             }
         }
+    }
+
+    /// <summary>
+    /// @brief      オプション閉じれる演出処理
+    /// </summary>
+    /// 
+    public void ReturnByOption()
+    {
+        m_MenuAnimator.SetBool("Close", false);       
+        m_OptionAnimator.SetBool("Close", true);
+        m_Logo.CrossFadeAlpha(1, 0.5f, true);
+        m_State = MenuState.MAIN;
     }
 
     //汎用的Fade

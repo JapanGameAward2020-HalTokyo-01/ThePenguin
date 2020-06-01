@@ -90,6 +90,11 @@ public class ControllerVibration : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        this.StopAllShake();
+    }
+
     //!チャージ振動のパワー入り
     public void ChargeShake(float p)
     {

@@ -9,23 +9,6 @@ public class PenguinManager : MonoBehaviour
     [SerializeField, NonEditableField, Tooltip("このレベルの数値情報")]
     public LevelSettings m_settings;
 
-    //[SerializeField, NonEditableField, Tooltip("セーブデータ(DontDestroyOnLoad から読み取り)")]
-    //private SaveSystem m_save_system = null;
-
-    ////! ゲームオーバーになる為の子ペンギンの死亡数
-    //[SerializeField, Tooltip("ゲームオーバーになる為の子ペンギンの死亡数"), Range(0.0f, 100.0f), Space(30)]
-    //public int m_MaxDead = 0;
-    //[SerializeField, Tooltip("ゲームオーバーまでの時間(秒数)")]
-    //private int m_Time = 0;
-    [SerializeField, Tooltip("ステージ番号")]
-    private int m_StateNumber = 0;
-
-    //[SerializeField, Space(30)]
-    ////! ゲームオーバー判定
-    //public bool m_GameOver = false;
-    //[SerializeField]
-    //public bool m_GameClear = false;
-
     //! 子ペンギンの総数
     [SerializeField,NonEditableField, Space(30)]
     public int m_TotalCount = 0;
@@ -61,8 +44,6 @@ public class PenguinManager : MonoBehaviour
     {
         SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
         m_settings = GetComponent<LevelSettings>();
-
-        //m_GameOver = false;
 
         m_Timer.StageTime = m_settings.TimeLimit;
 
@@ -133,17 +114,14 @@ public class PenguinManager : MonoBehaviour
             goal.m_PenguinCount = (uint)m_PackCount;
         }
 
-        //if (m_settings.DeadLine <= m_DeadCount)
-        //{
-        //    m_GameOver = true;
-        //}
+        // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
     }
 
 	//! 死亡時イベント(親ペンギン)
 	public void GameOver()
 	{
-		//m_GameOver = true;
+        m_settings.CheckGameOver();
 	}
 
 	//! 群れ化時イベント
@@ -158,16 +136,6 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
-    //public bool GetIsClear()
-    //{
-    //    return m_GameClear;
-    //}
-
-    //public bool GetIsGameOver()
-    //{
-    //    return m_GameOver;
-    //}
-
     public void OnClearEvent(Vector3 goalPos)
     {
         m_ParentPenguin.StageClear(goalPos);
@@ -176,8 +144,6 @@ public class PenguinManager : MonoBehaviour
         {
             child.StageClear(goalPos);
         }
-
-        //m_GameClear = true;
     }
 
 

@@ -46,19 +46,6 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField]
 	private PenguinManager m_penguin_mgr;
 
-
-	[Header("Dammy Parameters")]
-    //! クリアのボーダーラインペンギン数
-    [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
-    private int m_clear_num;
-	//! 各種閾値(ステージの設定データから読み取りにしたい仮配置)
-	[SerializeField, Tooltip("Goodの顔に変化する群れ数の閾値であり、\nクリア条件とは現状関係ない")]
-	private int m_border_good;
-	[SerializeField, Tooltip("Maxの顔に変化する群れ数の閾値であり、\nステージ上のペンギン総数とは現状関係ない")]
-	private int m_border_max;
-	[SerializeField, Tooltip("Dangerの顔に変化する死亡数の閾値")]
-	private int m_border_danger;
-
 	//! マテリアル
 	private Material m_living_mat;
 	private Material m_death_mat;
@@ -95,7 +82,7 @@ public class PenguinGaugeMgr : MonoBehaviour
         // ステージ上のペンギン数
         m_total_text.text = m_penguin_mgr.m_TotalCount.ToString();
 
-        yield break;
+		yield break;
     }
 
     /**
@@ -157,14 +144,17 @@ public class PenguinGaugeMgr : MonoBehaviour
 		// 顔グラ
 		{
 			// 死亡数が基準未満
-			if(m_penguin_mgr.m_DeadCount < m_border_danger)
+			if(m_penguin_mgr.m_DeadCount < m_penguin_mgr.m_settings.DangerBorder)
 			{
 				// 群れ数が Good未満
-				if (m_penguin_mgr.m_PackCount < m_border_good)		m_face_icon.ChangeState(FaceIcon.kState.Normal);
+				if (m_penguin_mgr.m_PackCount < m_penguin_mgr.m_settings.GoodBorder)
+					m_face_icon.ChangeState(FaceIcon.kState.Normal);
 				// 群れ数が Good以上 Max 未満
-				else if (m_penguin_mgr.m_PackCount < m_border_max)	m_face_icon.ChangeState(FaceIcon.kState.Good);
+				else if (m_penguin_mgr.m_PackCount < m_penguin_mgr.m_settings.MaxBorder)
+					m_face_icon.ChangeState(FaceIcon.kState.Good);
 				// 群れ数が Max以上
-				else												m_face_icon.ChangeState(FaceIcon.kState.Max);
+				else
+					m_face_icon.ChangeState(FaceIcon.kState.Max);
 			}
 			// 死亡数が基準超え
 			else

@@ -19,13 +19,11 @@ public class LevelSettings : MonoBehaviour
 	[Header("Level Information")]
 	[SerializeField, Tooltip("制限時間(sec)")]
 	private float m_time_limit = 10;
-	[SerializeField, Tooltip("救出するノルマペンギン数")]
-	private uint m_rescue_task = 10;
 	[SerializeField, Tooltip("ゲームオーバーになる死亡ペンギン数")]
 	private uint m_deadline = 10;
 
 	public float TimeLimit { get => m_time_limit; }
-	public int RescueTask { get => (int)m_rescue_task; }
+	//public int RescueTask { get => (int)m_rescue_task; }
 	public int DeadLine { get => (int)m_deadline; }
 
 	[Header("Valuation Basis")]
@@ -42,12 +40,9 @@ public class LevelSettings : MonoBehaviour
 
 	[Header("Temporary Status")]
 	[SerializeField, NonEditableField, Tooltip("クリアフラグ")]
-	private bool m_clear_flag = false;
+	public bool m_clear_flag = false;
 	[SerializeField, NonEditableField, Tooltip("GameOverフラグ")]
-	private bool m_failuer_flag = false;
-
-	public bool IsClear { get => m_clear_flag; }
-	public bool IsFailuer { get => m_failuer_flag; }
+	public bool m_failuer_flag = false;
 
 	/**
 	 * @brief	初期化(PenguinManagerの初期化を待つ)
@@ -62,7 +57,7 @@ public class LevelSettings : MonoBehaviour
 		yield return new WaitForEndOfFrame();
 
 		PenguinManager m_pen_mgr = GetComponent<PenguinManager>();
-		m_rescue_task = (uint)Mathf.Min(RescueTask, m_pen_mgr.m_TotalCount);
+		//m_rescue_task = (uint)Mathf.Min(RescueTask, m_pen_mgr.m_TotalCount);
 		m_deadline = (uint)Mathf.Min(DeadLine, m_pen_mgr.m_TotalCount);
 
 		m_max_threshold = (uint)Mathf.Min(MaxBorder, m_pen_mgr.m_TotalCount);
@@ -81,26 +76,5 @@ public class LevelSettings : MonoBehaviour
 	{
 		m_failuer_flag = (DeadLine <= _dead_count);
 		return m_failuer_flag;
-	}
-
-	/**
-	 * @brief	ゲームオーバー判定(形だけ)
-	 * @return	(bool)	判定結果
-	 */
-	public bool CheckGameOver()
-	{
-		m_failuer_flag = true;
-		return m_failuer_flag;
-	}
-
-	/**
-	 * @brief	呼ばれた段階での子ペンギンの数によるクリア判定
-	 * @param	(_pack_count) その時点での群れペンギン数
-	 * @return	(bool)	判定結果
-	 */
-	public bool CheckClear(int _pack_count)
-	{
-		m_clear_flag = (RescueTask <= _pack_count);
-		return m_clear_flag;
 	}
 }

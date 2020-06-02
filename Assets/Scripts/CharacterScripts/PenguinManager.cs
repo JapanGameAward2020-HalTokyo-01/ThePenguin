@@ -60,7 +60,8 @@ public class PenguinManager : MonoBehaviour
             foreach (GoalTile goal in goalTiles)
             {
                 m_GoalTiles.Add(goal);
-                goal.m_ClearCount = (uint)Mathf.Max(m_TotalCount - m_settings.DeadLine, 0.0f);
+                // クリアに必要なペンギン数はゴールそれぞれに設定する
+                //goal.m_ClearCount = (uint)m_settings.RescueTask;
 
                 //! Event登録
                 goal.OnClearEvent = OnClearEvent;
@@ -120,7 +121,7 @@ public class PenguinManager : MonoBehaviour
 	//! 死亡時イベント(親ペンギン)
 	public void GameOver()
 	{
-        m_settings.CheckGameOver();
+        m_settings.m_failuer_flag = true;
 	}
 
 	//! 群れ化時イベント

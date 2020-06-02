@@ -62,13 +62,13 @@ public class PenguinState_Dash : PenguinState
             return;
         }
 
-        if (penguin.manager.m_settings.IsClear)
+        if (penguin.manager.m_settings.m_clear_flag)
         {
             penguin.ChangeState<PenguinState_Goal>();
             return;
         }
 
-        if (penguin.manager.m_settings.IsFailuer)
+        if (penguin.manager.m_settings.m_failuer_flag)
         {
             penguin.ChangeState<PenguinState_Failed>();
             return;

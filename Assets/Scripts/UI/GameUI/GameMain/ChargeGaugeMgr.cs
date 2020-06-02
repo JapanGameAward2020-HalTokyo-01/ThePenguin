@@ -76,27 +76,26 @@ public class ChargeGaugeMgr : MonoBehaviour
 		public InputEvent(ChargeGaugeMgr _gauge_mgr)
 		{
 			m_gauge_mgr = _gauge_mgr;
+
+            this.OnIdle += () =>
+            {
+                if (m_Handler.Power > 0)
+                    m_gauge_mgr.ActivateGauge();
+            };
+
+            this.TickStateRun += () =>
+            {
+                m_gauge_mgr.HydeGauge();
+            };
 		}
 
 		/**
 		 * @brief	Idle状態の処理
 		 */
-		public override void OnIdle()
-		{
-			base.TickStateIdle();
-
-			if(m_Handler.Power > 0)
-				m_gauge_mgr.ActivateGauge();
-		}
 
 		/**
 		 * @brief	Run状態になった場合に１度処理
 		 */
-		public override void TickStateRun()
-		{
-			base.TickStateRun();
-			m_gauge_mgr.HydeGauge();
-		}
 	}
 
 }

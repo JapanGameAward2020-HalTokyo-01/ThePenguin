@@ -13,10 +13,14 @@ public class BossState_Idle : BossState
     //! 更新処理
     public override void OnUpdate()
     {
-        //if(m_Boss.m_BossGimmickManager.GetTimer() <= 0.0f)
-        //{
-        //    m_Boss.animator.SetBool("OnAttack", true);
-        //    m_Boss.ChangeState<BossState_Attack>();
-        //}
+        foreach (BossGimmickManager manager in m_Boss.m_BossGimmickManagers)
+        {
+            if (manager.GetTimer() <= 0.5f)
+            {
+                m_Boss.animator.SetBool("OnAttack", true);
+                m_Boss.ChangeState<BossState_Attack>();
+                return;
+            }
+        }
     }
 }

@@ -22,10 +22,10 @@ public class BossState_Start : BossState
     //! 更新処理
     public override void OnUpdate()
     {
-        if(!StartSystem.GetNowPlaying())
+        //if (!StartSystem.GetNowPlaying())
         {
 
-            //m_Boss.animator.SetBool("IsOpeningOver", true);
+            m_Boss.animator.SetBool("IsOpeningOver", true);
 
             m_Boss.ChangeState<BossState_Idle>();
         }

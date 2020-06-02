@@ -32,7 +32,6 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! ステージゴール
-    [SerializeField, NonEditableField]
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
     private SaveSystem m_SaveSystem;

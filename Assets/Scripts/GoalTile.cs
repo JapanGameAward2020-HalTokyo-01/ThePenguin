@@ -36,13 +36,19 @@ public class GoalTile : MonoBehaviour
     //! ステージクリア処理
     public System.Action<Vector3> OnClearEvent;
 
-    //! ペン群マネージャ(クリア、失敗の管理者)
-    private PenguinManager m_PenguinMgr = null;
+    //! 現在のレベルの設定情報
+    private LevelSettings m_level_setting = null;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        OnClearEvent = delegate (Vector3 goalPos){ };
+        OnClearEvent = delegate (Vector3 goalPos)
+        {
+            m_level_setting = FindObjectOfType<LevelSettings>();
+            m_level_setting.m_clear_flag = true;
+        };
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
     }
 

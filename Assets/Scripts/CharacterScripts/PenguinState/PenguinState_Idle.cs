@@ -113,15 +113,17 @@ public class PenguinState_Idle : PenguinState
                     parentPenguin.ChangeState<PenguinState_Walk>();
                 }
             }
+            else
+            {
+                penguin.ChangeState<PenguinState_Walk>();
+                return;
+            }
 
             if (penguin.GetFall())
             {
                 penguin.ChangeState<PenguinState_Fall>();
                 return;
             }
-
-            penguin.ChangeState<PenguinState_Walk>();
-            return;
         }
 
         if (penguin.manager.GetIsClear())

@@ -83,7 +83,10 @@ MonoBehaviour:
   m_InputHandler: {fileID: 0}
   m_MoveThreshhold: 0.01
   m_Invincible: 0
+  m_ClearAnimationEnded: 0
   m_Animator: {fileID: 0}
+  m_ModelUp: {x: 0, y: 0, z: 0}
+  m_ModelForward: {x: 0, y: 0, z: 0}
   m_InPack: 1
   m_Boss: 0
   m_PackCollider: {fileID: 0}
@@ -237,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc06dc1dc4a7bc14f9a7ec9e15b6e689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChargeEffectNow: 0
 --- !u!1 &5269491712776089948
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,8 +294,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8747559527287036232}
   - component: {fileID: 4523870295866436946}
-  - component: {fileID: 2172778956765353254}
-  - component: {fileID: 8928167582116261583}
   m_Layer: 8
   m_Name: Fall
   m_TagString: Untagged
@@ -325,41 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d7771d3ea53c548a5443dfa4a68a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effeck:
-  - {fileID: 2172778956765353254}
-  - {fileID: 8928167582116261583}
---- !u!114 &2172778956765353254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6325678837729617095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EmitterScale: 0
-  effectAsset: {fileID: 11400000, guid: 566911d0c63d58e489d1ab1b01d2a244, type: 2}
-  playOnStart: 0
-  isLooping: 0
---- !u!114 &8928167582116261583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6325678837729617095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EmitterScale: 0
-  effectAsset: {fileID: 11400000, guid: e30944cb5483af9478318c1556e93e53, type: 2}
-  playOnStart: 0
-  isLooping: 0
+  effeck: []
 --- !u!1 &7341831881497555310
 GameObject:
   m_ObjectHideFlags: 0

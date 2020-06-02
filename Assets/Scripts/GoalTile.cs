@@ -49,6 +49,7 @@ public class GoalTile : MonoBehaviour
             m_level_setting = FindObjectOfType<LevelSettings>();
             m_level_setting.m_clear_flag = true;
         };
+        m_level_setting = FindObjectOfType<LevelSettings>();
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
     }
 
@@ -93,7 +94,7 @@ public class GoalTile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //親ペンギンと子ペンギンにのみ反応する
-        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear)
+        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failuer_flag)
         {
             Goal();
         }
@@ -114,6 +115,11 @@ public class GoalTile : MonoBehaviour
         }
 
         OnClearEvent(transform.position);
+
+        m_level_setting.m_clear_flag = true;
+
+        //UI非表示
+        FindObjectOfType<GameMain>().SetEnable(false);
     }
 
     /**

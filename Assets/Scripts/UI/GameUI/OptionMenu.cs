@@ -50,7 +50,7 @@ public class OptionMenu : MonoBehaviour
     [SerializeField]
     private ConfirmMenu m_ConfirmMenu;
     [Header("↓これ前のメインのUIに変えて"),SerializeField]
-    private PauseMenu m_PlaceHolder;
+    private MainMenu m_MainMenu;
 
     //! 入力
     [SerializeField]
@@ -61,6 +61,7 @@ public class OptionMenu : MonoBehaviour
     Sounddata m_SoundData;
 
     private SaveSystem m_SaveSystem;
+
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -109,8 +110,8 @@ public class OptionMenu : MonoBehaviour
             m_AButtonImage.CrossFadeAlpha(0, 0, true);
         }
 
-        //!　ゲームを止める
-        Time.timeScale = 0;
+        //!　ゲームを止める(呼び出しアニメーション演出のためコメントアウトしました)
+        //Time.timeScale = 0;
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonOption;
@@ -248,15 +249,19 @@ public class OptionMenu : MonoBehaviour
 
         //!　ゲームを再開
         Time.timeScale = 1;
-        //!　Option画面を消す
-        this.gameObject.SetActive(false);
 
-        if (m_PlaceHolder != null)
+
+        if (m_MainMenu != null)
         {
-            m_PlaceHolder.OnEnable();
+            m_MainMenu.ReturnByOption();
+            yield return new WaitForSecondsRealtime(2.0f/3.0f);
+            //!　Option画面を消す
+            this.gameObject.SetActive(false);
         }
         if (m_PauseMenu != null)
         {
+            //!　Option画面を消す
+            this.gameObject.SetActive(false);
             //!　Pause画面を有効
             m_PauseMenu.OnEnable();
         }

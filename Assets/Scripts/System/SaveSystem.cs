@@ -29,6 +29,11 @@ public class SaveSystem : MonoBehaviour
                 Stages[i] = new GameData();
             }
             Stages[0].m_Unlocked = true;
+
+            // MEMO：
+            // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
+            // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+
             instance = this;
         }
         else if (instance != this)
@@ -159,6 +164,10 @@ public class SaveSystem : MonoBehaviour
         }
         Volume = new Sounddata();
         Stages[0].m_Unlocked = true;
+
+        // MEMO：
+        // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
+        // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
 
         Save();
         Load();

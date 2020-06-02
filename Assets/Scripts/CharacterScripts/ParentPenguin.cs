@@ -31,8 +31,11 @@ public class ParentPenguin : Penguin
     //! 親ペンギンの死亡処理
     public System.Action onKillEvent;
 
-    //! 振動管理用オブジェクト	
+    //!振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
+
+    //ゴール演出 - 子ペンギン演出終了判定
+    public bool m_EveryoneJumped = false;
 
     protected override void Awake()
     {
@@ -158,6 +161,7 @@ public class ParentPenguin : Penguin
     {
         return m_InputHandler;
     }
+
     public ControllerVibration GetControllerVibration()
     {
         return m_ControllerVibration;
@@ -177,18 +181,47 @@ public class ParentPenguin : Penguin
                 Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
+
+    //! ゴール演出処理
+    protected override void Enshutsu()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+        m_Rigidbody.useGravity = false;
+
+        if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.LookAt(m_GoalPos);
+        }
+
+        else if (m_EveryoneJumped)
+        {
+            if (!m_PlayedFirstGoal)
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnGoal");
+                GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
+                m_PlayedFirstGoal = true;
+            }
+        }
+    }
+
+
+
     public float GetPower()
     {
         return m_InputHandler.Power;
     }
+
     public float GetPowerMax()
     {
         return m_InputHandler.PowerMax;
     }
+
     public Vector3 GetForward()
     {
         return m_Model.transform.forward;
     }
+
     public int GetChildCount()
     {
         return m_ChildPenguins.Count;
@@ -253,7 +286,7 @@ public class ParentPenguin : Penguin
             }
 
         }
-        
+
 
         //! Run状態
         public override void OnRun()

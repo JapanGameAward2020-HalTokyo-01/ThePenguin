@@ -93,6 +93,10 @@ public class PenguinState_Idle : PenguinState
                     }
 
                 }
+                else
+                {
+                    m_Effect.StopRoot();
+                }
             }
 
         }

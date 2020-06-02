@@ -11,8 +11,15 @@ public class PenguinState_Fall : PenguinState
     //! 初期化処理
     public override void OnStart()
     {
-        effeck[1].speed *= 2.0f;
         penguin.animator.SetTrigger("OnFall");
+
+        //!文字エフェクト
+        if (effeck[0] != null)
+        {
+            effeck[0].Play();
+            effeck[1].Play();
+
+        }
     }
 
     //! 更新処理
@@ -22,18 +29,27 @@ public class PenguinState_Fall : PenguinState
         //!エフェクト関連処理
         {
             //!文字エフェクト
-            if (!effeck[0].exists)
+            if(effeck[0] != null)
             {
-                effeck[1].Play();
-                effeck[0].Play();
+                if (!effeck[0].exists)
+                {
+                    effeck[0].Play();
+                }
             }
+
 
         }
 
         if (!penguin.GetFall())
         {
-            effeck[0].StopRoot();
-            effeck[1].StopRoot();
+            //!文字エフェクト
+            if (effeck[0] != null)
+            {
+
+                effeck[0].StopRoot();
+                effeck[1].StopRoot();
+
+            }
             penguin.ChangeState<PenguinState_Idle>();
 
         }

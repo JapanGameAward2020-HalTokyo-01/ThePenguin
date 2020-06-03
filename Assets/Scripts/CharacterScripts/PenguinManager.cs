@@ -60,11 +60,12 @@ public class PenguinManager : MonoBehaviour
             foreach (GoalTile goal in goalTiles)
             {
                 m_GoalTiles.Add(goal);
-                // クリアに必要なペンギン数はゴールそれぞれに設定する
-                //goal.m_ClearCount = (uint)m_settings.RescueTask;
+				//クリアに必要なペンギン数はゴールそれぞれに設定する
 
-                //! Event登録
-                goal.OnClearEvent = OnClearEvent;
+				goal.m_ClearCount = (uint)m_settings.GetRescueTask(m_TotalCount);
+
+				//! Event登録
+				goal.OnClearEvent = OnClearEvent;
             }
         }
 

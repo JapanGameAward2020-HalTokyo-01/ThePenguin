@@ -8,17 +8,24 @@ public class PenguinState_Fall : PenguinState
     [SerializeField]
     private EffekseerEmitter[] effeck;
 
+    private ParentPenguin parentPenguin = null;
+
     //! 初期化処理
     public override void OnStart()
     {
         penguin.animator.SetTrigger("OnFall");
 
-        //!文字エフェクト
-        if (effeck[0] != null)
-        {
-            effeck[0].Play();
-            effeck[1].Play();
+        parentPenguin = penguin.GetComponent<ParentPenguin>();
 
+        //!文字エフェクト
+        if (parentPenguin != null)
+        {
+            if (effeck[0] != null)
+            {
+                effeck[0].Play();
+                effeck[1].Play();
+
+            }
         }
     }
 
@@ -27,6 +34,7 @@ public class PenguinState_Fall : PenguinState
     {
 
         //!エフェクト関連処理
+        if (parentPenguin != null)
         {
             //!文字エフェクト
             if(effeck[0] != null)
@@ -43,12 +51,15 @@ public class PenguinState_Fall : PenguinState
         if (!penguin.GetFall())
         {
             //!文字エフェクト
-            if (effeck[0] != null)
+            if (parentPenguin != null)
             {
+                if (effeck[0] != null)
+                {
 
-                effeck[0].StopRoot();
-                effeck[1].StopRoot();
+                    effeck[0].StopRoot();
+                    effeck[1].StopRoot();
 
+                }
             }
             penguin.ChangeState<PenguinState_Idle>();
 

@@ -7,11 +7,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 public class Boss : MonoBehaviour
 {
+    [SerializeField, NonEditableField, Tooltip("このレベルの数値情報")]
+    public LevelSettings m_Levelsettings;
+
     [SerializeField]
-    protected GameObject m_Model;
+    private GameObject m_Model;
 
     //! 状態遷移
     [SerializeField]
@@ -23,24 +27,43 @@ public class Boss : MonoBehaviour
     [SerializeField, NonEditableField]
     protected BossState m_CurrentState;
 
-    //[SerializeField]
-    //private Animator m_Animator;
-    //public Animator animator { get { return m_Animator; } }
+    [SerializeField]
+    private Animator m_Animator;
+    public Animator animator { get { return m_Animator; } }
 
-    public BossGimmickManager m_BossGimmickManager { get; set; }
+    [SerializeField]
+    private EffekseerEmitter m_FootEffect;
+
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
+
+    public List<BossGimmickManager> m_BossGimmickManagers  { get; set; }
 
     private void Awake()
     {
         m_BossStates = new List<BossState>();
+        m_BossGimmickManagers = new List<BossGimmickManager>();
     }
 
     private void Start()
     {
+        if(!m_Levelsettings)
+            m_Levelsettings = FindObjectOfType<LevelSettings>();
 
-        //if (m_Animator == null)
-        //    m_Animator.GetComponentInChildren<Animator>();
+        if (m_Animator == null)
+            m_Animator.GetComponentInChildren<Animator>();
 
-        //! PenguinStateを設定
+        //! GoalTileの取得
+        BossGimmickManager[] bossGimmickManagers = FindObjectsOfType<BossGimmickManager>();
+        if (bossGimmickManagers.Length > 0)
+        {
+            foreach (BossGimmickManager manager in bossGimmickManagers)
+            {
+                m_BossGimmickManagers.Add(manager);
+            }
+        }
+
+        //! BossStateを設定
         if (m_States)
         {
             BossState[] states = m_States.GetComponentsInChildren<BossState>();
@@ -58,6 +81,11 @@ public class Boss : MonoBehaviour
 
         //! CurrentStateの設定
         m_CurrentState.OnStart();
+
+        if(!m_ControllerVibration)
+            m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        m_FootEffect = this.transform.Find("FootEffect").gameObject.GetComponent<EffekseerEmitter>();
     }
 
     private void Update()
@@ -68,6 +96,11 @@ public class Boss : MonoBehaviour
     private void FixedUpdate()
     {
         m_CurrentState.OnFixedUpdate();
+    }
+
+    public ControllerVibration GetControllerVibration()
+    {
+        return m_ControllerVibration;
     }
 
     /// <summary>

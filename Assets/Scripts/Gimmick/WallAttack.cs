@@ -55,7 +55,8 @@ public class WallAttack : BaseGimmick
     {
         base.Start();
 
-        AreaEffect = GetComponent<EffectSpawner>();
+        if(!AreaEffect)
+            AreaEffect = GetComponent<EffectSpawner>();
 
         m_WarningArrow.SetActive(false);
 
@@ -87,7 +88,9 @@ public class WallAttack : BaseGimmick
             var pos = GetComponent<Transform>().transform.position;
             pos += x * m_Wall.transform.forward;
             pos.y -= 1.0f;
-            AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
+
+            if (AreaEffect)
+                AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
 
         }
     }

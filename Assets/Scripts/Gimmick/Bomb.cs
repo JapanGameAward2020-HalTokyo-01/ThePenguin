@@ -44,9 +44,18 @@ public class Bomb : BaseGimmick
 
     [SerializeField]
     private EffekseerEffectAsset m_SaveEffect;
+
+
     [SerializeField]
     private EffekseerEffectAsset m_DangerEffect;
 
+
+
+    [SerializeField]
+    private float m_BoomScale;
+
+    [SerializeField]
+    private float m_EffectOffset;
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
@@ -100,7 +109,7 @@ public class Bomb : BaseGimmick
                 {
                     Effect = GetComponent<EffectSpawner>();
                     if (Effect != null)
-                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(m_BoomScale, m_BoomScale, m_BoomScale));
 
                 }
 
@@ -112,7 +121,7 @@ public class Bomb : BaseGimmick
         }
 
         //探知範囲とカウントダウンの座標更新
-        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
+        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f + m_EffectOffset, 0.0f);
         m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
     }
 

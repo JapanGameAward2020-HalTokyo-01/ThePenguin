@@ -40,6 +40,10 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("群れの数の状況を顔で表現するオブジェクト")]
 	private FaceIcon m_face_icon;
 
+	[SerializeField, Tooltip("群れの数ゲージの先端上部に▽を表示する可能性があるので用意")]
+	private Image m_living_marker;
+
+
 	[Header("outer object")]
 
 	//! ペンギンの数を管理しているもの
@@ -92,7 +96,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 	{
 		Vector4 _tiling = new Vector4();
 
-		// 群れに加わったペンギンゲージ
+		// 群れに加わったペンギンゲージとマーカー
 		{
 			// 群れ率 = 現在の群れペン数 / 全ペン数 (0.0 ~ 1.0)
 			float m_living_ratio = (float)m_penguin_mgr.m_PackCount / (float)m_penguin_mgr.m_TotalCount;
@@ -109,6 +113,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 			Vector2 _pos = m_left_pos;
 			_pos.x += m_living_pos.sizeDelta.x * 0.5f;
 			m_living_pos.anchoredPosition = _pos;
+
+			// マーカー
+			Vector2 _mark_pos = m_living_marker.rectTransform.anchoredPosition;
+			_mark_pos.x = m_left_pos.x + m_living_pos.sizeDelta.x;
+			m_living_marker.rectTransform.anchoredPosition = _mark_pos;
 		}
 
 		// 死んだペンギンゲージ

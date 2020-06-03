@@ -36,6 +36,9 @@ public class WallAttack : BaseGimmick
     [SerializeField]
     TextureData m_Data;
 
+    [SerializeField]
+    private EffectSpawner AreaEffect;
+
     private void OnDrawGizmos()
     {
         if (m_Type != m_TypeLast)
@@ -51,6 +54,12 @@ public class WallAttack : BaseGimmick
     public override void Start()
     {
         base.Start();
+
+        if(!AreaEffect)
+            AreaEffect = GetComponent<EffectSpawner>();
+
+        m_WarningArrow.SetActive(false);
+
     }
 
     public override void Update()
@@ -73,6 +82,17 @@ public class WallAttack : BaseGimmick
 
         m_CurrentLength = 0f;
         m_Wall.transform.localPosition = Vector3.zero;
+
+        for (int x = 0; m_Length >= x; x++)
+        {
+            var pos = GetComponent<Transform>().transform.position;
+            pos += x * m_Wall.transform.forward;
+            pos.y -= 1.0f;
+
+            if (AreaEffect)
+                AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
+
+        }
     }
 
     public override void OnDeactivate()

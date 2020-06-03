@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 8301833298683507273}
   - component: {fileID: 8301833298683507272}
   - component: {fileID: 8301833298683507271}
+  - component: {fileID: 1075550082916530002}
   m_Layer: 0
   m_Name: WallAttackGimmick
   m_TagString: Untagged
@@ -130,6 +131,7 @@ MonoBehaviour:
   m_Spped: 3
   m_Type: 0
   m_Data: {fileID: 11400000, guid: e41ef5f9ea2be334ca1cc326491ac813, type: 2}
+  AreaEffect: {fileID: 1075550082916530002}
 --- !u!54 &8301833298683507271
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,6 +148,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1075550082916530002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8301833298683507274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectAssets:
+  - {fileID: 11400000, guid: c23b65a665045b94fb4997c44b7d53c5, type: 2}
+  m_CurrentEffect: {fileID: 0}
 --- !u!1 &8301833298718661000
 GameObject:
   m_ObjectHideFlags: 0

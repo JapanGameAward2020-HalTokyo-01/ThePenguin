@@ -18,8 +18,8 @@ public class StageTimer : MonoBehaviour
     public float StageTime { get => m_time; set => m_time = value; }
 
     //! 操作対象のUI要素
-    [SerializeField]
-	private Text m_minute_text;
+ //   [SerializeField]
+	//private Text m_minute_text;
 	[SerializeField]
 	private Text m_second_text;
 	[SerializeField]
@@ -51,8 +51,8 @@ public class StageTimer : MonoBehaviour
 		m_time = Math.Max(m_time - Time.deltaTime, 0.0f);
 
 		// 文字列の変更(常に２桁ゼロ埋め表示)
-		m_minute_text.text = (Mathf.FloorToInt(m_time) / 60).ToString("D2");
-		m_second_text.text = (Mathf.FloorToInt(m_time) % 60).ToString("D2");
+		//m_minute_text.text = (Mathf.FloorToInt(m_time) / 60).ToString("D2");
+		m_second_text.text = Mathf.Min(999, (Mathf.FloorToInt(m_time) % 60)).ToString("D3");
 		m_mini_sec_text.text = (Mathf.FloorToInt(m_time * 100) % 100).ToString("D2");
 	}
 }

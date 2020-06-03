@@ -61,8 +61,9 @@ public class DownUpBlock : FallBlock
 
         //!エフェクト関連
         {
-            var pos = transform.position;
-            pos.y += -1.0f;
+            
+            var pos = m_Block.transform.position;
+            pos.y += 1.0f;
 
             if (Effect != null)
                 Effect.PlayerEffect("DOSIN", pos);

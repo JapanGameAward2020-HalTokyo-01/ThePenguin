@@ -38,6 +38,9 @@ public class WallGimmick : BaseGimmick
     [SerializeField]
     private EffekseerEmitter[] effeck;
 
+    [SerializeField]
+    private EffectSpawner AreaEffect;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -45,6 +48,16 @@ public class WallGimmick : BaseGimmick
         m_timer = m_offset;
 
         trans=GetComponent<Transform>();
+
+        AreaEffect = GetComponent<EffectSpawner>();
+        for(int x = 0; m_length >= x ;x++)
+        {
+            var pos = trans.transform.position;
+            pos.x += x;
+            pos.y -= 1.5f;
+            AreaEffect.PlayerEffect("MoveWall_Normal", pos, new Vector3(0.5f, 0.5f, 0.5f));
+
+        }
 
     }
 

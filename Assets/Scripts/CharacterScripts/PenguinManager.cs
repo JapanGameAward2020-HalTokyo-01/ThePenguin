@@ -64,7 +64,7 @@ public class PenguinManager : MonoBehaviour
                 m_GoalTiles.Add(goal);
 
                 //! Event登録
-                goal.OnClearEvent = OnClearEvent;
+                goal.OnClearEvent += OnClearEvent;
             }
         }
 
@@ -163,12 +163,6 @@ public class PenguinManager : MonoBehaviour
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
-    }
-
-    private void SetCurrentScore()
-	{
-        if (m_Score == null) return;
-
     }
 
 }

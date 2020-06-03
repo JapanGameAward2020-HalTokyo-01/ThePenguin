@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7085586733234811715}
   - component: {fileID: 3560525399708766138}
   - component: {fileID: 6518043357677675117}
+  - component: {fileID: 7740292962125423516}
   m_Layer: 0
   m_Name: 45Slope
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 59ad4266513023041836145b1ab42817, type: 2}
+  - {fileID: 2100000, guid: 29ca092ab8cb452478341e9f9709e337, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,3 +94,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4084566400478906552, guid: 54175e6fff9683b44990afd8e0135441, type: 3}
+--- !u!114 &7740292962125423516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2978375721287138150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbff87024161f074bb26edf9833d7692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Angle: 45
+  m_Tilt: {x: -0.00000008429369, y: 0.7071067, z: -0.7071068}
+  m_Type: 0
+  m_Data: {fileID: 11400000, guid: 7c3895f9beac76b449ba89374b13d9ef, type: 2}

@@ -25,10 +25,10 @@ public class InputHandler : MonoBehaviour
     {
         public InputHandler m_Handler;
 
-        public virtual void OnRun() { }
-        public virtual void OnIdle() { }
-        public virtual void TickStateRun() { }
-        public virtual void TickStateIdle() { }
+        public Action OnRun;
+        public Action OnIdle;
+        public Action TickStateRun;
+        public Action TickStateIdle;
     }
 
     public enum State
@@ -121,6 +121,16 @@ public class InputHandler : MonoBehaviour
         OnIdle += inputEvent.OnIdle;
         TickStateIdle += inputEvent.TickStateIdle;
         TickStateRun += inputEvent.TickStateRun;
+    }
+
+    public void UnRegisterInputEvent(InputEventBase inputEvent)
+    {
+        inputEvent.m_Handler = this;
+
+        OnRun -= inputEvent.OnRun;
+        OnIdle -= inputEvent.OnIdle;
+        TickStateIdle -= inputEvent.TickStateIdle;
+        TickStateRun -= inputEvent.TickStateRun;
     }
 
     /// <summary>

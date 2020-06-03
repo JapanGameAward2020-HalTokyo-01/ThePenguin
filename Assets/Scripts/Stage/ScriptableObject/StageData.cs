@@ -17,6 +17,10 @@ public class StageData : ScriptableObject
 
 	[Header("Stage Params")]
 
+	//! トータルペンギン数
+	public int m_total_penguin = 0;
+
+
 	//! アンロック状態
 	[SerializeField]
 	private bool m_unlocked;
@@ -30,7 +34,11 @@ public class StageData : ScriptableObject
 	private float m_time_limit;
 	public float TimeLimit
 	{
-		get { return Mathf.Clamp(m_time_limit, 0.0f, 5940.0f); }
+		get { return Mathf.Clamp(m_time_limit, 0.0f, 5940.999f); }
+	}
+	public int TimeLimitInt
+	{
+		get { return Mathf.Clamp((int)m_time_limit, 0, 5940); }
 	}
 
 	//! ステージ上総ペンギン数

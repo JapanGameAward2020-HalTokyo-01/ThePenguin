@@ -65,16 +65,16 @@ public class CrashTile : MonoBehaviour
         switch (m_Type)
         {
             case FieldType.SNOW:
-                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Snow");
+                EffectEmitter.effectAsset = Effect.GetEffect("RockCrash_Ice");
                 break;
             case FieldType.DESERT:
-                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Desert");
+                EffectEmitter.effectAsset = Effect.GetEffect("RockCrash_Desert");
                 break;
             case FieldType.JUNGLE:
-                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Jungle");
+                EffectEmitter.effectAsset = Effect.GetEffect("RockCrash_Jungle");
                 break;
             case FieldType.VOLCANIC:
-                EffectEmitter.effectAsset = Effect.GetEffect("CrashRock_Volcanic");
+                EffectEmitter.effectAsset = Effect.GetEffect("RockCrash_Vocano");
                 break;
         }
     }

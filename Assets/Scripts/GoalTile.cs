@@ -18,6 +18,9 @@ public class GoalTile : MonoBehaviour
     public Sprite m_Icon_Enable;
     public Sprite m_Icon_Gauge;
 
+    [SerializeField]
+    private GameObject m_EndCamera;
+
     //クリア必要なペンギンの数
     public uint m_ClearCount = 10;
 
@@ -33,11 +36,19 @@ public class GoalTile : MonoBehaviour
     //! ステージクリア処理
     public System.Action<Vector3> OnClearEvent;
 
+    //! 現在のレベルの設定情報
+    private LevelSettings m_level_setting = null;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        OnClearEvent = delegate (Vector3 goalPos) { };
-
+        OnClearEvent = delegate (Vector3 goalPos)
+        {
+            m_level_setting = FindObjectOfType<LevelSettings>();
+            m_level_setting.m_clear_flag = true;
+        };
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
     }
 
@@ -97,6 +108,11 @@ public class GoalTile : MonoBehaviour
     {
         //仮処理
         Debug.Log("Goal");
+        if (m_EndCamera != null)
+        {
+            m_EndCamera.SetActive(true);
+        }
+
         OnClearEvent(transform.position);
     }
 

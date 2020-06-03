@@ -23,7 +23,7 @@ public class LevelSettings : MonoBehaviour
 	private uint m_deadline = 10;
 
 	public float TimeLimit { get => m_time_limit; }
-	//public int RescueTask { get => (int)m_rescue_task; }
+	public int GetRescueTask(int _total_count){ return _total_count - DeadLine; }
 	public int DeadLine { get => (int)m_deadline; }
 
 	[Header("Valuation Basis")]

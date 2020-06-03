@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using UnityEngine;
 
 //! Penguinの総括
@@ -34,14 +35,15 @@ public class PenguinManager : MonoBehaviour
     //! ステージゴール
     private List<GoalTile> m_GoalTiles = new List<GoalTile>();
 
-    private SaveSystem m_SaveSystem;
-
-    private GameData m_GameData;
+    //! 起動状態から最後にクリアしたゲームデータ(DontDestroyOnLoadより取り出し)
+    private CurrentScore m_Score = null;
 
     // Start is called before the first frame update
     void Start()
     {
         SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
+        if (m_SaveSystem != null) m_Score = m_SaveSystem.GetComponent<CurrentScore>();
+
         m_settings = GetComponent<LevelSettings>();
 
         m_Timer.StageTime = m_settings.TimeLimit;
@@ -60,12 +62,9 @@ public class PenguinManager : MonoBehaviour
             foreach (GoalTile goal in goalTiles)
             {
                 m_GoalTiles.Add(goal);
-				//クリアに必要なペンギン数はゴールそれぞれに設定する
 
-				goal.m_ClearCount = (uint)m_settings.GetRescueTask(m_TotalCount);
-
-				//! Event登録
-				goal.OnClearEvent = OnClearEvent;
+                //! Event登録
+                goal.OnClearEvent = OnClearEvent;
             }
         }
 
@@ -98,10 +97,13 @@ public class PenguinManager : MonoBehaviour
                 }
             }
         }
+
+        //! ペンギンのトータル数をカウントし終えたのでクリアタスク計算
+        m_settings.SetRescueTask(m_TotalCount);
     }
 
-    //! 死亡時イベント(子ペンギン)
-    public void OnKillEvent(ChildPenguin child)
+        //! 死亡時イベント(子ペンギン)
+        public void OnKillEvent(ChildPenguin child)
     {
         if (child.InPack)
             m_PackCount--;
@@ -145,9 +147,16 @@ public class PenguinManager : MonoBehaviour
         {
             child.StageClear(goalPos);
         }
+
+        // クリアデータ１次保存
+        m_Score.m_data.m_Time = m_Timer.StageTime;
+        m_Score.m_data.m_TotalPenguins = m_TotalCount;
+        m_Score.m_data.m_SavedPenguins = m_PackCount;
+        m_Score.m_data.m_Star1 = true;
+        m_Score.m_data.m_Star2 = true;
+        m_Score.m_data.m_Star3 = true;
+
     }
-
-
 
     void Update()
     {
@@ -155,4 +164,11 @@ public class PenguinManager : MonoBehaviour
         //float fps = 1.0f / deltaTime;
         //Debug.Log(Mathf.Ceil(fps).ToString());
     }
+
+    private void SetCurrentScore()
+	{
+        if (m_Score == null) return;
+
+    }
+
 }

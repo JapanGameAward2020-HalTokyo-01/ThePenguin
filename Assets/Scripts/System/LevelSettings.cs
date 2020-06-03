@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Rendering;
 
 /**
  * @class	LevelSettingsクラス
@@ -21,10 +22,17 @@ public class LevelSettings : MonoBehaviour
 	private float m_time_limit = 10;
 	[SerializeField, Tooltip("ゲームオーバーになる死亡ペンギン数")]
 	private uint m_deadline = 10;
+	[SerializeField, NonEditableField, Tooltip("クリアに必要なペンギン数")]
+	private uint m_rescue_task = 10;
 
 	public float TimeLimit { get => m_time_limit; }
-	public int GetRescueTask(int _total_count){ return _total_count - DeadLine; }
+	public int RescueTask { get => (int)m_rescue_task; }
 	public int DeadLine { get => (int)m_deadline; }
+
+	public void SetRescueTask(int _total_num)
+	{
+		m_rescue_task = (uint)Mathf.Max(1, _total_num - m_deadline);
+	}
 
 	[Header("Valuation Basis")]
 	[SerializeField, Tooltip("評価[Good]の条件閾値ペンギン数"), Range(1, 256)]

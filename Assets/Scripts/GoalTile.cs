@@ -62,7 +62,7 @@ public class GoalTile : MonoBehaviour
 
 
         //現在集めた子ペンギン数に応じてテクスチャを変更
-        if (m_PenguinCount>=m_ClearCount)
+        if (m_PenguinCount>= m_level_setting.RescueTask)
         {
             if(!m_CanClear)
             {

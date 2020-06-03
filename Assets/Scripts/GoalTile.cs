@@ -44,7 +44,7 @@ public class GoalTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        OnClearEvent = delegate (Vector3 goalPos)
+        OnClearEvent += delegate (Vector3 goalPos)
         {
             m_level_setting = FindObjectOfType<LevelSettings>();
             m_level_setting.m_clear_flag = true;
@@ -62,7 +62,7 @@ public class GoalTile : MonoBehaviour
 
 
         //現在集めた子ペンギン数に応じてテクスチャを変更
-        if (m_PenguinCount>=m_ClearCount)
+        if (m_PenguinCount>= m_level_setting.RescueTask)
         {
             if(!m_CanClear)
             {

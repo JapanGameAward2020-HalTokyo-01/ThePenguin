@@ -23,24 +23,35 @@ public class Boss : MonoBehaviour
     [SerializeField, NonEditableField]
     protected BossState m_CurrentState;
 
-    //[SerializeField]
-    //private Animator m_Animator;
-    //public Animator animator { get { return m_Animator; } }
+    [SerializeField]
+    private Animator m_Animator;
+    public Animator animator { get { return m_Animator; } }
 
-    public BossGimmickManager m_BossGimmickManager { get; set; }
+    public List<BossGimmickManager> m_BossGimmickManagers  { get; set; }
 
     private void Awake()
     {
         m_BossStates = new List<BossState>();
+        m_BossGimmickManagers = new List<BossGimmickManager>();
     }
 
     private void Start()
     {
 
-        //if (m_Animator == null)
-        //    m_Animator.GetComponentInChildren<Animator>();
+        if (m_Animator == null)
+            m_Animator.GetComponentInChildren<Animator>();
 
-        //! PenguinStateを設定
+        //! GoalTileの取得
+        BossGimmickManager[] bossGimmickManagers = FindObjectsOfType<BossGimmickManager>();
+        if (bossGimmickManagers.Length > 0)
+        {
+            foreach (BossGimmickManager manager in bossGimmickManagers)
+            {
+                m_BossGimmickManagers.Add(manager);
+            }
+        }
+
+        //! BossStateを設定
         if (m_States)
         {
             BossState[] states = m_States.GetComponentsInChildren<BossState>();

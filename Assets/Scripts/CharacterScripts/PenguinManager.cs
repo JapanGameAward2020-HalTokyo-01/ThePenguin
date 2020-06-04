@@ -152,6 +152,8 @@ public class PenguinManager : MonoBehaviour
 
         m_ParentPenguin.StageClear(goalPos);
 
+        m_settings.m_clear_flag = true;
+
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goalPos);

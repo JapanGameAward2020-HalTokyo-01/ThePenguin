@@ -34,7 +34,7 @@ public class GoalTile : MonoBehaviour
     private Image[] m_Image;
 
     //! ステージクリア処理
-    public System.Action<Vector3> OnClearEvent;
+    public System.Action<GameObject> OnClearEvent;
 
     //! 現在のレベルの設定情報
     private LevelSettings m_level_setting = null;
@@ -44,7 +44,7 @@ public class GoalTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        OnClearEvent += delegate (Vector3 goalPos)
+        OnClearEvent += delegate (GameObject goal)
         {
             m_level_setting = FindObjectOfType<LevelSettings>();
             m_level_setting.m_clear_flag = true;
@@ -114,7 +114,7 @@ public class GoalTile : MonoBehaviour
             m_EndCamera.SetActive(true);
         }
 
-        OnClearEvent(new Vector3(transform.position.x, transform.position.y +0.5f, transform.position.z));
+        OnClearEvent(gameObject);
 
         m_level_setting.m_clear_flag = true;
 

@@ -3,9 +3,6 @@
  * @brief	結果を一時保存するコンポーネント
  * @auther	谷沢　瑞己
  */
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /**

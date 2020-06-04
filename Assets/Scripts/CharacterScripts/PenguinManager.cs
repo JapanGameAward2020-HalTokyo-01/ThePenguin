@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
@@ -103,10 +105,13 @@ public class PenguinManager : MonoBehaviour
 
         //! ペンギンのトータル数をカウントし終えたのでクリアタスク計算
         m_settings.SetRescueTask(m_TotalCount);
+
+        StartCoroutine("ToNextScene");
+
     }
 
-        //! 死亡時イベント(子ペンギン)
-        public void OnKillEvent(ChildPenguin child)
+    //! 死亡時イベント(子ペンギン)
+    public void OnKillEvent(ChildPenguin child)
     {
         if (child.InPack)
             m_PackCount--;
@@ -142,12 +147,13 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    // クリアイベント
     public void OnClearEvent(GameObject goal)
     {
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
 
-        // クリアデータ１次保存
+        // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
         if(_Score != null) _Score.JudgeScore(this);
 
@@ -157,7 +163,38 @@ public class PenguinManager : MonoBehaviour
         {
             child.StageClear(goal);
         }
+
+        StartCoroutine("ToNextScene");
     }
+
+    // シーン遷移
+    IEnumerator ToNextScene()
+    {
+        //Fade _fade = FindObjectOfType<Fade>();
+        // アニメーション待機
+        //yield return new WaitForSecondsRealtime(6.0f);
+        //_fade.Fader();
+
+        // フェード待機
+        //yield return new WaitForSecondsRealtime(3.0f);
+
+        //      // 失敗時
+        //      if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
+        //      {
+        //          Debug.Log("ガメオベラ");
+        //          yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
+        //          yield return null;
+        //      }
+
+        //      // クリア時
+        //      if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        //{
+        yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name, LoadSceneMode.Single);
+        //yield return null;
+        ////}
+        //
+    }
+
 
     void Update()
     {

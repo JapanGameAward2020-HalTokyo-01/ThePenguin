@@ -416,6 +416,7 @@ MonoBehaviour:
   m_CurrentState: {fileID: 0}
   m_InputHandler: {fileID: 0}
   m_MoveThreshhold: 5
+  m_FallThreshhold: 5
   m_Invincible: 0
   m_ClearAnimationEnded: 0
   m_Animator: {fileID: 3647642325883426108}
@@ -426,6 +427,7 @@ MonoBehaviour:
   m_ChargeThreshold: 5
   m_InvincibleDuration: 0
   m_EveryoneJumped: 0
+  m_MarkerObject: {fileID: 502919337550487354}
 --- !u!114 &-5136099999725475654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,6 +710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6224629850682661524}
   - component: {fileID: 7277762833547852627}
+  - component: {fileID: 8842179598598397903}
   m_Layer: 8
   m_Name: Goal
   m_TagString: Untagged
@@ -741,6 +744,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302998770916621438402bba7ad221df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8842179598598397903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8964305568121128847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: 4149395d0bf5e1c47b7759c500989bb7, type: 2}
+  playOnStart: 0
+  isLooping: 0
 --- !u!1001 &1832877438027895644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -752,6 +771,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HeroPenguin
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
@@ -833,22 +862,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470462845495159244, guid: 5d83f257eccc38c489cd5ec99942a929,
+    - target: {fileID: -217067354017463263, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -217067354017463263, guid: 5d83f257eccc38c489cd5ec99942a929,
+    - target: {fileID: 5470462845495159244, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_CastShadows
       value: 0

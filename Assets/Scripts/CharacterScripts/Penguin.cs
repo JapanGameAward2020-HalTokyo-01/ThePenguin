@@ -31,6 +31,10 @@ public class Penguin : MonoBehaviour
     [SerializeField, Space(20)]
     private float m_MoveThreshhold = 0.01f;
 
+    //! 落下判断基準数値
+    [SerializeField]
+    private float m_FallThreshhold = 5.0f;
+
     //! Rigidbody
     protected Rigidbody m_Rigidbody;
 
@@ -210,7 +214,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public bool GetFall()
     {
-        return m_Rigidbody.velocity.y < -2.0f;
+        return m_Rigidbody.velocity.y < -m_FallThreshhold;
     }
     
     public float GetSpeed()

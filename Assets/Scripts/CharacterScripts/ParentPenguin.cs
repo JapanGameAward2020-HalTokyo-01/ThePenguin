@@ -37,6 +37,9 @@ public class ParentPenguin : Penguin
     //ゴール演出 - 子ペンギン演出終了判定
     public bool m_EveryoneJumped = false;
 
+    [SerializeField]
+    private GameObject m_MarkerObject;
+
     private InputEvent m_InputEvent;
 
     protected override void Awake()
@@ -191,6 +194,7 @@ public class ParentPenguin : Penguin
     {
         GetComponent<CapsuleCollider>().enabled = false;
         m_Rigidbody.useGravity = false;
+        m_MarkerObject.SetActive(false);
 
         if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
         {

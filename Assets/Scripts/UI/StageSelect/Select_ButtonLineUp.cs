@@ -54,13 +54,13 @@ public class Select_ButtonLineUp : MonoBehaviour
 			m_button_list.Add(_unit);
 
 			// パラメータ設定(セーブデータから読み取り)
-			_unit.SetButtonImage(m_area_index, m_save.Stages1[level].m_Unlocked);
+			_unit.SetButtonImage(m_area_index, m_save.Stages1[_index + level].m_Unlocked);
 			_unit.SetStageNumber(m_area_index, level);
 			bool[] _grade_star = new bool[3] 
 			{
-				m_save.Stages1[level].m_Star1,
-				m_save.Stages1[level].m_Star2,
-				m_save.Stages1[level].m_Star3,
+				m_save.Stages1[_index + level].m_Star1,
+				m_save.Stages1[_index + level].m_Star2,
+				m_save.Stages1[_index + level].m_Star3,
 			};
 			_unit.SetStar(_grade_star);
 

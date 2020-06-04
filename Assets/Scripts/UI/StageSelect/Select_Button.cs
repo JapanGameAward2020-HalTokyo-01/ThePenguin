@@ -150,7 +150,6 @@ public class Select_Button : MonoBehaviour
 		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(3);
 
 		// スコア読み込み
-		//Debug.LogAssertion(m_stage_list.FirstLevelIndex);
 		m_score.LoadStar(m_save, m_stage_list.CurrentLevelIndex);
 		m_score.LoadTime(m_save, m_stage_list.CurrentLevelIndex);
 

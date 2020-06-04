@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 6208646238056169507}
   - component: {fileID: 6208646238056169508}
   - component: {fileID: 3544878365329074539}
+  - component: {fileID: 6765843119088769202}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -511,6 +512,22 @@ MonoBehaviour:
   m_EffectAssets:
   - {fileID: 11400000, guid: 1c38882c925585542b6c7c0fde5bb3b7, type: 2}
   m_CurrentEffect: {fileID: 0}
+--- !u!114 &6765843119088769202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208646238056169510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6807de3778f236943ae30880edad09e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetObject: {fileID: 2166204661659530025}
+  m_VibrateSpeed: {x: 10, y: 0, z: 5}
+  m_VibrateTimeMax: 2
+  m_VibrateTime: 0
 --- !u!1001 &7867237417857428000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -605,6 +622,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb6be859be96e25488be1e87aa999d8a, type: 3}
+--- !u!1 &2166204661659530025 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bb6be859be96e25488be1e87aa999d8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7867237417857428000}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2906157053285499194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bb6be859be96e25488be1e87aa999d8a,

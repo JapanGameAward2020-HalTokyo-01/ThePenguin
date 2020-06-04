@@ -106,8 +106,6 @@ public class PenguinManager : MonoBehaviour
         //! ペンギンのトータル数をカウントし終えたのでクリアタスク計算
         m_settings.SetRescueTask(m_TotalCount);
 
-        StartCoroutine("ToNextScene");
-
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -127,16 +125,18 @@ public class PenguinManager : MonoBehaviour
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
+        StartCoroutine("ToNextScene");
     }
 
-	//! 死亡時イベント(親ペンギン)
-	public void GameOver()
+    //! 死亡時イベント(親ペンギン)
+    public void GameOver()
 	{
         m_settings.m_failuer_flag = true;
-	}
+        StartCoroutine("ToNextScene");
+    }
 
-	//! 群れ化時イベント
-	public void OnPackEvent()
+    //! 群れ化時イベント
+    public void OnPackEvent()
     {
         m_PackCount++;
         m_NomadCount--;
@@ -170,33 +170,33 @@ public class PenguinManager : MonoBehaviour
     // シーン遷移
     IEnumerator ToNextScene()
     {
-        //Fade _fade = FindObjectOfType<Fade>();
-        // アニメーション待機
-        //yield return new WaitForSecondsRealtime(6.0f);
-        //_fade.Fader();
+        if (m_settings.m_clear_flag || m_settings.m_failuer_flag)
+            yield break;
 
-        // フェード待機
-        //yield return new WaitForSecondsRealtime(3.0f);
+        Fade _fade = FindObjectOfType<Fade>();
+        //アニメーション待機
+        yield return new WaitForSecondsRealtime(6.0f);
 
-        //      // 失敗時
-        //      if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
-        //      {
-        //          Debug.Log("ガメオベラ");
-        //          yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
-        //          yield return null;
-        //      }
+        //フェードアウト待機
+        _fade.Fader();
+        yield return new WaitForSecondsRealtime(1.0f);
 
-        //      // クリア時
-        //      if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
-        //{
-        yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name, LoadSceneMode.Single);
-        //yield return null;
-        ////}
-        //
+        // 失敗時
+        if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
+        {
+            yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
+            yield return null;
+        }
+
+        // クリア時
+        if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        {
+            yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
+            yield return null;
+        }
     }
 
-
-    void Update()
+		void Update()
     {
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;

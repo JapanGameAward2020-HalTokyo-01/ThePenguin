@@ -16,7 +16,7 @@ public class PenguinState_Goal : PenguinState
             if (!m_Effect)
                 m_Effect = GetComponent<EffekseerEmitter>();
         }
-        penguin.animator.SetTrigger("OnGoal");
+        //penguin.animator.SetTrigger("OnGoal");
     }
 
     public void EffectPlay()

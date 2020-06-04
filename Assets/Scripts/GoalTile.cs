@@ -114,7 +114,7 @@ public class GoalTile : MonoBehaviour
             m_EndCamera.SetActive(true);
         }
 
-        OnClearEvent(transform.position);
+        OnClearEvent(new Vector3(transform.position.x, transform.position.y +0.5f, transform.position.z));
 
         m_level_setting.m_clear_flag = true;
 

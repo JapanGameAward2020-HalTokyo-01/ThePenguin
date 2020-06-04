@@ -52,7 +52,7 @@ public class StageTimer : MonoBehaviour
 
 		// 文字列の変更(常に２桁ゼロ埋め表示)
 		//m_minute_text.text = (Mathf.FloorToInt(m_time) / 60).ToString("D2");
-		m_second_text.text = Mathf.Min(999, (Mathf.FloorToInt(m_time) % 60)).ToString("D3");
+		m_second_text.text = Mathf.Min(999, (Mathf.FloorToInt(m_time))).ToString("D3");
 		m_mini_sec_text.text = (Mathf.FloorToInt(m_time * 100) % 100).ToString("D2");
 	}
 }

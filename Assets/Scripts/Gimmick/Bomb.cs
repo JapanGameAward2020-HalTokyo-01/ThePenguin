@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Effekseer;
+using Cinemachine;
 
 public class Bomb : BaseGimmick
 {
@@ -26,6 +27,9 @@ public class Bomb : BaseGimmick
 
     [SerializeField, Tooltip("爆風強さ")]
     private float m_BlastPower = 0.0f;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     //! 状態
     private bool m_IsCountDown = false;
@@ -112,6 +116,10 @@ public class Bomb : BaseGimmick
 
             if (m_CountDown <= 0.0f)
             {
+                var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+                if (cinemachineImpulseSource)
+                    cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
                 //爆発処理
                 Explode();
 

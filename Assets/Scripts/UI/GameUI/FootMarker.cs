@@ -22,8 +22,6 @@ public class FootMarker : MonoBehaviour
 	[SerializeField, Tooltip("矢の部分")]
 	private SpriteRenderer m_arrow = null;
 
-	public Transform m_deb;
-
 	public void Awake()
 	{
 		m_input = FindObjectOfType<PlayerInput>();
@@ -48,10 +46,7 @@ public class FootMarker : MonoBehaviour
 			m_arrow.color = _col;
 
 			// 回転する
-			Vector3 _dir = Camera.main.transform.forward;
-			_dir.y = 0.0f;
-			transform.LookAt(transform.position + _dir);
-			m_deb.transform.position = transform.position + _dir.normalized;
+			transform.LookAt(transform.position + m_parent.m_ModelForward);
 		}
 		else
 		{

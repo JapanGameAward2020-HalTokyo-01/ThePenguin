@@ -26,6 +26,7 @@ public class PenguinManager : MonoBehaviour
 
     [SerializeField, Tooltip("UI要素：ゲームタイマー")]
     private StageTimer m_Timer;
+    public float StageTime { get { return m_Timer.StageTime; } }
 
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
@@ -43,15 +44,9 @@ public class PenguinManager : MonoBehaviour
 
     #endregion
 
-    //! 起動状態から最後にクリアしたゲームデータ(DontDestroyOnLoadより取り出し)
-    private CurrentScore m_Score = null;
-
     // Start is called before the first frame update
     void Start()
     {
-        SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
-        if (m_SaveSystem != null) m_Score = m_SaveSystem.GetComponent<CurrentScore>();
-
         m_settings = GetComponent<LevelSettings>();
 
         m_Timer.StageTime = m_settings.TimeLimit;
@@ -150,24 +145,18 @@ public class PenguinManager : MonoBehaviour
     public void OnClearEvent(GameObject goal)
     {
         m_InGoalEnshutsu = true;
+        m_settings.m_clear_flag = true;
+
+        // クリアデータ１次保存
+        CurrentScore _Score = FindObjectOfType<CurrentScore>();
+        if(_Score != null) _Score.JudgeScore(this);
 
         m_ParentPenguin.StageClear(goal);
-
-        m_settings.m_clear_flag = true;
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goal);
         }
-
-        // クリアデータ１次保存
-        m_Score.m_data.m_Time = m_Timer.StageTime;
-        m_Score.m_data.m_TotalPenguins = m_TotalCount;
-        m_Score.m_data.m_SavedPenguins = m_PackCount;
-        m_Score.m_data.m_Star1 = true;
-        m_Score.m_data.m_Star2 = true;
-        m_Score.m_data.m_Star3 = true;
-
     }
 
     void Update()

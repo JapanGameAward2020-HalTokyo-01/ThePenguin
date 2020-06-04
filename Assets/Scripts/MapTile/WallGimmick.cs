@@ -84,6 +84,11 @@ public class WallGimmick : BaseGimmick
                     t = 1.0f;
 
                     effeck[0].StopRoot();
+
+                    //!飛び出した後の回転処理
+                    float turn_time = (m_timer - m_cooltime - m_speed) / m_waittime;
+
+                    trans.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), turn_time);
                 }
             }
             else
@@ -98,6 +103,14 @@ public class WallGimmick : BaseGimmick
             if(t<0.0f)
             {
                 t = 0.0f;
+
+                //！元に戻した回転処理
+                if(m_timer < m_cooltime && trans.localRotation != new Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
+                {
+                    float turn_time = (m_timer) / m_cooltime;
+
+                    trans.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), turn_time);
+                }
 
             }
 

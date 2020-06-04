@@ -53,7 +53,7 @@ public class WallGimmick : BaseGimmick
         for(int x = 0; m_length >= x ;x++)
         {
             var pos = trans.transform.position;
-            pos.x += x;
+            pos += x * trans.transform.right;
             pos.y -= 1.5f;
             AreaEffect.PlayerEffect("MoveWall_Normal", pos, new Vector3(0.5f, 0.5f, 0.5f));
 

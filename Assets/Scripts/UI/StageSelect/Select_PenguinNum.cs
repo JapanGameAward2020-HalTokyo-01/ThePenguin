@@ -47,15 +47,17 @@ public class Select_PenguinNum : MonoBehaviour
 	/**
 	 * @brief	ゲージのパラメータや見た目変更
 	 */
-	public void SetGauge(int _area, int _level)
+	public void SetGauge(SaveSystem _save, int _level)
 	{
 		Vector4 _tiling = new Vector4();
-		StageData _data = m_stage_param.GetAreaList(_area).GetListItem(_level);
+		//StageData _data = m_stage_param.GetAreaList(_area).GetListItem(_level);
+
+		var _data = _save.Stages1[_level];
 
 		// 群れに加わったペンギンゲージ
 		{
 			// 救出率 = 救出ペン数 / 全ペン数 (0.0 ~ 1.0)
-			float m_ratio = (float)_data.RescuedNum / (float)_data.MaxPenguinNum;
+			float m_ratio = (float)_data.m_SavedPenguins / (float)_data.m_TotalPenguins;
 			_tiling.x = Mathf.Clamp(m_ratio, 0.0f, 1.0f);
 			_tiling.y = 1.0f;
 
@@ -73,18 +75,13 @@ public class Select_PenguinNum : MonoBehaviour
 
 		// テキスト部分
 		{
-			m_text[0].text = _data.RescuedNum.ToString("D3");
-			m_text[1].text = _data.MaxPenguinNum.ToString("D3");
+			m_text[0].text = _data.m_SavedPenguins.ToString("D3");
+			m_text[1].text = _data.m_TotalPenguins.ToString("D3");
 		}
 
 		// 顔グラ
 		{
-			// 救出数が ボーダー未満
-			if (_data.RescuedNum < _data.ClearBorder) m_face.ChangeState(FaceIcon.kState.Normal);
-			// 救出数が ボーダー以上 Max 未満
-			else if (_data.RescuedNum < _data.MaxPenguinNum) m_face.ChangeState(FaceIcon.kState.Good);
-			// 群れ数が Max以上
-			else m_face.ChangeState(FaceIcon.kState.Max);
+			m_face.ChangeState(_data.m_FaceIcon);
 		}
 	}
 }

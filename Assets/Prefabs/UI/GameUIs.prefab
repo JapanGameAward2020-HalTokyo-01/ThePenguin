@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Pause: {fileID: 1978504973305044950}
   m_Input: {fileID: 0}
   m_Camera: {fileID: 0}
+  m_DirLight: {fileID: 0}
   m_ParentPenguin: {fileID: 0}
   m_ChargeGaugeMgr: {fileID: 7675404483006560928}
   m_RotateMax: 3
@@ -341,11 +342,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8873186037066271893}
     m_Modifications:
-    - target: {fileID: 4110178470320395096, guid: 3e306fcb65fc170498bf70db46b52796,
-        type: 3}
-      propertyPath: m_OptionMenu
-      value: 
-      objectReference: {fileID: 7505448284230131272}
     - target: {fileID: 4461604565532711908, guid: 3e306fcb65fc170498bf70db46b52796,
         type: 3}
       propertyPath: m_Name
@@ -476,6 +472,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4110178470320395096, guid: 3e306fcb65fc170498bf70db46b52796,
+        type: 3}
+      propertyPath: m_OptionMenu
+      value: 
+      objectReference: {fileID: 7505448284230131272}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e306fcb65fc170498bf70db46b52796, type: 3}
 --- !u!224 &2752746970623557108 stripped
@@ -503,6 +504,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8873186037066271893}
     m_Modifications:
+    - target: {fileID: 3000693652257531565, guid: 8233620370bf36c4eade61f2940b0b70,
+        type: 3}
+      propertyPath: m_Name
+      value: GameMain
+      objectReference: {fileID: 0}
     - target: {fileID: 3000693652257531561, guid: 8233620370bf36c4eade61f2940b0b70,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -622,11 +628,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3000693652257531565, guid: 8233620370bf36c4eade61f2940b0b70,
-        type: 3}
-      propertyPath: m_Name
-      value: GameMain
       objectReference: {fileID: 0}
     - target: {fileID: 8675071615811239843, guid: 8233620370bf36c4eade61f2940b0b70,
         type: 3}

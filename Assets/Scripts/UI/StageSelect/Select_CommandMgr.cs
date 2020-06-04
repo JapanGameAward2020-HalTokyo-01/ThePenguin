@@ -4,6 +4,7 @@
  * @author  谷沢 瑞己
  */
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /**
  * @class   Select_CommandMgrクラス

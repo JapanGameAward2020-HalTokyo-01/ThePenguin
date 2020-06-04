@@ -25,6 +25,8 @@ public class GameUI : MonoBehaviour
     //! 親ペンギン
     [SerializeField]
     private ParentPenguin m_ParentPenguin;
+    [SerializeField]
+    private ChargeGaugeMgr m_ChargeGaugeMgr;
 
     //! 最大回転速度
     [SerializeField, Space(20)]
@@ -75,6 +77,12 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (m_ParentPenguin.manager.m_settings.m_clear_flag)
+        {
+            m_ChargeGaugeMgr.UnRegisterInputEvent();
+            return;
+        }
+
         //! ペンギンの向いている方向へカメラをセット
         if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)
         {

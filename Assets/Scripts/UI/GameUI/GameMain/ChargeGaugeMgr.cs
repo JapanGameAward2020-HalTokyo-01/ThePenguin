@@ -20,14 +20,21 @@ public class ChargeGaugeMgr : MonoBehaviour
 	//! インプットハンドラー
 	private InputHandler m_input;
 
-	/**
+    private InputEvent m_InputEvent;
+
+    public void Awake()
+    {
+        m_InputEvent = new InputEvent(this);
+    }
+
+    /**
 	 * @brief   初期化
 	 */
-	public void Start()
+    public void Start()
 	{
 		//! InputHandlerにEvent登録
 		m_input = FindObjectOfType<InputHandler>();
-		m_input.RegisterInputEvent(new InputEvent(this));
+		m_input.RegisterInputEvent(m_InputEvent);
 
 		// ゲージ座標は必ず中央やや上部に配置するように変更(演出などでカメラ注視点が変更される可能性は無視)
 	}
@@ -61,6 +68,14 @@ public class ChargeGaugeMgr : MonoBehaviour
 		m_Processor.gameObject.SetActive(false);
 	}
 
+    /**
+	 * @brief   入力イベントを削除
+	 */
+    public void UnRegisterInputEvent()
+    {
+        m_input.UnRegisterInputEvent(m_InputEvent);
+    }
+
 	/**
 	 * @class	ChargeGaugeMgr.InputEventクラス
 	 * @brief	InputHandlerの状態変化時に行う処理
@@ -77,25 +92,23 @@ public class ChargeGaugeMgr : MonoBehaviour
 		{
 			m_gauge_mgr = _gauge_mgr;
 
+            /**
+		    * @brief	Idle状態の処理
+		    */
             this.OnIdle += () =>
             {
                 if (m_Handler.Power > 0)
                     m_gauge_mgr.ActivateGauge();
             };
 
+            /**
+		    * @brief	Run状態になった場合に１度処理
+		    */
             this.TickStateRun += () =>
             {
                 m_gauge_mgr.HydeGauge();
             };
 		}
-
-		/**
-		 * @brief	Idle状態の処理
-		 */
-
-		/**
-		 * @brief	Run状態になった場合に１度処理
-		 */
 	}
 
 }

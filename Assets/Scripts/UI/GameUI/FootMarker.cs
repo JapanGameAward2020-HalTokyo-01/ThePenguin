@@ -16,12 +16,16 @@ public class FootMarker : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("インプット")]
 	private PlayerInput m_input = null;
 
+	// 親
+	private ParentPenguin m_parent;
+
 	[SerializeField, Tooltip("矢の部分")]
 	private SpriteRenderer m_arrow = null;
 
 	public void Awake()
 	{
 		m_input = FindObjectOfType<PlayerInput>();
+		m_parent = FindObjectOfType<ParentPenguin>();
 	}
 
 	public void Start()
@@ -42,10 +46,7 @@ public class FootMarker : MonoBehaviour
 			m_arrow.color = _col;
 
 			// 回転する
-			Vector3 _pos = transform.position;
-			_pos.x -= _in_dir.x;
-			_pos.z -= _in_dir.y;
-			transform.LookAt(_pos);
+			transform.LookAt(transform.position + m_parent.m_ModelForward);
 		}
 		else
 		{

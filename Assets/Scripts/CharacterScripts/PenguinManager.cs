@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.AccessControl;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
 public class PenguinManager : MonoBehaviour
 {
+    [SerializeField, NonEditableField, Tooltip("シーン情報")]
+    private StageMetaParam m_scene_list;
+
     [SerializeField, NonEditableField, Tooltip("このレベルの数値情報")]
     public LevelSettings m_settings;
 

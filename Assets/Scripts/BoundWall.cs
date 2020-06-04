@@ -16,11 +16,17 @@ public class BoundWall : MonoBehaviour
 
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    //!振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     // Start is called before the first frame update
     void Start()
     {
-        Effect = GetComponentInParent<EffectSpawner>();
+        if(!Effect)
+            Effect = GetComponentInParent<EffectSpawner>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponentInParent<ObjectVibrate>();
     }
 
     // Update is called once per frame
@@ -51,7 +57,10 @@ public class BoundWall : MonoBehaviour
                 other.gameObject.GetComponent<Rigidbody>().AddForce(_force, ForceMode.Impulse);
             }
 
-            if (Effect != null)
+            if (m_ObjectVibrate)
+                m_ObjectVibrate.StartVibrate();
+
+            if (Effect)
             {
                 var pos = transform.position;
 

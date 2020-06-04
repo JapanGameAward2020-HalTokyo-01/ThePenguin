@@ -15,7 +15,10 @@ using UnityEngine;
 public class CrashWall : MonoBehaviour
 {
     //カウント数
-    public uint m_MaxCount = 1;
+    [SerializeField, Range(1, 3)]
+    public uint m_MaxCount;
+
+    private uint m_MaxCountLast = 3;
     //カウントされるためのスピード下限
     public float m_CountSpeed = 0.0f;
     //完全に崩れるまでの時間(フレーム単位)
@@ -48,16 +51,19 @@ public class CrashWall : MonoBehaviour
 
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    //!振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     private void OnDrawGizmos()
     {
-        if (m_Type != m_TypeLast)
+        if (m_Type != m_TypeLast || m_MaxCount != m_MaxCountLast)
         {
             var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-            m.SetTexture("_BaseMap", m_Data[0].GetTexture((int)m_Type));
+            m.SetTexture("_BaseMap", m_Data[m_MaxCount-1].GetTexture((int)m_Type));
             m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
             this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
             m_TypeLast = m_Type;
+            m_MaxCountLast = m_MaxCount;
         }
     }
 
@@ -67,7 +73,11 @@ public class CrashWall : MonoBehaviour
         temp = m_MaxCount;
         m_Percent = (float)m_MaxCount / temp;
 
-        Effect = GetComponent<EffectSpawner>();
+        if (!Effect)
+            Effect = GetComponent<EffectSpawner>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
     // Update is called once per frame
@@ -108,15 +118,22 @@ public class CrashWall : MonoBehaviour
                 //壊れ具合計算
                 m_Percent = (float)m_MaxCount / temp;
 
+                //Debug
+                Debug.Log("CrashWall Percent:" + m_Percent);
+
                 //テクスチャー変更
                 var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-                int texcnt = (int)(2 * (1.0f - m_Percent));
+                int texcnt = (int)m_MaxCount-1;
+
+                if (texcnt <= 0)
+                    texcnt = 0;
+
                 m.SetTexture("_BaseMap", m_Data[texcnt].GetTexture((int)m_Type));
                 m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
                 this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
 
-                //Debug
-                Debug.Log("CrashWall Percent:" + m_Percent);
+                if (m_ObjectVibrate)
+                    m_ObjectVibrate.StartVibrate();
 
                 if (Effect != null)
                 {

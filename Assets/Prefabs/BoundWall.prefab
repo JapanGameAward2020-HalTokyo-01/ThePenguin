@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 35916589941730369}
   - component: {fileID: 35916589941730399}
   - component: {fileID: 5708558163129202266}
+  - component: {fileID: 3002207052283101946}
   m_Layer: 0
   m_Name: BoundWall
   m_TagString: Untagged
@@ -72,6 +73,23 @@ MonoBehaviour:
   m_EffectAssets:
   - {fileID: 11400000, guid: 9690291dd11f0bf479b7480c3aa874e8, type: 2}
   m_CurrentEffect: {fileID: 0}
+--- !u!114 &3002207052283101946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35916589941730397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6807de3778f236943ae30880edad09e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetObject: {fileID: 2286933765911180784}
+  m_VibrateSpeed: {x: 10, y: 5, z: 0}
+  m_VibrateTimeMax: 0.2
+  m_VibrateTime: 0
+  OnVibrate: 0
 --- !u!1 &2251874263746929698
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +280,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1e0dc8d7fa77d74d9339763a0f54a28, type: 3}
+--- !u!1 &2286933765911180784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: b1e0dc8d7fa77d74d9339763a0f54a28,
+    type: 3}
+  m_PrefabInstance: {fileID: 7826481215110917369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3019535991140354019 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b1e0dc8d7fa77d74d9339763a0f54a28,

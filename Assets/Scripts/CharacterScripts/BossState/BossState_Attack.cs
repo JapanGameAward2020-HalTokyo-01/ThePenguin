@@ -14,12 +14,18 @@ public class BossState_Attack : BossState
 
     EffekseerEmitter m_Effect;
 
+    //!オブジェクト振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
+
     public override void OnStart()
     {
         base.OnStart();
 
         if (!m_Effect)
             m_Effect = GetComponent<EffekseerEmitter>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
 
     }
 
@@ -36,6 +42,9 @@ public class BossState_Attack : BossState
                     m_Boss.GetControllerVibration().AddShake(0.6f, 0.2f);
                 }
             }
+
+            if (m_ObjectVibrate)
+                m_ObjectVibrate.StartVibrate();
         }
 
         if (m_Boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && m_Boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -45,6 +54,10 @@ public class BossState_Attack : BossState
 
             if (m_Effect)
                 m_Effect.StopRoot();
+
+            if (m_ObjectVibrate)
+                m_ObjectVibrate.StopVibrate();
+
         }
     }
 }

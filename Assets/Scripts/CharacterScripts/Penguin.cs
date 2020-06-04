@@ -230,11 +230,12 @@ public class Penguin : MonoBehaviour
     /// <summary>
     /// @brief      ステージクリア判定
     /// </summary>
-    public void StageClear(Vector3 goalPos)
+    public void StageClear(GameObject goal)
     {
-        m_GoalPos = goalPos;
+        m_GoalPos = new Vector3(goal.transform.position.x, goal.transform.position.y + 0.5f, goal.transform.position.z);
         m_ClearAnimation = true;
         m_Rigidbody.velocity = Vector3.zero;
+        GetComponentInChildren<AnimationCheck>().goalAnimator = goal.GetComponentInChildren<Animator>();
     }
 
     /// <summary>

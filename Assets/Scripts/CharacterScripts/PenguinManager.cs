@@ -147,17 +147,17 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
-    public void OnClearEvent(Vector3 goalPos)
+    public void OnClearEvent(GameObject goal)
     {
         m_InGoalEnshutsu = true;
 
-        m_ParentPenguin.StageClear(goalPos);
+        m_ParentPenguin.StageClear(goal);
 
         m_settings.m_clear_flag = true;
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
-            child.StageClear(goalPos);
+            child.StageClear(goal);
         }
 
         // クリアデータ１次保存

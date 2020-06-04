@@ -56,8 +56,11 @@ public class BossBomb : BaseGimmick
     //! 爆弾投げられ落下地点
     private GameObject m_End;
 
-    //!振動管理用オブジェクト
+    //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
+
+    //!オブジェクト振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     // Start is called before the first frame update
     public override void Start()
@@ -82,6 +85,9 @@ public class BossBomb : BaseGimmick
         m_CountDownObject.SetActive(false);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
 
@@ -111,8 +117,14 @@ public class BossBomb : BaseGimmick
         {
             m_CountDown -= Time.deltaTime;
             m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
+
+            if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
+                m_ObjectVibrate.StartVibrate();
+
             if (m_CountDown <= 0.0f)
             {
+                m_ObjectVibrate.StopVibrate();
+
                 //爆発処理
                 Explode();
 

@@ -68,6 +68,7 @@ public class DownUpBlock : FallBlock
         m_Time = 0f;
         m_IsKill = false;
         m_IsDown = !m_IsDown;
+        m_CurrentHeight = m_Height;
 
         //!エフェクト関連
         {

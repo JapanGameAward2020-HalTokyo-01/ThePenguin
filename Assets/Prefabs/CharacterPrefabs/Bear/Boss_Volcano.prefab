@@ -12,11 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: bear_kazan_motion
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: eac8db458eda82442a1903d394393b77,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: d59801e3fe9b1934fae97ea72a4add0d, type: 2}
     - target: {fileID: -4216859302048453862, guid: eac8db458eda82442a1903d394393b77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,6 +65,16 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: eac8db458eda82442a1903d394393b77,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: eac8db458eda82442a1903d394393b77,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d59801e3fe9b1934fae97ea72a4add0d, type: 2}
+    - target: {fileID: -4809693528938071337, guid: eac8db458eda82442a1903d394393b77,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -173,12 +178,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3636270821782013070, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5546868799973370452, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: effectAsset
       value: 
       objectReference: {fileID: 11400000, guid: 331bdc4e4ff1e864bb6fadca5d03c6da,
         type: 2}
+    - target: {fileID: 3888993388438421716, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_TargetObject
+      value: 
+      objectReference: {fileID: 2483959217076074696}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b249bddb94cc88448ffddc4ea50e30e, type: 3}
 --- !u!4 &1015715013211357769 stripped

@@ -5,10 +5,7 @@
  */
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.Rendering;
 
 /**
  * @class	LevelSettingsクラス
@@ -65,7 +62,6 @@ public class LevelSettings : MonoBehaviour
 		yield return new WaitForEndOfFrame();
 
 		PenguinManager m_pen_mgr = GetComponent<PenguinManager>();
-		//m_rescue_task = (uint)Mathf.Min(RescueTask, m_pen_mgr.m_TotalCount);
 		m_deadline = (uint)Mathf.Min(DeadLine, m_pen_mgr.m_TotalCount);
 
 		m_max_threshold = (uint)Mathf.Min(MaxBorder, m_pen_mgr.m_TotalCount);

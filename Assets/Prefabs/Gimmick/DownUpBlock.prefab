@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 7178452102961335440}
   - component: {fileID: 7633525748957878399}
   - component: {fileID: 5815571814106861542}
+  - component: {fileID: 464904032407466532}
   m_Layer: 0
   m_Name: DownUpBlock
   m_TagString: Untagged
@@ -303,6 +304,22 @@ MonoBehaviour:
   m_EffectAssets:
   - {fileID: 11400000, guid: 19822c3d3910fe147a6eb435deada101, type: 2}
   m_CurrentEffect: {fileID: 0}
+--- !u!114 &464904032407466532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178452102961335455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6807de3778f236943ae30880edad09e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetObject: {fileID: 7178452103495412767}
+  m_VibrateSpeed: {x: 0.01, y: 0, z: 0.05}
+  m_VibrateTimeMax: 1
+  m_VibrateTime: 0
 --- !u!1 &7178452103495412767
 GameObject:
   m_ObjectHideFlags: 0

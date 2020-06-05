@@ -38,6 +38,8 @@ public class WallAttack : BaseGimmick
 
     [SerializeField]
     private EffectSpawner AreaEffect;
+    //!振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     private void OnDrawGizmos()
     {
@@ -58,6 +60,9 @@ public class WallAttack : BaseGimmick
         if(!AreaEffect)
             AreaEffect = GetComponent<EffectSpawner>();
 
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
+
         m_WarningArrow.SetActive(false);
 
     }
@@ -74,6 +79,9 @@ public class WallAttack : BaseGimmick
         m_Wall.transform.position += m_Wall.transform.forward * value;
 
         m_CurrentLength += value;
+
+        if (m_ObjectVibrate)
+            m_ObjectVibrate.StartVibrate();
     }
 
     public override void OnActivate()
@@ -97,6 +105,9 @@ public class WallAttack : BaseGimmick
 
     public override void OnDeactivate()
     {
+        if (m_ObjectVibrate)
+            m_ObjectVibrate.StopVibrate();
+
         this.gameObject.SetActive(false);
     }
 

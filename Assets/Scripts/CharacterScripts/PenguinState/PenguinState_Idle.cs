@@ -18,14 +18,21 @@ public class PenguinState_Idle : PenguinState
     [SerializeField]
     private int ChargeEffectNow;
 
+    private float m_IdleTime;
+    private float m_IdleCounter;
+
     public override void OnStart()
     {
         base.OnStart();
 
         parentPenguin = penguin.GetComponent<ParentPenguin>();
 
-        m_Effect = GetComponent<EffekseerEmitter>();
+        if(!m_Effect)
+            m_Effect = GetComponent<EffekseerEmitter>();
+
         ChargeEffectNow = 0;
+        m_IdleCounter = 0f;
+        m_IdleTime = TimeRange();
     }
 
     //! 更新処理
@@ -35,9 +42,8 @@ public class PenguinState_Idle : PenguinState
 
         if (parentPenguin != null)
         {
-            parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
-
             //!チャージエフェクト処理
+            if (m_Effect)
             {
                 if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
                 {
@@ -105,7 +111,8 @@ public class PenguinState_Idle : PenguinState
         {
             if (parentPenguin != null)
             {
-                m_Effect.Stop();
+                if (m_Effect)
+                    m_Effect.Stop();
                 parentPenguin.GetControllerVibration().ChargeShake(0.0f);
                 parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
                 if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
@@ -132,24 +139,62 @@ public class PenguinState_Idle : PenguinState
 
         if (penguin.manager.m_settings.m_clear_flag)
         {
+            if (m_Effect)
+                m_Effect.Stop();
+
             penguin.ChangeState<PenguinState_Goal>();
             return;
         }
 
         if (penguin.manager.m_settings.m_failuer_flag)
         {
+            if (m_Effect)
+                m_Effect.Stop();
+
             penguin.ChangeState<PenguinState_Failed>();
             return;
         }
     }
 
+    public void LateUpdate()
+    {
+        m_IdleCounter += Time.deltaTime;
+    }
+
     public void FixedUpdate()
     {
-        if(parentPenguin == null)
-        {
-            int rand = Random.Range(0, 3);
+        IdleAnimation();
+    }
 
-            penguin.animator.SetInteger("IdleNum", rand);
+    private void IdleAnimation()
+    {
+        if (m_IdleCounter < m_IdleTime) return;
+
+        //子ペンギン
+        if (parentPenguin == null)
+        {
+            if (penguin.animator.GetBool("IsJoin"))
+            {
+                int rand = Random.Range(0, 3);
+
+                penguin.animator.SetInteger("IdleNum", rand);
+            }
+            else
+            {
+                penguin.animator.SetTrigger("OnStray");
+            }
         }
+        //親ペンギン
+        else
+        {
+            parentPenguin.animator.SetTrigger("OnIdle02");
+        }
+        m_IdleCounter = 0f;
+        m_IdleTime = TimeRange();
+    }
+
+    private float TimeRange()
+    {
+        return Random.Range(2f,6f);
     }
 }

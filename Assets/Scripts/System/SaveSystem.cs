@@ -184,6 +184,7 @@ public class GameData
     public float m_Time = 0;
     public int m_TotalPenguins = 0;
     public int m_SavedPenguins = 0;
+    public FaceIcon.kState m_FaceIcon = FaceIcon.kState.Normal; 
 
     public GameData()
     {
@@ -194,6 +195,7 @@ public class GameData
         m_Time = 0;
         m_TotalPenguins = 0;
         m_SavedPenguins = 0;
+        m_FaceIcon = FaceIcon.kState.Normal;
     }
 }
 

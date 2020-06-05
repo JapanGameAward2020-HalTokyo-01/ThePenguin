@@ -25,23 +25,28 @@ public class Select_Score : MonoBehaviour
 	private Text[] m_text = new Text[3];
 
 	// 実績スター変更
-	public void LoadStar(int _area, int _level)
+	public void LoadStar(SaveSystem _save, int _level)
 	{
-		bool[] _grade = m_stage_param.GetAreaList(_area).GetListItem(_level).m_grade;
-		// 星の点灯
-		for (int cnt = 0; cnt < _grade.Length; cnt++)
+		_save = FindObjectOfType<SaveSystem>();
+		bool[] _grade_star = new bool[3]
 		{
-			if (_grade[cnt]) m_stars[cnt].sprite = m_image_list.ImageLightStar;
+				_save.Stages1[_level].m_Star1,
+				_save.Stages1[_level].m_Star2,
+				_save.Stages1[_level].m_Star3,
+		};
+		// 星の点灯
+		for (int cnt = 0; cnt < _grade_star.Length; cnt++)
+		{
+			if (_grade_star[cnt]) m_stars[cnt].sprite = m_image_list.ImageLightStar;
 			else m_stars[cnt].sprite = m_image_list.ImageDarkStar;
 		}
 	}
 
 	// クリアタイム変更
-	public void LoadTime(int _area, int _level)
+	public void LoadTime(SaveSystem _save, int _level)
 	{
-		float _time = m_stage_param.GetAreaList(_area).GetListItem(_level).ClearTime;
-		m_text[0].text = (Mathf.FloorToInt(_time) / 60).ToString("D2");
-		m_text[1].text = (Mathf.FloorToInt(_time) % 60).ToString("D2");
-		m_text[2].text = (Mathf.FloorToInt(_time * 100) % 100).ToString("D3");
+		float _time = _save.Stages1[_level].m_Time;
+		m_text[0].text = Mathf.Min(999, Mathf.FloorToInt(_time) % 60).ToString("D3");
+		m_text[1].text = (Mathf.FloorToInt(_time * 100) % 100).ToString("D3");
 	}
 }

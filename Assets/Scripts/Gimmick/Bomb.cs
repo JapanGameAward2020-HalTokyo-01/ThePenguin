@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Effekseer;
+using Cinemachine;
 
 public class Bomb : BaseGimmick
 {
@@ -26,6 +27,9 @@ public class Bomb : BaseGimmick
 
     [SerializeField, Tooltip("爆風強さ")]
     private float m_BlastPower = 0.0f;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     //! 状態
     private bool m_IsCountDown = false;
@@ -59,8 +63,11 @@ public class Bomb : BaseGimmick
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
-    //!振動管理用オブジェクト
+    //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
+
+    //!オブジェクト振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     // Start is called before the first frame update
     public override void Start()
@@ -73,6 +80,9 @@ public class Bomb : BaseGimmick
         m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
 
@@ -100,8 +110,16 @@ public class Bomb : BaseGimmick
         {          
             m_CountDown -= Time.deltaTime;
             m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
+
+            if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
+                m_ObjectVibrate.StartVibrate();
+
             if (m_CountDown <= 0.0f)
             {
+                var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+                if (cinemachineImpulseSource)
+                    cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
                 //爆発処理
                 Explode();
 

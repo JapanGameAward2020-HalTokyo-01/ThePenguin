@@ -51,6 +51,8 @@ public class GoalTile : MonoBehaviour
         };
         m_level_setting = FindObjectOfType<LevelSettings>();
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
+
+        m_ClearCount = (uint)m_level_setting.RescueTask;
     }
 
     // Update is called once per frame
@@ -62,7 +64,7 @@ public class GoalTile : MonoBehaviour
 
 
         //現在集めた子ペンギン数に応じてテクスチャを変更
-        if (m_PenguinCount>= m_level_setting.RescueTask)
+        if (m_PenguinCount>= m_ClearCount)
         {
             if(!m_CanClear)
             {

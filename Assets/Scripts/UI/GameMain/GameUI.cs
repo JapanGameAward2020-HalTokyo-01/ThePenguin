@@ -42,6 +42,9 @@ public class GameUI : MonoBehaviour
     [SerializeField, NonEditableField]
     private float m_rotRspeed;
 
+    // 開始直後のカメラ演出
+    private StartCameraSystem m_StartSystem;
+
     //! 回転用
     private bool m_rotL;
     private bool m_rotR;
@@ -51,8 +54,13 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-    // Start is called before the first frame update
-    void Start()
+	public void Awake()
+	{
+        m_StartSystem = FindObjectOfType<StartCameraSystem>();
+    }
+
+	// Start is called before the first frame update
+	void Start()
     {
         if(!m_DirLight)
         {
@@ -77,6 +85,14 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 開始アニメーション待ち
+        if (!m_StartSystem.GetNowPlaying())
+        {
+            m_ChargeGaugeMgr.RegisterInputEvent();
+            return;
+        }
+
+        // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.UnRegisterInputEvent();

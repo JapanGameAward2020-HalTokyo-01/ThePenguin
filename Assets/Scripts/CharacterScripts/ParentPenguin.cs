@@ -64,7 +64,7 @@ public class ParentPenguin : Penguin
         m_InputHandler = FindObjectOfType<InputHandler>();
 
         //! InputHandlerにEvent登録
-        m_InputHandler.RegisterInputEvent(m_InputEvent);
+       // m_InputHandler.RegisterInputEvent(m_InputEvent);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
@@ -211,6 +211,12 @@ public class ParentPenguin : Penguin
                 m_PlayedFirstGoal = true;
             }
         }
+    }
+
+    public void RegisterInputEvent()
+    {
+        //! InputHandlerにEvent登録
+        m_InputHandler.RegisterInputEvent(m_InputEvent);
     }
 
     public void UnRegisterInputEvent()

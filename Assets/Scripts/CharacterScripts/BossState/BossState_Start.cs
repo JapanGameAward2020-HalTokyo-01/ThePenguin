@@ -34,7 +34,7 @@ public class BossState_Start : BossState
     //! 更新処理
     public override void OnUpdate()
     {
-        //if (!StartSystem.GetNowPlaying())
+        if (!StartSystem.GetNowPlaying())
         {
             m_Boss.GetControllerVibration().AddShake(0.7f, 0.4f);
             m_Boss.animator.SetBool("IsOpeningOver", true);

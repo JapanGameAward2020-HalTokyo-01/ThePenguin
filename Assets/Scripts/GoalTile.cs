@@ -44,25 +44,37 @@ public class GoalTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(DelayStart());
+
+        m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
+    }
+
+    IEnumerator DelayStart()
+    {
+        yield return new WaitForEndOfFrame();
+
         OnClearEvent += delegate (GameObject goal)
         {
             m_level_setting = FindObjectOfType<LevelSettings>();
             m_level_setting.m_clear_flag = true;
         };
         m_level_setting = FindObjectOfType<LevelSettings>();
-        m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
+
+        m_ClearCount = (uint)m_level_setting.RescueTask;
+
+        yield break;
     }
 
     // Update is called once per frame
     void Update()
     {
         //ゲージ更新
-        float percent = Mathf.Min((float)m_PenguinCount / m_ClearCount,1.0f);
+        float percent = Mathf.Min((float)m_PenguinCount / m_ClearCount, 1.0f);
         m_Image[1].fillAmount = percent;
 
 
         //現在集めた子ペンギン数に応じてテクスチャを変更
-        if (m_PenguinCount>= m_level_setting.RescueTask)
+        if (m_PenguinCount>= m_ClearCount)
         {
             if(!m_CanClear)
             {

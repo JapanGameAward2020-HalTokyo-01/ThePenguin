@@ -46,6 +46,10 @@ public class PauseMenu : MonoBehaviour
     private Sprite m_BDefault;
     private bool m_CoroutineB = false;
 
+    //! 選択用矢印
+    [SerializeField]
+    private UnityEngine.UI.Image m_Arrow;
+
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
     //! 現在のシーン
@@ -67,6 +71,8 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     //! ステージ選択のシーン
     private string m_StageSelectScene;
+
+
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -149,6 +155,11 @@ public class PauseMenu : MonoBehaviour
         {
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
+
+            Vector3 a = m_LastSelected.transform.position;
+            a.x -= 250.0f;
+            m_Arrow.gameObject.transform.position = a;
+
         }
     }
 

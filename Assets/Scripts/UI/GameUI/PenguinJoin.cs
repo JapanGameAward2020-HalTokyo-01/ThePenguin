@@ -11,10 +11,15 @@ public class PenguinJoin : MonoBehaviour
     [SerializeField]
     private GameObject m_Destination;
 
+    public float m_Speed;
+
+    //! 群れ化処理
+    public System.Action onReachedDestination;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        onReachedDestination = delegate () { };
     }
 
     // Update is called once per frame
@@ -35,16 +40,27 @@ public class PenguinJoin : MonoBehaviour
 
     IEnumerator GotoDestination(Image img)
     {
-        float time = 0;
-        Debug.Log("starting coroutine");
-        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 0.001f)
-        {
-            time += Time.deltaTime;
-            Debug.Log("img.transform.position: " + img.transform.position);
-            img.transform.position = Vector3.Lerp(m_Destination.transform.position, img.transform.position, time / 5.0f);
+        img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
+        Vector3 initdist = m_Destination.transform.position - img.transform.position;
 
+        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 1.0f * m_Speed)
+        {
+            Debug.Log("img.transform.position: " + img.transform.position);
+
+            Vector3 currentdist = m_Destination.transform.position - img.transform.position;
+
+            img.transform.position += Vector3.Normalize(currentdist) * 100 * m_Speed * Time.deltaTime;
+
+            if (img.transform.localScale.magnitude > 0.5)
+            {
+                img.transform.localScale = Vector3.one * (currentdist.magnitude / initdist.magnitude);
+            }
             yield return null;
         }
+        this.onReachedDestination();
+        Destroy(img.gameObject);
         yield break;
     }
+
+
 }

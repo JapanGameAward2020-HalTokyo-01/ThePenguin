@@ -13,7 +13,6 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
     private Coroutine m_Instance;
     private float fadetime = 0.2f;
     private float waittime = 0.8f;
-
     public void OnEnable()
     {
         m_Selected.CrossFadeAlpha(0, 0, true);
@@ -26,7 +25,6 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
         m_Selected.CrossFadeAlpha(1, 0, true);
         m_Normal.CrossFadeAlpha(0, 0, true);
         m_Instance = StartCoroutine(CrossFade(false));
-
     }
 
     void IDeselectHandler.OnDeselect(BaseEventData eventData)

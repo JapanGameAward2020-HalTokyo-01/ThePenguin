@@ -11,19 +11,23 @@ using UnityEngine;
  */
 public class CurrentScore : MonoBehaviour
 {
-    [SerializeField]
-    public GameData m_data;
+    [SerializeField, NonEditableField, Tooltip("クリア条件：ペンギン数")]
+    public int m_total_count;
+    [SerializeField, NonEditableField, Tooltip("結果：ペンギン数")]
+    public int m_saved_count;
+
+    [SerializeField, NonEditableField, Tooltip("クリア条件：時間")]
+    public float m_limit_time;
+    [SerializeField, NonEditableField, Tooltip("結果：時間")]
+    public float m_clear_time;
+
 
     // ペンギンマネージャーから成績の記録する
     public void JudgeScore(PenguinManager _manager)
 	{
-        m_data.m_Time = _manager.StageTime;
-        m_data.m_TotalPenguins = _manager.m_TotalCount;
-        m_data.m_SavedPenguins = _manager.m_PackCount;
-
-        // 判断基準不明
-        m_data.m_Star1 = true;
-        m_data.m_Star2 = true;
-        m_data.m_Star3 = true;
+        m_limit_time = _manager.m_settings.TimeLimit;
+        m_clear_time = _manager.StageTime;
+        m_total_count = _manager.m_TotalCount;
+        m_saved_count = _manager.m_PackCount;
     }
 }

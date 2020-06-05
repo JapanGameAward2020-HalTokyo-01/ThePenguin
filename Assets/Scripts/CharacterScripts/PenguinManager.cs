@@ -170,7 +170,7 @@ public class PenguinManager : MonoBehaviour
     // シーン遷移
     IEnumerator ToNextScene()
     {
-        if (m_settings.m_clear_flag || m_settings.m_failuer_flag)
+        if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
             yield break;
 
         Fade _fade = FindObjectOfType<Fade>();
@@ -191,8 +191,8 @@ public class PenguinManager : MonoBehaviour
         // クリア時
         if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
         {
-            yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
-            yield return null;
+			yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
+			yield return null;
         }
     }
 

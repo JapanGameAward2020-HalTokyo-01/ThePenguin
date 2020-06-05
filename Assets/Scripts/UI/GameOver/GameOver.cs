@@ -22,10 +22,16 @@ public class GameOver : MonoBehaviour
     private UI_Component_Button m_B_Button;
     [SerializeField]
     private UI_Component_Button m_Fade;
-    [SerializeField]
-    private SceneObject m_StageSelectScene = null;
-    [SerializeField]
-    private SceneObject m_TitleScene = null;
+
+    [Header("Scene Data")]
+
+    [SerializeField, NonEditableField, Tooltip("シーンリスト")]
+    private StageMetaParam m_SceneList;
+
+    //[SerializeField]
+    //private SceneObject m_StageSelectScene = null;
+    //[SerializeField]
+    //private SceneObject m_TitleScene = null;
 
     private bool m_IsInputEnable = false;
 
@@ -36,14 +42,14 @@ public class GameOver : MonoBehaviour
 
     private int m_Select = 0;
 
-    //他のシーンから引き継ぐ情報
-    private SceneObject m_PastScene;
+    ////他のシーンから引き継ぐ情報
+    //private SceneObject m_PastScene;
 
     // Start is called before the first frame update
     void Start()
     {
         //他のシーンから情報を引き継ぐ
-        m_PastScene = SceneData.GetCurrentScene();
+        //m_PastScene = SceneData.GetCurrentScene();
 
 
         ////////////////////////////
@@ -99,24 +105,24 @@ public class GameOver : MonoBehaviour
                     if(m_Select==0)
                     {
                         Debug.Log("Retry");
-                        StartCoroutine(SceneEnd(m_PastScene));
+                        StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
                     }
                     else if(m_Select==1)
                     {
                         Debug.Log("Stage Select");
-                        StartCoroutine(SceneEnd(m_StageSelectScene));
+                        StartCoroutine(SceneEnd(m_SceneList.m_StageSelect.name));
                     }
                     else if(m_Select==2)
                     {
                         Debug.Log("Title");
-                        StartCoroutine(SceneEnd(m_TitleScene));
+                        StartCoroutine(SceneEnd(m_SceneList.m_Title.name));
                     }
                 }
                 if(GetBButtonUp())
                 {
                     //Bボタン
                     Debug.Log("Retry");
-                    StartCoroutine(SceneEnd(m_PastScene));
+                    StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
                 }
             }
         }
@@ -140,13 +146,29 @@ public class GameOver : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1.0f);
 
-        if(next　== null)
+        if (next == null)
         {
             Debug.LogError("次のシーンが設定されてない");
             yield break;
         }
 
         SceneManager.LoadScene(next);
+    }
+
+    private IEnumerator SceneEnd(int next_index = -1)
+    {
+        m_IsInputEnable = false;
+        m_Fade.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        if (next_index < 0)
+        {
+            Debug.LogError("次のシーンが設定されてない");
+            yield break;
+        }
+
+        SceneManager.LoadScene(next_index);
     }
 
     //汎用入力関数

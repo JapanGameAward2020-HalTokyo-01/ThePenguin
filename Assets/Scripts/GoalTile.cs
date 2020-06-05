@@ -45,6 +45,8 @@ public class GoalTile : MonoBehaviour
     void Start()
     {
         StartCoroutine(DelayStart());
+
+        m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
     }
 
     IEnumerator DelayStart()
@@ -57,7 +59,6 @@ public class GoalTile : MonoBehaviour
             m_level_setting.m_clear_flag = true;
         };
         m_level_setting = FindObjectOfType<LevelSettings>();
-        m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
 
         m_ClearCount = (uint)m_level_setting.RescueTask;
 

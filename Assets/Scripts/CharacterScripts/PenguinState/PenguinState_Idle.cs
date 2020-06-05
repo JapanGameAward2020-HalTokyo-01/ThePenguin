@@ -24,7 +24,9 @@ public class PenguinState_Idle : PenguinState
 
         parentPenguin = penguin.GetComponent<ParentPenguin>();
 
-        m_Effect = GetComponent<EffekseerEmitter>();
+        if(!m_Effect)
+            m_Effect = GetComponent<EffekseerEmitter>();
+
         ChargeEffectNow = 0;
     }
 
@@ -38,6 +40,7 @@ public class PenguinState_Idle : PenguinState
             parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
 
             //!チャージエフェクト処理
+            if (m_Effect)
             {
                 if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
                 {
@@ -105,7 +108,8 @@ public class PenguinState_Idle : PenguinState
         {
             if (parentPenguin != null)
             {
-                m_Effect.Stop();
+                if (m_Effect)
+                    m_Effect.Stop();
                 parentPenguin.GetControllerVibration().ChargeShake(0.0f);
                 parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
                 if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
@@ -132,12 +136,18 @@ public class PenguinState_Idle : PenguinState
 
         if (penguin.manager.m_settings.m_clear_flag)
         {
+            if (m_Effect)
+                m_Effect.Stop();
+
             penguin.ChangeState<PenguinState_Goal>();
             return;
         }
 
         if (penguin.manager.m_settings.m_failuer_flag)
         {
+            if (m_Effect)
+                m_Effect.Stop();
+
             penguin.ChangeState<PenguinState_Failed>();
             return;
         }

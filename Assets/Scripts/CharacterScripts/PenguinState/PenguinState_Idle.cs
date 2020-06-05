@@ -18,6 +18,9 @@ public class PenguinState_Idle : PenguinState
     [SerializeField]
     private int ChargeEffectNow;
 
+    private float m_IdleTime;
+    private float m_IdleCounter;
+
     public override void OnStart()
     {
         base.OnStart();
@@ -28,6 +31,8 @@ public class PenguinState_Idle : PenguinState
             m_Effect = GetComponent<EffekseerEmitter>();
 
         ChargeEffectNow = 0;
+        m_IdleCounter = 0f;
+        m_IdleTime = TimeRange();
     }
 
     //! 更新処理
@@ -37,8 +42,6 @@ public class PenguinState_Idle : PenguinState
 
         if (parentPenguin != null)
         {
-            parentPenguin.animator.SetInteger("ChildCount", parentPenguin.GetChildCount());
-
             //!チャージエフェクト処理
             if (m_Effect)
             {
@@ -153,13 +156,45 @@ public class PenguinState_Idle : PenguinState
         }
     }
 
+    public void LateUpdate()
+    {
+        m_IdleCounter += Time.deltaTime;
+    }
+
     public void FixedUpdate()
     {
-        if(parentPenguin == null)
-        {
-            int rand = Random.Range(0, 3);
+        IdleAnimation();
+    }
 
-            penguin.animator.SetInteger("IdleNum", rand);
+    private void IdleAnimation()
+    {
+        if (m_IdleCounter < m_IdleTime) return;
+
+        //子ペンギン
+        if (parentPenguin == null)
+        {
+            if (penguin.animator.GetBool("IsJoin"))
+            {
+                int rand = Random.Range(0, 3);
+
+                penguin.animator.SetInteger("IdleNum", rand);
+            }
+            else
+            {
+                penguin.animator.SetTrigger("OnStray");
+            }
         }
+        //親ペンギン
+        else
+        {
+            parentPenguin.animator.SetTrigger("OnIdle02");
+        }
+        m_IdleCounter = 0f;
+        m_IdleTime = TimeRange();
+    }
+
+    private float TimeRange()
+    {
+        return Random.Range(2f,6f);
     }
 }

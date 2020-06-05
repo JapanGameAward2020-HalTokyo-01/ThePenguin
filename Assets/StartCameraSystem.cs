@@ -58,7 +58,6 @@ public class StartCameraSystem : MonoBehaviour
             }
         }
 
-        //FindObjectOfType<GameMain>().ShowTutorialUI(Input.GetKey(KeyCode.N));
     }
 
     public bool GetNowPlaying()

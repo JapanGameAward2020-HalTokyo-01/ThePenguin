@@ -28,12 +28,22 @@ public class StageTimer : MonoBehaviour
     //! Timerが終わった時の処理
     public System.Action onTimerEnd;
 
+    StartCameraSystem StartSystem;
+
+    LevelSettings m_Levelsettings;
+
 
 
     private void Awake()
     {
         //! ゲームオーバー処理を設定
         onTimerEnd = delegate () { };
+
+        if (!StartSystem)
+            StartSystem = FindObjectOfType<StartCameraSystem>();
+
+        if (!m_Levelsettings)
+            m_Levelsettings = FindObjectOfType<LevelSettings>();
     }
 
     /**
@@ -47,8 +57,12 @@ public class StageTimer : MonoBehaviour
             return;
         }
 
-		// 時間の経過
-		m_time = Math.Max(m_time - Time.deltaTime, 0.0f);
+        if (!StartSystem.GetNowPlaying() && !m_Levelsettings.m_clear_flag && !m_Levelsettings.m_failuer_flag)
+        {
+            // 時間の経過
+            m_time = Math.Max(m_time - Time.deltaTime, 0.0f);
+        }
+
 
 		// 文字列の変更(常に２桁ゼロ埋め表示)
 		//m_minute_text.text = (Mathf.FloorToInt(m_time) / 60).ToString("D2");

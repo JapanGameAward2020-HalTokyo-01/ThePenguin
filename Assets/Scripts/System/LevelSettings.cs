@@ -64,11 +64,15 @@ public class LevelSettings : MonoBehaviour
 		PenguinManager m_pen_mgr = GetComponent<PenguinManager>();
 		m_deadline = (uint)Mathf.Min(DeadLine, m_pen_mgr.m_TotalCount);
 
-		m_max_threshold = (uint)Mathf.Min(MaxBorder, m_pen_mgr.m_TotalCount);
-		m_good_threshold = (uint)Mathf.Min(GoodBorder, MaxBorder - 1);
-		m_danger_threshold = (uint)Mathf.Min(DangerBorder, m_pen_mgr.m_TotalCount);
+		//m_max_threshold = (uint)Mathf.Min(MaxBorder, m_pen_mgr.m_TotalCount);
+		//m_good_threshold = (uint)Mathf.Min(GoodBorder, MaxBorder - 1);
+		//m_danger_threshold = (uint)Mathf.Min(DangerBorder, m_pen_mgr.m_TotalCount);
 
-		yield break;
+        m_max_threshold = (uint)m_pen_mgr.m_TotalCount;
+        m_good_threshold = m_rescue_task;
+        m_danger_threshold = m_deadline;
+
+        yield break;
 	}
 
 	/**

@@ -189,6 +189,14 @@ public class PenguinManager : MonoBehaviour
         }
 
         StartCoroutine("ToNextScene");
+
+        //UI非表示
+        var main_ui = FindObjectOfType<GameMain>();
+        if (main_ui != null)
+        {
+            main_ui.SetEnable(true);
+            main_ui.ShowMainUI(true);
+        }
     }
 
     // シーン遷移

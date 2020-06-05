@@ -85,17 +85,18 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 開始アニメーション待ち
-        if (!m_StartSystem.GetNowPlaying())
-        {
-            m_ChargeGaugeMgr.RegisterInputEvent();
-            return;
-        }
 
         // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.UnRegisterInputEvent();
+            return;
+        }
+
+        // 開始アニメーション待ち
+        if (!m_StartSystem.GetNowPlaying())
+        {
+            m_ChargeGaugeMgr.RegisterInputEvent();
             return;
         }
 

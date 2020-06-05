@@ -22,9 +22,6 @@ public class Select_Button : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("ステージリスト")]
 	private StageMetaParam m_stage_list;
 
-	[SerializeField, Tooltip("タイトルシーン")]
-	private SceneAsset m_title_scene;
-
 	[SerializeField, Tooltip("プレイヤーからの入力")]
 	private PlayerInput m_input;
 	//! UIのボタンオブジェクトを使うため、選択状態の操作をEventSystemから行う
@@ -53,6 +50,7 @@ public class Select_Button : MonoBehaviour
 	//! 画面上の移動先RectTransform
 	private RectTransform m_selecting_pos;
 	//! カーソルの位置を記憶する変数(x：エリア y：レベル)
+	[SerializeField, NonEditableField]
 	private Vector2Int m_command_pos = new Vector2Int(0, 0);
 
 	// セーブデータ(DDOLより)
@@ -65,7 +63,7 @@ public class Select_Button : MonoBehaviour
 	{
 		m_self = GetComponent<RectTransform>();
 		m_event_system = EventSystem.current;
-		m_last_selected = m_commnad_mgr.GetButtonObject(m_command_pos.x, m_command_pos.y).GetComponent<Button>();
+		m_last_selected = m_commnad_mgr.GetButtonPos(m_command_pos.x, m_command_pos.y).GetComponent<Button>();
 		m_save = FindObjectOfType<SaveSystem>();
 	}
 
@@ -89,7 +87,6 @@ public class Select_Button : MonoBehaviour
 			m_event_system.SetSelectedGameObject(m_last_selected.gameObject);
 			return;
 		}
-
 		// 選択中ボタンの変数を更新する
 		m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
 
@@ -182,7 +179,7 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		SceneManager.LoadScene(m_title_scene.name);
+		yield return SceneManager.LoadSceneAsync(m_stage_list.m_Title.name);
 		yield return null;
 	}
 
@@ -195,7 +192,7 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		SceneManager.LoadScene(m_stage_list.CurrentLevelBuildIndex);
+		yield return SceneManager.LoadSceneAsync(m_stage_list.CurrentLevelBuildIndex);
 		yield return null;
 	}
 

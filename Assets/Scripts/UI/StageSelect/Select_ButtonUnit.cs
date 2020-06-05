@@ -1,7 +1,8 @@
 ﻿/**
  * @file    Select_ButtonUnit.cs
  * @brief   ステージセレクトのコマンドとなる画像群
- *			ステージ数に合わせてSelect_ButtonLineUpクラスで必要な数生成されることになる
+ *			(ステージ数に合わせてSelect_ButtonLineUpクラスで必要な数生成されることになる)
+ *			↑最初っから並べることになった
  * @author  谷沢 瑞己
  */
 using UnityEngine;
@@ -14,13 +15,21 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class Select_ButtonUnit : MonoBehaviour
 {
-	[SerializeField, NonEditableField, Tooltip("画像リスト")]
-	private StageSelect_ImageList m_image_list;
+	[SerializeField, Tooltip("アンロック状態")]
+	public bool m_unlocked = false;
+
+	[Header("Image List")]
+
+	[SerializeField, Tooltip("ボタン画像(非選択)")]
+	private Sprite m_unselected = null;
+	[SerializeField, Tooltip("ボタン画像(選択)")]
+	private Sprite m_selected = null;
 
 	[SerializeField, Space(10), Tooltip("星の画像オブジェクト")]
 	private Image[] m_score_image = new Image[3];
-	[SerializeField, Tooltip("ステージ番号の表示オブジェクト")]
-	private Text[] m_num_text = new Text[2];
+
+	//! ボタン背景
+	private Image m_bg;
 
 	//! このボタンが担当するエリア、レベルインデックス
 	[SerializeField, NonEditableField]
@@ -28,31 +37,27 @@ public class Select_ButtonUnit : MonoBehaviour
 	public int SelectingArea { get { return m_command_index.x; } }
 	public int SelectingLevel { get { return m_command_index.y; } }
 
-	// ボタン背景イメージの変更
-	public void SetButtonImage(StageSelect_ImageList.AreaIndex _area_index, bool _is_unlocked)
+	public void Awake()
 	{
 		// 背景画像
-		Image _background = GetComponent<Image>();
-		_background.sprite = m_image_list.GetImage_ButtonBase(_area_index);
+		m_bg = GetComponent<Image>();
+		m_bg.sprite = m_unselected;
 
-		//! ボタンとしての状態ごとの画像設定
-		Button m_button = GetComponent<Button>();
-		SpriteState _sprite = m_button.spriteState;
-		_sprite.highlightedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
-		_sprite.pressedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
-		_sprite.selectedSprite = m_image_list.GetImage_SelectingButtonBase(_area_index);
-		m_button.spriteState = _sprite;
+		//! ボタンハイライト
+		Button _btn = GetComponent<Button>();
+		SpriteState _sprite = _btn.spriteState;
+		_sprite.highlightedSprite = m_selected;
+		_sprite.pressedSprite = m_selected;
+		_sprite.selectedSprite = m_selected;
+		_btn.spriteState = _sprite;
 
-		// ロックされていれば暗くなる
-		if (!_is_unlocked) _background.color = UnityEngine.Color.gray;
 	}
 
-	// エリア-レベル表記の変更
-	public void SetStageNumber(StageSelect_ImageList.AreaIndex _area_index, int _stage_index)
-	{
-		m_num_text[0].text = ((int)_area_index + 1).ToString();
-		m_num_text[1].text = (_stage_index + 1).ToString();
-		m_command_index = new Vector2Int((int)_area_index, _stage_index);
+	// ロック時色変更
+	public void SetUnlockState(bool _b)
+	{ 
+		// ロックされていれば暗くなる
+		if (!_b) m_bg.color = UnityEngine.Color.gray;
 	}
 
 	// 実績スター変更
@@ -61,9 +66,10 @@ public class Select_ButtonUnit : MonoBehaviour
 		// 星の点灯
 		for (int cnt = 0; cnt < _grade.Length; cnt++)
 		{
-			if (_grade[cnt]) m_score_image[cnt].sprite = m_image_list.ImageLightStar;
-			else m_score_image[cnt].sprite = m_image_list.ImageDarkStar;
+			Color _c = m_score_image[cnt].color;
+			if (_grade[cnt]) _c.a = 1.0f;
+			else _c.a = 0.0f;
+			m_score_image[cnt].color = _c;
 		}
 	}
-
 }

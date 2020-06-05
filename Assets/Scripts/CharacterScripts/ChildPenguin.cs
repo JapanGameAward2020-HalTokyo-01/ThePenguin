@@ -5,11 +5,7 @@
 /// </summary>
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-using Effekseer;
-using System.Diagnostics.Eventing.Reader;
 
 public class ChildPenguin : Penguin
 {

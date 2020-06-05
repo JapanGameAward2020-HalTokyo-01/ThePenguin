@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
@@ -26,6 +28,7 @@ public class PenguinManager : MonoBehaviour
 
     [SerializeField, Tooltip("UI要素：ゲームタイマー")]
     private StageTimer m_Timer;
+    public float StageTime { get { return m_Timer.StageTime; } }
 
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
@@ -43,15 +46,9 @@ public class PenguinManager : MonoBehaviour
 
     #endregion
 
-    //! 起動状態から最後にクリアしたゲームデータ(DontDestroyOnLoadより取り出し)
-    private CurrentScore m_Score = null;
-
     // Start is called before the first frame update
     void Start()
     {
-        SaveSystem m_SaveSystem = FindObjectOfType<SaveSystem>();
-        if (m_SaveSystem != null) m_Score = m_SaveSystem.GetComponent<CurrentScore>();
-
         m_settings = GetComponent<LevelSettings>();
 
         m_Timer.StageTime = m_settings.TimeLimit;
@@ -108,10 +105,11 @@ public class PenguinManager : MonoBehaviour
 
         //! ペンギンのトータル数をカウントし終えたのでクリアタスク計算
         m_settings.SetRescueTask(m_TotalCount);
+
     }
 
-        //! 死亡時イベント(子ペンギン)
-        public void OnKillEvent(ChildPenguin child)
+    //! 死亡時イベント(子ペンギン)
+    public void OnKillEvent(ChildPenguin child)
     {
         if (child.InPack)
             m_PackCount--;
@@ -127,16 +125,18 @@ public class PenguinManager : MonoBehaviour
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
+        StartCoroutine("ToNextScene");
     }
 
-	//! 死亡時イベント(親ペンギン)
-	public void GameOver()
+    //! 死亡時イベント(親ペンギン)
+    public void GameOver()
 	{
         m_settings.m_failuer_flag = true;
-	}
+        StartCoroutine("ToNextScene");
+    }
 
-	//! 群れ化時イベント
-	public void OnPackEvent()
+    //! 群れ化時イベント
+    public void OnPackEvent()
     {
         m_PackCount++;
         m_NomadCount--;
@@ -147,30 +147,56 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    // クリアイベント
     public void OnClearEvent(GameObject goal)
     {
         m_InGoalEnshutsu = true;
+        m_settings.m_clear_flag = true;
+
+        // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
+        CurrentScore _Score = FindObjectOfType<CurrentScore>();
+        if(_Score != null) _Score.JudgeScore(this);
 
         m_ParentPenguin.StageClear(goal);
-
-        m_settings.m_clear_flag = true;
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
             child.StageClear(goal);
         }
 
-        // クリアデータ１次保存
-        m_Score.m_data.m_Time = m_Timer.StageTime;
-        m_Score.m_data.m_TotalPenguins = m_TotalCount;
-        m_Score.m_data.m_SavedPenguins = m_PackCount;
-        m_Score.m_data.m_Star1 = true;
-        m_Score.m_data.m_Star2 = true;
-        m_Score.m_data.m_Star3 = true;
-
+        StartCoroutine("ToNextScene");
     }
 
-    void Update()
+    // シーン遷移
+    IEnumerator ToNextScene()
+    {
+        if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+            yield break;
+
+        Fade _fade = FindObjectOfType<Fade>();
+        //アニメーション待機
+        yield return new WaitForSecondsRealtime(6.0f);
+
+        //フェードアウト待機
+        _fade.Fader();
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        // 失敗時
+        if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
+        {
+            yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
+            yield return null;
+        }
+
+        // クリア時
+        if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        {
+			yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
+			yield return null;
+        }
+    }
+
+		void Update()
     {
         //deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
         //float fps = 1.0f / deltaTime;

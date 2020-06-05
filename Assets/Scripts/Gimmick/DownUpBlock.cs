@@ -66,7 +66,6 @@ public class DownUpBlock : FallBlock
         if (m_CurrentHeight < m_Height) return;
 
         m_Time = 0f;
-        m_IsKill = false;
         m_IsDown = !m_IsDown;
         m_CurrentHeight = m_Height;
 
@@ -83,6 +82,7 @@ public class DownUpBlock : FallBlock
 
     void UpState()
     {
+        m_IsKill = false;
         if (m_Time < m_CoolDownTime) return;
         
         m_CurrentHeight -= m_UpSpeed * Time.deltaTime;

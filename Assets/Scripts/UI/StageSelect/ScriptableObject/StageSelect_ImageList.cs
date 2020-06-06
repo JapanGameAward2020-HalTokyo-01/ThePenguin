@@ -29,21 +29,21 @@ public class StageSelect_ImageList : ScriptableObject
 	public Sprite ImageLightStar { get { return m_star_light; } }
 
 
-	[Header("Button Base")]
+	//[Header("Button Base")]
 
-	[SerializeField, Tooltip("エリア別ボタン背景リスト")]
-	private Sprite[] m_button_list = new Sprite[(int)AreaIndex.Max];
-	public Sprite GetImage_ButtonBase(AreaIndex index)
-	{
-		return m_button_list[(int)index];
-	}
+	//[SerializeField, Tooltip("エリア別ボタン背景リスト")]
+	//private Sprite[] m_button_list = new Sprite[(int)AreaIndex.Max];
+	//public Sprite GetImage_ButtonBase(AreaIndex index)
+	//{
+	//	return m_button_list[(int)index];
+	//}
 
-	[SerializeField, Tooltip("エリア別ボタン背景リスト")]
-	private Sprite[] m_button_selecting_list = new Sprite[(int)AreaIndex.Max];
-	public Sprite GetImage_SelectingButtonBase(AreaIndex index)
-	{
-		return m_button_selecting_list[(int)index];
-	}
+	//[SerializeField, Tooltip("エリア別ボタン背景リスト")]
+	//private Sprite[] m_button_selecting_list = new Sprite[(int)AreaIndex.Max];
+	//public Sprite GetImage_SelectingButtonBase(AreaIndex index)
+	//{
+	//	return m_button_selecting_list[(int)index];
+	//}
 
 	[Header("Area Background")]
 

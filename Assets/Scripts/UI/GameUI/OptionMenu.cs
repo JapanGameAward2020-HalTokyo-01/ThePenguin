@@ -119,9 +119,23 @@ public class OptionMenu : MonoBehaviour
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonOption;
-
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを追加
+            m_Input.actions["Pause"].performed += Unpause;
+        }
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void Unpause(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("OptionMenu: message received");
+        if (!m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB(ctx));
+        }
+        Debug.Log(ctx.action.name);
     }
 
     private void BButtonOption(InputAction.CallbackContext ctx)
@@ -129,7 +143,7 @@ public class OptionMenu : MonoBehaviour
         Debug.Log("OptionMenu: message received");
         if (!m_CoroutineB)
         {
-            StartCoroutine(ClickTimerB());
+            StartCoroutine(ClickTimerB(ctx));
         }
     }
 
@@ -246,13 +260,19 @@ public class OptionMenu : MonoBehaviour
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonOption;
 
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= Unpause;
+        }
+
         yield break;
     }
 
     /// <summary>
     /// @brief      Bボタンが押された時のCoroutine
     /// </summary>
-    IEnumerator ClickTimerB()
+    IEnumerator ClickTimerB(InputAction.CallbackContext ctx)
     {
         //! ボタン選択処理
         Debug.Log("B Button");
@@ -262,6 +282,12 @@ public class OptionMenu : MonoBehaviour
 
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonOption;
+
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= Unpause;
+        }
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
@@ -290,6 +316,12 @@ public class OptionMenu : MonoBehaviour
             this.gameObject.SetActive(false);
             //!　Pause画面を有効
             m_PauseMenu.OnEnable();
+
+            if (ctx.action.name == "Pause")
+            {
+                Debug.Log("Closing PauseMenu from OptionMenu..");
+                m_PauseMenu.BButtonPause(ctx);
+            }
         }
 
         yield break;

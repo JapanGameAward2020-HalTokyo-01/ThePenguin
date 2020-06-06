@@ -23,11 +23,17 @@ public class ChargeGaugeMgr : MonoBehaviour
 
     private InputEvent m_InputEvent;
 
-	public void Awake()
+    private bool IsRegister { get; set; }
+
+
+    public void Awake()
     {
         m_InputEvent = new InputEvent(this);
 		m_input = FindObjectOfType<InputHandler>();
-	}
+
+        IsRegister = false;
+
+    }
 
 	/**
 	 * @brief   更新
@@ -63,16 +69,25 @@ public class ChargeGaugeMgr : MonoBehaviour
 	 */
 	public void RegisterInputEvent()
 	{
+        if (IsRegister)
+            return;
+
 		if(m_input == null) m_input = FindObjectOfType<InputHandler>();
 		m_input.RegisterInputEvent(m_InputEvent);
-	}
+        IsRegister = true;
+
+    }
 
 	/**
 	 * @brief   入力イベントを削除
 	 */
 	public void UnRegisterInputEvent()
     {
+        if (!IsRegister)
+            return;
+
         m_input.UnRegisterInputEvent(m_InputEvent);
+        IsRegister = false;
     }
 
 	/**

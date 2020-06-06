@@ -85,15 +85,19 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
-
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
-
 
         // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.UnRegisterInputEvent();
             return;
+        }
+
+        // 開始アニメーション待ち
+        if (!m_StartSystem.GetNowPlaying())
+        {
+            m_ChargeGaugeMgr.RegisterInputEvent();
         }
 
         //! ペンギンの向いている方向へカメラをセット
@@ -121,6 +125,7 @@ public class GameUI : MonoBehaviour
             {
                 m_Camera.RotateCamera(false, m_rotRspeed);
             }
+
         }
     }
 

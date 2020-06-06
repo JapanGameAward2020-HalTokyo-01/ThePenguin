@@ -145,7 +145,6 @@ public class Select_Cursor : MonoBehaviour
 
 		// スコア読み込み
 		GameData _data = m_save.Stages1[m_stage_list.CurrentLevelIndex];
-		Debug.Log(_data.m_Star1);
 		m_score.SetStar(new bool[3] { _data.m_Star1, _data.m_Star2, _data.m_Star3 });
 		m_score.SetTime(_data.m_Time);
 

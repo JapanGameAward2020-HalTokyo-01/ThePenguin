@@ -34,8 +34,8 @@ public class Select_ButtonUnit : MonoBehaviour
 	//! このボタンが担当するエリア、レベルインデックス
 	[SerializeField, NonEditableField]
 	private  Vector2Int m_command_index = new Vector2Int(0, 0);
-	public int SelectingArea { get { return m_command_index.x; } }
-	public int SelectingLevel { get { return m_command_index.y; } }
+	public int SelectingArea { get => m_command_index.x; set => m_command_index.x = value; }
+	public int SelectingLevel { get => m_command_index.y; set => m_command_index.y = value; }
 
 	public void Awake()
 	{
@@ -55,9 +55,10 @@ public class Select_ButtonUnit : MonoBehaviour
 
 	// ロック時色変更
 	public void SetUnlockState(bool _b)
-	{ 
+	{
 		// ロックされていれば暗くなる
-		if (!_b) m_bg.color = UnityEngine.Color.gray;
+		if (_b) m_bg.color = Color.white;
+		else m_bg.color = Color.gray;
 	}
 
 	// 実績スター変更

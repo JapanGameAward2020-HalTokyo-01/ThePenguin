@@ -37,6 +37,7 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
+    [SerializeField]
     private float m_StartHeight;
 
     #region ゴール演出関係
@@ -183,12 +184,34 @@ public class PenguinManager : MonoBehaviour
     private void StartEnshutsu_Start()
     {
         m_ParentPenguin.transform.position = new Vector3(m_ParentPenguin.transform.position.x, m_ParentPenguin.transform.position.y + m_StartHeight, m_ParentPenguin.transform.position.z);
+        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = false;
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            if (child.InPack)
+            {
+                child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y + m_StartHeight, child.transform.position.z);
+                child.GetComponent<Rigidbody>().useGravity = false;
+            }
+        }
     }
 
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
+        Vector3 downForce = new Vector3(0.0f, -15f);
 
+        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
+        m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            if (child.InPack)
+            {
+                child.GetComponent<Rigidbody>().useGravity = true;
+                child.GetComponent<Rigidbody>().AddForce(downForce / 2, ForceMode.Impulse);
+            }
+        }
     }
 
     // シーン遷移

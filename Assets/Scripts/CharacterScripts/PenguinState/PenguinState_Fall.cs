@@ -10,10 +10,17 @@ public class PenguinState_Fall : PenguinState
 
     private ParentPenguin parentPenguin = null;
 
+    private StartCameraSystem startCameraSystem;
+
     //! 初期化処理
     public override void OnStart()
     {
-        penguin.animator.SetTrigger("OnFall");
+        startCameraSystem = FindObjectOfType<StartCameraSystem>();
+
+        if (!startCameraSystem.GetNowPlaying())
+        {
+            penguin.animator.SetTrigger("OnFall"); 
+        }
 
         parentPenguin = penguin.GetComponent<ParentPenguin>();
 

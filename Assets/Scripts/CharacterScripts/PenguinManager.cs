@@ -30,6 +30,12 @@ public class PenguinManager : MonoBehaviour
     private StageTimer m_Timer;
     public float StageTime { get { return m_Timer.StageTime; } }
 
+    [SerializeField]
+    private Camera m_Camera;
+
+    [SerializeField]
+    private PenguinJoin m_PenguinJoin;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -64,6 +70,8 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.onKillEvent = GameOver;
         m_ParentPenguin.manager = this;
 
+        m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
         if (goalTiles.Length > 0)
@@ -89,8 +97,8 @@ public class PenguinManager : MonoBehaviour
                 m_ChildPenguins.Add(child);
 
                 //! Event登録
-                child.onKillEvent = OnKillEvent;
-                child.onPackEvent = OnPackEvent;
+                child.onKillEvent = OnKillEvent; 
+                child.onPackEvent = OnStart;
 
                 child.manager = this;
 
@@ -100,6 +108,7 @@ public class PenguinManager : MonoBehaviour
                     m_ParentPenguin.AddToPack(child);
                 }
 
+                child.onPackEvent = OnPackEvent;
                 if (m_ParentPenguin.Boss)
                 {
                     child.Boss();
@@ -142,11 +151,26 @@ public class PenguinManager : MonoBehaviour
     }
 
     //! 群れ化時イベント
-    public void OnPackEvent()
+    public void OnPackEvent(Vector3 childpos)
+    {
+        m_PenguinJoin.StartJoin(m_Camera.WorldToScreenPoint(childpos));
+    }
+
+
+    public void OnStart(Vector3 childpos)
     {
         m_PackCount++;
         m_NomadCount--;
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+    }
 
+    public void OnReachedDestination()
+    {
+        m_PackCount++;
+        m_NomadCount--;
         foreach (GoalTile goal in m_GoalTiles)
         {
             goal.m_PenguinCount = (uint)m_PackCount;

@@ -9,6 +9,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class ConfirmMenu : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class ConfirmMenu : MonoBehaviour
     private UnityEngine.UI.Button m_YesButton;
     [SerializeField]
     private UnityEngine.UI.Button m_NoButton;
+    [SerializeField]
+    private UnityEngine.UI.Button m_TitleButton;
 
     //! Aボタン群
     [SerializeField]
@@ -54,6 +57,9 @@ public class ConfirmMenu : MonoBehaviour
 
     SaveSystem m_SaveSystem;
 
+    //! 現在のシーン
+    private string m_ActiveScene;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
@@ -65,7 +71,11 @@ public class ConfirmMenu : MonoBehaviour
         //! 押したら実行する関数を設定
         m_YesButton.onClick.AddListener(Yes);
         m_NoButton.onClick.AddListener(No);
+        m_TitleButton.onClick.AddListener(Title);
         m_SaveSystem = FindObjectOfType<SaveSystem>();
+
+        //! 現在のシーン取得
+        m_ActiveScene = SceneManager.GetActiveScene().name;
 
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
@@ -84,6 +94,8 @@ public class ConfirmMenu : MonoBehaviour
         m_CoroutineB = false;
 
         m_DeleteMessage.CrossFadeAlpha(0, 0, true);
+        m_DeleteMessage.gameObject.SetActive(false);
+
 
         //!　ゲームを止める
         Time.timeScale = 0;
@@ -118,12 +130,6 @@ public class ConfirmMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //! 戻る(Bボタン)処理
-        if (Input.GetKeyDown("joystick button 1") && !m_CoroutineB)
-        {
-            StartCoroutine(ClickTimerB());
-        }
-
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
@@ -162,6 +168,18 @@ public class ConfirmMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// @brief      キャンセルする関数
+    /// </summary>
+    void Title()
+    {
+        if (!m_CoroutineA)
+        {
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(3));
+        }
+    }
+
+    /// <summary>
     /// @brief      Aボタンが押された時のCoroutine
     /// </summary>
     IEnumerator ClickTimerA(int a)
@@ -177,8 +195,8 @@ public class ConfirmMenu : MonoBehaviour
 
         //! ボタン解除処理
         m_AButtonImage.sprite = m_ADefault;
-        m_CoroutineA = true;
-        m_CoroutineB = true;
+        m_CoroutineA = false;
+        m_CoroutineB = false;
 
         //! 処理の分岐
         switch (a)
@@ -188,6 +206,9 @@ public class ConfirmMenu : MonoBehaviour
                 break;
             case 2:
                 yield return StartCoroutine(NoCo());
+                break;
+            case 3:
+                yield return StartCoroutine(TitleCo());
                 break;
             default:
                 break;
@@ -203,22 +224,21 @@ public class ConfirmMenu : MonoBehaviour
     {
         m_SaveSystem.ClearData();
 
+        m_DeleteMessage.gameObject.SetActive(true);
         m_DeleteMessage.CrossFadeAlpha(1, 0.6f, true);
 
-        yield return new WaitForSecondsRealtime(1.6f);
+        m_LastSelected = m_TitleButton.gameObject;
+        m_EventSystem.SetSelectedGameObject(m_LastSelected);
 
-        m_DeleteMessage.CrossFadeAlpha(0, 0.6f, true);
+        yield break;
+    }
 
-        yield return new WaitForSecondsRealtime(0.6f);
-
-        //!　Option画面にfocusを戻す
-        m_OptionMenu.OnEnable();
-
+    IEnumerator TitleCo()
+    {
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonConfirm;
 
-        //!　確認画面を消す
-        this.gameObject.SetActive(false);
+        SceneManager.LoadScene(m_ActiveScene);
 
         yield break;
     }

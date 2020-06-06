@@ -22,31 +22,25 @@ public class Select_Score : MonoBehaviour
 	private Image[] m_stars = new Image[3];
 
 	[SerializeField, Tooltip("クリアタイムの表示用テキストオブジェクト")]
-	private Text[] m_text = new Text[3];
+	private Text[] m_text = new Text[2];
 
 	// 実績スター変更
-	public void LoadStar(SaveSystem _save, int _level)
+	public void SetStar(bool[] _grade)
 	{
-		_save = FindObjectOfType<SaveSystem>();
-		bool[] _grade_star = new bool[3]
-		{
-				_save.Stages1[_level].m_Star1,
-				_save.Stages1[_level].m_Star2,
-				_save.Stages1[_level].m_Star3,
-		};
 		// 星の点灯
-		for (int cnt = 0; cnt < _grade_star.Length; cnt++)
+		for (int cnt = 0; cnt < Mathf.Min(3, _grade.Length); cnt++)
 		{
-			if (_grade_star[cnt]) m_stars[cnt].sprite = m_image_list.ImageLightStar;
-			else m_stars[cnt].sprite = m_image_list.ImageDarkStar;
+			Color _c = m_stars[cnt].color;
+			if (_grade[cnt]) _c.a = 1.0f;
+			else _c.a = 0.0f;
+			m_stars[cnt].color = _c;
 		}
 	}
 
 	// クリアタイム変更
-	public void LoadTime(SaveSystem _save, int _level)
+	public void SetTime(float _time)
 	{
-		float _time = _save.Stages1[_level].m_Time;
-		m_text[0].text = Mathf.Min(999, Mathf.FloorToInt(_time) % 60).ToString("D3");
-		m_text[1].text = (Mathf.FloorToInt(_time * 100) % 100).ToString("D3");
+		m_text[0].text = Mathf.Min(999, Mathf.FloorToInt(_time)).ToString("D3");
+		m_text[1].text = (Mathf.FloorToInt(_time * 10) % 10).ToString("D2");
 	}
 }

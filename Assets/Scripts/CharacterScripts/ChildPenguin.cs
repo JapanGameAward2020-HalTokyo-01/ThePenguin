@@ -59,7 +59,7 @@ public class ChildPenguin : Penguin
     //! 死亡処理
     public System.Action<ChildPenguin> onKillEvent;
     //! 群れ化処理
-    public System.Action onPackEvent;
+    public System.Action<Vector3> onPackEvent;
 
     protected override void Awake()
     {
@@ -67,7 +67,7 @@ public class ChildPenguin : Penguin
 
         //! 子ペンギンの死亡処理に自分を渡す
         onKillEvent = delegate (ChildPenguin child) { };
-        onPackEvent = delegate () { };
+        onPackEvent = delegate (Vector3 childpos) { };
 
         Effect = GetComponent<EffectSpawner>();
     }
@@ -217,7 +217,7 @@ public class ChildPenguin : Penguin
         
         m_InputHandler = this.Parent.GetInputHandler();
 
-        this.onPackEvent();
+        this.onPackEvent(this.transform.position);
 
         animator.SetBool("IsJoin",true);
 

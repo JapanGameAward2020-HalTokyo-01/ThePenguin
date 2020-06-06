@@ -44,6 +44,10 @@ public class OptionMenu : MonoBehaviour
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
 
+    //! 選択用矢印
+    [SerializeField]
+    private UnityEngine.UI.Image m_Arrow;
+
     //! メニュー群
     [SerializeField, Space(20)]
     private PauseMenu m_PauseMenu;
@@ -115,9 +119,23 @@ public class OptionMenu : MonoBehaviour
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonOption;
-
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを追加
+            m_Input.actions["Pause"].performed += Unpause;
+        }
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void Unpause(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("OptionMenu: message received");
+        if (!m_CoroutineB)
+        {
+            StartCoroutine(ClickTimerB(ctx));
+        }
+        Debug.Log(ctx.action.name);
     }
 
     private void BButtonOption(InputAction.CallbackContext ctx)
@@ -125,7 +143,7 @@ public class OptionMenu : MonoBehaviour
         Debug.Log("OptionMenu: message received");
         if (!m_CoroutineB)
         {
-            StartCoroutine(ClickTimerB());
+            StartCoroutine(ClickTimerB(ctx));
         }
     }
 
@@ -146,14 +164,36 @@ public class OptionMenu : MonoBehaviour
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
-            Debug.Log("aaaaaaaa: " + m_LastSelected.name);
             m_EventSystem.SetSelectedGameObject(m_LastSelected);
         }
         else
         {
-            Debug.Log("bbbbbbbb: " + m_LastSelected.name);
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
+
+            if (m_DeleteButton == null)
+            {
+                Vector3 a = m_LastSelected.transform.position;
+                a.x -= 305.0f;
+                m_Arrow.gameObject.transform.position = a;
+            }
+            else
+            {
+                if (m_LastSelected == m_BGMSlider.gameObject | m_LastSelected == m_VolumeSlider.gameObject)
+                {
+                    Vector3 a = m_LastSelected.transform.position;
+                    a.x -= 305.0f;
+                    m_Arrow.gameObject.transform.position = a;
+                    Debug.Log(m_LastSelected.gameObject);
+                }
+                else if(m_LastSelected == m_DeleteButton.gameObject)
+                {
+                    Vector3 a = m_LastSelected.transform.position;
+                    a.x -= 210.0f;
+                    m_Arrow.gameObject.transform.position = a;
+                    Debug.Log(m_LastSelected.gameObject);
+                }
+            }
         }
     }
 
@@ -220,13 +260,19 @@ public class OptionMenu : MonoBehaviour
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonOption;
 
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= Unpause;
+        }
+
         yield break;
     }
 
     /// <summary>
     /// @brief      Bボタンが押された時のCoroutine
     /// </summary>
-    IEnumerator ClickTimerB()
+    IEnumerator ClickTimerB(InputAction.CallbackContext ctx)
     {
         //! ボタン選択処理
         Debug.Log("B Button");
@@ -236,6 +282,12 @@ public class OptionMenu : MonoBehaviour
 
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonOption;
+
+        if (m_PauseMenu != null)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= Unpause;
+        }
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
@@ -264,6 +316,12 @@ public class OptionMenu : MonoBehaviour
             this.gameObject.SetActive(false);
             //!　Pause画面を有効
             m_PauseMenu.OnEnable();
+
+            if (ctx.action.name == "Pause")
+            {
+                Debug.Log("Closing PauseMenu from OptionMenu..");
+                m_PauseMenu.BButtonPause(ctx);
+            }
         }
 
         yield break;

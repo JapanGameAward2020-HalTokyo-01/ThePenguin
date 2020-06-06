@@ -5,6 +5,7 @@
  */
 
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 /**
@@ -22,21 +23,10 @@ public class ChargeGaugeMgr : MonoBehaviour
 
     private InputEvent m_InputEvent;
 
-    public void Awake()
+	public void Awake()
     {
         m_InputEvent = new InputEvent(this);
-    }
-
-    /**
-	 * @brief   初期化
-	 */
-    public void Start()
-	{
-		//! InputHandlerにEvent登録
 		m_input = FindObjectOfType<InputHandler>();
-		m_input.RegisterInputEvent(m_InputEvent);
-
-		// ゲージ座標は必ず中央やや上部に配置するように変更(演出などでカメラ注視点が変更される可能性は無視)
 	}
 
 	/**
@@ -68,10 +58,19 @@ public class ChargeGaugeMgr : MonoBehaviour
 		m_Processor.gameObject.SetActive(false);
 	}
 
-    /**
+	/**
+	 * @brief   入力イベントを登録
+	 */
+	public void RegisterInputEvent()
+	{
+		if(m_input == null) m_input = FindObjectOfType<InputHandler>();
+		m_input.RegisterInputEvent(m_InputEvent);
+	}
+
+	/**
 	 * @brief   入力イベントを削除
 	 */
-    public void UnRegisterInputEvent()
+	public void UnRegisterInputEvent()
     {
         m_input.UnRegisterInputEvent(m_InputEvent);
     }

@@ -10,7 +10,7 @@ public class AnimationCheck : MonoBehaviour
 
     public void EndGoalEnshutsu()
     {
-        GetComponentInParent<ChildPenguin>().m_ClearAnimationEnded = true;
+        GetComponentInParent<Penguin>().m_ClearAnimationEnded = true;
     }
 
     public void TrampolineJump()

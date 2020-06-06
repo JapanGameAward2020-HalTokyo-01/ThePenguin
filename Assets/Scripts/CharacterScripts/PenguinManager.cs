@@ -169,7 +169,6 @@ public class PenguinManager : MonoBehaviour
             child.StageClear(goal);
         }
 
-        StartCoroutine("ToNextScene");
 
         //UI非表示
         var main_ui = FindObjectOfType<GameMain>();
@@ -245,6 +244,11 @@ public class PenguinManager : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if (m_ParentPenguin.m_ClearAnimationEnded)
+        {
+            StartCoroutine("ToNextScene");
         }
     }
 

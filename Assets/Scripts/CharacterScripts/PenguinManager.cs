@@ -42,6 +42,9 @@ public class PenguinManager : MonoBehaviour
     //! 全子ペンギンのリスト
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
+    //! スタート演出のペンギン高さ
+    private float m_StartHeight;
+
     #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
@@ -115,6 +118,8 @@ public class PenguinManager : MonoBehaviour
         //! ペンギンのトータル数をカウントし終えたのでクリアタスク計算
         m_settings.SetRescueTask(m_TotalCount);
 
+        //! ステージスタート演出処理
+        StartEnshutsu_Start();
     }
 
     //! 死亡時イベント(子ペンギン)
@@ -199,6 +204,18 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    //! ステージスタート演出処理_第1段階
+    private void StartEnshutsu_Start()
+    {
+        m_ParentPenguin.transform.position = new Vector3(m_ParentPenguin.transform.position.x, m_ParentPenguin.transform.position.y + m_StartHeight, m_ParentPenguin.transform.position.z);
+    }
+
+    //! ステージスタート演出処理_第2段階
+    public void StartEnshutsu_End()
+    {
+
+    }
+
     // シーン遷移
     IEnumerator ToNextScene()
     {
@@ -207,7 +224,7 @@ public class PenguinManager : MonoBehaviour
 
         Fade _fade = FindObjectOfType<Fade>();
         //アニメーション待機
-        yield return new WaitForSecondsRealtime(6.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
 
         //フェードアウト待機
         _fade.Fader();

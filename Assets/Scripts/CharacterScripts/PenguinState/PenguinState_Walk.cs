@@ -31,7 +31,7 @@ public class PenguinState_Walk : PenguinState
 
             if(penguin.TryGetComponent<ParentPenguin>(out var pp))
             {
-                pp.Effect.PlayerEffect("bigfoot", pos);
+                pp.Effect.PlayerEffect("BigFoot_New", pos);
 
                 if ((int)EffectTimer >= 4.0f)
                 {
@@ -48,7 +48,7 @@ public class PenguinState_Walk : PenguinState
             }
             else
             {
-                penguin.Effect.PlayerEffect("smallfoot", pos);
+                penguin.Effect.PlayerEffect("SmallFoot_New", pos);
             }
         }
 
@@ -64,13 +64,13 @@ public class PenguinState_Walk : PenguinState
             return;
         }
 
-        if (penguin.manager.GetIsClear())
+        if (penguin.manager.m_settings.m_clear_flag)
         {
             penguin.ChangeState<PenguinState_Goal>();
             return;
         }
 
-        if (penguin.manager.GetIsGameOver())
+        if (penguin.manager.m_settings.m_failuer_flag)
         {
             penguin.ChangeState<PenguinState_Failed>();
             return;

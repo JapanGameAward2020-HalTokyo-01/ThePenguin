@@ -7,31 +7,60 @@ public class StageMetaParam : ScriptableObject
 {
 	//! 現在のエリア番号
 	public int m_current_area_index;
-
 	//! 現在のステージ番号
 	public int m_current_stage_index;
+	private int LevelIndex { get { return m_current_area_index * 8 + m_current_stage_index; } }
 
-	[Header("List")]
+	// ステージ番号を１進める
+	public void LevelIncrement()
+	{
+		// エリア内のレベル数
+		int _area_level_num = m_levelnum_each_area[m_current_area_index];
 
-	//! エリアリスト
+		// ステージ番号の進行
+		m_current_stage_index++;
+
+		// 次のエリア番号
+		m_current_area_index += m_current_stage_index / _area_level_num;
+		// 次のステージ番号
+		m_current_stage_index = m_current_stage_index % _area_level_num;
+	}
+
+//! システムシーン
+public SceneAsset m_Title = null;
+	public SceneAsset m_StageSelect = null;
+	public SceneAsset m_Result = null;
+	public SceneAsset m_GameOver = null;
+	//! プレイシーン
 	[SerializeField]
-	private AreaData[] m_area_list = new AreaData[4];
+	public SceneAsset m_FirstStage = null;
 
-	//! 現在指定されているエリアのリストを呼び出す
-	public AreaData CurrentAreaList
+	// ビルドセッティング上のシーンインデックス
+	public int CurrentLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name) + LevelIndex; } }
+	public int NextLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name) + LevelIndex + 1; } }
+
+	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
+	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
+
+	// 最初のレベルのビルドセッティング上のシーンインデックス
+	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name); } }
+
+	// 各エリアの最初のレベルのインデックス番号が欲しい
+	[SerializeField]
+	private int[] m_levelnum_each_area = new int[4] { 8,8,8,4 };
+	public int GetLevelIndexOfArea(int _area_index)
 	{
-		get{ return m_area_list[m_current_area_index % m_area_list.Length]; }
+		int result = 0;
+		for(int cnt = 0; cnt < _area_index; cnt++)
+		{
+			result += m_levelnum_each_area[cnt];
+		}
+		return result;
 	}
 
-	//! 現在指定されているステージのデータを呼び出す
-	public StageData CurrentLevelData
+	// 指定エリアのレベル数
+	public int GetLevelCountOfArea(int _area_index)
 	{
-		get{ return m_area_list[m_current_area_index % m_area_list.Length].GetListItem(m_current_stage_index); }
-	}
-
-	// 任意のエリアを取り出す
-	public AreaData GetAreaList(int _area_index)
-	{
-		return m_area_list[_area_index % m_area_list.Length];
+		return m_levelnum_each_area[_area_index];
 	}
 }

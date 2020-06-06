@@ -4,6 +4,8 @@
  * @author  谷沢 瑞己
  */
 using System.Collections;
+//using System.Diagnostics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -20,12 +22,17 @@ public class Select_Button : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("ステージリスト")]
 	private StageMetaParam m_stage_list;
 
+	[SerializeField, Tooltip("タイトルシーン")]
+	private SceneAsset m_title_scene;
+
 	[SerializeField, Tooltip("プレイヤーからの入力")]
 	private PlayerInput m_input;
 	//! UIのボタンオブジェクトを使うため、選択状態の操作をEventSystemから行う
 	private EventSystem m_event_system;
 	//! カーソルが指す初期オブジェクト
 	private Button m_last_selected = null;
+
+	[Header("UIParts")]
 
 	[SerializeField, Tooltip("コマンドエリア")]
 	private Select_CommandMgr m_commnad_mgr;
@@ -35,6 +42,8 @@ public class Select_Button : MonoBehaviour
 	private Select_Score m_score;
 	[SerializeField, Tooltip("救出数ゲージエリア")]
 	private Select_PenguinNum m_penguin_gauge;
+
+	[Header("Parameter")]
 
 	[SerializeField, Tooltip("カーソルの移動速度"), Range(0.0001f, 0.03f)]
 	private float m_cursor_speed = 0.005f;
@@ -46,6 +55,9 @@ public class Select_Button : MonoBehaviour
 	//! カーソルの位置を記憶する変数(x：エリア y：レベル)
 	private Vector2Int m_command_pos = new Vector2Int(0, 0);
 
+	// セーブデータ(DDOLより)
+	private SaveSystem m_save;
+
 	/**
 	 * @brief	初期化(参照回収)
 	 */
@@ -54,6 +66,7 @@ public class Select_Button : MonoBehaviour
 		m_self = GetComponent<RectTransform>();
 		m_event_system = EventSystem.current;
 		m_last_selected = m_commnad_mgr.GetButtonObject(m_command_pos.x, m_command_pos.y).GetComponent<Button>();
+		m_save = FindObjectOfType<SaveSystem>();
 	}
 
 	/**
@@ -61,8 +74,8 @@ public class Select_Button : MonoBehaviour
 	 */
 	public void Start()
 	{
-		m_input.actions["A Button"].performed += Cancel;
-		m_input.actions["B Button"].performed += Decide;
+		m_input.actions["B Button"].performed += Cancel;
+		m_input.actions["A Button"].performed += Decide;
 	}
 
 	/**
@@ -90,8 +103,10 @@ public class Select_Button : MonoBehaviour
 		// 選択したステージが挑戦可能か
 		m_stage_list.m_current_area_index = m_command_pos.x;
 		m_stage_list.m_current_stage_index = m_command_pos.y;
+		Debug.Log(m_stage_list.CurrentLevelIndex);
+		GameData _level_data = m_save.Stages1[m_stage_list.CurrentLevelIndex];
 
-		if(m_stage_list.CurrentLevelData.isUnlocked)
+		if (_level_data.m_Unlocked)
 		{
 			StartCoroutine("TransitionToGame");
 		}
@@ -135,11 +150,11 @@ public class Select_Button : MonoBehaviour
 		if (m_command_pos.x == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(3);
 
 		// スコア読み込み
-		m_score.LoadStar(m_command_pos.x, m_command_pos.y);
-		m_score.LoadTime(m_command_pos.x, m_command_pos.y);
+		m_score.LoadStar(m_save, m_stage_list.CurrentLevelIndex);
+		m_score.LoadTime(m_save, m_stage_list.CurrentLevelIndex);
 
 		// ゲージの整形
-		m_penguin_gauge.SetGauge(m_command_pos.x, m_command_pos.y);
+		m_penguin_gauge.SetGauge(m_save, m_stage_list.CurrentLevelIndex);
 	}
 
 	/**
@@ -167,7 +182,7 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		SceneManager.LoadSceneAsync((int)KSceneIndex.Title);
+		SceneManager.LoadScene(m_title_scene.name);
 		yield return null;
 	}
 
@@ -180,7 +195,7 @@ public class Select_Button : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		SceneManager.LoadSceneAsync(m_stage_list.CurrentLevelData.StageScene.name);
+		SceneManager.LoadScene(m_stage_list.CurrentLevelBuildIndex);
 		yield return null;
 	}
 

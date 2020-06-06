@@ -40,24 +40,15 @@ public class PenguinGaugeMgr : MonoBehaviour
 	[SerializeField, Tooltip("群れの数の状況を顔で表現するオブジェクト")]
 	private FaceIcon m_face_icon;
 
+	[SerializeField, Tooltip("群れの数ゲージの先端上部に▽を表示する可能性があるので用意")]
+	private Image m_living_marker;
+
+
 	[Header("outer object")]
 
 	//! ペンギンの数を管理しているもの
 	[SerializeField]
 	private PenguinManager m_penguin_mgr;
-
-
-	[Header("Dammy Parameters")]
-    //! クリアのボーダーラインペンギン数
-    [SerializeField, NonEditableField, Tooltip("クリアに必要な群れペンギンの数\nステージ情報から設定するので、今後表示しない予定")]
-    private int m_clear_num;
-	//! 各種閾値(ステージの設定データから読み取りにしたい仮配置)
-	[SerializeField, Tooltip("Goodの顔に変化する群れ数の閾値であり、\nクリア条件とは現状関係ない")]
-	private int m_border_good;
-	[SerializeField, Tooltip("Maxの顔に変化する群れ数の閾値であり、\nステージ上のペンギン総数とは現状関係ない")]
-	private int m_border_max;
-	[SerializeField, Tooltip("Dangerの顔に変化する死亡数の閾値")]
-	private int m_border_danger;
 
 	//! マテリアル
 	private Material m_living_mat;
@@ -89,13 +80,13 @@ public class PenguinGaugeMgr : MonoBehaviour
         // ゲージの座標変更
         Vector2 _pos = m_left_pos;
 
-        _pos.x += m_gauge_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_MaxDead) / (float)m_penguin_mgr.m_TotalCount;
+        _pos.x += m_gauge_max_size.x * (float)(m_penguin_mgr.m_TotalCount - m_penguin_mgr.m_settings.DeadLine) / (float)m_penguin_mgr.m_TotalCount;
         m_deadline_pos.anchoredPosition = _pos;
 
         // ステージ上のペンギン数
         m_total_text.text = m_penguin_mgr.m_TotalCount.ToString();
 
-        yield break;
+		yield break;
     }
 
     /**
@@ -105,7 +96,7 @@ public class PenguinGaugeMgr : MonoBehaviour
 	{
 		Vector4 _tiling = new Vector4();
 
-		// 群れに加わったペンギンゲージ
+		// 群れに加わったペンギンゲージとマーカー
 		{
 			// 群れ率 = 現在の群れペン数 / 全ペン数 (0.0 ~ 1.0)
 			float m_living_ratio = (float)m_penguin_mgr.m_PackCount / (float)m_penguin_mgr.m_TotalCount;
@@ -122,6 +113,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 			Vector2 _pos = m_left_pos;
 			_pos.x += m_living_pos.sizeDelta.x * 0.5f;
 			m_living_pos.anchoredPosition = _pos;
+
+			// マーカー
+			Vector2 _mark_pos = m_living_marker.rectTransform.anchoredPosition;
+			_mark_pos.x = m_left_pos.x + m_living_pos.sizeDelta.x;
+			m_living_marker.rectTransform.anchoredPosition = _mark_pos;
 		}
 
 		// 死んだペンギンゲージ
@@ -157,14 +153,17 @@ public class PenguinGaugeMgr : MonoBehaviour
 		// 顔グラ
 		{
 			// 死亡数が基準未満
-			if(m_penguin_mgr.m_DeadCount < m_border_danger)
+			if(m_penguin_mgr.m_DeadCount < m_penguin_mgr.m_settings.DangerBorder)
 			{
 				// 群れ数が Good未満
-				if (m_penguin_mgr.m_PackCount < m_border_good)		m_face_icon.ChangeState(FaceIcon.kState.Normal);
+				if (m_penguin_mgr.m_PackCount < m_penguin_mgr.m_settings.GoodBorder)
+					m_face_icon.ChangeState(FaceIcon.kState.Normal);
 				// 群れ数が Good以上 Max 未満
-				else if (m_penguin_mgr.m_PackCount < m_border_max)	m_face_icon.ChangeState(FaceIcon.kState.Good);
+				else if (m_penguin_mgr.m_PackCount < m_penguin_mgr.m_settings.MaxBorder)
+					m_face_icon.ChangeState(FaceIcon.kState.Good);
 				// 群れ数が Max以上
-				else												m_face_icon.ChangeState(FaceIcon.kState.Max);
+				else
+					m_face_icon.ChangeState(FaceIcon.kState.Max);
 			}
 			// 死亡数が基準超え
 			else

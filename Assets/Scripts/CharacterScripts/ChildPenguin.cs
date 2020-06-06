@@ -5,10 +5,7 @@
 /// </summary>
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-using Effekseer;
 
 public class ChildPenguin : Penguin
 {
@@ -155,8 +152,8 @@ public class ChildPenguin : Penguin
             {
                 Parent.AddToPack(this);
 
-                //if (Effect != null)
-                //    Effect.PlayerEffect("friend", transform.position);
+                if (Effect != null)
+                    Effect.PlayerEffect("friend_Ver2", transform.position);
 
                 if (Effect != null)
                 {
@@ -205,7 +202,7 @@ public class ChildPenguin : Penguin
         {
             animator.SetTrigger("OnCrash");
             if (Effect != null)
-                Effect.PlayerEffect("crash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
         }
     }
 
@@ -234,4 +231,31 @@ public class ChildPenguin : Penguin
         m_InPack = true;
     }
 
+    protected override void Enshutsu()
+    {
+        GetComponent<CapsuleCollider>().enabled = false;
+        m_Rigidbody.useGravity = false;
+
+        if (m_InPack)
+        {
+
+            if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
+            {
+                transform.LookAt(m_GoalPos);
+                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+            } 
+
+            else if (!m_PlayedFirstGoal)
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnGoal");
+                GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
+                m_PlayedFirstGoal = true;
+            }
+        }
+
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
 }

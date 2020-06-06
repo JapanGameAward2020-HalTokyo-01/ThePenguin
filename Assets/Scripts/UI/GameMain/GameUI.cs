@@ -19,9 +19,14 @@ public class GameUI : MonoBehaviour
     //! カメラ
     [SerializeField]
     private MainCamera m_Camera;
+    //! ライト
+    [SerializeField]
+    private Light m_DirLight;
     //! 親ペンギン
     [SerializeField]
     private ParentPenguin m_ParentPenguin;
+    [SerializeField]
+    private ChargeGaugeMgr m_ChargeGaugeMgr;
 
     //! 最大回転速度
     [SerializeField, Space(20)]
@@ -49,6 +54,11 @@ public class GameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(!m_DirLight)
+        {
+            m_DirLight = Light.GetLights(LightType.Directional, 0)[0];
+        }
+
         //! ボタンのEventDelegate
         m_Input.actions["Pause"].performed += PauseMenu;
         m_Input.actions["Rotate L"].performed += RotateL;
@@ -67,6 +77,12 @@ public class GameUI : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (m_ParentPenguin.manager.m_settings.m_clear_flag)
+        {
+            m_ChargeGaugeMgr.UnRegisterInputEvent();
+            return;
+        }
+
         //! ペンギンの向いている方向へカメラをセット
         if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)
         {
@@ -92,6 +108,8 @@ public class GameUI : MonoBehaviour
             {
                 m_Camera.RotateCamera(false, m_rotRspeed);
             }
+            m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
+
         }
     }
 

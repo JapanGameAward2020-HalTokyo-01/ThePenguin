@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Effekseer;
+using Cinemachine;
 
 public class Bomb : BaseGimmick
 {
@@ -27,6 +28,9 @@ public class Bomb : BaseGimmick
     [SerializeField, Tooltip("爆風強さ")]
     private float m_BlastPower = 0.0f;
 
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
+
     //! 状態
     private bool m_IsCountDown = false;
 
@@ -44,14 +48,26 @@ public class Bomb : BaseGimmick
 
     [SerializeField]
     private EffekseerEffectAsset m_SaveEffect;
+
+
     [SerializeField]
     private EffekseerEffectAsset m_DangerEffect;
 
+
+
+    [SerializeField]
+    private float m_BoomScale;
+
+    [SerializeField]
+    private float m_EffectOffset;
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
 
-    //!振動管理用オブジェクト
+    //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
+
+    //!オブジェクト振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     // Start is called before the first frame update
     public override void Start()
@@ -64,6 +80,9 @@ public class Bomb : BaseGimmick
         m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
 
@@ -91,8 +110,16 @@ public class Bomb : BaseGimmick
         {          
             m_CountDown -= Time.deltaTime;
             m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
+
+            if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
+                m_ObjectVibrate.StartVibrate();
+
             if (m_CountDown <= 0.0f)
             {
+                var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+                if (cinemachineImpulseSource)
+                    cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
                 //爆発処理
                 Explode();
 
@@ -100,7 +127,7 @@ public class Bomb : BaseGimmick
                 {
                     Effect = GetComponent<EffectSpawner>();
                     if (Effect != null)
-                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(m_BoomScale, m_BoomScale, m_BoomScale));
 
                 }
 
@@ -112,7 +139,7 @@ public class Bomb : BaseGimmick
         }
 
         //探知範囲とカウントダウンの座標更新
-        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
+        m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f + m_EffectOffset, 0.0f);
         m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
     }
 

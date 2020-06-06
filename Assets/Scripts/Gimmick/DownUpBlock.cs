@@ -23,6 +23,8 @@ public class DownUpBlock : FallBlock
 
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    //!振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
 
     public override void Start()
     {
@@ -30,7 +32,11 @@ public class DownUpBlock : FallBlock
 
         m_Time += m_UpWaitTime;
 
-        Effect = GetComponent<EffectSpawner>();
+        if (!Effect)
+            Effect = GetComponent<EffectSpawner>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
     // Update is called once per frame
@@ -48,21 +54,26 @@ public class DownUpBlock : FallBlock
 
     void DownState()
     {
+        if(m_Time + m_ObjectVibrate.GetVibrateTimeMax() >= m_UpWaitTime)
+            m_ObjectVibrate.StartVibrate();
+
         if (m_Time < m_UpWaitTime) return;
 
+        m_ObjectVibrate.StopVibrate();
         m_IsKill = true;
         m_CurrentHeight += m_DownSpeed * Time.deltaTime;
 
         if (m_CurrentHeight < m_Height) return;
 
         m_Time = 0f;
-        m_IsKill = false;
         m_IsDown = !m_IsDown;
+        m_CurrentHeight = m_Height;
 
         //!エフェクト関連
         {
-            var pos = transform.position;
-            pos.y += -1.0f;
+            
+            var pos = m_Block.transform.position;
+            pos.y += 1.0f;
 
             if (Effect != null)
                 Effect.PlayerEffect("DOSIN", pos);
@@ -71,6 +82,7 @@ public class DownUpBlock : FallBlock
 
     void UpState()
     {
+        m_IsKill = false;
         if (m_Time < m_CoolDownTime) return;
         
         m_CurrentHeight -= m_UpSpeed * Time.deltaTime;
@@ -80,6 +92,7 @@ public class DownUpBlock : FallBlock
         m_Time = 0f;
         m_CurrentHeight = 0f;
         m_IsDown = !m_IsDown;
+            
     }
 
     public override void OnActivate()

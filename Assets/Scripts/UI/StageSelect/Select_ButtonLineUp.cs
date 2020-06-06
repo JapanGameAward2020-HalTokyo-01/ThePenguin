@@ -27,20 +27,25 @@ public class Select_ButtonLineUp : MonoBehaviour
 	[SerializeField, Tooltip("ボタンの表示領域サイズ")]
 	private Rect m_button_rect;
 
+	//! セーブシステム
+	SaveSystem m_save = null;
+
 	/**
 	 * @brief	初期化
 	 */
 	public void Awake()
 	{
 		//! エリアのレベル数
-		AreaData _area_data = m_stage_list.GetAreaList((int)m_area_index);
-		int _level_count = _area_data.LevelCount;
+		int _index = m_stage_list.GetLevelIndexOfArea((int)m_area_index);
+		int _level_count = m_stage_list.GetLevelCountOfArea((int)m_area_index);
 
 		// ボタン表示領域に対するボタン配置間隔
 		Vector2 _dist = Vector2.zero;
 		_dist.x = m_button_rect.width / _level_count;
 		_dist.y = m_button_rect.height * 0.5f;
 
+		// セーズデータを探す
+		m_save = FindObjectOfType<SaveSystem>();
 		for (int level = 0; level < _level_count; level++)
 		{
 			// ボタン生成
@@ -48,12 +53,16 @@ public class Select_ButtonLineUp : MonoBehaviour
 			Select_ButtonUnit _unit = _obj.GetComponent<Select_ButtonUnit>();
 			m_button_list.Add(_unit);
 
-			// パラメータ設定
-			StageData _stage_data = _area_data.GetListItem(level);
-			_unit.SetButtonImage(m_area_index, _stage_data.isUnlocked);
+			// パラメータ設定(セーブデータから読み取り)
+			_unit.SetButtonImage(m_area_index, m_save.Stages1[_index + level].m_Unlocked);
 			_unit.SetStageNumber(m_area_index, level);
-			_unit.SetStar(_stage_data.m_grade);
-
+			bool[] _grade_star = new bool[3] 
+			{
+				m_save.Stages1[_index + level].m_Star1,
+				m_save.Stages1[_index + level].m_Star2,
+				m_save.Stages1[_index + level].m_Star3,
+			};
+			_unit.SetStar(_grade_star);
 
 			// 座標変更
 			RectTransform _trans = _unit.gameObject.GetComponent<RectTransform>();

@@ -22,9 +22,49 @@ public class WallAttack : BaseGimmick
 
     private float m_CurrentLength = 0f;
 
+    public enum FieldType
+    {
+        SNOW = 0,
+        VOLCANIC
+    }
+
+    [SerializeField]
+    FieldType m_Type;
+
+    FieldType m_TypeLast;
+
+    [SerializeField]
+    TextureData m_Data;
+
+    [SerializeField]
+    private EffectSpawner AreaEffect;
+    //!振動処理クラス
+    private ObjectVibrate m_ObjectVibrate;
+
+    private void OnDrawGizmos()
+    {
+        if (m_Type != m_TypeLast)
+        {
+            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+            m.SetTexture("_BaseMap", m_Data.GetTexture((int)m_Type));
+            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+            m_TypeLast = m_Type;
+        }
+    }
+
     public override void Start()
     {
         base.Start();
+
+        if(!AreaEffect)
+            AreaEffect = GetComponent<EffectSpawner>();
+
+        if (!m_ObjectVibrate)
+            m_ObjectVibrate = GetComponent<ObjectVibrate>();
+
+        m_WarningArrow.SetActive(false);
+
     }
 
     public override void Update()
@@ -39,6 +79,9 @@ public class WallAttack : BaseGimmick
         m_Wall.transform.position += m_Wall.transform.forward * value;
 
         m_CurrentLength += value;
+
+        if (m_ObjectVibrate)
+            m_ObjectVibrate.StartVibrate();
     }
 
     public override void OnActivate()
@@ -47,21 +90,35 @@ public class WallAttack : BaseGimmick
 
         m_CurrentLength = 0f;
         m_Wall.transform.localPosition = Vector3.zero;
+
+        for (int x = 0; m_Length >= x; x++)
+        {
+            var pos = GetComponent<Transform>().transform.position;
+            pos += x * m_Wall.transform.forward;
+            pos.y -= 1.0f;
+
+            if (AreaEffect)
+                AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
+
+        }
     }
 
     public override void OnDeactivate()
     {
+        if (m_ObjectVibrate)
+            m_ObjectVibrate.StopVibrate();
+
         this.gameObject.SetActive(false);
     }
 
-    public void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
-        //Gizmos.color = new Color(1f,0f,0f,0.5f);
-        //Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
-        //Gizmos.DrawCube(m_WarningArrow.transform.position,m_WarningArrow.transform.lossyScale);
-#endif
-    }
+//    public void OnDrawGizmos()
+//    {
+//#if UNITY_EDITOR
+//        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+//        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
+//        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
+//#endif
+//    }
 
     private void OnValidate()
     {

@@ -32,7 +32,7 @@ public class PenguinState_Dash : PenguinState
             {
                 var pos = transform.position;
                 pos.y -= 1.0f;
-                penguin.Effect.PlayerEffect("dash", pos);
+                penguin.Effect.PlayerEffect("BigFoot_New", pos);
             }
 
             //!文字エフェクト
@@ -62,13 +62,13 @@ public class PenguinState_Dash : PenguinState
             return;
         }
 
-        if (penguin.manager.GetIsClear())
+        if (penguin.manager.m_settings.m_clear_flag)
         {
             penguin.ChangeState<PenguinState_Goal>();
             return;
         }
 
-        if (penguin.manager.GetIsGameOver())
+        if (penguin.manager.m_settings.m_failuer_flag)
         {
             penguin.ChangeState<PenguinState_Failed>();
             return;

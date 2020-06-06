@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Timer: {fileID: 969549391082919023}
   m_Tutorial: {fileID: 8675071615811239843}
   m_ChargeGauge: {fileID: 9127691903774383896}
+  m_WaitTime: 1
 --- !u!1001 &1029943338724669307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,12 +442,12 @@ PrefabInstance:
     - target: {fileID: 1636259803528409852, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 328
+      value: 359
       objectReference: {fileID: 0}
     - target: {fileID: 1636259803528409852, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 96
+      value: 137
       objectReference: {fileID: 0}
     - target: {fileID: 1636259803528409852, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
@@ -490,21 +491,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081953493009928316, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 9081953493009928316, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 54
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558961780212838244, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558961780212838244, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
       propertyPath: m_SizeDelta.y
       value: 54
       objectReference: {fileID: 0}
@@ -517,7 +503,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_minute_text
       value: 
-      objectReference: {fileID: 8849846085070397594}
+      objectReference: {fileID: 0}
     - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
       propertyPath: m_second_text
@@ -528,6 +514,16 @@ PrefabInstance:
       propertyPath: m_mini_sec_text
       value: 
       objectReference: {fileID: 4270095502519101553}
+    - target: {fileID: 3558961780212838244, guid: 91028b4327266694d95eb8f4df55a21e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558961780212838244, guid: 91028b4327266694d95eb8f4df55a21e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 54
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91028b4327266694d95eb8f4df55a21e, type: 3}
 --- !u!224 &6767967406737703164 stripped
@@ -546,18 +542,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8cb2995d41b7fa47ad73e8b55b903f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8849846085070397594 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3569515848568328858, guid: 91028b4327266694d95eb8f4df55a21e,
-    type: 3}
-  m_PrefabInstance: {fileID: 5429529021086593536}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3610978328394120556 stripped

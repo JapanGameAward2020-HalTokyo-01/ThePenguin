@@ -203,18 +203,6 @@ Transform:
   m_Father: {fileID: 771127982}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &564692274 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6344466477702949915, guid: 80dc6226dae5b69409be54dcc26e67b4,
-    type: 3}
-  m_PrefabInstance: {fileID: 6344466477176006953}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1125902760}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &771127981
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,20 +329,6 @@ Material:
     - _Color: {r: 1, g: 0.9858491, b: 0.9858491, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
---- !u!115 &1125902760
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 5
-  m_Script: 
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_ExecutionOrder: 0
-  m_ClassName: InputSystemUIInputModule
-  m_Namespace: UnityEngine.InputSystem.UI
 --- !u!4 &1435087396 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6344466478443174669, guid: 80dc6226dae5b69409be54dcc26e67b4,
@@ -526,6 +500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Select_System
       objectReference: {fileID: 0}
+    - target: {fileID: 6344466477702949915, guid: 80dc6226dae5b69409be54dcc26e67b4,
+        type: 3}
+      propertyPath: m_PointerBehavior
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6344466478443174669, guid: 80dc6226dae5b69409be54dcc26e67b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -591,11 +570,6 @@ PrefabInstance:
       propertyPath: m_FirstSelected
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6344466477702949915, guid: 80dc6226dae5b69409be54dcc26e67b4,
-        type: 3}
-      propertyPath: m_PointerBehavior
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8978205270115215795, guid: 80dc6226dae5b69409be54dcc26e67b4,
         type: 3}
       propertyPath: m_Camera
@@ -605,7 +579,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UIInputModule
       value: 
-      objectReference: {fileID: 564692274}
+      objectReference: {fileID: 0}
     - target: {fileID: 6344466477274966890, guid: 80dc6226dae5b69409be54dcc26e67b4,
         type: 3}
       propertyPath: m_Camera

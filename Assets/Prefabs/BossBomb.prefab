@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmitterScale: 0
-  effectAsset: {fileID: 11400000, guid: 0daa2cea20bb9814a9ba98ff73d3b374, type: 2}
+  effectAsset: {fileID: 11400000, guid: e5f0f44f7daf3ae458aeb9de644465e8, type: 2}
   playOnStart: 0
   isLooping: 0
 --- !u!1 &6951449810009874275
@@ -510,6 +510,7 @@ GameObject:
   - component: {fileID: 7651636147122900394}
   - component: {fileID: 4298192998130796971}
   - component: {fileID: 539982824011074800}
+  - component: {fileID: 6863889236584450035}
   m_Layer: 0
   m_Name: BossBomb
   m_TagString: Untagged
@@ -569,6 +570,22 @@ MonoBehaviour:
   m_ThrowSpeed: 2
   m_NormalMaterial: {fileID: 2100000, guid: 490c94e532e3e1742b00339df97a0f68, type: 2}
   m_CountDownMaterial: {fileID: 2100000, guid: e6ab435eb2f15284c8a8d7bfadbb90d3, type: 2}
+--- !u!114 &6863889236584450035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651636147122900392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6807de3778f236943ae30880edad09e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetObject: {fileID: 2456291362939544922}
+  m_VibrateSpeed: {x: 10, y: 0, z: 5}
+  m_VibrateTimeMax: 2
+  m_VibrateTime: 0
 --- !u!1 &8484867404438310890
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,6 +712,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb6be859be96e25488be1e87aa999d8a, type: 3}
+--- !u!1 &2456291362939544922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: bb6be859be96e25488be1e87aa999d8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5852307789121092691}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1462867389611366217 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: bb6be859be96e25488be1e87aa999d8a,

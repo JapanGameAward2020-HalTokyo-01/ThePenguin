@@ -179,7 +179,11 @@ public class GameUI : MonoBehaviour
 
     void PauseMenu(InputAction.CallbackContext ctx)
     {
-        Debug.Log("GameUI: message received");
+        // 開始アニメーション待ち
+        if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
+            return;
+
+         Debug.Log("GameUI: message received");
         if (!m_Pause.gameObject.activeSelf)
         {
             Debug.Log("Opening PauseMenu...");

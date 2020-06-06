@@ -70,8 +70,6 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Start()
 	{
-		m_input.actions["B Button"].performed += Cancel;
-		m_input.actions["A Button"].performed += Decide;
 	}
 
 	/**
@@ -79,6 +77,16 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Update()
 	{
+		// インプットチェック(GameOver, Resultと操作を合わせる)
+		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space))
+		{
+			Decide();
+		}
+		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Space))
+		{
+			Cancel();
+		}
+
 		// 選択中のオブジェクトが無ければ初期選択コマンドを選択する
 		if (m_event_system.currentSelectedGameObject == null)
 		{
@@ -93,7 +101,7 @@ public class Select_Cursor : MonoBehaviour
 	}
 
 	// 選んだステージ読み込む
-	private void Decide(InputAction.CallbackContext _context)
+	private void Decide()
 	{
 		// 選択したステージが挑戦可能か
 		GameData _level_data = m_save.Stages1[m_stage_list.CurrentLevelIndex];
@@ -110,7 +118,7 @@ public class Select_Cursor : MonoBehaviour
 	}
 
 	// キャンセル動作
-	private void Cancel(InputAction.CallbackContext _context)
+	private void Cancel()
 	{
 		StartCoroutine("TransitionToTitle");
 	}

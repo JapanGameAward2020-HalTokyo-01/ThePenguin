@@ -34,6 +34,7 @@ public class StartCameraSystem : MonoBehaviour
 
     private bool m_NowPlaying = true;
     private bool m_PlayedOnce = false;
+    private bool m_PenguinsDown = false;
     private float m_Timer = 0.0f;
 
     // Start is called before the first frame update
@@ -58,6 +59,12 @@ public class StartCameraSystem : MonoBehaviour
                 FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_MoveTime;
                 v_camera[0].Priority = 0;
                 v_camera[1].Priority = 2;
+            }
+
+            if (m_Timer > 0.2f && !m_PenguinsDown)
+            {
+                m_PenguinManager.StartEnshutsu_End();
+                m_PenguinsDown = true;
             }
         }
 

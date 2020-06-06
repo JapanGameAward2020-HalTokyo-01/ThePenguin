@@ -270,12 +270,12 @@ public class PauseMenu : MonoBehaviour
     IEnumerator StageSelectCo()
     {
 
-        //this.gameObject.SetActive(false);
-        ////!　ゲームを再開
-        //Time.timeScale = 1;
-        //SceneManager.LoadScene(m_ActiveScene);
-        ////! InputからBButtonのEventを削除
-        //m_Input.actions["B Button"].performed -= BButtonPause;
+        this.gameObject.SetActive(false);
+        //!　ゲームを再開
+        Time.timeScale = 1;
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonPause;
+        SceneManager.LoadScene(m_StageSelectScene);
         yield break;
     }
 
@@ -300,12 +300,12 @@ public class PauseMenu : MonoBehaviour
     IEnumerator TitleCo()
     {
 
-        //this.gameObject.SetActive(false);
-        ////!　ゲームを再開
-        //Time.timeScale = 1;
-        //SceneManager.LoadScene(m_TitleScene);
-        ////! InputからBButtonのEventを削除
-        //m_Input.actions["B Button"].performed -= BButtonPause;
+        this.gameObject.SetActive(false);
+        //!　ゲームを再開
+        Time.timeScale = 1;
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonPause;
+        SceneManager.LoadScene(m_TitleScene);
         yield break;
     }
 

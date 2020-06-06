@@ -44,6 +44,10 @@ public class OptionMenu : MonoBehaviour
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
 
+    //! 選択用矢印
+    [SerializeField]
+    private UnityEngine.UI.Image m_Arrow;
+
     //! メニュー群
     [SerializeField, Space(20)]
     private PauseMenu m_PauseMenu;
@@ -146,14 +150,36 @@ public class OptionMenu : MonoBehaviour
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {
-            Debug.Log("aaaaaaaa: " + m_LastSelected.name);
             m_EventSystem.SetSelectedGameObject(m_LastSelected);
         }
         else
         {
-            Debug.Log("bbbbbbbb: " + m_LastSelected.name);
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
+
+            if (m_DeleteButton == null)
+            {
+                Vector3 a = m_LastSelected.transform.position;
+                a.x -= 305.0f;
+                m_Arrow.gameObject.transform.position = a;
+            }
+            else
+            {
+                if (m_LastSelected == m_BGMSlider.gameObject | m_LastSelected == m_VolumeSlider.gameObject)
+                {
+                    Vector3 a = m_LastSelected.transform.position;
+                    a.x -= 305.0f;
+                    m_Arrow.gameObject.transform.position = a;
+                    Debug.Log(m_LastSelected.gameObject);
+                }
+                else if(m_LastSelected == m_DeleteButton.gameObject)
+                {
+                    Vector3 a = m_LastSelected.transform.position;
+                    a.x -= 210.0f;
+                    m_Arrow.gameObject.transform.position = a;
+                    Debug.Log(m_LastSelected.gameObject);
+                }
+            }
         }
     }
 

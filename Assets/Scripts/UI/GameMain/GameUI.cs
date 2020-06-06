@@ -95,7 +95,11 @@ public class GameUI : MonoBehaviour
         }
 
         // 開始アニメーション待ち
-        if (!m_StartSystem.GetNowPlaying())
+        if (m_StartSystem.GetNowPlaying())
+        {
+            return;
+        }
+        else
         {
             m_ChargeGaugeMgr.RegisterInputEvent();
         }

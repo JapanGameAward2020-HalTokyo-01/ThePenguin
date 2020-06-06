@@ -28,9 +28,12 @@ public class StartCameraSystem : MonoBehaviour
     private float m_MoveTime = 2.0f;
     [SerializeField]
     private float m_OutTime = 2.0f;
+    [SerializeField]
+    private PenguinManager m_PenguinManager;
 
 
     private bool m_NowPlaying = true;
+    private bool m_PlayedOnce = false;
     private float m_Timer = 0.0f;
 
     // Start is called before the first frame update
@@ -42,7 +45,7 @@ public class StartCameraSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(m_NowPlaying)
+        if(!m_PlayedOnce)
         {
             m_Timer += Time.deltaTime;
 
@@ -84,7 +87,6 @@ public class StartCameraSystem : MonoBehaviour
     public void StopPlaying()
     {
         m_Timer = 0.0f;
-        m_NowPlaying = false;
 
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;
@@ -95,7 +97,9 @@ public class StartCameraSystem : MonoBehaviour
 
     IEnumerator EnableUI(float time)
     {
+        m_PlayedOnce = true;
         yield return new WaitForSeconds(time);
+        m_NowPlaying = false;
         var main_ui = FindObjectOfType<GameMain>();
         if (main_ui != null)
         {

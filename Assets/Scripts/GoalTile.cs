@@ -119,6 +119,8 @@ public class GoalTile : MonoBehaviour
     */
     void Goal()
     {
+        m_Image[0].GetComponentInParent<Canvas>().enabled = false;
+
         //仮処理
         Debug.Log("Goal");
         if (m_EndCamera != null)

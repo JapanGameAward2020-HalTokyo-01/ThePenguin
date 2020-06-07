@@ -30,6 +30,12 @@ public class PenguinManager : MonoBehaviour
     private StageTimer m_Timer;
     public float StageTime { get { return m_Timer.StageTime; } }
 
+    [SerializeField]
+    private Camera m_Camera;
+
+    [SerializeField]
+    private PenguinJoin m_PenguinJoin;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -37,6 +43,7 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
+    [SerializeField]
     private float m_StartHeight;
 
     #region ゴール演出関係
@@ -63,6 +70,8 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.onKillEvent = GameOver;
         m_ParentPenguin.manager = this;
 
+        m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
         if (goalTiles.Length > 0)
@@ -88,8 +97,8 @@ public class PenguinManager : MonoBehaviour
                 m_ChildPenguins.Add(child);
 
                 //! Event登録
-                child.onKillEvent = OnKillEvent;
-                child.onPackEvent = OnPackEvent;
+                child.onKillEvent = OnKillEvent; 
+                child.onPackEvent = OnStart;
 
                 child.manager = this;
 
@@ -99,6 +108,7 @@ public class PenguinManager : MonoBehaviour
                     m_ParentPenguin.AddToPack(child);
                 }
 
+                child.onPackEvent = OnPackEvent;
                 if (m_ParentPenguin.Boss)
                 {
                     child.Boss();
@@ -141,11 +151,26 @@ public class PenguinManager : MonoBehaviour
     }
 
     //! 群れ化時イベント
-    public void OnPackEvent()
+    public void OnPackEvent(Vector3 childpos)
+    {
+        m_PenguinJoin.StartJoin(m_Camera.WorldToScreenPoint(childpos));
+    }
+
+
+    public void OnStart(Vector3 childpos)
     {
         m_PackCount++;
         m_NomadCount--;
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
+    }
 
+    public void OnReachedDestination()
+    {
+        m_PackCount++;
+        m_NomadCount--;
         foreach (GoalTile goal in m_GoalTiles)
         {
             goal.m_PenguinCount = (uint)m_PackCount;
@@ -169,7 +194,6 @@ public class PenguinManager : MonoBehaviour
             child.StageClear(goal);
         }
 
-        StartCoroutine("ToNextScene");
 
         //UI非表示
         var main_ui = FindObjectOfType<GameMain>();
@@ -184,12 +208,40 @@ public class PenguinManager : MonoBehaviour
     private void StartEnshutsu_Start()
     {
         m_ParentPenguin.transform.position = new Vector3(m_ParentPenguin.transform.position.x, m_ParentPenguin.transform.position.y + m_StartHeight, m_ParentPenguin.transform.position.z);
+        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = false;
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            if (child.InPack)
+            {
+                child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y + m_StartHeight, child.transform.position.z);
+                child.GetComponent<Rigidbody>().useGravity = false;
+            }
+        }
     }
 
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
+        Vector3 downForce = new Vector3(0.0f, -15f);
 
+        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
+        m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
+
+        foreach (ChildPenguin child in m_ChildPenguins)
+        {
+            if (child.InPack)
+            {
+                child.GetComponent<Rigidbody>().useGravity = true;
+                child.GetComponent<Rigidbody>().AddForce(downForce / 2, ForceMode.Impulse);
+            }
+        }
+    }
+
+    //!ゴール演出をスキップするためのフラグ変更
+    public void StopGoalPlaying()
+    {
+        m_ParentPenguin.m_ClearAnimationEnded = true; 
     }
 
     // シーン遷移
@@ -198,6 +250,7 @@ public class PenguinManager : MonoBehaviour
         if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
             yield break;
 
+        bool[] _flags = new bool[2]{m_settings.m_failuer_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
         //アニメーション待機
         yield return new WaitForSecondsRealtime(2.0f);
@@ -207,16 +260,16 @@ public class PenguinManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.0f);
 
         // 失敗時
-        if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
+        if (_flags[0] && !_flags[1])
         {
-            yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
+            SceneManager.LoadScene(m_scene_list.m_GameOver);
             yield return null;
         }
 
         // クリア時
-        if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        if (_flags[1] && !_flags[0])
         {
-            yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
+            SceneManager.LoadScene(m_scene_list.m_Result);
             yield return null;
         }
     }
@@ -245,6 +298,11 @@ public class PenguinManager : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if (m_ParentPenguin.m_ClearAnimationEnded)
+        {
+            StartCoroutine("ToNextScene");
         }
     }
 

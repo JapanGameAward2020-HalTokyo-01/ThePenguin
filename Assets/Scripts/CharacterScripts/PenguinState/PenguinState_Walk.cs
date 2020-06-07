@@ -11,8 +11,8 @@ using UnityEngine;
 public class PenguinState_Walk : PenguinState
 {
 
-    private float EffectTimer;
-    private float EfecctTimeMax = 0.5f;
+    private int EffectTimer;
+    [SerializeField] private int EfecctTimeMax =5;
 
     //! 初期化処理
     public override void OnStart()
@@ -31,24 +31,26 @@ public class PenguinState_Walk : PenguinState
 
             if(penguin.TryGetComponent<ParentPenguin>(out var pp))
             {
-                pp.Effect.PlayerEffect("BigFoot_New", pos);
-
-                if ((int)EffectTimer >= 4.0f)
-                {
-                    pos.y += 0.5f;
-                    pp.Effect.PlayerEffect("PE", pos, new Vector3(0.5f, 0.5f, 0.5f));
-                    pos.y -= 0.5f;
-                    pp.Effect.PlayerEffect("TA", pos, new Vector3(0.5f, 0.5f, 0.5f));
-                }
-
-                EffectTimer -= 30.0f * Time.deltaTime;
+                EffectTimer--;
 
                 if (EffectTimer <= 0)
+                {
+
+                    pp.Effect.PlayerEffect("BigFoot_New", pos);
                     EffectTimer = EfecctTimeMax;
+                }
             }
             else
             {
-                penguin.Effect.PlayerEffect("SmallFoot_New", pos);
+                EffectTimer--;
+               
+                if (EffectTimer <= 0)
+                {
+
+                    penguin.Effect.PlayerEffect("SmallFoot_New", pos);
+                    EffectTimer = EfecctTimeMax;
+                }
+                
             }
         }
 
@@ -64,16 +66,19 @@ public class PenguinState_Walk : PenguinState
             return;
         }
 
-        if (penguin.manager.m_settings.m_clear_flag)
+        if (penguin.manager)
         {
-            penguin.ChangeState<PenguinState_Goal>();
-            return;
-        }
+            if (penguin.manager.m_settings.m_clear_flag)
+            {
+                penguin.ChangeState<PenguinState_Goal>();
+                return;
+            }
 
-        if (penguin.manager.m_settings.m_failuer_flag)
-        {
-            penguin.ChangeState<PenguinState_Failed>();
-            return;
+            if (penguin.manager.m_settings.m_failuer_flag)
+            {
+                penguin.ChangeState<PenguinState_Failed>();
+                return;
+            }
         }
     }
 }

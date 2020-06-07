@@ -21,8 +21,6 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private UI_Component_Button m_Page1_Slash;
     [SerializeField]
-    private UI_Component_Button m_Page1_Minute;
-    [SerializeField]
     private UI_Component_Button m_Page1_Second;
     [SerializeField]
     private UI_Component_Button m_Page1_SmallStar1;
@@ -42,8 +40,6 @@ public class ResultUI : MonoBehaviour
     private UI_Component_Counter m_Page1_ClearCounter;
     [SerializeField]
     private UI_Component_Counter m_Page1_StarCounter;
-    [SerializeField]
-    private UI_Component_Counter m_Page1_MinuteCounter;
     [SerializeField]
     private UI_Component_Counter m_Page1_SecondCounter;
     [SerializeField]
@@ -65,7 +61,7 @@ public class ResultUI : MonoBehaviour
 
     [Header("Scene Data")]
     
-    [SerializeField, NonEditableField, Tooltip("シーンリスト")]
+    [SerializeField, Tooltip("シーンリスト")]
     private StageMetaParam m_SceneList;    
 
     private bool m_IsInputEnable = false;
@@ -110,7 +106,7 @@ public class ResultUI : MonoBehaviour
 
         ////////////////////////////////////////////////
         m_Flag_Count = (m_ClearCount >= m_StarCount);
-        m_Flag_Time = (m_ClearTime <= m_StarTime);
+        m_Flag_Time = (m_ClearTime >= m_StarTime);
         m_Page1_StarCounter.SetCount(m_StarCount);
         m_Page1_StarCounter.SetCurrentCount(m_StarCount);
 
@@ -180,7 +176,7 @@ public class ResultUI : MonoBehaviour
                         else if (m_Select == 1)
                         {
                             Debug.Log("Stage Select");
-                            StartCoroutine(SceneEnd(m_SceneList.m_StageSelect.name));
+                            StartCoroutine(SceneEnd(m_SceneList.m_StageSelect));
                         }
                         else if (m_Select == 2)
                         {
@@ -292,8 +288,6 @@ public class ResultUI : MonoBehaviour
         m_Page1_Slash.SetEnableTime(new_time);
         m_Page1_StarCounter.SetEnableTime(new_time);
         m_Page1_ClearCounter.SetEnableTime(new_time);
-        m_Page1_MinuteCounter.SetEnableTime(new_time);
-        m_Page1_Minute.SetEnableTime(new_time);
         m_Page1_SecondCounter.SetEnableTime(new_time);
         m_Page1_Second.SetEnableTime(new_time);
         m_Page1_MiliSecondCounter.SetEnableTime(new_time);
@@ -317,13 +311,9 @@ public class ResultUI : MonoBehaviour
         m_Page1_BigStar3.SetCrossTime(new_time);
         m_Page1_Clear.SetCrossTime(new_time);
         m_Page1_Slash.SetCrossTime(new_time);
-        m_Page1_Minute.SetCrossTime(new_time);
         m_Page1_Second.SetCrossTime(new_time);
         m_Page1_A_Button.SetCrossTime(new_time);
         m_Page2_MenuBack.SetCrossTime(new_time);
-        //m_Page2_Continue.SetCrossTime(new_time);
-        //m_Page2_StageSelect.SetCrossTime(new_time);
-        //m_Page2_Retry.SetCrossTime(new_time);
         m_Page2_A_Button.SetCrossTime(new_time);
         m_Page2_B_Button.SetCrossTime(new_time);
     }
@@ -413,9 +403,6 @@ public class ResultUI : MonoBehaviour
         m_Page1_SmallStar2.SetActive(m_Flag_Count);
 
 
-        m_Page1_MinuteCounter.SetEnable(true);
-        m_Page1_Minute.SetEnable(true);
-        m_Page1_Minute.SetActive(true);
         m_Page1_SecondCounter.SetEnable(true);
         m_Page1_Second.SetEnable(true);
         m_Page1_Second.SetActive(true);
@@ -461,8 +448,6 @@ public class ResultUI : MonoBehaviour
         m_Page1_Slash.SetEnable(false);
         m_Page1_StarCounter.SetEnable(false);
         m_Page1_ClearCounter.SetEnable(false);
-        m_Page1_MinuteCounter.SetEnable(false);
-        m_Page1_Minute.SetEnable(false);
         m_Page1_SecondCounter.SetEnable(false);
         m_Page1_Second.SetEnable(false);
         m_Page1_MiliSecondCounter.SetEnable(false);
@@ -489,21 +474,15 @@ public class ResultUI : MonoBehaviour
 
     IEnumerator SetClearTimeDigit(float time)
     {
-        int minute = (int)(time / 60);
-        int second = (int)(time - minute*60);
-        int milisecond = (int)((time - minute * 60 - second) * 100);
+        int second = (int)(time);
+        int milisecond = (int)((time - second) * 100);
 
-        m_Page1_MinuteCounter.SetEnable(true);
-        m_Page1_Minute.SetEnable(true);
-        m_Page1_Minute.SetActive(true);
-        yield return new WaitForSeconds(0.2f);
         m_Page1_SecondCounter.SetEnable(true);
         m_Page1_Second.SetEnable(true);
         m_Page1_Second.SetActive(true);
         m_Page1_SecondCounter.SetCount(second);
         yield return new WaitForSeconds(0.2f);
         m_Page1_MiliSecondCounter.SetEnable(true);
-        m_Page1_MinuteCounter.SetCount(minute);
         m_Page1_MiliSecondCounter.SetCount(milisecond);
     }
 

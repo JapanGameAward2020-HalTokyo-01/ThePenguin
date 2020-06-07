@@ -27,23 +27,23 @@ public class StageMetaParam : ScriptableObject
 	}
 
 //! システムシーン
-public SceneAsset m_Title = null;
-	public SceneAsset m_StageSelect = null;
-	public SceneAsset m_Result = null;
-	public SceneAsset m_GameOver = null;
+public SceneObject m_Title = null;
+	public SceneObject m_StageSelect = null;
+	public SceneObject m_Result = null;
+	public SceneObject m_GameOver = null;
 	//! プレイシーン
 	[SerializeField]
-	public SceneAsset m_FirstStage = null;
+	public SceneObject m_FirstStage = null;
 
 	// ビルドセッティング上のシーンインデックス
-	public int CurrentLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name) + LevelIndex; } }
-	public int NextLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name) + LevelIndex + 1; } }
+	public int CurrentLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage) + LevelIndex; } }
+	public int NextLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage) + LevelIndex + 1; } }
 
 	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
 	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
 
 	// 最初のレベルのビルドセッティング上のシーンインデックス
-	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage.name); } }
+	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage); } }
 
 	// 各エリアの最初のレベルのインデックス番号が欲しい
 	[SerializeField]

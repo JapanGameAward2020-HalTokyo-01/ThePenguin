@@ -166,7 +166,7 @@ public class Penguin : MonoBehaviour
     protected virtual void MoveHandler(Vector3 move)
     {
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f, ForceMode.Force);
-        m_Model.transform.forward = move;
+        m_ModelForward = move;
     }
 
     /// <summary>

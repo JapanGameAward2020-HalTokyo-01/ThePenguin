@@ -124,10 +124,13 @@ public class PenguinState_Idle : PenguinState
 
         if (penguin.manager.m_settings.m_clear_flag)
         {
-            if (m_Effect[0])
-                m_Effect[0].Stop();
-            if (m_Effect[1])
-                m_Effect[1].Stop();
+            if (parentPenguin != null)
+            {
+                if (m_Effect[0])
+                    m_Effect[0].Stop();
+                if (m_Effect[1])
+                    m_Effect[1].Stop();
+            }
 
             penguin.ChangeState<PenguinState_Goal>();
             return;
@@ -135,10 +138,13 @@ public class PenguinState_Idle : PenguinState
 
         if (penguin.manager.m_settings.m_failuer_flag)
         {
-            if (m_Effect[0])
-                m_Effect[0].Stop();
-            if (m_Effect[1])
-                m_Effect[1].Stop();
+            if (parentPenguin != null)
+            {
+                if (m_Effect[0])
+                    m_Effect[0].Stop();
+                if (m_Effect[1])
+                    m_Effect[1].Stop();
+            }
 
             penguin.ChangeState<PenguinState_Failed>();
             return;

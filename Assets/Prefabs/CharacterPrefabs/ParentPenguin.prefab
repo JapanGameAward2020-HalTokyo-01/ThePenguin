@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 2599143990050371674}
   - component: {fileID: 4920913343152439983}
   - component: {fileID: 7916897069897301012}
+  - component: {fileID: 5143780963282392130}
   m_Layer: 8
   m_Name: Idle
   m_TagString: Untagged
@@ -113,6 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc06dc1dc4a7bc14f9a7ec9e15b6e689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Effect:
+  - {fileID: 7916897069897301012}
+  - {fileID: 5143780963282392130}
   ChargeEffectNow: 0
 --- !u!114 &7916897069897301012
 MonoBehaviour:
@@ -127,7 +131,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmitterScale: 0
-  effectAsset: {fileID: 0}
+  effectAsset: {fileID: 11400000, guid: 2db37241a80e9c74488438beda2462dd, type: 2}
+  playOnStart: 0
+  isLooping: 0
+--- !u!114 &5143780963282392130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688918651516530511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: 480799e05b58e54409aaacd35951d3ff, type: 2}
   playOnStart: 0
   isLooping: 0
 --- !u!1 &2171185224664653275
@@ -485,15 +505,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectAssets:
-  - {fileID: 11400000, guid: b5c85f4d63f57da4594928d211a695bf, type: 2}
-  - {fileID: 11400000, guid: 2db37241a80e9c74488438beda2462dd, type: 2}
-  - {fileID: 11400000, guid: 480799e05b58e54409aaacd35951d3ff, type: 2}
+  - {fileID: 11400000, guid: 80474d14d4b9e63488f1dba53ae503ab, type: 2}
+  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
+  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
   - {fileID: 11400000, guid: 81256911c6cff864e96bf615d2af9f30, type: 2}
   - {fileID: 11400000, guid: 25a5623cc65797043941ca207eabd2d2, type: 2}
   - {fileID: 11400000, guid: 408b86ec1589a084dbc2d5a0d46daec0, type: 2}
-  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
-  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
-  - {fileID: 11400000, guid: 80474d14d4b9e63488f1dba53ae503ab, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!1 &5444828112288068988
 GameObject:

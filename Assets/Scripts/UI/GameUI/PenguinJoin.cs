@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file   PenguinJoin.cs
+/// @brief	ペンギン群れ化の演出
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,7 +49,7 @@ public class PenguinJoin : MonoBehaviour
         img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
         Vector3 initdist = m_Destination.transform.position - img.transform.position;
 
-        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 1.0f * m_Speed)
+        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 2.0f * m_Speed)
         {
             Debug.Log("img.transform.position: " + img.transform.position);
 

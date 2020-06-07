@@ -93,12 +93,12 @@ public class GameUI : MonoBehaviour
             return;
         }
 
-        // 開始アニメーション待ち
-        if (!m_StartSystem.GetNowPlaying())
-        {
-            m_ChargeGaugeMgr.RegisterInputEvent();
-            return;
-        }
+        //// 開始アニメーション待ち
+        //if (!m_StartSystem.GetNowPlaying())
+        //{
+        //    m_ChargeGaugeMgr.RegisterInputEvent();
+        //    return;
+        //}
 
         //! ペンギンの向いている方向へカメラをセット
         if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)

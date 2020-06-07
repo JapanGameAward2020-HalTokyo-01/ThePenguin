@@ -1,10 +1,36 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+[Serializable]
+public class QuestBorder
+{
+	[SerializeField, Tooltip("クリア条件時間\n実際のステージに設定されてる方を優先する項目")]
+	public float _Time;
+	[SerializeField, Tooltip("ゲームオーバー条件死亡数\n実際のステージに設定されてる方を優先する項目")]
+	public int _Dead;
+
+	[SerializeField, Tooltip("クエスト：目標タイム")]
+	public float _QuestTime;
+	[SerializeField, Tooltip("クエスト：目標救出数")]
+	public int _QuestCount;
+
+	public QuestBorder()
+	{
+		_Time = 0.0f;
+		_Dead = 0;
+		_QuestTime = 0.0f;
+		_QuestCount = 0;
+	}
+}
 
 [CreateAssetMenu(menuName = "CreateData/Stage/StageMetaParam", fileName = "StageMetaParam")]
 public class StageMetaParam : ScriptableObject
 {
+	// シーンファイルとリストの登録\nシーンを読み込むためのインデックスの計算など
+	[Header("Scene Assets List")]
+
 	//! 現在のエリア番号
 	public int m_current_area_index;
 	//! 現在のステージ番号
@@ -26,8 +52,8 @@ public class StageMetaParam : ScriptableObject
 		m_current_stage_index = m_current_stage_index % _area_level_num;
 	}
 
-//! システムシーン
-public SceneObject m_Title = null;
+	//! システムシーン
+	public SceneObject m_Title = null;
 	public SceneObject m_StageSelect = null;
 	public SceneObject m_Result = null;
 	public SceneObject m_GameOver = null;
@@ -63,4 +89,13 @@ public SceneObject m_Title = null;
 	{
 		return m_levelnum_each_area[_area_index];
 	}
+
+	// ステージ外で使う、クリア条件やクエスト条件のリスト
+	[Header("Stage Quest Border List")]
+
+	[SerializeField, Tooltip("クリア条件、達成条件リスト")]
+	private QuestBorder[] m_quest_border = new QuestBorder[28];
+	public QuestBorder[] GetQuestList { get => m_quest_border; }
+	public QuestBorder GetCurrentQuest { get => m_quest_border[CurrentLevelIndex]; }
+
 }

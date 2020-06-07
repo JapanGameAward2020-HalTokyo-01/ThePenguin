@@ -17,11 +17,19 @@ public class PenguinState_Fall : PenguinState
     {
         startCameraSystem = FindObjectOfType<StartCameraSystem>();
 
-        if (!startCameraSystem.GetNowPlaying())
+        if (startCameraSystem)
         {
-            penguin.animator.SetTrigger("OnFall"); 
+            if (!startCameraSystem.GetNowPlaying())
+            {
+                penguin.animator.SetTrigger("OnFall");
+            }
+        }
+        else
+        {
+            penguin.animator.SetTrigger("OnFall");
         }
 
+        penguin.animator.SetBool("IsFall", true);
         parentPenguin = penguin.GetComponent<ParentPenguin>();
 
         //!文字エフェクト
@@ -71,5 +79,10 @@ public class PenguinState_Fall : PenguinState
             penguin.ChangeState<PenguinState_Idle>();
 
         }
+    }
+
+    public override void OnRelease()
+    {
+        penguin.animator.SetBool("IsFall", false);
     }
 }

@@ -30,7 +30,8 @@ public class FootMarker : MonoBehaviour
 
 	public void Start()
 	{
-		m_input.actions["Move"].performed += CursorRotate;
+        if(m_input)
+		    m_input.actions["Move"].performed += CursorRotate;
 	}
 
 	// 選んだステージ読み込む
@@ -40,20 +41,25 @@ public class FootMarker : MonoBehaviour
 
 		if (_in_dir.magnitude > 0)
 		{
-			// 表示する
-			Color _col = m_arrow.color;
-			_col.a = 1.0f;
-			m_arrow.color = _col;
-
+            if (m_arrow)
+            {
+                // 表示する
+                Color _col = m_arrow.color;
+                _col.a = 1.0f;
+                m_arrow.color = _col;
+            }
 			// 回転する
 			transform.LookAt(transform.position + m_parent.m_ModelForward);
 		}
 		else
 		{
-			// 非表示にする
-			Color _col = m_arrow.color;
-			_col.a = 0.0f;
-			m_arrow.color = _col;
+            if (m_arrow)
+            {
+                // 非表示にする
+                Color _col = m_arrow.color;
+                _col.a = 0.0f;
+                m_arrow.color = _col;
+            }
 		}
 	}
 }

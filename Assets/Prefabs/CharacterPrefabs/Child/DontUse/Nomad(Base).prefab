@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 1000348612469072492}
   - component: {fileID: 5516197525327388756}
   - component: {fileID: -5677321081544252140}
+  - component: {fileID: 7131658247045038713}
   m_Layer: 10
   m_Name: Nomad(Base)
   m_TagString: ChildPenguin
@@ -305,6 +306,7 @@ MonoBehaviour:
   m_CurrentState: {fileID: 0}
   m_InputHandler: {fileID: 0}
   m_MoveThreshhold: 0.01
+  m_FallThreshhold: 5
   m_Invincible: 0
   m_ClearAnimationEnded: 0
   m_Animator: {fileID: 0}
@@ -335,6 +337,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81256911c6cff864e96bf615d2af9f30, type: 2}
   - {fileID: 11400000, guid: edbac47b8ad11e34786eccffc897795a, type: 2}
   m_CurrentEffect: {fileID: 0}
+--- !u!114 &7131658247045038713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663731139713951327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00c965180bc6a549a974dc3a222a459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5465951812156114598
 GameObject:
   m_ObjectHideFlags: 0

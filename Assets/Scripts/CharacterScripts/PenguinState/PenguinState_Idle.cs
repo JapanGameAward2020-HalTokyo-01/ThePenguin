@@ -52,13 +52,13 @@ public class PenguinState_Idle : PenguinState
                         if (ChargeEffectNow != 3)
                         {
                             m_Effect.StopRoot();
-                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P3"));
+                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeFinal_P3"));
                             ChargeEffectNow = 3;
                         }
                     }
                     else
                     {
-                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P3"));
+                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeFinal_P3"));
                     }
 
                 }
@@ -70,13 +70,13 @@ public class PenguinState_Idle : PenguinState
                         if (ChargeEffectNow != 2)
                         {
                             m_Effect.StopRoot();
-                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P2"));
+                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeFinal_P2"));
                             ChargeEffectNow = 2;
                         }
                     }
                     else
                     {
-                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P2"));
+                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeFinal_P2"));
                     }
 
                 }
@@ -87,21 +87,21 @@ public class PenguinState_Idle : PenguinState
                     {
                         if (ChargeEffectNow != 1)
                         {
-                            m_Effect.StopRoot();
-                            m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
+                            //m_Effect.StopRoot();
+                           // m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
                             ChargeEffectNow = 1;
                         }
 
                     }
                     else
                     {
-                        m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
+                       // m_Effect.Play(parentPenguin.Effect.GetEffect("ChargeNew_P1"));
                     }
 
                 }
                 else
                 {
-                    m_Effect.StopRoot();
+                    m_Effect.Stop();
                 }
             }
 

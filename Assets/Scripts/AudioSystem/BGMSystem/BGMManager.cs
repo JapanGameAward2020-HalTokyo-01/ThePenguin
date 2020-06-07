@@ -58,7 +58,7 @@ public class BGMManager : MonoBehaviour
 		// 初期化
 		m_current_source.outputAudioMixerGroup = m_audio_list.BGMMixer;
 		m_current_source.loop = true;
-		m_current_source.Play(1.0f);
+		m_current_source.Play(m_param.Clip);
 	}
 
 	/**

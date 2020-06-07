@@ -238,6 +238,12 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    //!ゴール演出をスキップするためのフラグ変更
+    public void StopGoalPlaying()
+    {
+        m_ParentPenguin.m_ClearAnimationEnded = true; 
+    }
+
     // シーン遷移
     IEnumerator ToNextScene()
     {

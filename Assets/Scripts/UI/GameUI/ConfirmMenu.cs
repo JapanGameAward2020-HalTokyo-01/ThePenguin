@@ -60,6 +60,7 @@ public class ConfirmMenu : MonoBehaviour
     //! 現在のシーン
     private string m_ActiveScene;
 
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
@@ -98,7 +99,7 @@ public class ConfirmMenu : MonoBehaviour
 
 
         //!　ゲームを止める
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonConfirm;

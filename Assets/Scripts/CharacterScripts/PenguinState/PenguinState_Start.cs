@@ -22,7 +22,17 @@ public class PenguinState_Start : PenguinState
     //! 更新処理
     public override void OnUpdate()
     {
-        if (!StartSystem.GetNowPlaying())
+        if (StartSystem)
+        {
+            if (!StartSystem.GetNowPlaying())
+            {
+                if (parentPenguin != null)
+                    parentPenguin.RegisterInputEvent();
+
+                penguin.ChangeState<PenguinState_Idle>();
+            }
+        }
+        else
         {
             if (parentPenguin != null)
                 parentPenguin.RegisterInputEvent();

@@ -492,6 +492,7 @@ MonoBehaviour:
   m_InvincibleDuration: 0
   m_EveryoneJumped: 0
   m_MarkerObject: {fileID: 502919337550487354}
+  m_MaskObject: {fileID: 6461582881307302237}
 --- !u!114 &-5136099999725475654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,6 +848,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeroPenguin
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -927,16 +938,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5470462845495159244, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_CastShadows
@@ -949,6 +950,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d83f257eccc38c489cd5ec99942a929, type: 3}
+--- !u!1 &6461582881307302237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4556632144525784575, guid: 5d83f257eccc38c489cd5ec99942a929,
+    type: 3}
+  m_PrefabInstance: {fileID: 1832877438027895644}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3647642325883426108 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,

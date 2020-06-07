@@ -39,6 +39,8 @@ public class ParentPenguin : Penguin
 
     [SerializeField]
     private GameObject m_MarkerObject;
+    [SerializeField]
+    private GameObject m_MaskObject;
 
     private InputEvent m_InputEvent;
 
@@ -216,7 +218,8 @@ public class ParentPenguin : Penguin
     public void RegisterInputEvent()
     {
         //! InputHandlerにEvent登録
-        m_InputHandler.RegisterInputEvent(m_InputEvent);
+        if(m_InputHandler)
+            m_InputHandler.RegisterInputEvent(m_InputEvent);
     }
 
     public void UnRegisterInputEvent()
@@ -242,6 +245,11 @@ public class ParentPenguin : Penguin
     public int GetChildCount()
     {
         return m_ChildPenguins.Count;
+    }
+
+    public void SetMaskEnable(bool flg)
+    {
+        m_MarkerObject.SetActive(flg);
     }
 
     /// <summary>

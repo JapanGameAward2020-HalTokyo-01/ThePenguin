@@ -31,6 +31,16 @@ public class StartCameraSystem : MonoBehaviour
     [SerializeField]
     private PenguinManager m_PenguinManager;
 
+    [Header("MiddlePoint")]
+    [SerializeField]
+    private bool m_MiddleEnable = false;
+    [SerializeField]
+    private GameObject m_MiddlePoint;
+    [SerializeField]
+    private float m_Middle_WaitTime = 2.0f;
+    [SerializeField]
+    private float m_Middle_MoveTime = 2.0f;
+
 
     private bool m_NowPlaying = true;
     private bool m_PlayedOnce = false;
@@ -50,15 +60,42 @@ public class StartCameraSystem : MonoBehaviour
         {
             m_Timer += Time.deltaTime;
 
-            if(m_Timer>m_WaitTimeToMove_1+m_MoveTime+m_WaitTimeToMove_2)
+            if (!m_MiddleEnable)
             {
-                StopPlaying();
+                //制御点が二つ
+                if (m_Timer > m_WaitTimeToMove_1 + m_MoveTime + m_WaitTimeToMove_2)
+                {
+                    StopPlaying();
+                }
+                else if (m_Timer > m_WaitTimeToMove_1)
+                {
+                    FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_MoveTime;
+                    v_camera[0].Priority = 0;
+                    v_camera[1].Priority = 2;
+                    v_camera[2].Priority = 0;
+                }
             }
-            else if(m_Timer>m_WaitTimeToMove_1)
+            else
             {
-                FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_MoveTime;
-                v_camera[0].Priority = 0;
-                v_camera[1].Priority = 2;
+                //制御点が三つ
+                if (m_Timer > m_WaitTimeToMove_1 + m_Middle_MoveTime + m_Middle_WaitTime + m_MoveTime + m_WaitTimeToMove_2)
+                {
+                    StopPlaying();
+                }
+                else if(m_Timer> m_WaitTimeToMove_1 + m_Middle_MoveTime + m_Middle_WaitTime)
+                {
+                    FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_MoveTime;
+                    v_camera[0].Priority = 0;
+                    v_camera[1].Priority = 2;
+                    v_camera[2].Priority = 0;
+                }
+                else if (m_Timer > m_WaitTimeToMove_1)
+                {
+                    FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_Middle_MoveTime;
+                    v_camera[0].Priority = 0;
+                    v_camera[1].Priority = 0;
+                    v_camera[2].Priority = 2;
+                }
             }
 
             if (m_Timer > 0.2f && !m_PenguinsDown)
@@ -83,6 +120,7 @@ public class StartCameraSystem : MonoBehaviour
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_InTime;
         v_camera[0].Priority = 2;
         v_camera[1].Priority = 0;
+        v_camera[2].Priority = 0;
 
         var main_ui = FindObjectOfType<GameMain>();
         if(main_ui!=null)
@@ -98,6 +136,7 @@ public class StartCameraSystem : MonoBehaviour
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;
         v_camera[1].Priority = 0;
+        v_camera[2].Priority = 0;
 
         StartCoroutine(EnableUI(m_OutTime));
     }

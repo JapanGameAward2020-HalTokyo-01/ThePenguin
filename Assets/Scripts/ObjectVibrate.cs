@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 /**
 * @class    ObjectVibrate
@@ -21,7 +22,7 @@ public class ObjectVibrate : MonoBehaviour
     //!振動速度
     [SerializeField]
     private Vector3 m_VibrateSpeed;
-
+  
     //!最大振動時間
     [SerializeField]
     public float m_VibrateTimeMax = 0.0f;
@@ -31,10 +32,13 @@ public class ObjectVibrate : MonoBehaviour
     //!振動中フラグ
     [SerializeField]
     public bool OnVibrate { get; set; }
-
+    
     //!初期ポジション、大きさ
     private Vector3 InitPos;
     private float m_Scale;
+
+
+   
 
     void Start()
     {
@@ -42,8 +46,9 @@ public class ObjectVibrate : MonoBehaviour
         {
             this.InitPos = m_TargetObject.transform.localPosition;
             m_Scale = m_TargetObject.transform.localScale.x;
+            
         }
-
+       
         OnVibrate = false;
     }
 
@@ -56,10 +61,12 @@ public class ObjectVibrate : MonoBehaviour
             if(m_VibrateTimeMax <= m_VibrateTime)
             {
                 OnVibrate = false;
+                
                 if (m_TargetObject)                
                     m_TargetObject.transform.localPosition = InitPos;
             }
         }
+       
     }
 
     //！振動処理
@@ -81,6 +88,7 @@ public class ObjectVibrate : MonoBehaviour
     {
         OnVibrate = true;
         m_VibrateTime = 0.0f;
+       
     }
 
     //！振動停止命令
@@ -90,6 +98,7 @@ public class ObjectVibrate : MonoBehaviour
         m_VibrateTime = 0.0f;
         if (m_TargetObject)
             m_TargetObject.transform.localPosition = InitPos;
+       
     }
 
     public float GetVibrateTimeMax()

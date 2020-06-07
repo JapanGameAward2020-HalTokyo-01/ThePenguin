@@ -218,7 +218,8 @@ public class ParentPenguin : Penguin
     public void RegisterInputEvent()
     {
         //! InputHandlerにEvent登録
-        m_InputHandler.RegisterInputEvent(m_InputEvent);
+        if(m_InputHandler)
+            m_InputHandler.RegisterInputEvent(m_InputEvent);
     }
 
     public void UnRegisterInputEvent()

@@ -43,47 +43,50 @@ public class PenguinState_Idle : PenguinState
             //!チャージエフェクト処理
             if (m_Effect[0] && m_Effect[1])
             {
-                if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
+                if (parentPenguin.GetInputHandler())
                 {
-                    if (m_Effect[0].exists)
+                    if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
                     {
-                        if (!m_Effect[1].exists)
+                        if (m_Effect[0].exists)
+                        {
+                            if (!m_Effect[1].exists)
+                            {
+                                m_Effect[1].Play();
+                            }
+                        }
+                        else if (!m_Effect[1].exists)
                         {
                             m_Effect[1].Play();
                         }
-                    }
-                    else if(!m_Effect[1].exists)
-                    {
-                        m_Effect[1].Play();
+
                     }
 
-                }
-
-                else if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax / 4.0f)
-                {
-                    if (m_Effect[1].exists)
+                    else if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax / 4.0f)
                     {
-                        if (!m_Effect[0].exists)
+                        if (m_Effect[1].exists)
                         {
-                            m_Effect[1].StopRoot();
+                            if (!m_Effect[0].exists)
+                            {
+                                m_Effect[1].StopRoot();
+                                m_Effect[0].Play();
+                            }
+                        }
+                        else if (!m_Effect[0].exists)
+                        {
                             m_Effect[0].Play();
                         }
+
                     }
-                    else if(!m_Effect[0].exists)
+
+                    else if (parentPenguin.GetInputHandler().Power > 0.0f)
                     {
-                        m_Effect[0].Play();
+
                     }
-
-                }
-
-                else if (parentPenguin.GetInputHandler().Power > 0.0f)
-                {
-
-                }
-                else
-                {
-                    m_Effect[0].Stop();
-                    m_Effect[1].Stop();
+                    else
+                    {
+                        m_Effect[0].Stop();
+                        m_Effect[1].Stop();
+                    }
                 }
             }
 
@@ -98,15 +101,22 @@ public class PenguinState_Idle : PenguinState
                 if (m_Effect[1])
                     m_Effect[1].Stop();
 
-                parentPenguin.GetControllerVibration().ChargeShake(0.0f);
-                parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
-                if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
+                if (parentPenguin.GetControllerVibration())
                 {
-                    parentPenguin.ChangeState<PenguinState_Dash>();
+                    parentPenguin.GetControllerVibration().ChargeShake(0.0f);
+                    parentPenguin.GetControllerVibration().AddShake(0.6f, 0.2f);
                 }
-                else
+
+                if (parentPenguin.GetInputHandler())
                 {
-                    parentPenguin.ChangeState<PenguinState_Walk>();
+                    if (parentPenguin.GetInputHandler().Power > parentPenguin.GetInputHandler().PowerMax * 0.4f)
+                    {
+                        parentPenguin.ChangeState<PenguinState_Dash>();
+                    }
+                    else
+                    {
+                        parentPenguin.ChangeState<PenguinState_Walk>();
+                    }
                 }
             }
             else
@@ -122,32 +132,35 @@ public class PenguinState_Idle : PenguinState
             }
         }
 
-        if (penguin.manager.m_settings.m_clear_flag)
+        if (penguin.manager)
         {
-            if (parentPenguin != null)
+            if (penguin.manager.m_settings.m_clear_flag)
             {
-                if (m_Effect[0])
-                    m_Effect[0].Stop();
-                if (m_Effect[1])
-                    m_Effect[1].Stop();
+                if (parentPenguin != null)
+                {
+                    if (m_Effect[0])
+                        m_Effect[0].Stop();
+                    if (m_Effect[1])
+                        m_Effect[1].Stop();
+                }
+
+                penguin.ChangeState<PenguinState_Goal>();
+                return;
             }
 
-            penguin.ChangeState<PenguinState_Goal>();
-            return;
-        }
-
-        if (penguin.manager.m_settings.m_failuer_flag)
-        {
-            if (parentPenguin != null)
+            if (penguin.manager.m_settings.m_failuer_flag)
             {
-                if (m_Effect[0])
-                    m_Effect[0].Stop();
-                if (m_Effect[1])
-                    m_Effect[1].Stop();
-            }
+                if (parentPenguin != null)
+                {
+                    if (m_Effect[0])
+                        m_Effect[0].Stop();
+                    if (m_Effect[1])
+                        m_Effect[1].Stop();
+                }
 
-            penguin.ChangeState<PenguinState_Failed>();
-            return;
+                penguin.ChangeState<PenguinState_Failed>();
+                return;
+            }
         }
     }
 

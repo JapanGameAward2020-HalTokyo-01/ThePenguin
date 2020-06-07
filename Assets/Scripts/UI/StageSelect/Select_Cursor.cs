@@ -50,6 +50,7 @@ public class Select_Cursor : MonoBehaviour
 	private RectTransform m_selecting_pos;
 
 	// セーブデータ(DDOLより)
+	[SerializeField,NonEditableField]
 	private SaveSystem m_save;
 
 	/**
@@ -57,8 +58,6 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Awake()
 	{
-		m_save = FindObjectOfType<SaveSystem>();
-
 		m_event_system = EventSystem.current;
 		m_last_selected = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
 
@@ -66,21 +65,17 @@ public class Select_Cursor : MonoBehaviour
 	}
 
 	/**
-	 * @brief	初期化(設定)
-	 */
-	public void Start()
-	{
-	}
-
-	/**
 	 * @brief	更新
 	 */
 	public void Update()
 	{
+		// 参照切れ対策
+		if(m_save == null) m_save = FindObjectOfType<SaveSystem>();
+
 		// インプットチェック(GameOver, Resultと操作を合わせる)
 		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space))
 		{
-			Decide();
+			Decide(m_save);
 		}
 		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Space))
 		{
@@ -97,14 +92,15 @@ public class Select_Cursor : MonoBehaviour
 		m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
 
 		SetPos();
-		SetImage();
+		SetImage(m_save);
 	}
 
 	// 選んだステージ読み込む
-	private void Decide()
+	private void Decide(SaveSystem _save)
 	{
 		// 選択したステージが挑戦可能か
-		GameData _level_data = m_save.Stages1[m_stage_list.CurrentLevelIndex];
+		Debug.Log(m_stage_list.CurrentLevelIndex);
+		GameData _level_data = _save.Stages1[m_stage_list.CurrentLevelIndex];
 
 		if (_level_data.m_Unlocked)
 		{
@@ -143,7 +139,7 @@ public class Select_Cursor : MonoBehaviour
 	/**
 	 * @brief	選択中コマンドに合わせて対応する画像を変更する
 	 */
-	private void SetImage()
+	private void SetImage(SaveSystem _save)
 	{
 		// 背景切り替え
 		if (m_stage_list.m_current_area_index == (int)StageSelect_ImageList.AreaIndex.Snaw) m_background_obj.Change(0);
@@ -152,12 +148,12 @@ public class Select_Cursor : MonoBehaviour
 		if (m_stage_list.m_current_area_index == (int)StageSelect_ImageList.AreaIndex.Volcano) m_background_obj.Change(3);
 
 		// スコア読み込み
-		GameData _data = m_save.Stages1[m_stage_list.CurrentLevelIndex];
+		GameData _data = _save.Stages1[m_stage_list.CurrentLevelIndex];
 		m_score.SetStar(new bool[3] { _data.m_Star1, _data.m_Star2, _data.m_Star3 });
 		m_score.SetTime(_data.m_Time);
 
 		// ゲージの整形
-		m_penguin_gauge.SetGauge(m_save, m_stage_list.CurrentLevelIndex);
+		m_penguin_gauge.SetGauge(_save, m_stage_list.CurrentLevelIndex);
 	}
 
 	/**
@@ -185,7 +181,7 @@ public class Select_Cursor : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		yield return SceneManager.LoadSceneAsync(m_stage_list.m_Title.name);
+		yield return SceneManager.LoadSceneAsync(m_stage_list.m_Title);
 		yield return null;
 	}
 

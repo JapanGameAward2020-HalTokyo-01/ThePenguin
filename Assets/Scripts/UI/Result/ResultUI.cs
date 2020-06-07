@@ -61,7 +61,7 @@ public class ResultUI : MonoBehaviour
 
     [Header("Scene Data")]
     
-    [SerializeField, NonEditableField, Tooltip("シーンリスト")]
+    [SerializeField, Tooltip("シーンリスト")]
     private StageMetaParam m_SceneList;    
 
     private bool m_IsInputEnable = false;
@@ -176,7 +176,7 @@ public class ResultUI : MonoBehaviour
                         else if (m_Select == 1)
                         {
                             Debug.Log("Stage Select");
-                            StartCoroutine(SceneEnd(m_SceneList.m_StageSelect.name));
+                            StartCoroutine(SceneEnd(m_SceneList.m_StageSelect));
                         }
                         else if (m_Select == 2)
                         {

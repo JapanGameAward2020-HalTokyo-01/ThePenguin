@@ -250,6 +250,7 @@ public class PenguinManager : MonoBehaviour
         if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
             yield break;
 
+        bool[] _flags = new bool[2]{m_settings.m_failuer_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
         //アニメーション待機
         yield return new WaitForSecondsRealtime(2.0f);
@@ -259,16 +260,16 @@ public class PenguinManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.0f);
 
         // 失敗時
-        if (m_settings.m_failuer_flag && !m_settings.m_clear_flag)
+        if (_flags[0] && !_flags[1])
         {
-            yield return SceneManager.LoadSceneAsync(m_scene_list.m_GameOver.name);
+            SceneManager.LoadScene(m_scene_list.m_GameOver);
             yield return null;
         }
 
         // クリア時
-        if (m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        if (_flags[1] && !_flags[0])
         {
-            yield return SceneManager.LoadSceneAsync(m_scene_list.m_Result.name);
+            SceneManager.LoadScene(m_scene_list.m_Result);
             yield return null;
         }
     }

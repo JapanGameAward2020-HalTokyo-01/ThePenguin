@@ -31,7 +31,6 @@ public class UI_Component_Button : MonoBehaviour
     private bool m_AnimFlag_Out = false;
 
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -100,6 +99,13 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetEnable(bool enable)
     {
+        gameObject.SetActive(true);
+        if (m_HighLight == null || m_UnHighLight == null)
+        { 
+            m_HighLight = GetComponentsInChildren<Image>()[0];
+            m_UnHighLight = GetComponentsInChildren<Image>()[1];
+        }
+
         if (enable)
         {
             if (m_IsAcive)
@@ -129,6 +135,13 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetActive(bool active)
     {
+        gameObject.SetActive(true);
+        if (m_HighLight==null||m_UnHighLight==null)
+        {
+            m_HighLight = GetComponentsInChildren<Image>()[0];
+            m_UnHighLight = GetComponentsInChildren<Image>()[1];  
+        }
+
         if(m_IsAcive==active)
         {
             return;

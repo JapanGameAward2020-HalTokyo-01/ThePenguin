@@ -172,6 +172,9 @@ public class ResultUI : MonoBehaviour
         m_Page1_Gauge_TotalCounter.SetCurrentCount(m_TotalCount);
         m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
 
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.Result);
+
         StartCoroutine(SceneStart());
     }
 

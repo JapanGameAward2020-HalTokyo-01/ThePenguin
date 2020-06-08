@@ -53,6 +53,8 @@ public class GameOver : MonoBehaviour
 
 
         ////////////////////////////
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.GameOver);
 
         StartCoroutine(SceneStart());
     }

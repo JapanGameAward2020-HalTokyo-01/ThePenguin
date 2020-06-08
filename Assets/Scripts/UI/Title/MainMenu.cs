@@ -119,6 +119,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+
             return;
         }
 

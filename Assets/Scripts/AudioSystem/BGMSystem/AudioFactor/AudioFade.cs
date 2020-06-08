@@ -27,6 +27,7 @@ public class AudioFade
         m_source = _source;
         m_end_value = _end_value;
         m_proc_sec = _proc_sec;
+
     }
 
     public bool IsFading
@@ -35,7 +36,7 @@ public class AudioFade
     }
 
     //! フェード処理
-    IEnumerator FadeUpdate()
+    public IEnumerator FadeUpdate()
     {
         float _start_value = m_source.volume;
         m_is_fading = true;
@@ -54,6 +55,10 @@ public class AudioFade
             yield return null;
         }
 
+        // 停止命令時
+        if (!(m_end_value > 0)) m_source.Stop();
+
         m_is_fading = false;
     }
+
 }

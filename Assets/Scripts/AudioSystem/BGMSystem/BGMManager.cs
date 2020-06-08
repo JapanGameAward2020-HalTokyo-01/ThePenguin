@@ -18,7 +18,7 @@ public class BGMManager : MonoBehaviour
 {
 	[Header("General")]
 
-	[SerializeField, Min(2), Tooltip("BGM用AudioSourceバッファ数")]
+	[SerializeField, Min(2), Tooltip("BGM用AudioSource数")]
 	private int m_bgm_voice_num = 2;
 
 	//! オーディオリスト(BGM切り替え等に使用)
@@ -111,6 +111,7 @@ public class BGMManager : MonoBehaviour
 		else
 		{
 			m_current_source.clip = m_param.Clip;
+			m_current_source.volume = 1.0f;
 			m_current_source.Play();
 		}
 	}
@@ -131,6 +132,6 @@ public class BGMManager : MonoBehaviour
 	 public void fade(float _end_value, float _proc_sec, AudioSource _source, AudioBGMParams _param)
 	{
 		m_fade.Set(_source, _end_value, _proc_sec);
-		StartCoroutine("m_fade.FadeUpdate");
+		StartCoroutine(m_fade.FadeUpdate());
 	}
 }

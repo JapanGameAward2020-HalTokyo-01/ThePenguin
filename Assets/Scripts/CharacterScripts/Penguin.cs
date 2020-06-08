@@ -61,6 +61,10 @@ public class Penguin : MonoBehaviour
     //! 最初のゴールアニメーション再生判定
     protected bool m_PlayedFirstGoal = false;
 
+    private int m_BossJumpTimer = 0;
+
+    protected bool m_BossPlayedFirst = false;
+
     #endregion
 
     //!エフェクトスポーンナー
@@ -251,5 +255,27 @@ public class Penguin : MonoBehaviour
     public Vector3 GetGoalPos()
     {
         return m_GoalPos;
+    }
+
+    protected bool BossDefeat()
+    {
+        bool ended = false;
+
+        if (!m_BossPlayedFirst)
+        {
+            if (m_BossJumpTimer < (int)(60 * 0.5))
+            {
+                m_BossJumpTimer++;
+            }
+
+            else if (!ended)
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnBossJump");
+                ended = true;
+                m_BossPlayedFirst = true;
+            } 
+        }
+
+        return ended;
     }
 }

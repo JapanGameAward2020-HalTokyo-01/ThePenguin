@@ -44,6 +44,15 @@ public class ParentPenguin : Penguin
 
     private InputEvent m_InputEvent;
 
+    #region ボスゴール演出関係
+    private Boss m_BossScript;
+
+    private int m_Boss_Timer = 0;
+
+    private bool m_BossEnshutsu_Cloud = false;
+
+    #endregion
+
     protected override void Awake()
     {
         base.Awake();
@@ -69,6 +78,11 @@ public class ParentPenguin : Penguin
        // m_InputHandler.RegisterInputEvent(m_InputEvent);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        if (m_Boss)
+        {
+            m_BossScript = FindObjectOfType<Boss>();
+        }
     }
 
 
@@ -202,6 +216,31 @@ public class ParentPenguin : Penguin
         {
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
             transform.LookAt(m_GoalPos);
+        }
+
+        else if (Boss)
+        {
+            int timeLimit = (int)(60.0f * 0.5f);
+
+            if (BossDefeat()) 
+            {
+                m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
+            }
+
+            else if (m_BossPlayedFirst)
+            {
+                if (m_Boss_Timer > timeLimit)
+                {
+                    m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
+                    m_BossScript.animator.SetTrigger("OnDie");
+                    m_BossEnshutsu_Cloud = true;
+                }
+
+                if (m_Boss_Timer < timeLimit + 1)
+                {
+                    m_Boss_Timer++;
+                } 
+            }
         }
 
         else if (m_EveryoneJumped)

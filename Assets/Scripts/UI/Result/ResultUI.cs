@@ -110,6 +110,9 @@ public class ResultUI : MonoBehaviour
         m_Page1_StarCounter.SetCount(m_StarCount);
         m_Page1_StarCounter.SetCurrentCount(m_StarCount);
 
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.Result);
+
         StartCoroutine(SceneStart());
     }
 

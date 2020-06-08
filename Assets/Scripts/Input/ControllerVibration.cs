@@ -30,10 +30,8 @@ public class ControllerVibration : MonoBehaviour
             this.time = t;
         }
     }
-    //!コントロール関連（特に使わない）
+    //!コントロール関連
     PlayerIndex playerIndex;
-    GamePadState state;
-    GamePadState prevState;
 
     //!振動管理用リスト
     private List<Shake> m_ShakeList = new List<Shake>();
@@ -50,43 +48,55 @@ public class ControllerVibration : MonoBehaviour
     [SerializeField, Tooltip("チャージ時最小振動値"), Range(0.1f, 1.0f)]
     private float ChargeVibration_Min = 0.3f;
 
+    private bool OnPause;
+
     void Start()
     {
         VibrationPower = 0.0f;
         ChargePower = 0.0f;
+        OnPause = false;
     }
 
     void Update()
     {
-        //!リスト内の時間カウントダウン
-        foreach (var shake in m_ShakeList)
+        if(OnPause)
         {
-            shake.time -= Time.deltaTime;
+            GamePad.SetVibration(playerIndex, 0, 0);
         }
-
-        //!時間がゼロ以下になると削除
-        foreach (var shake in m_ShakeList.ToArray())
+        else
         {
-            if(shake.time <= 0)
+            //!リスト内の時間カウントダウン
+            foreach (var shake in m_ShakeList)
             {
-                m_ShakeList.Remove(shake);
+                shake.time -= Time.deltaTime;
             }
+
+            //!時間がゼロ以下になると削除
+            foreach (var shake in m_ShakeList.ToArray())
+            {
+                if (shake.time <= 0)
+                {
+                    m_ShakeList.Remove(shake);
+                }
+            }
+
+            VibrationPower = 0.0f;
+
+            //!チャージ振動優先処理
+            if (ChargePower > 0.0f)
+            {
+                VibrationPower = ChargePower;
+            }
+            else if (m_ShakeList.Count > 0)
+            {
+                VibrationPower = m_ShakeList[0].power;
+            }
+
+            //!揺らす
+            GamePad.SetVibration(playerIndex, VibrationPower, VibrationPower);
         }
 
-        VibrationPower = 0.0f;
 
-        //!チャージ振動優先処理
-        if (ChargePower > 0.0f)
-        {
-            VibrationPower = ChargePower;
-        }
-        else if(m_ShakeList.Count > 0)
-        {
-            VibrationPower = m_ShakeList[0].power;
-        }
-
-        //!揺らす
-        GamePad.SetVibration(playerIndex, VibrationPower, VibrationPower);
 
     }
 
@@ -123,6 +133,11 @@ public class ControllerVibration : MonoBehaviour
         ChargePower = 0.0f;
         m_ShakeList.Clear();
         GamePad.SetVibration(playerIndex, 0, 0);
+    }
+
+    public void Pause(bool p)
+    {
+        OnPause = p;
     }
 
     //!パワーを比較

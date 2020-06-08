@@ -53,6 +53,7 @@ public class CrashWall : MonoBehaviour
     private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
+    private ObjectColorChange m_ObjectColorChange;
 
     private void OnDrawGizmos()
     {
@@ -78,6 +79,9 @@ public class CrashWall : MonoBehaviour
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
+
+        if (!m_ObjectColorChange)
+            m_ObjectColorChange = GetComponent<ObjectColorChange>();
     }
 
     // Update is called once per frame
@@ -134,7 +138,11 @@ public class CrashWall : MonoBehaviour
 
                 if (m_ObjectVibrate)
                     m_ObjectVibrate.StartVibrate();
-
+                if (m_ObjectColorChange)
+                {
+                    m_ObjectColorChange.ChangeColor();
+                   
+                }
                 if (Effect != null)
                 {
                    // Effect.PlayerEffect("DON", gameObject.transform.position);
@@ -142,16 +150,16 @@ public class CrashWall : MonoBehaviour
                     switch (m_Type)
                     {
                         case FieldType.SNOW:
-                            Effect.PlayerEffect("RockCrash_Ice", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Ice", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.DESERT:
-                            Effect.PlayerEffect("RockCrash_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.JUNGLE:
-                            Effect.PlayerEffect("RockCrash_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.VOLCANIC:
-                            Effect.PlayerEffect("RockCrash_Vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                     }
 

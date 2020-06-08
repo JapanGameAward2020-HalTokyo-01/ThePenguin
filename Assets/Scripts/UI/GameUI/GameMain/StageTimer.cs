@@ -68,5 +68,13 @@ public class StageTimer : MonoBehaviour
 		//m_minute_text.text = (Mathf.FloorToInt(m_time) / 60).ToString("D2");
 		m_second_text.text = Mathf.Min(999, (Mathf.FloorToInt(m_time))).ToString("D3");
 		m_mini_sec_text.text = (Mathf.FloorToInt(m_time * 100) % 100).ToString("D2");
-	}
+
+
+        //10秒以下数字を白色⇒赤色
+        if(m_time<=10.0f)
+        {
+            m_second_text.color = new Color(1.0f, 0.0f, 0.0f);
+            m_mini_sec_text.color = new Color(1.0f, 0.0f, 0.0f);
+        }
+    }
 }

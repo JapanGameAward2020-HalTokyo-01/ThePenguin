@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file   SlopeTilt.cs
+/// @brief	坂挙動
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

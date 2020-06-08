@@ -39,6 +39,8 @@ public class ParentPenguin : Penguin
 
     [SerializeField]
     private GameObject m_MarkerObject;
+    [SerializeField]
+    private GameObject m_MaskObject;
 
     private InputEvent m_InputEvent;
 
@@ -216,7 +218,8 @@ public class ParentPenguin : Penguin
     public void RegisterInputEvent()
     {
         //! InputHandlerにEvent登録
-        m_InputHandler.RegisterInputEvent(m_InputEvent);
+        if(m_InputHandler)
+            m_InputHandler.RegisterInputEvent(m_InputEvent);
     }
 
     public void UnRegisterInputEvent()
@@ -242,6 +245,11 @@ public class ParentPenguin : Penguin
     public int GetChildCount()
     {
         return m_ChildPenguins.Count;
+    }
+
+    public void SetMaskEnable(bool flg)
+    {
+        m_MarkerObject.SetActive(flg);
     }
 
     /// <summary>
@@ -293,16 +301,10 @@ public class ParentPenguin : Penguin
                      if (m_Handler.Power > (m_Handler.PowerMax * 2) / 4)
                      {
                          m_ParentPenguin.animator.SetBool("IsChargeMax", true);
-                         Effect.PlayerEffect("Charge_3", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                      }
                      else if (m_Handler.Power > m_Handler.PowerMax / 4)
                      {
                          m_ParentPenguin.animator.SetBool("IsChargeMax", false);
-                         Effect.PlayerEffect("Charge_2", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
-                     }
-                     else if (m_Handler.Power > 0.0f)
-                     {
-                         Effect.PlayerEffect("Charge_1", m_ParentPenguin.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                      }
                  }
             };

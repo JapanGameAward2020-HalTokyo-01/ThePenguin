@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 2599143990050371674}
   - component: {fileID: 4920913343152439983}
   - component: {fileID: 7916897069897301012}
+  - component: {fileID: 5143780963282392130}
   m_Layer: 8
   m_Name: Idle
   m_TagString: Untagged
@@ -113,6 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc06dc1dc4a7bc14f9a7ec9e15b6e689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Effect:
+  - {fileID: 7916897069897301012}
+  - {fileID: 5143780963282392130}
   ChargeEffectNow: 0
 --- !u!114 &7916897069897301012
 MonoBehaviour:
@@ -127,7 +131,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmitterScale: 0
-  effectAsset: {fileID: 0}
+  effectAsset: {fileID: 11400000, guid: 2db37241a80e9c74488438beda2462dd, type: 2}
+  playOnStart: 0
+  isLooping: 0
+--- !u!114 &5143780963282392130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688918651516530511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: 480799e05b58e54409aaacd35951d3ff, type: 2}
   playOnStart: 0
   isLooping: 0
 --- !u!1 &2171185224664653275
@@ -472,6 +492,7 @@ MonoBehaviour:
   m_InvincibleDuration: 0
   m_EveryoneJumped: 0
   m_MarkerObject: {fileID: 502919337550487354}
+  m_MaskObject: {fileID: 6461582881307302237}
 --- !u!114 &-5136099999725475654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,15 +506,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectAssets:
-  - {fileID: 11400000, guid: b5c85f4d63f57da4594928d211a695bf, type: 2}
-  - {fileID: 11400000, guid: 7e3304a1df6b9724d9e2c7ad9fc7ea10, type: 2}
-  - {fileID: 11400000, guid: b2a2d55390b0b184e82cc532b9cc0cc0, type: 2}
+  - {fileID: 11400000, guid: 80474d14d4b9e63488f1dba53ae503ab, type: 2}
+  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
+  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
   - {fileID: 11400000, guid: 81256911c6cff864e96bf615d2af9f30, type: 2}
   - {fileID: 11400000, guid: 25a5623cc65797043941ca207eabd2d2, type: 2}
   - {fileID: 11400000, guid: 408b86ec1589a084dbc2d5a0d46daec0, type: 2}
-  - {fileID: 11400000, guid: 1d1be90f35402d7489964aa9166b5822, type: 2}
-  - {fileID: 11400000, guid: d6d4f967f30f9e940bed63ea4a0b6305, type: 2}
-  - {fileID: 11400000, guid: 80474d14d4b9e63488f1dba53ae503ab, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!1 &5444828112288068988
 GameObject:
@@ -757,6 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c023ca7e5147b4478da34d89d32e32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EfecctTimeMax: 5
 --- !u!1 &8964305568121128847
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +847,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HeroPenguin
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
@@ -909,16 +938,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5470462845495159244, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_CastShadows
@@ -931,6 +950,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d83f257eccc38c489cd5ec99942a929, type: 3}
+--- !u!1 &6461582881307302237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4556632144525784575, guid: 5d83f257eccc38c489cd5ec99942a929,
+    type: 3}
+  m_PrefabInstance: {fileID: 1832877438027895644}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3647642325883426108 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,

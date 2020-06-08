@@ -52,7 +52,7 @@ public class WallGimmick : BaseGimmick
         trans=GetComponent<Transform>();
 
         if(!m_Model)
-            m_Model = this.transform.FindChild("Model").gameObject;
+            m_Model = this.transform.Find("Model").gameObject;
 
         AreaEffect = GetComponent<EffectSpawner>();
         for(int x = 0; m_length >= x ;x++)

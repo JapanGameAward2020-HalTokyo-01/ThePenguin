@@ -118,6 +118,7 @@ public class ResultUI : MonoBehaviour
     {
         // セーブデータ取り出し
         CurrentScore _score = FindObjectOfType<CurrentScore>();
+        SaveSystem _save = _score.GetComponent<SaveSystem>();
 
         //表示に必要なデータ(仮)（要対応）
         //ステージのペンギン総数
@@ -148,6 +149,10 @@ public class ResultUI : MonoBehaviour
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);
+
+        // 次のシーンをアンロック
+        if(_save.Stages1.Length > m_SceneList.NextLevelIndex)
+            _save.Stages1[m_SceneList.NextLevelIndex].m_Unlocked = true;
 
         StartCoroutine(SceneStart());
     }

@@ -177,6 +177,11 @@ public class PenguinManager : MonoBehaviour
         }
     }
 
+    public bool CheckParentPenguinAlive()
+    {
+        return m_ParentPenguin.isActiveAndEnabled;
+    }
+
     // クリアイベント
     public void OnClearEvent(GameObject goal)
     {

@@ -12,6 +12,8 @@ public class Fade : MonoBehaviour
 {
     [SerializeField]
     private Image m_FadeImage;
+    [SerializeField]
+    private Image m_FadeIcon;
     [SerializeField, Range(0.1f, 5.0f)]
     private float FadeDuration;
     [SerializeField, Range(0.1f, 5.0f)]
@@ -21,7 +23,7 @@ public class Fade : MonoBehaviour
     void Start()
     {
         m_FadeImage.color = new Color(0, 0, 0, 0);
-
+        m_FadeIcon.color = new Color(255, 255, 255, 0);
         //Fader();
     }
 
@@ -47,6 +49,7 @@ public class Fade : MonoBehaviour
         for (float i = 0; i <= 1; i += (Time.deltaTime / FadeDuration))
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
+            m_FadeIcon.color = new Color(255, 255, 255, i);
             yield return null;
         }
         yield return new WaitForSecondsRealtime(BlackScreenDuration);
@@ -61,6 +64,7 @@ public class Fade : MonoBehaviour
         for (float i = 1; i >= 0; i -= (Time.deltaTime / FadeDuration))
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
+            m_FadeIcon.color = new Color(255, 255, 255, i);
             yield return null;
         }
 

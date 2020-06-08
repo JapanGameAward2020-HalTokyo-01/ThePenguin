@@ -140,7 +140,7 @@ public class Bomb : BaseGimmick
 
         //探知範囲とカウントダウンの座標更新
         m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f + m_EffectOffset, 0.0f);
-        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f * m_BoomScale, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 0.5f + 1.0f * m_BoomScale, 0.0f);
     }
 
     /**

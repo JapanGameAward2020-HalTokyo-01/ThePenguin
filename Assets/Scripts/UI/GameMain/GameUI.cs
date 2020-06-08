@@ -209,9 +209,16 @@ public class GameUI : MonoBehaviour
         if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
             return;
 
-         Debug.Log("GameUI: message received");
+        var _cv = FindObjectOfType<ControllerVibration>();
+        if(_cv)
+            _cv.Pause(false);
+
+        Debug.Log("GameUI: message received");
         if (!m_Pause.gameObject.activeSelf)
         {
+            if (_cv)
+                _cv.Pause(true);
+
             Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
         }

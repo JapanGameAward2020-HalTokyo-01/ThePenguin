@@ -67,7 +67,7 @@ public class Select_Cursor : MonoBehaviour
 	public void Start()
 	{
 		// BGM再生
-		BGMManager.Instance.Play(BGMs.Index.None);
+		BGMManager.Instance.Play(BGMs.Index.Select);
 	}
 
 	/**

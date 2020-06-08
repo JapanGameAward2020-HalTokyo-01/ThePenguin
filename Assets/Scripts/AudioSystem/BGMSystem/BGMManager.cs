@@ -4,9 +4,7 @@
  * @author  谷沢 瑞己
  */
 using Boo.Lang;
-using System.ComponentModel;
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /**
@@ -76,6 +74,7 @@ public class BGMManager : MonoBehaviour
 
 			m_source_list.Add(_s);
 		}
+
 	}
 
 	/**
@@ -91,22 +90,24 @@ public class BGMManager : MonoBehaviour
 			_s = m_source_list.First(s => !(s == m_current_source));
 		}
 
+		// インデックスからBGMファイル固有パラメータ取得(同じ音の指定判定)
+		m_param = m_audio_list.SelectBGM(_index, _area);
+		if (m_current_source != null && m_param.Clip == m_current_source.clip)
+			return;
+
 		// AudioSourceの切り替え・作成
 		if (m_current_source != null)
 		{
 			// フェードアウト
-			fade(0.0f, 1.0f, m_current_source, m_param);
+			fade(0.0f, 1.0f, m_current_source);
 		}
 		m_current_source = _s;
-
-		// インデックスからBGMファイル固有パラメータ取得
-		m_param = m_audio_list.SelectBGM(_index, _area);
 
 		// 再生する音の指定
 		if (m_param == null)
 		{
-			m_current_source.clip = null;
 			m_current_source.Stop();
+			m_current_source.clip = null;
 		}
 		else
 		{
@@ -129,7 +130,7 @@ public class BGMManager : MonoBehaviour
 	/**
 	 * @brief   フェード機能
 	 */
-	 public void fade(float _end_value, float _proc_sec, AudioSource _source, AudioBGMParams _param)
+	 public void fade(float _end_value, float _proc_sec, AudioSource _source)
 	{
 		m_fade.Set(_source, _end_value, _proc_sec);
 		StartCoroutine(m_fade.FadeUpdate());

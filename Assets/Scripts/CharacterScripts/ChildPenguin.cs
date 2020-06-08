@@ -5,6 +5,7 @@
 /// </summary>
 
 using System.Collections;
+using TrailsFX;
 using UnityEngine;
 
 public class ChildPenguin : Penguin
@@ -61,6 +62,11 @@ public class ChildPenguin : Penguin
     //! 群れ化処理
     public System.Action onPackEvent;
 
+    private bool getdistance = false;
+    private float distance;
+
+    private Quaternion oldrotation;
+    private float randomnumber;
     protected override void Awake()
     {
         base.Awake();
@@ -70,6 +76,7 @@ public class ChildPenguin : Penguin
         onPackEvent = delegate () { };
 
         Effect = GetComponent<EffectSpawner>();
+      
     }
 
     /// <summary>
@@ -239,14 +246,32 @@ public class ChildPenguin : Penguin
         if (m_InPack)
         {
 
+            if (!getdistance)
+            {
+                distance = Vector3.Distance(m_GoalPos, transform.position)- m_GoalRadius;
+                getdistance = true;
+                oldrotation = transform.rotation;
+                randomnumber = Random.Range(0, 20) / 10.0f;
+            }
+
             if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
             {
                 transform.LookAt(m_GoalPos);
-                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+
+                //transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+
+                float angle = Mathf.Min(1, (Vector3.Distance(m_GoalPos, transform.position)) / distance) * 80;
+                transform.rotation = this.transform.rotation * Quaternion.Euler(Mathf.Clamp(-angle, -42, 42), 0, 0);
+                float currentDist = Vector3.Distance(transform.position, m_GoalPos);
+                transform.Translate(Vector3.forward * Mathf.Min(m_GoalSpeed * Time.deltaTime * (2+randomnumber), currentDist));
             } 
 
             else if (!m_PlayedFirstGoal)
             {
+
+                //transform.rotation=oldrotation;
+
+               
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
                 m_PlayedFirstGoal = true;

@@ -248,4 +248,8 @@ public class Penguin : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
         }
     }
+    public Vector3 GetGoalPos()
+    {
+        return m_GoalPos;
+    }
 }

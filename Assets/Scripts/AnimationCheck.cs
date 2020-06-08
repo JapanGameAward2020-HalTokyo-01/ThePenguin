@@ -18,7 +18,11 @@ public class AnimationCheck : MonoBehaviour
     {
 
         trailEffect = GetComponentInChildren<TrailEffect>();
-        trailEffect.active = false;
+        if (trailEffect)
+        {
+            trailEffect.active = false;
+        }
+        
         Effect = GetComponentInParent<EffectSpawner>();
         
     }
@@ -30,8 +34,11 @@ public class AnimationCheck : MonoBehaviour
 
     public void TrampolineJump()
     {
-
-        trailEffect.active = true;
+        if (trailEffect)
+        {
+            trailEffect.active = true;
+        }
+        
         float xpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         float zpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         goalpos = main.GetComponent<Penguin>().GetGoalPos();

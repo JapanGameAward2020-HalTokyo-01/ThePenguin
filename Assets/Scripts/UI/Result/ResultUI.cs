@@ -6,19 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class ResultUI : MonoBehaviour
 {
-    public enum kState
-    {
-        None = -1,  // コード規約より
-
-        // (以下、条件に関しては暫定)
-        Normal,     // 通常状態
-        Good,       // クリア条件達成状態
-        Max,        // 最高スコア達成可能状態
-        Danger,     // クリア不可状態
-
-        Enum_Max    // コード規約より(命名被り回避)
-    }
-
     [Header("Face List")]
     //! 顔画像リスト(リストの何番目が何に相当するのか分かりにくいので配列使用していない)
     [SerializeField]
@@ -119,11 +106,11 @@ public class ResultUI : MonoBehaviour
     private bool m_Flag_Time = false;
 
     //顔アイコン
-    private kState m_FaceIcon = kState.Normal;
+    private FaceIcon.kState m_FaceIcon = FaceIcon.kState.Normal;
 
     void Awake()
     {
-        m_face_list = new Sprite[(int)kState.Enum_Max] { m_normal_face, m_good_face, m_max_face, m_danger_face };
+        m_face_list = new Sprite[(int)FaceIcon.kState.Enum_Max] { m_normal_face, m_good_face, m_max_face, m_danger_face };
     }
 
     // Start is called before the first frame update
@@ -131,36 +118,24 @@ public class ResultUI : MonoBehaviour
     {
         // セーブデータ取り出し
         CurrentScore _score = FindObjectOfType<CurrentScore>();
-
-        //他のシーンから情報を引き継ぐ
-        if(_score != null)
-		{
-            /*
-            // ペンギン総数
-            m_TotalCount = _score.m_total_count;
-            // クリアタイム
-            m_ClearTime = _score.m_clear_time;
-            // 集めたペンギン数
-            m_ClearCount = _score.m_saved_count;
-            */
-        }
+        SaveSystem _save = _score.GetComponent<SaveSystem>();
 
         //表示に必要なデータ(仮)（要対応）
         //ステージのペンギン総数
-        m_TotalCount = 100;
+        m_TotalCount = _score.m_total_count;
         // 集めたペンギン数
-        m_ClearCount = 95;
+        m_ClearCount = _score.m_result_count;
         // クリアタイム
-        m_ClearTime = 123.456f;
+        m_ClearTime = _score.m_result_time;
         //目標救出数（星獲得）
-        m_StarCount = 50;
+        m_StarCount = _score.m_quest_count;
         //目標残り時間（星獲得）
-        m_StarTime = 567.890f;
+        m_StarTime = _score.m_quest_time;
         //星獲得フラグ
-        m_Flag_Count = true;
-        m_Flag_Time = true;
+        m_Flag_Count = _score.CheckStar_Count;
+        m_Flag_Time = _score.CheckStar_Time;
         //顔アイコン種類
-        m_FaceIcon = kState.Normal;
+        m_FaceIcon = _score.m_face;
 
 
         //表示する数値の初期化
@@ -174,6 +149,10 @@ public class ResultUI : MonoBehaviour
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);
+
+        // 次のシーンをアンロック
+        if(_save.Stages1.Length > m_SceneList.NextLevelIndex)
+            _save.Stages1[m_SceneList.NextLevelIndex].m_Unlocked = true;
 
         StartCoroutine(SceneStart());
     }

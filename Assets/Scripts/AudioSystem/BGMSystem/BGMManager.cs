@@ -85,10 +85,10 @@ public class BGMManager : MonoBehaviour
 	{
 		// 使用していないAudioSourceの探索
 		AudioSource _s = m_source_list.FirstOrDefault(s => !s.isPlaying);
-		if(_s == null)
+		if (_s == null)
 		{
 			// いいnullチェックが思いつかない(とりあえず現在メインで使っていないものを取り出す)
-			_s = m_source_list.Last(s => !(s == m_current_source));
+			_s = m_source_list.First(s => !(s == m_current_source));
 		}
 
 		// AudioSourceの切り替え・作成

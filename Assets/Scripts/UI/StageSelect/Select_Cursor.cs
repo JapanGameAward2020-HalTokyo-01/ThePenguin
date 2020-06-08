@@ -187,7 +187,7 @@ public class Select_Cursor : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		yield return SceneManager.LoadSceneAsync(m_stage_list.m_Title);
+		SceneManager.LoadScene(m_stage_list.m_Title);
 		yield return null;
 	}
 
@@ -200,7 +200,7 @@ public class Select_Cursor : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		yield return SceneManager.LoadSceneAsync(m_stage_list.CurrentLevelBuildIndex);
+		SceneManager.LoadScene(m_stage_list.CurrentLevelBuildIndex);
 		yield return null;
 	}
 

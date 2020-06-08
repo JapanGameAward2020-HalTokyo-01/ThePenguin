@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 public class DownUpBlock : FallBlock
 {
@@ -25,6 +26,8 @@ public class DownUpBlock : FallBlock
     private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
+    [SerializeField]
+    private EffekseerEmitter m_FootEffect;
 
     public override void Start()
     {
@@ -60,6 +63,7 @@ public class DownUpBlock : FallBlock
         if (m_Time < m_UpWaitTime) return;
 
         m_ObjectVibrate.StopVibrate();
+        m_FootEffect.Stop();
         m_IsKill = true;
         m_CurrentHeight += m_DownSpeed * Time.deltaTime;
 
@@ -73,10 +77,15 @@ public class DownUpBlock : FallBlock
         {
             
             var pos = m_Block.transform.position;
-            pos.y += 1.0f;
+  
 
             if (Effect != null)
+            {
+                Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                pos.y += 1.0f;
                 Effect.PlayerEffect("DOSIN", pos);
+            }
+ 
         }
     }
 
@@ -84,7 +93,10 @@ public class DownUpBlock : FallBlock
     {
         m_IsKill = false;
         if (m_Time < m_CoolDownTime) return;
-        
+
+        if (!m_FootEffect.exists)
+            m_FootEffect.Play();
+
         m_CurrentHeight -= m_UpSpeed * Time.deltaTime;
 
         if (m_CurrentHeight > 0f) return;

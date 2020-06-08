@@ -25,7 +25,7 @@ public class GameOver : MonoBehaviour
 
     [Header("Scene Data")]
 
-    [SerializeField, NonEditableField, Tooltip("シーンリスト")]
+    [SerializeField, Tooltip("シーンリスト")]
     private StageMetaParam m_SceneList;
 
     //[SerializeField]
@@ -53,6 +53,8 @@ public class GameOver : MonoBehaviour
 
 
         ////////////////////////////
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.GameOver);
 
         StartCoroutine(SceneStart());
     }
@@ -110,12 +112,12 @@ public class GameOver : MonoBehaviour
                     else if(m_Select==1)
                     {
                         Debug.Log("Stage Select");
-                        StartCoroutine(SceneEnd(m_SceneList.m_StageSelect.name));
+                        StartCoroutine(SceneEnd(m_SceneList.m_StageSelect));
                     }
                     else if(m_Select==2)
                     {
                         Debug.Log("Title");
-                        StartCoroutine(SceneEnd(m_SceneList.m_Title.name));
+                        StartCoroutine(SceneEnd(m_SceneList.m_Title));
                     }
                 }
                 if(GetBButtonUp())

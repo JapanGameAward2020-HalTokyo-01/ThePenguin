@@ -50,6 +50,8 @@ public class BossBomb : BaseGimmick
 
     //! エフェクトスポーンナー
     private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter m_SparkEffect;
 
     //! 爆弾投げられ開始地点
     private GameObject m_Start;
@@ -95,7 +97,6 @@ public class BossBomb : BaseGimmick
     {
         //カウントダウン表示（仮）初期化
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
-        m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
 
         //m_Model.transform.position = m_End.transform.position;
     }
@@ -116,7 +117,6 @@ public class BossBomb : BaseGimmick
         if (m_IsCountDown)
         {
             m_CountDown -= Time.deltaTime;
-            m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
 
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
                 m_ObjectVibrate.StartVibrate();
@@ -245,6 +245,8 @@ public class BossBomb : BaseGimmick
             m_Model.transform.position = m_End.transform.position;
             m_Model.GetComponentInChildren<Rigidbody>().isKinematic = false;
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play();
+            if (m_SparkEffect)
+                m_SparkEffect.Play();
             m_CountDownObject.SetActive(true);
             m_IsCountDown = true;
 

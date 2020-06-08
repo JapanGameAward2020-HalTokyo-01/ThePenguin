@@ -78,6 +78,10 @@ public class WallGimmick : BaseGimmick
                 if (m_timer > m_speed + m_cooltime + m_waittime)
                 {
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
+
+                    //バグ対策、強制回転値固定
+                    trans.localRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
                 }
                 else
                 {
@@ -94,6 +98,12 @@ public class WallGimmick : BaseGimmick
             else
             {
                 t = (m_timer-m_cooltime) / m_speed;
+
+                //バグ対策、強制回転値固定
+                if (t > 0.0f)
+                {
+                    trans.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+                }
 
             }
             if(t>1.0f)

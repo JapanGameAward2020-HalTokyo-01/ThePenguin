@@ -66,16 +66,19 @@ public class PenguinState_Walk : PenguinState
             return;
         }
 
-        if (penguin.manager.m_settings.m_clear_flag)
+        if (penguin.manager)
         {
-            penguin.ChangeState<PenguinState_Goal>();
-            return;
-        }
+            if (penguin.manager.m_settings.m_clear_flag)
+            {
+                penguin.ChangeState<PenguinState_Goal>();
+                return;
+            }
 
-        if (penguin.manager.m_settings.m_failuer_flag)
-        {
-            penguin.ChangeState<PenguinState_Failed>();
-            return;
+            if (penguin.manager.m_settings.m_failuer_flag)
+            {
+                penguin.ChangeState<PenguinState_Failed>();
+                return;
+            }
         }
     }
 }

@@ -42,6 +42,15 @@ public class GameUI : MonoBehaviour
     [SerializeField, NonEditableField]
     private float m_rotRspeed;
 
+    // 開始直後のカメラ演出
+    private StartCameraSystem m_StartSystem;
+
+    [SerializeField]
+    private PenguinManager m_PenguinManager;
+
+    [SerializeField, Tooltip("現在のレベルインデックス")]
+    private StageMetaParam m_level_param;
+
     //! 回転用
     private bool m_rotL;
     private bool m_rotR;
@@ -51,8 +60,17 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-    // Start is called before the first frame update
-    void Start()
+	public void Awake()
+	{
+        if(!m_StartSystem)
+            m_StartSystem = FindObjectOfType<StartCameraSystem>();
+
+        if (!m_PenguinManager)
+            m_PenguinManager = FindObjectOfType<PenguinManager>();
+    }
+
+	// Start is called before the first frame update
+	void Start()
     {
         if(!m_DirLight)
         {
@@ -61,6 +79,7 @@ public class GameUI : MonoBehaviour
 
         //! ボタンのEventDelegate
         m_Input.actions["Pause"].performed += PauseMenu;
+        m_Input.actions["Pause"].performed += Skip;
         m_Input.actions["Rotate L"].performed += RotateL;
         m_Input.actions["Rotate L"].canceled += StopL;
         m_Input.actions["Rotate R"].performed += RotateR;
@@ -73,14 +92,33 @@ public class GameUI : MonoBehaviour
         m_RAccel = false;
         m_LDecel = false;
         m_RDecel = false;
+
+        // BGM再生
+        if(m_level_param.IsBossStage)
+            BGMManager.Instance.Play(BGMs.Index.BossBattle);
+        else
+            BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
     }
 
     void FixedUpdate()
     {
+        m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
+
+        // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.UnRegisterInputEvent();
             return;
+        }
+
+        // 開始アニメーション待ち
+        if (m_StartSystem.GetNowPlaying())
+        {
+            return;
+        }
+        else
+        {
+            m_ChargeGaugeMgr.RegisterInputEvent();
         }
 
         //! ペンギンの向いている方向へカメラをセット
@@ -108,7 +146,6 @@ public class GameUI : MonoBehaviour
             {
                 m_Camera.RotateCamera(false, m_rotRspeed);
             }
-            m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
 
         }
     }
@@ -157,14 +194,51 @@ public class GameUI : MonoBehaviour
         yield break;
     }
 
+    IEnumerator SkipEnshutsu()
+    {
+        Fade _fade = FindObjectOfType<Fade>();
+
+        //フェードアウト待機
+        _fade.Fader();
+        yield return new WaitForSecondsRealtime(1.0f);
+    }
+
     void PauseMenu(InputAction.CallbackContext ctx)
     {
-        Debug.Log("GameUI: message received");
+        // 開始アニメーション待ち
+        if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
+            return;
+
+         Debug.Log("GameUI: message received");
         if (!m_Pause.gameObject.activeSelf)
         {
             Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// @brief      演出スキップ処理
+    /// </summary>
+    void Skip(InputAction.CallbackContext ctx)
+    {
+        //！プレイ中
+        if (!m_StartSystem.GetNowPlaying() && !m_ParentPenguin.manager.m_settings.m_clear_flag)
+        {
+            return;
+        }
+        //！スタート演出中
+        else if(m_StartSystem.GetNowPlaying())
+        {
+            m_StartSystem.StopPlaying();
+            StartCoroutine(SkipEnshutsu());
+        }
+        //！ゴール演出中
+        else if(m_ParentPenguin.manager.m_settings.m_clear_flag)
+        {
+            m_PenguinManager.StopGoalPlaying();
+        }
+
     }
 
     /// <summary>

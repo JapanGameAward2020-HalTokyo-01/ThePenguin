@@ -41,10 +41,9 @@ public class MainMenu : MonoBehaviour
 
     //シーン
     [SerializeField]
-    private SceneObject m_GameStartScene = null;
-    [SerializeField]
     private SceneObject m_StageSelectScene = null;
-
+    [SerializeField]
+    private SceneObject[] m_Stages = new SceneObject[28];
 
     //入力関連
     private bool m_IsInputEnable = false;
@@ -63,7 +62,7 @@ public class MainMenu : MonoBehaviour
     //終了ワーニング用
     private int m_FinishSelect = 0;
 
-    private bool m_HasSaveData;
+    private int m_UnlockStage = 0;
 
     enum MenuState
     {
@@ -83,6 +82,7 @@ public class MainMenu : MonoBehaviour
         m_LogoAnimator.enabled = false;
 
         m_SaveData = FindObjectOfType<SaveSystem>();
+
         if (!m_SaveData.Stages1[1].m_Unlocked)
         {
             m_IsNewStart = true;
@@ -95,6 +95,15 @@ public class MainMenu : MonoBehaviour
             m_GameStart.gameObject.SetActive(false);
             m_GameCountinue.gameObject.SetActive(true);
         }
+
+        m_UnlockStage = 0;
+        while (m_SaveData.Stages1[m_UnlockStage+1].m_Unlocked)
+        {
+            m_UnlockStage++;
+        }
+
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.Title);
     }
 
     // Update is called once per frame
@@ -110,6 +119,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+
             return;
         }
 
@@ -261,12 +271,13 @@ public class MainMenu : MonoBehaviour
                     if (m_IsNewStart)
                     {
                         Debug.Log("New Game Start");
-                        StartCoroutine(SceneEnd(m_GameStartScene));
+                        StartCoroutine(SceneEnd(m_Stages[0]));
                     }
                     //これから追加するコンティニュー
                     else
                     {
                         Debug.Log("Game Countinue");
+                        StartCoroutine(SceneEnd(m_Stages[m_UnlockStage])); 
                     }
                 }
                 else if (m_Select == 1)

@@ -3,8 +3,8 @@
  * @brief   AudioSystem機能群とそれを使うクラスに分離し、使う側のクラスをゲームオブジェクトにくっつけるという実装方針(GoF的にはBridgeパターンをイメージ)
  * @author  谷沢 瑞己
  */
-using Boo.Lang;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 /**

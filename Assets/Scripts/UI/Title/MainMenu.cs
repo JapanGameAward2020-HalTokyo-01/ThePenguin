@@ -101,6 +101,9 @@ public class MainMenu : MonoBehaviour
         {
             m_UnlockStage++;
         }
+
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.Title);
     }
 
     // Update is called once per frame
@@ -116,6 +119,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+
             return;
         }
 

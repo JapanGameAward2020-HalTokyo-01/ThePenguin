@@ -64,6 +64,12 @@ public class Select_Cursor : MonoBehaviour
 		m_self = GetComponent<RectTransform>();
 	}
 
+	public void Start()
+	{
+		// BGM再生
+		BGMManager.Instance.Play(BGMs.Index.Select);
+	}
+
 	/**
 	 * @brief	更新
 	 */
@@ -181,7 +187,7 @@ public class Select_Cursor : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		yield return SceneManager.LoadSceneAsync(m_stage_list.m_Title);
+		SceneManager.LoadScene(m_stage_list.m_Title);
 		yield return null;
 	}
 
@@ -194,7 +200,7 @@ public class Select_Cursor : MonoBehaviour
 		yield return new WaitForSecondsRealtime(0.1f);
 
 		// シーン遷移
-		yield return SceneManager.LoadSceneAsync(m_stage_list.CurrentLevelBuildIndex);
+		SceneManager.LoadScene(m_stage_list.CurrentLevelBuildIndex);
 		yield return null;
 	}
 

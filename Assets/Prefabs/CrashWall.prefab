@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3582601713965992207}
   - component: {fileID: 3193530883317130822}
   - component: {fileID: 3128518199602101658}
-  - component: {fileID: 3241289669489846802}
   m_Layer: 0
   m_Name: CrashWall
   m_TagString: Untagged
@@ -47,8 +46,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &3582601713965992207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +87,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5d5965d7e77fad49a41ca3cf34a4f1b, type: 2}
   - {fileID: 11400000, guid: ba59ff110f172fe41b57f886159c80c9, type: 2}
   - {fileID: 11400000, guid: 7565fc9069b90b9479650179992a7d4a, type: 2}
-  - {fileID: 11400000, guid: 508bd8bdb36057e4db8815ac3ab9b755, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!114 &3128518199602101658
 MonoBehaviour:
@@ -103,24 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TargetObject: {fileID: 3989830292198544847}
-  m_VibrateSpeed: {x: 5, y: 5, z: 5}
-  m_VibrateTimeMax: 0.2
+  m_VibrateSpeed: {x: 5, y: 0, z: 2}
+  m_VibrateTimeMax: 1
   m_VibrateTime: 0
---- !u!114 &3241289669489846802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3582601713965992194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74bf316c1e251d74887fa209ec5c4e27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CTargetObject: {fileID: 8834238007849949609}
-  m_ChangeColor: {r: 1, g: 0.7302927, b: 0.25098038, a: 1}
-  FlameTime: 2
 --- !u!1001 &4935756717403737286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,11 +190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 65f5d836d923dc84aaa96c8fabf08806, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
         type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1b589cc4a2fcb49a9df4b64c273a03, type: 3}
@@ -224,12 +207,6 @@ GameObject:
 --- !u!4 &73711654377924572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
-    type: 3}
-  m_PrefabInstance: {fileID: 4935756717403737286}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8834238007849949609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4532539034899027311, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
     type: 3}
   m_PrefabInstance: {fileID: 4935756717403737286}
   m_PrefabAsset: {fileID: 0}

@@ -48,6 +48,9 @@ public class GameUI : MonoBehaviour
     [SerializeField]
     private PenguinManager m_PenguinManager;
 
+    [SerializeField, Tooltip("現在のレベルインデックス")]
+    private StageMetaParam m_level_param;
+
     //! 回転用
     private bool m_rotL;
     private bool m_rotR;
@@ -89,6 +92,12 @@ public class GameUI : MonoBehaviour
         m_RAccel = false;
         m_LDecel = false;
         m_RDecel = false;
+
+        // BGM再生
+        if(m_level_param.IsBossStage)
+            BGMManager.Instance.Play(BGMs.Index.BossBattle);
+        else
+            BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
     }
 
     void FixedUpdate()

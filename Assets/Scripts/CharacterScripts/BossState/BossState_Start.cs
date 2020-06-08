@@ -44,5 +44,11 @@ public class BossState_Start : BossState
             if (m_Effect)
                 m_Effect.StopRoot();
         }
+
+        if (m_Boss.m_Levelsettings.m_clear_flag)
+        {
+            m_Boss.ChangeState<BossState_Goal>();
+            return;
+        }
     }
 }

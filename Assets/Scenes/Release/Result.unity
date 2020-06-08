@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -146,9 +145,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 572669216}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 9
   m_Type: 1
-  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -369,6 +367,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4238618486678878300, guid: 7323a0d007405a840bf6c14930735a67,
+        type: 3}
+      propertyPath: m_Name
+      value: ResultUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238618486678878300, guid: 7323a0d007405a840bf6c14930735a67,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1064321131108863922, guid: 7323a0d007405a840bf6c14930735a67,
         type: 3}
       propertyPath: m_EnableTime
@@ -488,16 +496,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ScaleFactor
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4238618486678878300, guid: 7323a0d007405a840bf6c14930735a67,
-        type: 3}
-      propertyPath: m_Name
-      value: ResultUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 4238618486678878300, guid: 7323a0d007405a840bf6c14930735a67,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4238618486678878302, guid: 7323a0d007405a840bf6c14930735a67,
         type: 3}
@@ -638,6 +636,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_EnableTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824802294832544460, guid: 7323a0d007405a840bf6c14930735a67,
+        type: 3}
+      propertyPath: m_IsEnable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7885743042562391079, guid: 7323a0d007405a840bf6c14930735a67,
+        type: 3}
+      propertyPath: m_IsEnable
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7323a0d007405a840bf6c14930735a67, type: 3}

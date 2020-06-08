@@ -263,7 +263,7 @@ public class Penguin : MonoBehaviour
 
         if (!m_BossPlayedFirst)
         {
-            if (m_BossJumpTimer < (int)(60 * 0.5))
+            if (m_BossJumpTimer < (int)(60 * 1.5))
             {
                 m_BossJumpTimer++;
             }

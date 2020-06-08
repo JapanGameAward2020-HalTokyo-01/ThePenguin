@@ -220,7 +220,7 @@ public class ParentPenguin : Penguin
 
         else if (Boss)
         {
-            int timeLimit = (int)(60.0f * 0.5f);
+            int timeLimit = (int)(60.0f * 1.5f);
 
             if (BossDefeat()) 
             {

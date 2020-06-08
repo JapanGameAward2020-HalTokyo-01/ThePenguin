@@ -3,6 +3,7 @@
 Shader "EffekseerMaterial/ToonBase" {
 
 Properties{
+	_MainTex("Base (RGB)", 2D) = "white" {}
 	[Enum(UnityEngine.Rendering.BlendMode)] _BlendSrc("Blend Src", Float) = 0
 	[Enum(UnityEngine.Rendering.BlendMode)] _BlendDst("Blend Dst", Float) = 0
 	_BlendOp("Blend Op", Float) = 0

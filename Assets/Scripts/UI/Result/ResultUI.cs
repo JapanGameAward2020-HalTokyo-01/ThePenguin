@@ -6,22 +6,67 @@ using UnityEngine.SceneManagement;
 
 public class ResultUI : MonoBehaviour
 {
+    public enum kState
+    {
+        None = -1,  // コード規約より
+
+        // (以下、条件に関しては暫定)
+        Normal,     // 通常状態
+        Good,       // クリア条件達成状態
+        Max,        // 最高スコア達成可能状態
+        Danger,     // クリア不可状態
+
+        Enum_Max    // コード規約より(命名被り回避)
+    }
+
+    [Header("Face List")]
+    //! 顔画像リスト(リストの何番目が何に相当するのか分かりにくいので配列使用していない)
+    [SerializeField]
+    private Sprite m_normal_face;
+    [SerializeField]
+    private Sprite m_good_face;
+    [SerializeField]
+    private Sprite m_max_face;
+    [SerializeField]
+    private Sprite m_danger_face;
+
+    //! 実行中はこちらからアクセスする
+    private Sprite[] m_face_list;
+
     [Header("UI Objects")]
 
     [SerializeField]
     private UI_Component_Button m_Page1_MenuBack;
     [SerializeField]
+    private UI_Component_Button m_Page1_ClearTime;
+    [SerializeField]
+    private UI_Component_Counter m_Page1_ClearTime_SecondCounter;
+    [SerializeField]
+    private UI_Component_Counter m_Page1_ClearTime_MiliSecondCounter;
+    [SerializeField]
+    private UI_Component_Button m_Page1_ClearTime_Second;
+    [SerializeField]
+    private UI_Component_Button m_Page1_Gauge_Back;
+    [SerializeField]
+    private UI_Component_Button m_Page1_Gauge_Face;
+    [SerializeField]
+    private UI_Component_Button m_Page1_Gauge_Gauge;
+    [SerializeField]
+    private UI_Component_Button m_Page1_Gauge_Slash;
+    [SerializeField]
+    private UI_Component_Counter m_Page1_Gauge_ClearCounter;
+    [SerializeField]
+    private UI_Component_Counter m_Page1_Gauge_TotalCounter;
+    [SerializeField]
     private UI_Component_Button m_Page1_StageClear;
+    [SerializeField]
+    private UI_Component_Counter m_Page1_StarPenguinCounter;
     [SerializeField]
     private UI_Component_Button m_Page1_Count;
     [SerializeField]
+    private UI_Component_Counter m_Page1_StarTimeCounter;
+    [SerializeField]
     private UI_Component_Button m_Page1_Time;
-    [SerializeField]
-    private UI_Component_Button m_Page1_Clear;
-    [SerializeField]
-    private UI_Component_Button m_Page1_Slash;
-    [SerializeField]
-    private UI_Component_Button m_Page1_Second;
     [SerializeField]
     private UI_Component_Button m_Page1_SmallStar1;
     [SerializeField]
@@ -29,21 +74,7 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private UI_Component_Button m_Page1_SmallStar3;
     [SerializeField]
-    private UI_Component_Button m_Page1_BigStar1;
-    [SerializeField]
-    private UI_Component_Button m_Page1_BigStar2;
-    [SerializeField]
-    private UI_Component_Button m_Page1_BigStar3;
-    [SerializeField]
     private UI_Component_Button m_Page1_A_Button;
-    [SerializeField]
-    private UI_Component_Counter m_Page1_ClearCounter;
-    [SerializeField]
-    private UI_Component_Counter m_Page1_StarCounter;
-    [SerializeField]
-    private UI_Component_Counter m_Page1_SecondCounter;
-    [SerializeField]
-    private UI_Component_Counter m_Page1_MiliSecondCounter;
     [SerializeField]
     private UI_Component_Button m_Page2_MenuBack;
     [SerializeField]
@@ -74,6 +105,8 @@ public class ResultUI : MonoBehaviour
     private int m_Select = 0;
     private bool m_Page1_Flag = true;
 
+    //ステージのペンギン総数
+    private int m_TotalCount = 0;
     //星を獲得する必要なペンギン数とクリア情報
     private int m_StarCount = 0;
     private float m_StarTime = 0.0f;
@@ -85,6 +118,14 @@ public class ResultUI : MonoBehaviour
     private bool m_Flag_Count = false;
     private bool m_Flag_Time = false;
 
+    //顔アイコン
+    private kState m_FaceIcon = kState.Normal;
+
+    void Awake()
+    {
+        m_face_list = new Sprite[(int)kState.Enum_Max] { m_normal_face, m_good_face, m_max_face, m_danger_face };
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,21 +135,42 @@ public class ResultUI : MonoBehaviour
         //他のシーンから情報を引き継ぐ
         if(_score != null)
 		{
-            // クリア条件：ペンギン数
-            m_StarCount = _score.m_total_count;
-            // クリア条件：時間
-            m_StarTime = _score.m_limit_time;
-            // 結果：ペンギン数
-            m_ClearCount = _score.m_saved_count;
-            // 結果：時間
+            /*
+            // ペンギン総数
+            m_TotalCount = _score.m_total_count;
+            // クリアタイム
             m_ClearTime = _score.m_clear_time;
-		}
+            // 集めたペンギン数
+            m_ClearCount = _score.m_saved_count;
+            */
+        }
 
-        ////////////////////////////////////////////////
-        m_Flag_Count = (m_ClearCount >= m_StarCount);
-        m_Flag_Time = (m_ClearTime >= m_StarTime);
-        m_Page1_StarCounter.SetCount(m_StarCount);
-        m_Page1_StarCounter.SetCurrentCount(m_StarCount);
+        //表示に必要なデータ(仮)（要対応）
+        //ステージのペンギン総数
+        m_TotalCount = 100;
+        // 集めたペンギン数
+        m_ClearCount = 95;
+        // クリアタイム
+        m_ClearTime = 123.456f;
+        //目標救出数（星獲得）
+        m_StarCount = 50;
+        //目標残り時間（星獲得）
+        m_StarTime = 567.890f;
+        //星獲得フラグ
+        m_Flag_Count = true;
+        m_Flag_Time = true;
+        //顔アイコン種類
+        m_FaceIcon = kState.Normal;
+
+
+        //表示する数値の初期化
+        m_Page1_StarPenguinCounter.SetCount(m_StarCount);
+        m_Page1_StarPenguinCounter.SetCurrentCount(m_StarCount);
+        m_Page1_StarTimeCounter.SetCount((int)m_StarTime);
+        m_Page1_StarTimeCounter.SetCurrentCount((int)m_StarTime);
+        m_Page1_Gauge_TotalCounter.SetCount(m_TotalCount);
+        m_Page1_Gauge_TotalCounter.SetCurrentCount(m_TotalCount);
+        m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);
@@ -206,7 +268,7 @@ public class ResultUI : MonoBehaviour
 
         m_Fade.SetActive(false);
 
-        //yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         m_Page1_MenuBack.SetEnable(true);
         m_Page1_MenuBack.SetActive(true);
@@ -215,60 +277,54 @@ public class ResultUI : MonoBehaviour
 
         m_Page1_StageClear.SetEnable(true);
         m_Page1_StageClear.SetActive(true);
+        m_Page1_SmallStar1.SetEnable(true);
+        yield return new WaitForSecondsRealtime(0.25f);
         m_Page1_Count.SetEnable(true);
         m_Page1_Count.SetActive(true);
+        m_Page1_StarPenguinCounter.SetEnable(true);
+        m_Page1_SmallStar2.SetEnable(true);
+        yield return new WaitForSecondsRealtime(0.25f);
         m_Page1_Time.SetEnable(true);
         m_Page1_Time.SetActive(true);
-
-        m_Page1_SmallStar1.SetEnable(true);
-        m_Page1_SmallStar2.SetEnable(true);
+        m_Page1_StarTimeCounter.SetEnable(true);
         m_Page1_SmallStar3.SetEnable(true);
 
-        m_Page1_BigStar1.SetEnable(true);
-        m_Page1_BigStar2.SetEnable(true);
-        m_Page1_BigStar3.SetEnable(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        m_Page1_ClearTime.SetEnable(true);
+        m_Page1_ClearTime.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(0.5f);
+        StartCoroutine(SetClearTimeDigit(m_ClearTime));
 
         yield return new WaitForSecondsRealtime(1.0f);
 
-        m_Page1_Clear.SetEnable(true);
-        m_Page1_Clear.SetActive(true);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
         
+        m_Page1_Gauge_Back.SetEnable(true);
+        m_Page1_Gauge_Back.SetActive(true);
+        m_Page1_Gauge_Face.SetEnable(true);
+        m_Page1_Gauge_Face.SetActive(true);
+        m_Page1_Gauge_Gauge.SetEnable(true);
+        m_Page1_Gauge_Gauge.SetActive(true);
+        
+        yield return new WaitForSecondsRealtime(0.5f);
+        m_Page1_Gauge_Slash.SetEnable(true);
+        m_Page1_Gauge_Slash.SetActive(true);
+        m_Page1_Gauge_ClearCounter.SetEnable(true);
+        m_Page1_Gauge_TotalCounter.SetEnable(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        m_Page1_Gauge_ClearCounter.SetCount(m_ClearCount);
+        StartCoroutine(SetGauge(m_TotalCount > 0 ? (float)m_ClearCount / m_TotalCount : 0, 0.5f));
+
+        yield return new WaitForSecondsRealtime(1.0f);
         m_Page1_SmallStar1.SetActive(true);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
-        m_Page1_Slash.SetEnable(true);
-        m_Page1_Slash.SetActive(true);
-        m_Page1_StarCounter.SetEnable(true);
-        m_Page1_ClearCounter.SetEnable(true);
-        m_Page1_ClearCounter.SetCount(m_ClearCount);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
+        yield return new WaitForSecondsRealtime(0.1f);
         m_Page1_SmallStar2.SetActive(m_Flag_Count);
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
-        StartCoroutine(SetClearTimeDigit(m_ClearTime));
-
-        yield return new WaitForSecondsRealtime(0.5f);
-
+        yield return new WaitForSecondsRealtime(0.1f);
         m_Page1_SmallStar3.SetActive(m_Flag_Time);
 
         yield return new WaitForSecondsRealtime(1.0f);
 
-        //大きな星
-        m_Page1_BigStar1.SetActive(true);
-        yield return new WaitForSecondsRealtime(0.05f);
-        m_Page1_BigStar2.SetActive(m_Flag_Count);
-        yield return new WaitForSecondsRealtime(0.05f);
-        m_Page1_BigStar3.SetActive(m_Flag_Time);
-        yield return new WaitForSecondsRealtime(1.0f);
-
-        //次へ
         m_Page1_A_Button.SetEnable(true);
 
         yield return new WaitForSecondsRealtime(0.5f);
@@ -278,22 +334,24 @@ public class ResultUI : MonoBehaviour
         //演出スピード調整
         float new_time = 0.2f;
         m_Page1_MenuBack.SetEnableTime(new_time);
+        m_Page1_ClearTime.SetEnableTime(new_time);
+        m_Page1_ClearTime_SecondCounter.SetEnableTime(new_time);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnableTime(new_time);
+        m_Page1_ClearTime_Second.SetEnableTime(new_time);
+        m_Page1_Gauge_Back.SetEnableTime(new_time);
+        m_Page1_Gauge_Face.SetEnableTime(new_time);
+        m_Page1_Gauge_Gauge.SetEnableTime(new_time);
+        m_Page1_Gauge_Slash.SetEnableTime(new_time);
+        m_Page1_Gauge_ClearCounter.SetEnableTime(new_time);
+        m_Page1_Gauge_TotalCounter.SetEnableTime(new_time);
         m_Page1_StageClear.SetEnableTime(new_time);
+        m_Page1_StarPenguinCounter.SetEnableTime(new_time);
         m_Page1_Count.SetEnableTime(new_time);
+        m_Page1_StarTimeCounter.SetEnableTime(new_time);
         m_Page1_Time.SetEnableTime(new_time);
         m_Page1_SmallStar1.SetEnableTime(new_time);
         m_Page1_SmallStar2.SetEnableTime(new_time);
         m_Page1_SmallStar3.SetEnableTime(new_time);
-        m_Page1_BigStar1.SetEnableTime(new_time);
-        m_Page1_BigStar2.SetEnableTime(new_time);
-        m_Page1_BigStar3.SetEnableTime(new_time);
-        m_Page1_Clear.SetEnableTime(new_time);
-        m_Page1_Slash.SetEnableTime(new_time);
-        m_Page1_StarCounter.SetEnableTime(new_time);
-        m_Page1_ClearCounter.SetEnableTime(new_time);
-        m_Page1_SecondCounter.SetEnableTime(new_time);
-        m_Page1_Second.SetEnableTime(new_time);
-        m_Page1_MiliSecondCounter.SetEnableTime(new_time);
         m_Page1_A_Button.SetEnableTime(new_time);
         m_Page2_MenuBack.SetEnableTime(new_time);
         m_Page2_Continue.SetEnableTime(new_time);
@@ -303,18 +361,18 @@ public class ResultUI : MonoBehaviour
         m_Page2_B_Button.SetEnableTime(new_time);
 
         m_Page1_MenuBack.SetCrossTime(new_time);
+        m_Page1_ClearTime.SetCrossTime(new_time);
+        m_Page1_ClearTime_Second.SetCrossTime(new_time);
+        m_Page1_Gauge_Back.SetCrossTime(new_time);
+        m_Page1_Gauge_Face.SetCrossTime(new_time);
+        m_Page1_Gauge_Gauge.SetCrossTime(new_time);
+        m_Page1_Gauge_Slash.SetCrossTime(new_time);
         m_Page1_StageClear.SetCrossTime(new_time);
         m_Page1_Count.SetCrossTime(new_time);
         m_Page1_Time.SetCrossTime(new_time);
         m_Page1_SmallStar1.SetCrossTime(new_time);
         m_Page1_SmallStar2.SetCrossTime(new_time);
         m_Page1_SmallStar3.SetCrossTime(new_time);
-        m_Page1_BigStar1.SetCrossTime(new_time);
-        m_Page1_BigStar2.SetCrossTime(new_time);
-        m_Page1_BigStar3.SetCrossTime(new_time);
-        m_Page1_Clear.SetCrossTime(new_time);
-        m_Page1_Slash.SetCrossTime(new_time);
-        m_Page1_Second.SetCrossTime(new_time);
         m_Page1_A_Button.SetCrossTime(new_time);
         m_Page2_MenuBack.SetCrossTime(new_time);
         m_Page2_A_Button.SetCrossTime(new_time);
@@ -373,55 +431,37 @@ public class ResultUI : MonoBehaviour
         //Page1を開く
         m_Page1_MenuBack.SetEnable(true);
         m_Page1_MenuBack.SetActive(true);
+        m_Page1_ClearTime.SetEnable(true);
+        m_Page1_ClearTime.SetActive(true);
+        m_Page1_ClearTime_SecondCounter.SetEnable(true);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnable(true);
+        m_Page1_ClearTime_Second.SetEnable(true);
+        m_Page1_ClearTime_Second.SetActive(true);
+        m_Page1_Gauge_Back.SetEnable(true);
+        m_Page1_Gauge_Back.SetActive(true);
+        m_Page1_Gauge_Face.SetEnable(true);
+        m_Page1_Gauge_Face.SetActive(true);
+        m_Page1_Gauge_Gauge.SetEnable(true);
+        m_Page1_Gauge_Gauge.SetActive(true);
+        m_Page1_Gauge_Slash.SetEnable(true);
+        m_Page1_Gauge_Slash.SetActive(true);
+        m_Page1_Gauge_ClearCounter.SetEnable(true);
+        m_Page1_Gauge_TotalCounter.SetEnable(true);
         m_Page1_StageClear.SetEnable(true);
         m_Page1_StageClear.SetActive(true);
+        m_Page1_StarPenguinCounter.SetEnable(true);
         m_Page1_Count.SetEnable(true);
         m_Page1_Count.SetActive(true);
+        m_Page1_StarTimeCounter.SetEnable(true);
         m_Page1_Time.SetEnable(true);
         m_Page1_Time.SetActive(true);
-
         m_Page1_SmallStar1.SetEnable(true);
-        m_Page1_SmallStar2.SetEnable(true);
-        m_Page1_SmallStar3.SetEnable(true);
-
-        m_Page1_BigStar1.SetEnable(true);
-        m_Page1_BigStar2.SetEnable(true);
-        m_Page1_BigStar3.SetEnable(true);
-
-
-        m_Page1_Clear.SetEnable(true);
-        m_Page1_Clear.SetActive(true);
-
-
-
         m_Page1_SmallStar1.SetActive(true);
-
-
-        m_Page1_Slash.SetEnable(true);
-        m_Page1_Slash.SetActive(true);
-        m_Page1_StarCounter.SetEnable(true);
-        m_Page1_ClearCounter.SetEnable(true);
-
-
+        m_Page1_SmallStar2.SetEnable(true);
         m_Page1_SmallStar2.SetActive(m_Flag_Count);
-
-
-        m_Page1_SecondCounter.SetEnable(true);
-        m_Page1_Second.SetEnable(true);
-        m_Page1_Second.SetActive(true);
-        m_Page1_MiliSecondCounter.SetEnable(true);
-
-
+        m_Page1_SmallStar3.SetEnable(true);
         m_Page1_SmallStar3.SetActive(m_Flag_Time);
-
-
-        //大きな星
-        m_Page1_BigStar1.SetActive(true);
-        m_Page1_BigStar2.SetActive(m_Flag_Count);
-        m_Page1_BigStar3.SetActive(m_Flag_Time);
-
         yield return new WaitForSecondsRealtime(0.5f);
-
         //次へ
         m_Page1_A_Button.SetEnable(true);
         
@@ -438,22 +478,24 @@ public class ResultUI : MonoBehaviour
 
         //page1閉じる
         m_Page1_MenuBack.SetEnable(false);
+        m_Page1_ClearTime.SetEnable(false);
+        m_Page1_ClearTime_SecondCounter.SetEnable(false);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnable(false);
+        m_Page1_ClearTime_Second.SetEnable(false);
+        m_Page1_Gauge_Back.SetEnable(false);
+        m_Page1_Gauge_Face.SetEnable(false);
+        m_Page1_Gauge_Gauge.SetEnable(false);
+        m_Page1_Gauge_Slash.SetEnable(false);
+        m_Page1_Gauge_ClearCounter.SetEnable(false);
+        m_Page1_Gauge_TotalCounter.SetEnable(false);
         m_Page1_StageClear.SetEnable(false);
+        m_Page1_StarPenguinCounter.SetEnable(false);
         m_Page1_Count.SetEnable(false);
+        m_Page1_StarTimeCounter.SetEnable(false);
         m_Page1_Time.SetEnable(false);
         m_Page1_SmallStar1.SetEnable(false);
         m_Page1_SmallStar2.SetEnable(false);
         m_Page1_SmallStar3.SetEnable(false);
-        m_Page1_BigStar1.SetEnable(false);
-        m_Page1_BigStar2.SetEnable(false);
-        m_Page1_BigStar3.SetEnable(false);
-        m_Page1_Clear.SetEnable(false);
-        m_Page1_Slash.SetEnable(false);
-        m_Page1_StarCounter.SetEnable(false);
-        m_Page1_ClearCounter.SetEnable(false);
-        m_Page1_SecondCounter.SetEnable(false);
-        m_Page1_Second.SetEnable(false);
-        m_Page1_MiliSecondCounter.SetEnable(false);
         m_Page1_A_Button.SetEnable(false);
 
         yield return new WaitForSecondsRealtime(0.15f);
@@ -480,13 +522,31 @@ public class ResultUI : MonoBehaviour
         int second = (int)(time);
         int milisecond = (int)((time - second) * 100);
 
-        m_Page1_SecondCounter.SetEnable(true);
-        m_Page1_Second.SetEnable(true);
-        m_Page1_Second.SetActive(true);
-        m_Page1_SecondCounter.SetCount(second);
-        yield return new WaitForSeconds(0.2f);
-        m_Page1_MiliSecondCounter.SetEnable(true);
-        m_Page1_MiliSecondCounter.SetCount(milisecond);
+        m_Page1_ClearTime_SecondCounter.SetEnable(true);
+        m_Page1_ClearTime_Second.SetEnable(true);
+        m_Page1_ClearTime_Second.SetActive(true);
+        m_Page1_ClearTime_SecondCounter.SetCount(second);
+        yield return new WaitForSeconds(0.5f);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnable(true);
+        m_Page1_ClearTime_MiliSecondCounter.SetCount(milisecond);
+    }
+
+    IEnumerator SetGauge(float t,float time)
+    {
+        var image = m_Page1_Gauge_Gauge.GetComponentInChildren<UnityEngine.UI.Image>();
+        float timer = 0.0f;
+
+        for(;timer<time;)
+        {
+            image.rectTransform.sizeDelta = new Vector2(100.0f * t * (timer / time), 17.5f);
+            image.material.SetVector("_Tiling", new Vector4(t * (timer / time), 1, 0, 0));
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+
+        image.rectTransform.sizeDelta = new Vector2(100.0f * t, 17.5f);
+        image.material.SetVector("_Tiling", new Vector4(t, 1, 0, 0));
     }
 
     //汎用入力関数

@@ -9,6 +9,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -60,8 +61,12 @@ public class OptionMenu : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    [SerializeField, Space(20)]
+    private AudioMixerGroup m_BGMMixer;
+    [SerializeField]
+    private AudioMixerGroup m_SEMixer;
     //! 音設定格納
-    [Space(20),SerializeField, NonEditableField]
+    [SerializeField, NonEditableField]
     Sounddata m_SoundData;
 
     private SaveSystem m_SaveSystem;
@@ -203,6 +208,8 @@ public class OptionMenu : MonoBehaviour
     void VolumeChange()
     {
         m_SoundData.m_Music = m_VolumeSlider.value;
+
+        m_BGMMixer.audioMixer.SetFloat("BGMVolume", m_VolumeSlider.value);
     }
 
     /// <summary>
@@ -211,6 +218,8 @@ public class OptionMenu : MonoBehaviour
     void BGMChange()
     {
         m_SoundData.m_Soundeffects = m_BGMSlider.value;
+
+        m_SEMixer.audioMixer.SetFloat("SEVolume", m_BGMSlider.value);
     }
 
     /// <summary>

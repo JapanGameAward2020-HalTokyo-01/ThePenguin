@@ -43,11 +43,11 @@ public class FallBlock : BaseGimmick
         m_DownPoint.transform.position = this.transform.position + Vector3.down * m_Height;
 
         m_LineRenderer = this.GetComponent<LineRenderer>();
-        //m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
-        //m_LineRenderer.SetPosition(0, this.transform.position);
-        //m_LineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
+        m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
+        m_LineRenderer.SetPosition(0, this.transform.position);
+        m_LineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
 
-        m_LineRenderer.enabled = false;
+        //m_LineRenderer.enabled = false;
         m_DownPoint.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 

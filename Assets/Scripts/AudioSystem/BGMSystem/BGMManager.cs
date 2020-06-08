@@ -3,8 +3,8 @@
  * @brief   AudioSystem機能群とそれを使うクラスに分離し、使う側のクラスをゲームオブジェクトにくっつけるという実装方針(GoF的にはBridgeパターンをイメージ)
  * @author  谷沢 瑞己
  */
-using Boo.Lang;
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 /**
@@ -92,8 +92,9 @@ public class BGMManager : MonoBehaviour
 
 		// インデックスからBGMファイル固有パラメータ取得(同じ音の指定判定)
 		m_param = m_audio_list.SelectBGM(_index, _area);
-		if (m_current_source != null && m_param.Clip == m_current_source.clip)
-			return;
+		if (m_current_source != null && m_param != null)
+			if (m_param.Clip == m_current_source.clip)
+				return;
 
 		// AudioSourceの切り替え・作成
 		if (m_current_source != null)

@@ -43,6 +43,7 @@ public class StageMetaParam : ScriptableObject
 
 	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
 	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
+	public int NextLevelIndex { get { return NextLevelBuildIndex - 4; } }
 
 	// 最初のレベルのビルドセッティング上のシーンインデックス
 	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage); } }

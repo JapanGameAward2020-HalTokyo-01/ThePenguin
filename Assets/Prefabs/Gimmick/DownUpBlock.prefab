@@ -225,6 +225,53 @@ MonoBehaviour:
   useLastAnimationState: 0
   maxBatches: 50
   meshPoolSize: 256
+--- !u!1 &3617159879157651416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8115873803321652902}
+  - component: {fileID: 4732960282374588884}
+  m_Layer: 0
+  m_Name: FootEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8115873803321652902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3617159879157651416}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.515, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 7178452103495412755}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4732960282374588884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3617159879157651416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: ed4bef5ae9955ef47b9521d9a7c135c0, type: 2}
+  playOnStart: 0
+  isLooping: 0
 --- !u!1 &6610544502680783727
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +362,7 @@ MonoBehaviour:
   m_UpWaitTime: 3
   m_UpSpeed: 1
   m_CoolDownTime: 1
+  m_FootEffect: {fileID: 4732960282374588884}
 --- !u!54 &7178452102961335440
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -450,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EffectAssets:
   - {fileID: 11400000, guid: 19822c3d3910fe147a6eb435deada101, type: 2}
+  - {fileID: 11400000, guid: 3d398f134d28fef44bb2fec556396ee6, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!114 &464904032407466532
 MonoBehaviour:
@@ -496,6 +545,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2250379744968971841}
+  - {fileID: 8115873803321652902}
   m_Father: {fileID: 5224000654707408914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

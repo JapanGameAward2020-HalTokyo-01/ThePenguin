@@ -62,6 +62,8 @@ public class Bomb : BaseGimmick
     private float m_EffectOffset;
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter m_SparkEffect;
 
     //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
@@ -95,7 +97,6 @@ public class Bomb : BaseGimmick
         m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
         //カウントダウン表示（仮）初期化
         m_CountDownObject = this.transform.Find("CountDown").gameObject;
-        m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
         m_CountDownObject.SetActive(false);
     }
 
@@ -109,7 +110,6 @@ public class Bomb : BaseGimmick
         if(m_IsCountDown)
         {          
             m_CountDown -= Time.deltaTime;
-            m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
 
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
                 m_ObjectVibrate.StartVibrate();
@@ -140,7 +140,7 @@ public class Bomb : BaseGimmick
 
         //探知範囲とカウントダウンの座標更新
         m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f + m_EffectOffset, 0.0f);
-        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f * m_BoomScale, 0.0f);
     }
 
     /**
@@ -230,6 +230,9 @@ public class Bomb : BaseGimmick
 
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_DangerEffect);
+
+            if(m_SparkEffect)
+                m_SparkEffect.Play();
         }
     }
 

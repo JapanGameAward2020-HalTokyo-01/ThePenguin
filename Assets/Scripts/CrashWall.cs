@@ -150,16 +150,16 @@ public class CrashWall : MonoBehaviour
                     switch (m_Type)
                     {
                         case FieldType.SNOW:
-                            Effect.PlayerEffect("RockCrashing_ice1", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Ice", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.DESERT:
-                            Effect.PlayerEffect("RockCrash_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.JUNGLE:
-                            Effect.PlayerEffect("RockCrash_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.VOLCANIC:
-                            Effect.PlayerEffect("RockCrash_Vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                     }
 

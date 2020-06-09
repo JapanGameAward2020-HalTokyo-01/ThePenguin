@@ -58,17 +58,19 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Awake()
 	{
-		m_event_system = EventSystem.current;
-		m_last_selected = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
-
-		m_self = GetComponent<RectTransform>();
-	}
+        m_event_system = EventSystem.current;
+    }
 
 	public void Start()
 	{
-		// BGM再生
-		BGMManager.Instance.Play(BGMs.Index.Select);
-	}
+
+        m_last_selected = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
+
+        m_self = GetComponent<RectTransform>();
+
+        // BGM再生
+        //BGMManager.Instance.Play(BGMs.Index.Select);
+    }
 
 	/**
 	 * @brief	更新

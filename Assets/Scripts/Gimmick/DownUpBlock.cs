@@ -52,6 +52,13 @@ public class DownUpBlock : FallBlock
 
         m_Block.transform.position = this.transform.position + Vector3.down * m_CurrentHeight;
 
+        if (m_Shadow)
+        {
+            float shadowsize = Mathf.Lerp(0.5f, 1.0f, m_CurrentHeight / m_Height);
+
+            m_Shadow.transform.localScale = m_InitShadowSize * shadowsize;
+        }
+
         m_Time += Time.deltaTime;
     }
 

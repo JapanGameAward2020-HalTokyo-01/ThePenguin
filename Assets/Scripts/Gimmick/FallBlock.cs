@@ -30,6 +30,10 @@ public class FallBlock : BaseGimmick
     protected GameObject m_DownPoint;
 
     [SerializeField]
+    protected GameObject m_Shadow;
+    protected Vector3 m_InitShadowSize;
+
+    [SerializeField]
     protected float m_Time = 0f;
     protected float m_CurrentHeight = 0f;
 
@@ -42,10 +46,16 @@ public class FallBlock : BaseGimmick
 
         m_DownPoint.transform.position = this.transform.position + Vector3.down * m_Height;
 
+        if (m_Shadow)
+        {
+            m_InitShadowSize = m_Shadow.transform.localScale;
+            m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;
+        }
+
         m_LineRenderer = this.GetComponent<LineRenderer>();
-        //m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
-        //m_LineRenderer.SetPosition(0, this.transform.position);
-        //m_LineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
+        m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
+        m_LineRenderer.SetPosition(0, this.transform.position);
+        m_LineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
 
         m_LineRenderer.enabled = false;
         m_DownPoint.GetComponentInChildren<MeshRenderer>().enabled = false;
@@ -63,6 +73,13 @@ public class FallBlock : BaseGimmick
         m_CurrentHeight += m_DownSpeed * Time.deltaTime;
 
         m_Block.transform.position = this.transform.position + Vector3.down * m_CurrentHeight;
+
+        if(m_Shadow)
+        {
+            float shadowsize = Mathf.Lerp(0.2f, 1.0f, m_CurrentHeight / m_Height);
+
+            m_Shadow.transform.localScale = m_InitShadowSize * shadowsize;
+        }
 
         if (m_CurrentHeight < m_Height) return;
 
@@ -87,6 +104,10 @@ public class FallBlock : BaseGimmick
 
     public override void OnDeactivate()
     {
+        if (m_Shadow)
+        {
+            m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;
+        }
         this.gameObject.SetActive(false);
     }
 

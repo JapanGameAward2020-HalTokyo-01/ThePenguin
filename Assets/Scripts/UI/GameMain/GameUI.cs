@@ -67,10 +67,13 @@ public class GameUI : MonoBehaviour
 
         if (!m_PenguinManager)
             m_PenguinManager = FindObjectOfType<PenguinManager>();
+
+        // 前シーンからBGMを引っ張らないように
+        BGMManager.Instance.Play(BGMs.Index.None);
     }
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         if(!m_DirLight)
         {
@@ -92,12 +95,6 @@ public class GameUI : MonoBehaviour
         m_RAccel = false;
         m_LDecel = false;
         m_RDecel = false;
-
-        // BGM再生
-        if(m_level_param.IsBossStage)
-            BGMManager.Instance.Play(BGMs.Index.BossBattle);
-        else
-            BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
     }
 
     void FixedUpdate()
@@ -118,6 +115,15 @@ public class GameUI : MonoBehaviour
         }
         else
         {
+            // BGM再生
+            if(!BGMManager.Instance.IsPlay)
+			{
+                if (m_level_param.IsBossStage)
+                    BGMManager.Instance.Play(BGMs.Index.BossBattle);
+                else
+                    BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
+			}
+
             m_ChargeGaugeMgr.RegisterInputEvent();
         }
 
@@ -209,9 +215,16 @@ public class GameUI : MonoBehaviour
         if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
             return;
 
-         Debug.Log("GameUI: message received");
+        var _cv = FindObjectOfType<ControllerVibration>();
+        if(_cv)
+            _cv.Pause(false);
+
+        Debug.Log("GameUI: message received");
         if (!m_Pause.gameObject.activeSelf)
         {
+            if (_cv)
+                _cv.Pause(true);
+
             Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
         }

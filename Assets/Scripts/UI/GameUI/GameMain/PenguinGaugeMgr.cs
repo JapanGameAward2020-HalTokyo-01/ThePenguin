@@ -170,6 +170,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 			{
 				m_face_icon.ChangeState(FaceIcon.kState.Danger);
 			}
+
+            if(!m_penguin_mgr.CheckParentPenguinAlive())
+            {
+                m_face_icon.ChangeState(FaceIcon.kState.Danger);
+            }
 		}
 
 	}

@@ -18,20 +18,32 @@ public class AnimationCheck : MonoBehaviour
     {
 
         trailEffect = GetComponentInChildren<TrailEffect>();
-        trailEffect.active = false;
+        if (trailEffect)
+        {
+            trailEffect.active = false;
+        }
+        
         Effect = GetComponentInParent<EffectSpawner>();
         
     }
     public void EndGoalEnshutsu()
     {
         //trailEffect.active = false;
-        GetComponentInParent<ChildPenguin>().m_ClearAnimationEnded = true;
+        var cp = GetComponentInParent<Penguin>();
+        if (cp)
+        {
+            cp.m_ClearAnimationEnded = true;
+        }
+
     }
 
     public void TrampolineJump()
     {
-
-        trailEffect.active = true;
+        if (trailEffect)
+        {
+            trailEffect.active = true;
+        }
+        
         float xpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         float zpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         goalpos = main.GetComponent<Penguin>().GetGoalPos();

@@ -9,6 +9,15 @@ public class StageMetaParam : ScriptableObject
 	public int m_current_area_index;
 	//! 現在のステージ番号
 	public int m_current_stage_index;
+
+	public void InitializeIndex() { m_current_area_index = m_current_stage_index = 0; }
+	public void InitializeIndex(int index)
+	{
+		// エリア４のみステージが４つしかない
+		m_current_area_index = index / 8;
+		m_current_stage_index = index % 8;
+	}
+
 	private int LevelIndex { get { return m_current_area_index * 8 + m_current_stage_index; } }
 
 	// ステージ番号を１進める
@@ -43,17 +52,18 @@ public class StageMetaParam : ScriptableObject
 
 	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
 	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
+	public int NextLevelIndex { get { return NextLevelBuildIndex - 4; } }
 
 	// 最初のレベルのビルドセッティング上のシーンインデックス
 	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage); } }
 
 	// 各エリアの最初のレベルのインデックス番号が欲しい
 	[SerializeField]
-	private int[] m_levelnum_each_area = new int[4] { 8,8,8,4 };
+	private int[] m_levelnum_each_area = new int[4] { 8, 8, 8, 4 };
 	public int GetLevelIndexOfArea(int _area_index)
 	{
 		int result = 0;
-		for(int cnt = 0; cnt < _area_index; cnt++)
+		for (int cnt = 0; cnt < _area_index; cnt++)
 		{
 			result += m_levelnum_each_area[cnt];
 		}

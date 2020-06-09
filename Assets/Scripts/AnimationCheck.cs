@@ -29,7 +29,12 @@ public class AnimationCheck : MonoBehaviour
     public void EndGoalEnshutsu()
     {
         //trailEffect.active = false;
-        GetComponentInParent<ChildPenguin>().m_ClearAnimationEnded = true;
+        var cp = GetComponentInParent<Penguin>();
+        if (cp)
+        {
+            cp.m_ClearAnimationEnded = true;
+        }
+
     }
 
     public void TrampolineJump()

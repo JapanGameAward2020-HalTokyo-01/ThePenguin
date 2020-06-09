@@ -35,7 +35,7 @@ public class CurrentScore : MonoBehaviour
         m_total_count = _manager.m_TotalCount;
         m_quest_time = _manager.m_settings.RescueTask;
         m_result_count = _manager.m_PackCount;
-        m_quest_time = _manager.m_settings.TimeLimit;
+        m_quest_time = _manager.m_settings.TimeStarThreshold;
         m_result_time = _manager.StageTime;
 
         // 死亡数が基準未満

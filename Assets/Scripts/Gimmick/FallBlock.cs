@@ -57,7 +57,7 @@ public class FallBlock : BaseGimmick
         m_LineRenderer.SetPosition(0, this.transform.position);
         m_LineRenderer.SetPosition(1, this.transform.position + Vector3.down * m_Height);
 
-        //m_LineRenderer.enabled = false;
+        m_LineRenderer.enabled = false;
         m_DownPoint.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 

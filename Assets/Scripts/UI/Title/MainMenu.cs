@@ -114,7 +114,7 @@ public class MainMenu : MonoBehaviour
             return;
 
         //ロゴ画面処理
-        if(m_State== MenuState.LOGO && GetAnyKeyDown())
+        if(m_State == MenuState.LOGO && GetAnyKeyDown())
         {
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
@@ -205,16 +205,17 @@ public class MainMenu : MonoBehaviour
         if (info.normalizedTime < 1.0f)
             return;
 
-            m_SelectPrev = m_Select;
+        m_SelectPrev = m_Select;
+
         if (!GetAButton() && !GetBButton()&&!m_SelectIsCD)
         {
             //ABボタンが押されてない
-            if (GetUpUp())
+            if (GetUpDown())
             {
                 m_Select -= 1;
                 m_SelectIsCD = true;
             }
-            if (GetDownUp())
+            if (GetDownDown())
             {
                 m_Select += 1;
                 m_SelectIsCD = true;

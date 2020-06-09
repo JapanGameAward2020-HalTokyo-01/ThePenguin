@@ -146,7 +146,7 @@ public class BossBomb : BaseGimmick
 
         //探知範囲とカウントダウンの座標更新
         m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
-        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 2.0f, 0.0f);
     }
 
     /**
@@ -169,9 +169,17 @@ public class BossBomb : BaseGimmick
     public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
+        m_IsCountDown = false;
         m_Model.transform.position = m_Start.transform.position;
         m_Model.transform.rotation = new Quaternion(0,0,0,0);
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
+        if (m_SparkEffect)
+            m_SparkEffect.Stop();
+
+        var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
+        if (_cdEffect.exists)
+            _cdEffect.Stop();
+
         m_CountDownObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -248,6 +256,10 @@ public class BossBomb : BaseGimmick
             if (m_SparkEffect)
                 m_SparkEffect.Play();
             m_CountDownObject.SetActive(true);
+
+            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
+            if(!_cdEffect.exists)
+                _cdEffect.Play();
             m_IsCountDown = true;
 
             m_IsThrow = false;

@@ -41,6 +41,9 @@ public class BGMManager : MonoBehaviour
 		get { return m_fade; }
 	}
 
+	// 再生中か判定
+	public bool IsPlay { get { return m_current_source != null && m_current_source.isPlaying; } }
+
 	// 複数化回避
 	private static BGMManager m_instance = null;
 	public static BGMManager Instance { get => m_instance; }

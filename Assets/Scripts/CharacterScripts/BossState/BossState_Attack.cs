@@ -32,6 +32,12 @@ public class BossState_Attack : BossState
     //! 更新処理
     public override void OnUpdate()
     {
+        if (m_Boss.m_Levelsettings.m_clear_flag)
+        {
+            m_Boss.ChangeState<BossState_Goal>();
+            return;
+        }
+
         if (m_Boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.0f && m_Boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             if (m_Effect)

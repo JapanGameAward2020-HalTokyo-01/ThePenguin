@@ -266,6 +266,11 @@ public class ChildPenguin : Penguin
                 transform.Translate(Vector3.forward * Mathf.Min(m_GoalSpeed * Time.deltaTime * (2+randomnumber), currentDist));
             } 
 
+            else if (Parent.Boss)
+            {
+                BossDefeat();
+            }
+
             else if (!m_PlayedFirstGoal)
             {
 

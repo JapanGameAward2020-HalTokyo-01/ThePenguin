@@ -124,4 +124,9 @@ public class Boss : MonoBehaviour
 
         return false;
     }
+
+    public BossState GetCurrentState()
+    {
+        return m_CurrentState;
+    }
 }

@@ -149,23 +149,20 @@ public class ResultUI : MonoBehaviour
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);
 
-        // 次のシーンをアンロック
-        if(_save.Stages1.Length > m_SceneList.NextLevelIndex)
-            _save.Stages1[m_SceneList.NextLevelIndex].m_Unlocked = true;
-
         // ハイスコアに更新
-        GameData _past_data = _save.Stages1[m_SceneList.CurrentLevelIndex];
+        GameData _data = _save.Stages1[m_SceneList.CurrentLevelIndex];
+
         // 総ペンギン数は書き換えるべきか不明
-        _past_data.m_TotalPenguins  = m_TotalCount;
-        _past_data.m_SavedPenguins  = Mathf.Max(m_ClearCount, _past_data.m_SavedPenguins);
-        _past_data.m_Time           = Mathf.Max(m_ClearTime, _past_data.m_Time);
-        _past_data.m_Star1          = true;
-        _past_data.m_Star2          = m_Flag_Count || _past_data.m_Star2;
-        _past_data.m_Star3          = m_Flag_Time || _past_data.m_Star3;
-        if(_past_data.m_FaceIcon < m_FaceIcon) _past_data.m_FaceIcon = m_FaceIcon;
+        _data.m_TotalPenguins  = m_TotalCount;
+        _data.m_SavedPenguins  = Mathf.Max(m_ClearCount, _data.m_SavedPenguins);
+        _data.m_Time           = Mathf.Max(m_ClearTime, _data.m_Time);
+        _data.m_Star1          = true;
+        _data.m_Star2          = m_Flag_Count || _data.m_Star2;
+        _data.m_Star3          = m_Flag_Time || _data.m_Star3;
+        if(_data.m_FaceIcon < m_FaceIcon) _data.m_FaceIcon = m_FaceIcon;
 
         // ファイル書き込み
-        _save.Save();
+        _save.SetStageData(_data, m_SceneList.CurrentLevelIndex);
 
         StartCoroutine(SceneStart());
     }

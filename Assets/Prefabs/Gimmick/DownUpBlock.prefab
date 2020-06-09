@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TargetObject: {fileID: 2981855385008923730}
-  m_VibrateSpeed: {x: 0.01, y: 0, z: 0.05}
+  m_VibrateSpeed: {x: 1, y: 0, z: 5}
   m_VibrateTimeMax: 1
   m_VibrateTime: 0
 --- !u!1 &7178452103495412767
@@ -726,6 +726,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7178452103495412755}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: a4f046d1a78df634eb1cf05528c2d216,
+        type: 3}
+      propertyPath: m_Name
+      value: Mo_RobotBear
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a4f046d1a78df634eb1cf05528c2d216,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -780,11 +785,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a4f046d1a78df634eb1cf05528c2d216,
-        type: 3}
-      propertyPath: m_Name
-      value: Mo_RobotBear
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: a4f046d1a78df634eb1cf05528c2d216,
         type: 3}

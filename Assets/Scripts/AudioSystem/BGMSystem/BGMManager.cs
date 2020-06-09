@@ -6,6 +6,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 /**
  * @class   BGMManagerクラス
@@ -39,6 +40,9 @@ public class BGMManager : MonoBehaviour
 	{
 		get { return m_fade; }
 	}
+
+	// 再生中か判定
+	public bool IsPlay { get { return m_current_source != null && m_current_source.isPlaying; } }
 
 	// 複数化回避
 	private static BGMManager m_instance = null;
@@ -78,9 +82,9 @@ public class BGMManager : MonoBehaviour
 	}
 
 	/**
-	 * @brief   BGM再生
+	 * @brief   未使用のAudioSourceを取得する
 	 */
-	public void Play(BGMs.Index _index, int _area = 0)
+	private AudioSource FindUnusedSource()
 	{
 		// 使用していないAudioSourceの探索
 		AudioSource _s = m_source_list.FirstOrDefault(s => !s.isPlaying);
@@ -89,19 +93,50 @@ public class BGMManager : MonoBehaviour
 			// いいnullチェックが思いつかない(とりあえず現在メインで使っていないものを取り出す)
 			_s = m_source_list.First(s => !(s == m_current_source));
 		}
+		return _s;
+	}
 
-		// インデックスからBGMファイル固有パラメータ取得(同じ音の指定判定)
-		m_param = m_audio_list.SelectBGM(_index, _area);
-		if (m_current_source != null && m_param != null)
-			if (m_param.Clip == m_current_source.clip)
-				return;
+	/**
+	 * @brief   BGM再生
+	 */
+	public void Play(BGMs.Index _index, float delay = 0.0f)
+	{
+		// 使用していないAudioSourceの探索
+		AudioSource _s = FindUnusedSource();
 
+		// インデックスからBGMファイル固有パラメータ取得(現在再生中と同じ音の場合、処理中断)
+		AudioBGMParams _p = m_audio_list.SelectBGM(_index);
+		if (_p == m_param) return;
+		m_param = _p;
+
+		PlayProcess(_s, delay);
+	}
+
+	/**
+	 * @brief   エリア指定BGM選択再生
+	 */
+	public void Play(BGMs.Index _index, int _area, float delay = 0.0f)
+	{
+		// 使用していないAudioSourceの探索
+		AudioSource _s = FindUnusedSource();
+
+		// インデックスからBGMファイル固有パラメータ取得(現在再生中と同じ音の場合、処理中断)
+		AudioBGMParams _p = m_audio_list.SelectBGM(_index, _area);
+		if (_p == m_param) return;
+		m_param = _p;
+
+		PlayProcess(_s, delay);
+	}
+
+	/**
+	 * @brief   BGM再生共通処理
+	 */
+	private void PlayProcess(AudioSource _s, float _delay = 0.0f)
+	{
 		// AudioSourceの切り替え・作成
 		if (m_current_source != null)
-		{
-			// フェードアウト
+			// 前のbgmをフェードアウト
 			fade(0.0f, 1.0f, m_current_source);
-		}
 		m_current_source = _s;
 
 		// 再生する音の指定
@@ -114,8 +149,17 @@ public class BGMManager : MonoBehaviour
 		{
 			m_current_source.clip = m_param.Clip;
 			m_current_source.volume = 1.0f;
-			m_current_source.Play();
+			StartCoroutine(DelayedPlay(_delay));
 		}
+	}
+
+	/**
+	 * @brief   ディレイ再生
+	 */
+	IEnumerator DelayedPlay(float delay)
+	{
+		yield return new WaitForSecondsRealtime(delay);
+		m_current_source.Play();
 	}
 
 	/**
@@ -125,7 +169,6 @@ public class BGMManager : MonoBehaviour
 	{
 		if(m_current_source != null && m_current_source.isPlaying)
 			m_loop.OnUpdate(m_current_source, m_param);
-		
 	}
 
 	/**

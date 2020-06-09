@@ -34,10 +34,24 @@ public class FootMarker : MonoBehaviour
 		    m_input.actions["Move"].performed += CursorRotate;
 	}
 
-	// 選んだステージ読み込む
-	private void CursorRotate(InputAction.CallbackContext _context)
+    //private void OnDestroy()
+    //{
+    //    if (m_input)
+    //        m_input.actions["Move"].performed -= CursorRotate;
+    //}
+
+    // 選んだステージ読み込む
+    private void CursorRotate(InputAction.CallbackContext _context)
 	{
-		Vector2 _in_dir = _context.ReadValue<Vector2>();
+        if(!this)
+        {
+            if (m_input)
+                m_input.actions["Move"].performed -= CursorRotate;
+
+            return;
+        }
+
+        Vector2 _in_dir = _context.ReadValue<Vector2>();
 
 		if (_in_dir.magnitude > 0)
 		{

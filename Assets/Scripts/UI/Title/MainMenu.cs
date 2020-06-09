@@ -45,6 +45,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private SceneObject[] m_Stages = new SceneObject[28];
 
+    // 初期化したいだけ
+    [SerializeField]
+    private StageMetaParam m_StageIndexMgr = null;
+
     //入力関連
     private bool m_IsInputEnable = false;
     private int m_Past_H = 0;
@@ -272,12 +276,14 @@ public class MainMenu : MonoBehaviour
                     if (m_IsNewStart)
                     {
                         Debug.Log("New Game Start");
+                        m_StageIndexMgr.InitializeIndex();
                         StartCoroutine(SceneEnd(m_Stages[0]));
                     }
                     //これから追加するコンティニュー
                     else
                     {
                         Debug.Log("Game Countinue");
+                        m_StageIndexMgr.InitializeIndex(m_UnlockStage);
                         StartCoroutine(SceneEnd(m_Stages[m_UnlockStage])); 
                     }
                 }

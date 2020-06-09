@@ -33,10 +33,12 @@ public class CurrentScore : MonoBehaviour
     public void JudgeScore(PenguinManager _manager)
 	{
         m_total_count = _manager.m_TotalCount;
-        m_quest_count = _manager.m_TotalCount;
+
         m_result_count = _manager.m_PackCount;
-        m_quest_time = _manager.m_settings.TimeStarThreshold;
         m_result_time = _manager.StageTime;
+
+        m_quest_count = _manager.m_settings.CountStarThreshold;
+        m_quest_time = _manager.m_settings.TimeStarThreshold;
 
         // 死亡数が基準未満
         if (_manager.m_DeadCount < _manager.m_settings.DangerBorder)

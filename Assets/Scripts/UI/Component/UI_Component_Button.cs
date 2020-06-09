@@ -99,7 +99,6 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetEnable(bool enable)
     {
-        gameObject.SetActive(true);
         if (m_HighLight == null || m_UnHighLight == null)
         { 
             m_HighLight = GetComponentsInChildren<Image>()[0];
@@ -135,7 +134,6 @@ public class UI_Component_Button : MonoBehaviour
 
     public void SetActive(bool active)
     {
-        gameObject.SetActive(true);
         if (m_HighLight==null||m_UnHighLight==null)
         {
             m_HighLight = GetComponentsInChildren<Image>()[0];

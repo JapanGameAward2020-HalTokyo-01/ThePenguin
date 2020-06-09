@@ -136,16 +136,17 @@ public class ResultUI : MonoBehaviour
         m_Flag_Time = _score.CheckStar_Time;
         //顔アイコン種類
         m_FaceIcon = _score.m_face;
-
+        Debug.Log(_score.m_result_time);
 
         //表示する数値の初期化
         m_Page1_StarPenguinCounter.SetCount(m_StarCount);
-        m_Page1_StarPenguinCounter.SetCurrentCount(m_StarCount);
+        m_Page1_StarPenguinCounter.SetCurrentCount(m_ClearCount);
         m_Page1_StarTimeCounter.SetCount((int)m_StarTime);
-        m_Page1_StarTimeCounter.SetCurrentCount((int)m_StarTime);
+        m_Page1_StarTimeCounter.SetCurrentCount((int)m_ClearTime);
         m_Page1_Gauge_TotalCounter.SetCount(m_TotalCount);
-        m_Page1_Gauge_TotalCounter.SetCurrentCount(m_TotalCount);
+        m_Page1_Gauge_TotalCounter.SetCurrentCount(m_ClearCount);
         m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
+
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);

@@ -22,10 +22,15 @@ public class PenguinJoin : MonoBehaviour
     //! 群れ化処理
     public System.Action onReachedDestination;
 
+    private void Awake()
+    {
+        onReachedDestination = delegate () { };
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        onReachedDestination = delegate () { };
+
     }
 
     // Update is called once per frame

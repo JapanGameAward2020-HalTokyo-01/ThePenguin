@@ -61,7 +61,7 @@ public class SaveSystem : MonoBehaviour
     /// <summary>
     /// @brief      セーブ処理
     /// </summary>
-    private void Save()
+    public void Save()
     {
         BinaryFormatter format = new BinaryFormatter();
 

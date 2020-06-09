@@ -164,6 +164,8 @@ public class ResultUI : MonoBehaviour
         _past_data.m_Star3          = m_Flag_Time || _past_data.m_Star3;
         if(_past_data.m_FaceIcon < m_FaceIcon) _past_data.m_FaceIcon = m_FaceIcon;
 
+        // ファイル書き込み
+        _save.Save();
 
         StartCoroutine(SceneStart());
     }

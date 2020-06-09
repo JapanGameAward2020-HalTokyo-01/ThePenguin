@@ -49,6 +49,10 @@ public class LevelSettings : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("GameOverフラグ")]
 	public bool m_failuer_flag = false;
 
+	[SerializeField, Tooltip("☆の評価項目：時間"), Space(10.0f)]
+	private float m_time_star_threshold;
+	public float TimeStarThreshold { get => m_time_star_threshold; }
+
 	/**
 	 * @brief	初期化(PenguinManagerの初期化を待つ)
 	 *			パラメータの大小関係がおかしい場合ここで修正する

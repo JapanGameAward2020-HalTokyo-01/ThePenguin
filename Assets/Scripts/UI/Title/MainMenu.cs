@@ -45,10 +45,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private SceneObject[] m_Stages = new SceneObject[28];
 
-    // 初期化したいだけ
-    [SerializeField]
-    private StageMetaParam m_StageIndexMgr = null;
-
     //入力関連
     private bool m_IsInputEnable = false;
     private int m_Past_H = 0;
@@ -101,7 +97,7 @@ public class MainMenu : MonoBehaviour
         }
 
         m_UnlockStage = 0;
-        while (m_SaveData.Stages1[m_UnlockStage + 1].m_Unlocked)
+        while (m_SaveData.Stages1[m_UnlockStage+1].m_Unlocked)
         {
             m_UnlockStage++;
         }
@@ -118,7 +114,7 @@ public class MainMenu : MonoBehaviour
             return;
 
         //ロゴ画面処理
-        if (m_State == MenuState.LOGO && GetAnyKeyDown())
+        if(m_State == MenuState.LOGO && GetAnyKeyDown())
         {
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
@@ -210,15 +206,16 @@ public class MainMenu : MonoBehaviour
             return;
 
         m_SelectPrev = m_Select;
-        if (!GetAButton() && !GetBButton() && !m_SelectIsCD)
+
+        if (!GetAButton() && !GetBButton()&&!m_SelectIsCD)
         {
             //ABボタンが押されてない
-            if (GetUpUp())
+            if (GetUpDown())
             {
                 m_Select -= 1;
                 m_SelectIsCD = true;
             }
-            if (GetDownUp())
+            if (GetDownDown())
             {
                 m_Select += 1;
                 m_SelectIsCD = true;
@@ -275,15 +272,13 @@ public class MainMenu : MonoBehaviour
                     if (m_IsNewStart)
                     {
                         Debug.Log("New Game Start");
-						m_StageIndexMgr.InitializeIndex();
-						StartCoroutine(SceneEnd(m_Stages[0]));
+                        StartCoroutine(SceneEnd(m_Stages[0]));
                     }
                     //これから追加するコンティニュー
                     else
                     {
                         Debug.Log("Game Countinue");
-						m_StageIndexMgr.InitializeIndex(m_UnlockStage);
-						StartCoroutine(SceneEnd(m_Stages[m_UnlockStage]));
+                        StartCoroutine(SceneEnd(m_Stages[m_UnlockStage])); 
                     }
                 }
                 else if (m_Select == 1)
@@ -326,7 +321,7 @@ public class MainMenu : MonoBehaviour
     /// 
     public void ReturnByOption()
     {
-        m_MenuAnimator.SetBool("Close", false);
+        m_MenuAnimator.SetBool("Close", false);       
         m_OptionAnimator.SetBool("Close", true);
         m_Logo.CrossFadeAlpha(1, 0.5f, true);
         m_State = MenuState.MAIN;

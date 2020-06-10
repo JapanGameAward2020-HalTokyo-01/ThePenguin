@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3412577205726246890}
   - component: {fileID: 6291970738221723294}
+  - component: {fileID: 5375168534476548648}
   m_Layer: 8
   m_Name: Start
   m_TagString: Untagged
@@ -237,6 +238,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4644fb50eaa99140baeaa6bbba0af99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5375168534476548648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046695382461249102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: de0d871f47566344e8d9650c411ecfcd, type: 2}
+  playOnStart: 0
+  isLooping: 0
 --- !u!1 &4344794997490899767
 GameObject:
   m_ObjectHideFlags: 0

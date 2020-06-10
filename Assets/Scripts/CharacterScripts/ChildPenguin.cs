@@ -115,7 +115,9 @@ public class ChildPenguin : Penguin
         if (m_Delay != 0.0f)
         {
             //! 遅延用のCouroutine
-            StartCoroutine(MoveCoroutine(move));
+            if (this.isActiveAndEnabled)
+                StartCoroutine(MoveCoroutine(move));
+
             return;
         }
 

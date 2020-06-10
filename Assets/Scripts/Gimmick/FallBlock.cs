@@ -39,6 +39,9 @@ public class FallBlock : BaseGimmick
 
     private LineRenderer m_LineRenderer;
 
+    //!エフェクトスポーンナー
+    protected EffectSpawner Effect;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -51,6 +54,9 @@ public class FallBlock : BaseGimmick
             m_InitShadowSize = m_Shadow.transform.localScale;
             m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;
         }
+
+        if (!Effect)
+            Effect = GetComponent<EffectSpawner>();
 
         m_LineRenderer = this.GetComponent<LineRenderer>();
         m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
@@ -104,6 +110,13 @@ public class FallBlock : BaseGimmick
 
     public override void OnDeactivate()
     {
+        var pos = m_Block.transform.position;
+
+        if (Effect != null)
+        {
+            Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.25f, 0.25f, 0.25f));
+        }
+
         if (m_Shadow)
         {
             m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;

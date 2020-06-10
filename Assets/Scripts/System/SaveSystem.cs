@@ -28,13 +28,13 @@ public class SaveSystem : MonoBehaviour
             {
                 Stages[i] = new GameData();
             }
-			Stages[0].m_Unlocked = true;
+            Stages[0].m_Unlocked = true;
 
-			// MEMO：
-			// セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
-			// 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+            // MEMO：
+            // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
+            // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
 
-			instance = this;
+            instance = this;
         }
         else if (instance != this)
         {
@@ -46,7 +46,7 @@ public class SaveSystem : MonoBehaviour
     {
         //! 起動時にセーブをロード
         Load();
-        
+
     }
 
     private void Update()
@@ -55,6 +55,7 @@ public class SaveSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L)) Load();
         if (Input.GetKeyDown(KeyCode.S)) Save();
         if (Input.GetKeyDown(KeyCode.C)) ClearData();
+        if (Input.GetKeyDown(KeyCode.A)) AllUnlock();
     }
 
     /// <summary>
@@ -101,7 +102,7 @@ public class SaveSystem : MonoBehaviour
             file.Close();
             Debug.Log(gamepath);
             Debug.Log("Loaded Game Data");
-        }     
+        }
         else
         {
             Debug.Log(gamepath);
@@ -172,6 +173,19 @@ public class SaveSystem : MonoBehaviour
         Save();
         Load();
     }
+
+    /// <summary>
+    /// @brief      デバッグ機能：全ステージアンロック
+    /// </summary>
+    private void AllUnlock()
+    {
+        foreach (var data in Stages)
+		{
+            data.m_Unlocked = true;
+
+        }
+    }
+
 }
 
 [System.Serializable]

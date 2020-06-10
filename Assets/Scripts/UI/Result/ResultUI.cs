@@ -136,7 +136,6 @@ public class ResultUI : MonoBehaviour
         m_Flag_Time = _score.CheckStar_Time;
         //顔アイコン種類
         m_FaceIcon = _score.m_face;
-        Debug.Log(_score.m_result_time);
 
         //表示する数値の初期化
         m_Page1_StarPenguinCounter.SetCount(m_StarCount);
@@ -147,13 +146,23 @@ public class ResultUI : MonoBehaviour
         m_Page1_Gauge_TotalCounter.SetCurrentCount(m_ClearCount);
         m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
 
-
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);
 
-        // 次のシーンをアンロック
-        if(_save.Stages1.Length > m_SceneList.NextLevelIndex)
-            _save.Stages1[m_SceneList.NextLevelIndex].m_Unlocked = true;
+        // ハイスコアに更新
+        GameData _data = _save.Stages1[m_SceneList.CurrentLevelIndex];
+
+        // 総ペンギン数は書き換えるべきか不明
+        _data.m_TotalPenguins  = m_TotalCount;
+        _data.m_SavedPenguins  = Mathf.Max(m_ClearCount, _data.m_SavedPenguins);
+        _data.m_Time           = Mathf.Max(m_ClearTime, _data.m_Time);
+        _data.m_Star1          = true;
+        _data.m_Star2          = m_Flag_Count || _data.m_Star2;
+        _data.m_Star3          = m_Flag_Time || _data.m_Star3;
+        if(_data.m_FaceIcon < m_FaceIcon) _data.m_FaceIcon = m_FaceIcon;
+
+        // ファイル書き込み
+        _save.SetStageData(_data, m_SceneList.CurrentLevelIndex);
 
         StartCoroutine(SceneStart());
     }

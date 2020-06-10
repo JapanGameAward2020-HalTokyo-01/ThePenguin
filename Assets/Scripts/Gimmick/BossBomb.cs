@@ -88,21 +88,17 @@ public class BossBomb : BaseGimmick
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
         m_CountDownInit = m_CountDown;
+
+        //カウントダウン表示（仮）初期化
+        if(!m_CountDownObject)
+            m_CountDownObject = this.transform.Find("CountDown").gameObject;
+
         m_CountDownObject.SetActive(false);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
-    }
-
-
-    void OnValidate()
-    {
-        //カウントダウン表示（仮）初期化
-        m_CountDownObject = this.transform.Find("CountDown").gameObject;
-
-        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  

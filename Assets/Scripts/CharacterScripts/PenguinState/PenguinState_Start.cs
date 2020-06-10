@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Effekseer;
 
 public class PenguinState_Start : PenguinState
 {
     private ParentPenguin parentPenguin = null;
 
     private StartCameraSystem StartSystem;
+
+    EffekseerEmitter m_Effect;
 
     public override void OnStart()
     {
@@ -17,6 +20,11 @@ public class PenguinState_Start : PenguinState
         if (!StartSystem)
             StartSystem = FindObjectOfType<StartCameraSystem>();
 
+        if (parentPenguin)
+        {
+            if (!m_Effect)
+                m_Effect = GetComponent<EffekseerEmitter>();
+        }
     }
 
     //! 更新処理
@@ -39,5 +47,17 @@ public class PenguinState_Start : PenguinState
 
             penguin.ChangeState<PenguinState_Idle>();
         }
+    }
+
+    public void EffectPlay()
+    {
+        if (m_Effect)
+            m_Effect.Play();
+    }
+
+    public void EffectStop()
+    {
+        if (m_Effect)
+            m_Effect.StopRoot();
     }
 }

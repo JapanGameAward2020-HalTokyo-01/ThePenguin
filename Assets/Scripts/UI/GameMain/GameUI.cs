@@ -211,6 +211,9 @@ public class GameUI : MonoBehaviour
 
     void PauseMenu(InputAction.CallbackContext ctx)
     {
+        if (!this)
+            return;
+
         // 開始アニメーション待ち
         if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
             return;

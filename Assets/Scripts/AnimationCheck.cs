@@ -47,7 +47,7 @@ public class AnimationCheck : MonoBehaviour
         float xpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         float zpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
         goalpos = main.GetComponent<Penguin>().GetGoalPos();
-        Vector3 jumpgoal = new Vector3(goalpos.x + xpos, goalpos.y + 5, goalpos.z + zpos);
+        Vector3 jumpgoal = new Vector3(goalpos.x + xpos, goalpos.y + 10, goalpos.z + zpos);
         main.transform.LookAt(jumpgoal);
         //Debug.Log(main.transform.rotation);
         Debug.Log(jumpgoal);

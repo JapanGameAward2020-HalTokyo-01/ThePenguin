@@ -50,6 +50,8 @@ public class PauseMenu : MonoBehaviour
     //! 選択用矢印
     [SerializeField]
     private UnityEngine.UI.Image m_Arrow;
+    [SerializeField]
+    private Canvas m_Canvas;
 
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
@@ -172,7 +174,7 @@ public class PauseMenu : MonoBehaviour
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
 
             Vector3 a = m_LastSelected.transform.position;
-            a.x -= 250.0f;
+            a.x -= 250.0f * m_Canvas.scaleFactor;
             m_Arrow.gameObject.transform.position = a;
 
         }

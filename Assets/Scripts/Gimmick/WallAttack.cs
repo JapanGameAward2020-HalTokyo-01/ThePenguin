@@ -37,7 +37,7 @@ public class WallAttack : BaseGimmick
     TextureData m_Data;
 
     [SerializeField]
-    private EffectSpawner AreaEffect;
+    private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
 
@@ -57,8 +57,8 @@ public class WallAttack : BaseGimmick
     {
         base.Start();
 
-        if(!AreaEffect)
-            AreaEffect = GetComponent<EffectSpawner>();
+        if(!Effect)
+            Effect = GetComponent<EffectSpawner>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
@@ -91,20 +91,29 @@ public class WallAttack : BaseGimmick
         m_CurrentLength = 0f;
         m_Wall.transform.localPosition = Vector3.zero;
 
-        for (int x = 0; m_Length >= x; x++)
-        {
-            var pos = GetComponent<Transform>().transform.position;
-            pos += x * m_Wall.transform.forward;
-            pos.y -= 1.0f;
+        var pos = GetComponent<Transform>().transform.position;
+        pos.y -= 1.0f;
 
-            if (AreaEffect)
-                AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
+        if (Effect)
+            Effect.PlayerEffect("SummonIce", pos, new Vector3(0.5f, 0.5f, 0.5f));
+
+
+        for (int x = 0; m_Length >= x; x++)
+        {           
+            if (Effect)
+                Effect.PlayerEffect("MoveWall_Boss", pos + x * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
 
         }
     }
 
     public override void OnDeactivate()
     {
+        var pos = GetComponent<Transform>().transform.position;
+        pos.y -= 1.0f;
+
+        if (Effect)
+            Effect.PlayerEffect("SummonIce", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+
         if (m_ObjectVibrate)
             m_ObjectVibrate.StopVibrate();
 

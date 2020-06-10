@@ -21,7 +21,7 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
 
     void ISelectHandler.OnSelect(BaseEventData eventData)
     {
-        Debug.Log("Button Deselected");
+        //Debug.Log("Button Deselected");
         m_Selected.CrossFadeAlpha(1, 0, true);
         m_Normal.CrossFadeAlpha(0, 0, true);
         m_Instance = StartCoroutine(CrossFade(false));
@@ -29,7 +29,7 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
 
     void IDeselectHandler.OnDeselect(BaseEventData eventData)
     {
-        Debug.Log("Button Deselected");
+        //Debug.Log("Button Deselected");
         StopCoroutine(m_Instance);
         m_Selected.CrossFadeAlpha(0, 0, true);
         m_Normal.CrossFadeAlpha(1, 0, true);
@@ -39,7 +39,7 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
     {
         float fadeSel   = (fadein ? 0.5f : 1.0f);
         float fadeUnSel = (fadein ? 1.0f : 0.0f);
-        Debug.Log("CrossfadeIN: " + (fadein ? "true" : "false"));
+        //Debug.Log("CrossfadeIN: " + (fadein ? "true" : "false"));
 
         float totaltime = fadetime;
         if(fadein)

@@ -114,7 +114,7 @@ public class GoalTile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //親ペンギンと子ペンギンにのみ反応する
-        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failuer_flag)
+        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failure_flag)
         {
             Goal();
         }

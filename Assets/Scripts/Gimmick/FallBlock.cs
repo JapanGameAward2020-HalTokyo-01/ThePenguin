@@ -38,6 +38,9 @@ public class FallBlock : BaseGimmick
     protected float m_CurrentHeight = 0f;
 
     private LineRenderer m_LineRenderer;
+    [SerializeField]
+    //!エフェクトスポーンナー
+    protected EffectSpawner Effect;
 
     // Start is called before the first frame update
     public override void Start()
@@ -51,6 +54,9 @@ public class FallBlock : BaseGimmick
             m_InitShadowSize = m_Shadow.transform.localScale;
             m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;
         }
+
+        if (!Effect)
+            Effect = GetComponent<EffectSpawner>();
 
         m_LineRenderer = this.GetComponent<LineRenderer>();
         m_LineRenderer.startWidth = m_LineRenderer.endWidth = 0.1f;
@@ -96,6 +102,13 @@ public class FallBlock : BaseGimmick
 
     public override void OnActivate()
     {
+        var pos = this.transform.position;
+
+        if (Effect != null)
+        {
+            Effect.PlayerEffect("SummonRock", pos, new Vector3(0.5f, 0.5f, 0.5f));
+        }
+
         m_CurrentHeight = 0f;
         m_Time = -m_OffsetTime;
         m_Block.transform.position = this.transform.position;
@@ -104,6 +117,7 @@ public class FallBlock : BaseGimmick
 
     public override void OnDeactivate()
     {
+
         if (m_Shadow)
         {
             m_Shadow.transform.localScale = m_InitShadowSize * 0.0f;

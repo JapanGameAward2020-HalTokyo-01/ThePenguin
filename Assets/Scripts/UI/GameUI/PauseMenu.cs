@@ -354,6 +354,10 @@ public class PauseMenu : MonoBehaviour
         m_CoroutineA = false;
         m_CoroutineB = false;
 
+        var _cv = FindObjectOfType<ControllerVibration>();
+        if (_cv)
+            _cv.Pause(false);
+
         //!　ゲームを再開
         Time.timeScale = 1;
 

@@ -82,6 +82,13 @@ public class WallAttack : BaseGimmick
 
         if (m_ObjectVibrate)
             m_ObjectVibrate.StartVibrate();
+
+        var pos = m_Wall.transform.position;
+
+        pos.y -= 1.0f;
+
+        if (Effect)
+            Effect.PlayerEffect("MovewallBoss", pos, new Vector3(0.25f, 0.25f, 0.25f));
     }
 
     public override void OnActivate()

@@ -257,6 +257,7 @@ public class ParentPenguin : Penguin
         {
             if (!m_PlayedFirstGoal)
             {
+                m_CurrentState.GetComponent<PenguinState_Goal>().EffectPlay();
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
                 m_PlayedFirstGoal = true;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 
 /**
  * @class   BGMManagerクラス

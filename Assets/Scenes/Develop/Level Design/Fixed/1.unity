@@ -61787,15 +61787,20 @@ PrefabInstance:
       propertyPath: m_deadline
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 3701317251165633521, guid: c3b5504527ca74542be8c786612601a4,
+    - target: {fileID: 8351469167773340752, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.0999988
+      propertyPath: m_star_Quest_of_Penguin
+      value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 3701317251165633521, guid: c3b5504527ca74542be8c786612601a4,
+    - target: {fileID: 8351469167773340752, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.6521358
+      propertyPath: m_time_star_threshold
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461319898350724717, guid: c3b5504527ca74542be8c786612601a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4077149091619731956, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
@@ -61947,6 +61952,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.76
       objectReference: {fileID: 0}
+    - target: {fileID: 4077149092358760846, guid: c3b5504527ca74542be8c786612601a4,
+        type: 3}
+      propertyPath: m_Priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701317251165633521, guid: c3b5504527ca74542be8c786612601a4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701317251165633521, guid: c3b5504527ca74542be8c786612601a4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.6521358
+      objectReference: {fileID: 0}
     - target: {fileID: 1923648365252097144, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
       propertyPath: m_MaxDead
@@ -61956,11 +61976,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Time
       value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701317250115402536, guid: c3b5504527ca74542be8c786612601a4,
-        type: 3}
-      propertyPath: m_Heading.m_Bias
-      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 8994699257876052679, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
@@ -61982,11 +61997,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8461319898350724717, guid: c3b5504527ca74542be8c786612601a4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3701317251306524287, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
       propertyPath: m_IsActive
@@ -61997,10 +62007,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4077149092358760846, guid: c3b5504527ca74542be8c786612601a4,
+    - target: {fileID: 3701317250115402536, guid: c3b5504527ca74542be8c786612601a4,
         type: 3}
-      propertyPath: m_Priority
-      value: 0
+      propertyPath: m_Heading.m_Bias
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1360668418933880546, guid: c3b5504527ca74542be8c786612601a4, type: 3}

@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Effekseer;
  
 
 public class PauseMenu : MonoBehaviour
@@ -293,6 +294,8 @@ public class PauseMenu : MonoBehaviour
         m_Input.actions["B Button"].performed -= BButtonPause;
         //! InputにPauseのEventを削除
         m_Input.actions["Pause"].performed -= BButtonPause;
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_StageSelectScene);
         yield break;
     }
@@ -326,6 +329,8 @@ public class PauseMenu : MonoBehaviour
         m_Input.actions["B Button"].performed -= BButtonPause;
         //! InputにPauseのEventを削除
         m_Input.actions["Pause"].performed -= BButtonPause;
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_TitleScene);
         yield break;
     }
@@ -355,6 +360,10 @@ public class PauseMenu : MonoBehaviour
         m_BButtonImage.sprite = m_BDefault;
         m_CoroutineA = false;
         m_CoroutineB = false;
+
+        var _cv = FindObjectOfType<ControllerVibration>();
+        if (_cv)
+            _cv.Pause(false);
 
         //!　ゲームを再開
         Time.timeScale = 1;

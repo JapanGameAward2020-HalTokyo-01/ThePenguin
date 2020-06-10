@@ -201,8 +201,8 @@ namespace Effekseer.Internal
 
 		void Awake() {
 			audio = gameObject.AddComponent<AudioSource>();
-            var mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/Audio/SampleMixer.mixer").FindMatchingGroups("Effekseer");
-            audio.outputAudioMixerGroup = mixer[0];
+            var mixer = Resources.Load("Audio/SampleMixer") as AudioMixer;
+            audio.outputAudioMixerGroup = mixer.FindMatchingGroups("Effekseer")[0];
             audio.playOnAwake = false;
 		}
 		void Update() {

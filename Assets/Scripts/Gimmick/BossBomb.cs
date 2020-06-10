@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cinemachine;
 using Effekseer;
 
 public class BossBomb : BaseGimmick
@@ -26,6 +27,9 @@ public class BossBomb : BaseGimmick
 
     [SerializeField, Tooltip("爆弾投げる勢い")]
     private float m_ThrowSpeed = 1.0f;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     //! 状態
     private bool m_IsCountDown = false;
@@ -84,21 +88,17 @@ public class BossBomb : BaseGimmick
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
         m_CountDownInit = m_CountDown;
+
+        //カウントダウン表示（仮）初期化
+        if(!m_CountDownObject)
+            m_CountDownObject = this.transform.Find("CountDown").gameObject;
+
         m_CountDownObject.SetActive(false);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
-    }
-
-
-    void OnValidate()
-    {
-        //カウントダウン表示（仮）初期化
-        m_CountDownObject = this.transform.Find("CountDown").gameObject;
-
-        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  
@@ -124,6 +124,12 @@ public class BossBomb : BaseGimmick
             if (m_CountDown <= 0.0f)
             {
                 m_ObjectVibrate.StopVibrate();
+
+                var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+                if (cinemachineImpulseSource)
+                    cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
 
                 //爆発処理
                 Explode();

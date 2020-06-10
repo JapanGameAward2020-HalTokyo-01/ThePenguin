@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// @file   GameOverUIGame.cs
+/// @brief	ゲームオーバー時の演出
+/// @author	北林和哉
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

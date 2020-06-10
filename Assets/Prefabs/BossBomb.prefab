@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 4298192998130796971}
   - component: {fileID: 539982824011074800}
   - component: {fileID: 6863889236584450035}
+  - component: {fileID: 3280146954263168505}
   m_Layer: 0
   m_Name: BossBomb
   m_TagString: Untagged
@@ -460,6 +461,7 @@ MonoBehaviour:
   m_BlastSize: 0
   m_BlastPower: 0
   m_ThrowSpeed: 2
+  m_ShakeCameraPower: 0.5
   m_NormalMaterial: {fileID: 2100000, guid: 490c94e532e3e1742b00339df97a0f68, type: 2}
   m_CountDownMaterial: {fileID: 2100000, guid: e6ab435eb2f15284c8a8d7bfadbb90d3, type: 2}
   m_SparkEffect: {fileID: 477995940086182100}
@@ -479,6 +481,47 @@ MonoBehaviour:
   m_VibrateSpeed: {x: 10, y: 0, z: 5}
   m_VibrateTimeMax: 2
   m_VibrateTime: 0
+--- !u!114 &3280146954263168505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651636147122900392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
 --- !u!1 &8484867404438310890
 GameObject:
   m_ObjectHideFlags: 0

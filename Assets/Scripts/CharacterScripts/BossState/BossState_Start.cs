@@ -27,13 +27,12 @@ public class BossState_Start : BossState
 
         if (m_Effect)
             m_Effect.Play();
-
-
     }
 
     //! 更新処理
     public override void OnUpdate()
     {
+
         if (!StartSystem.GetNowPlaying())
         {
             m_Boss.GetControllerVibration().AddShake(0.7f, 0.4f);

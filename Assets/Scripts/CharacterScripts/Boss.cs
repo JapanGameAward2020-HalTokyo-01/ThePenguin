@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
+using Cinemachine;
 
 public class Boss : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class Boss : MonoBehaviour
 
     [SerializeField]
     private EffekseerEmitter m_FootEffect;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     //!振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
@@ -101,6 +105,15 @@ public class Boss : MonoBehaviour
     public ControllerVibration GetControllerVibration()
     {
         return m_ControllerVibration;
+    }
+
+    public void CameraShake()
+    {
+        var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if (cinemachineImpulseSource)
+            cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
     }
 
     /// <summary>

@@ -39,6 +39,9 @@ public class GoalTile : MonoBehaviour
     //! 現在のレベルの設定情報
     private LevelSettings m_level_setting = null;
 
+    //!エフェクトスポーンナー
+    private EffectSpawner Effect;
+
 
 
     // Start is called before the first frame update
@@ -47,6 +50,9 @@ public class GoalTile : MonoBehaviour
         StartCoroutine(DelayStart());
 
         m_Image = GetComponentInChildren<Canvas>().GetComponentsInChildren<Image>();
+
+        if(!Effect)
+            Effect = GetComponent<EffectSpawner>();
     }
 
     IEnumerator DelayStart()
@@ -84,6 +90,8 @@ public class GoalTile : MonoBehaviour
 
                 m_Image[0].sprite = m_Icon_Enable;
 
+                Effect.PlayerEffect("GoalChange", transform.position);
+
                 m_CanClear = true;
             }
         }
@@ -106,7 +114,7 @@ public class GoalTile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //親ペンギンと子ペンギンにのみ反応する
-        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failuer_flag)
+        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failure_flag)
         {
             Goal();
         }

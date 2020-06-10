@@ -22,8 +22,6 @@ public class DownUpBlock : FallBlock
     private bool m_IsDown = true;
     private bool m_IsKill = false;
 
-    //!エフェクトスポーンナー
-    private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
     [SerializeField]
@@ -34,9 +32,6 @@ public class DownUpBlock : FallBlock
         base.Start();
 
         m_Time += m_UpWaitTime;
-
-        if (!Effect)
-            Effect = GetComponent<EffectSpawner>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
@@ -88,7 +83,7 @@ public class DownUpBlock : FallBlock
 
             if (Effect != null)
             {
-                Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.25f, 0.25f, 0.25f));
                 pos.y += 1.0f;
                 Effect.PlayerEffect("DOSIN", pos);
             }

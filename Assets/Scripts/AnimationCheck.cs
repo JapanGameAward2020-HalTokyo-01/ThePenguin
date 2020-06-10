@@ -44,13 +44,16 @@ public class AnimationCheck : MonoBehaviour
             trailEffect.active = true;
         }
         
-        float xpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
-        float zpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
-        goalpos = main.GetComponent<Penguin>().GetGoalPos();
-        Vector3 jumpgoal = new Vector3(goalpos.x + xpos, goalpos.y + 5, goalpos.z + zpos);
-        main.transform.LookAt(jumpgoal);
-        //Debug.Log(main.transform.rotation);
-        Debug.Log(jumpgoal);
+        if(main.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            float xpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
+            float zpos = UnityEngine.Random.Range(0, 60) / 10.0f - 3;
+
+            goalpos = _cp.GetGoalPos();
+
+            Vector3 jumpgoal = new Vector3(goalpos.x + xpos, goalpos.y + 10, goalpos.z + zpos);
+            _cp.transform.LookAt(jumpgoal);
+        }
         Effect.PlayerEffect("wallcrash", transform.position, new Vector3(1, 1, 1));
         goalAnimator.SetTrigger("OnJump");
 

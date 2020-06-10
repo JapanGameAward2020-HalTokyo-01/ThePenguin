@@ -28,13 +28,43 @@ public class SaveSystem : MonoBehaviour
             {
                 Stages[i] = new GameData();
             }
-			Stages[0].m_Unlocked = true;
+            Stages[0].m_Unlocked = true;
 
-			// MEMO：
-			// セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
-			// 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+            // MEMO：
+            // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
+            // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+            Stages[0].m_TotalPenguins = 43;
+            Stages[1].m_TotalPenguins = 28;
+            Stages[2].m_TotalPenguins = 23;
+            Stages[3].m_TotalPenguins = 19;
+            Stages[4].m_TotalPenguins = 34;
+            Stages[5].m_TotalPenguins = 24;
+            Stages[6].m_TotalPenguins = 40;
+            Stages[7].m_TotalPenguins = 34;
+            Stages[8].m_TotalPenguins = 33;
+            Stages[9].m_TotalPenguins = 68;
 
-			instance = this;
+            Stages[10].m_TotalPenguins = 32;
+            Stages[11].m_TotalPenguins = 58;
+            Stages[12].m_TotalPenguins = 51;
+            Stages[13].m_TotalPenguins = 28;
+            Stages[14].m_TotalPenguins = 20;
+            Stages[15].m_TotalPenguins = 43;
+            Stages[16].m_TotalPenguins = 26;
+            Stages[17].m_TotalPenguins = 20;
+            Stages[18].m_TotalPenguins = 68;
+            Stages[19].m_TotalPenguins = 25;
+
+            Stages[20].m_TotalPenguins = 56;
+            Stages[21].m_TotalPenguins = 31;
+            Stages[22].m_TotalPenguins = 23;
+            Stages[23].m_TotalPenguins = 20;
+            Stages[24].m_TotalPenguins = 26;
+            Stages[25].m_TotalPenguins = 39;
+            Stages[26].m_TotalPenguins = 26;
+            Stages[27].m_TotalPenguins = 48;
+
+            instance = this;
         }
         else if (instance != this)
         {
@@ -46,7 +76,7 @@ public class SaveSystem : MonoBehaviour
     {
         //! 起動時にセーブをロード
         Load();
-        
+
     }
 
     private void Update()
@@ -55,6 +85,7 @@ public class SaveSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L)) Load();
         if (Input.GetKeyDown(KeyCode.S)) Save();
         if (Input.GetKeyDown(KeyCode.C)) ClearData();
+        if (Input.GetKeyDown(KeyCode.A)) AllUnlock();
     }
 
     /// <summary>
@@ -101,7 +132,7 @@ public class SaveSystem : MonoBehaviour
             file.Close();
             Debug.Log(gamepath);
             Debug.Log("Loaded Game Data");
-        }     
+        }
         else
         {
             Debug.Log(gamepath);
@@ -168,10 +199,53 @@ public class SaveSystem : MonoBehaviour
         // MEMO：
         // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
         // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+        Stages[0].m_TotalPenguins = 43;
+        Stages[1].m_TotalPenguins = 28;
+        Stages[2].m_TotalPenguins = 23;
+        Stages[3].m_TotalPenguins = 19;
+        Stages[4].m_TotalPenguins = 34;
+        Stages[5].m_TotalPenguins = 24;
+        Stages[6].m_TotalPenguins = 40;
+        Stages[7].m_TotalPenguins = 34;
+        Stages[8].m_TotalPenguins = 33;
+        Stages[9].m_TotalPenguins = 68;
+
+        Stages[10].m_TotalPenguins = 32;
+        Stages[11].m_TotalPenguins = 58;
+        Stages[12].m_TotalPenguins = 51;
+        Stages[13].m_TotalPenguins = 28;
+        Stages[14].m_TotalPenguins = 20;
+        Stages[15].m_TotalPenguins = 43;
+        Stages[16].m_TotalPenguins = 26;
+        Stages[17].m_TotalPenguins = 20;
+        Stages[18].m_TotalPenguins = 68;
+        Stages[19].m_TotalPenguins = 25;
+
+        Stages[20].m_TotalPenguins = 56;
+        Stages[21].m_TotalPenguins = 31;
+        Stages[22].m_TotalPenguins = 23;
+        Stages[23].m_TotalPenguins = 20;
+        Stages[24].m_TotalPenguins = 26;
+        Stages[25].m_TotalPenguins = 39;
+        Stages[26].m_TotalPenguins = 26;
+        Stages[27].m_TotalPenguins = 48;
 
         Save();
         Load();
     }
+
+    /// <summary>
+    /// @brief      デバッグ機能：全ステージアンロック
+    /// </summary>
+    private void AllUnlock()
+    {
+        foreach (var data in Stages)
+		{
+            data.m_Unlocked = true;
+
+        }
+    }
+
 }
 
 [System.Serializable]

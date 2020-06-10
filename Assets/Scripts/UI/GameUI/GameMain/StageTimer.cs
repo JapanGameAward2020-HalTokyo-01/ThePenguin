@@ -57,7 +57,7 @@ public class StageTimer : MonoBehaviour
             return;
         }
 
-        if (!StartSystem.GetNowPlaying() && !m_Levelsettings.m_clear_flag && !m_Levelsettings.m_failuer_flag)
+        if (!StartSystem.GetNowPlaying() && !m_Levelsettings.m_clear_flag && !m_Levelsettings.m_failure_flag)
         {
             // 時間の経過
             m_time = Math.Max(m_time - Time.deltaTime, 0.0f);

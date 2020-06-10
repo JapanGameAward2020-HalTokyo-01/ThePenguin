@@ -52,9 +52,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Pause"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""f6de082c-00cf-494d-be21-0d701d83df1f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },

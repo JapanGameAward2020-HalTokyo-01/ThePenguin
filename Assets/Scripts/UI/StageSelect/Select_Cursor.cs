@@ -41,7 +41,7 @@ public class Select_Cursor : MonoBehaviour
 
 	[Header("Parameter")]
 
-	[SerializeField, Tooltip("カーソルの移動速度"), Range(0.0001f, 0.03f)]
+	[SerializeField, Tooltip("カーソルの移動速度"), Range(0.03f, 0.1f)]
 	private float m_cursor_speed = 0.005f;
 
 	//! 自分のRectTransform
@@ -53,10 +53,28 @@ public class Select_Cursor : MonoBehaviour
 	[SerializeField,NonEditableField]
 	private SaveSystem m_save;
 
-	/**
+    //! Aボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_AButtonImage;
+    [SerializeField]
+    private Sprite m_AClicked;
+    [SerializeField]
+    private Sprite m_ADefault;
+    private bool m_CoroutineA = false;
+
+    //! Bボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_BButtonImage;
+    [SerializeField]
+    private Sprite m_BClicked;
+    [SerializeField]
+    private Sprite m_BDefault;
+    private bool m_CoroutineB = false;
+
+    /**
 	 * @brief	初期化(参照回収)
 	 */
-	public void Awake()
+    public void Awake()
 	{
         m_event_system = EventSystem.current;
     }
@@ -68,6 +86,10 @@ public class Select_Cursor : MonoBehaviour
 
         m_self = GetComponent<RectTransform>();
 
+        // 参照切れ対策
+        if (m_save == null) m_save = FindObjectOfType<SaveSystem>();
+        
+
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Select);
     }
@@ -77,9 +99,6 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Update()
 	{
-		// 参照切れ対策
-		if(m_save == null) m_save = FindObjectOfType<SaveSystem>();
-
 		// インプットチェック(GameOver, Resultと操作を合わせる)
 		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space))
 		{
@@ -90,18 +109,19 @@ public class Select_Cursor : MonoBehaviour
 			Cancel();
 		}
 
-		// 選択中のオブジェクトが無ければ初期選択コマンドを選択する
-		if (m_event_system.currentSelectedGameObject == null)
-		{
-			m_event_system.SetSelectedGameObject(m_last_selected.gameObject);
-			return;
-		}
-		// 選択中ボタンの変数を更新する
-		m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
-
-		SetPos();
-		SetImage(m_save);
-	}
+        // 選択中のオブジェクトが無ければ初期選択コマンドを選択する
+        if (m_event_system.currentSelectedGameObject == null)
+        {
+            m_event_system.SetSelectedGameObject(m_last_selected.gameObject);
+        }
+        else
+        {
+            // 選択中ボタンの変数を更新する
+            m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
+        }
+        SetPos();
+        SetImage(m_save);
+    }
 
 	// 選んだステージ読み込む
 	private void Decide(SaveSystem _save)
@@ -110,9 +130,9 @@ public class Select_Cursor : MonoBehaviour
 		Debug.Log(m_stage_list.CurrentLevelIndex);
 		GameData _level_data = _save.Stages1[m_stage_list.CurrentLevelIndex];
 
-		if (_level_data.m_Unlocked)
+        if (_level_data.m_Unlocked)
 		{
-			StartCoroutine("TransitionToGame");
+			StartCoroutine(TransitionToGame());
 		}
 		else
 		{
@@ -124,7 +144,7 @@ public class Select_Cursor : MonoBehaviour
 	// キャンセル動作
 	private void Cancel()
 	{
-		StartCoroutine("TransitionToTitle");
+		StartCoroutine(TransitionToTitle());
 	}
 
 	/**
@@ -141,7 +161,7 @@ public class Select_Cursor : MonoBehaviour
 		RectTransform _button_rect = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index);
 		m_selecting_pos = _button_rect;
 		m_event_system.SetSelectedGameObject(_button_rect.gameObject);
-		StartCoroutine("MoveCursor");
+		StartCoroutine(MoveCursor());
 	}
 
 	/**
@@ -172,21 +192,27 @@ public class Select_Cursor : MonoBehaviour
 		while(Vector2.Distance(m_self.position, m_selecting_pos.position) > 0.01f)
 		{
 			Vector2 _pos;
-			_pos.x = Mathf.Lerp(m_self.position.x, m_selecting_pos.position.x, m_cursor_speed);
-			_pos.y = Mathf.Lerp(m_self.position.y, m_selecting_pos.position.y, m_cursor_speed);
+			_pos.x = Mathf.Lerp(m_self.position.x, m_selecting_pos.position.x, Mathf.SmoothStep(0.0f, 1.0f, m_cursor_speed));
+			_pos.y = Mathf.Lerp(m_self.position.y, m_selecting_pos.position.y, Mathf.SmoothStep(0.0f, 1.0f, m_cursor_speed));
 			m_self.position = _pos;
 
 			yield return null;
 		}
-	}
+    }
 
 	/**
 	 * @brief	タイトル画面への遷移処理
 	 */
 	IEnumerator TransitionToTitle()
 	{
-		// フェードを待つ
-		yield return new WaitForSecondsRealtime(0.1f);
+
+        m_BButtonImage.sprite = m_BClicked;
+
+        //! 0.4秒待つ
+        yield return new WaitForSecondsRealtime(0.4f);
+
+        //! ボタン解除処理
+        m_BButtonImage.sprite = m_BDefault;
 
 		// シーン遷移
 		SceneManager.LoadScene(m_stage_list.m_Title);
@@ -198,8 +224,13 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	IEnumerator TransitionToGame()
 	{
-		// フェードを待つ
-		yield return new WaitForSecondsRealtime(0.1f);
+        m_AButtonImage.sprite = m_AClicked;
+
+        //! 0.3秒待つ
+        yield return new WaitForSecondsRealtime(0.4f);
+
+        //! ボタン解除処理
+        m_AButtonImage.sprite = m_ADefault;
 
 		// シーン遷移
 		SceneManager.LoadScene(m_stage_list.CurrentLevelBuildIndex);

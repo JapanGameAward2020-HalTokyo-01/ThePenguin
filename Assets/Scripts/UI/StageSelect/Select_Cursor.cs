@@ -31,7 +31,7 @@ public class Select_Cursor : MonoBehaviour
 	[Header("UIParts")]
 
 	[SerializeField, Tooltip("コマンドエリア")]
-	private Select_CommandMgr m_commnad_mgr;
+	private Select_CommandMgr m_command_mgr;
 	[SerializeField, Tooltip("背景")]
 	private Select_Background m_background_obj;
 	[SerializeField, Tooltip("クリアタイム・実績エリア")]
@@ -39,7 +39,23 @@ public class Select_Cursor : MonoBehaviour
 	[SerializeField, Tooltip("救出数ゲージエリア")]
 	private Select_PenguinNum m_penguin_gauge;
 
-	[Header("Parameter")]
+    //! Aボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_AButtonImage;
+    [SerializeField]
+    private Sprite m_AClicked;
+    [SerializeField]
+    private Sprite m_ADefault;
+
+    //! Bボタン群
+    [SerializeField]
+    private UnityEngine.UI.Image m_BButtonImage;
+    [SerializeField]
+    private Sprite m_BClicked;
+    [SerializeField]
+    private Sprite m_BDefault;
+
+    [Header("Parameter")]
 
 	[SerializeField, Tooltip("カーソルの移動速度"), Range(0.03f, 0.1f)]
 	private float m_cursor_speed = 0.005f;
@@ -53,24 +69,7 @@ public class Select_Cursor : MonoBehaviour
 	[SerializeField,NonEditableField]
 	private SaveSystem m_save;
 
-    //! Aボタン群
-    [SerializeField]
-    private UnityEngine.UI.Image m_AButtonImage;
-    [SerializeField]
-    private Sprite m_AClicked;
-    [SerializeField]
-    private Sprite m_ADefault;
-    private bool m_CoroutineA = false;
-
-    //! Bボタン群
-    [SerializeField]
-    private UnityEngine.UI.Image m_BButtonImage;
-    [SerializeField]
-    private Sprite m_BClicked;
-    [SerializeField]
-    private Sprite m_BDefault;
-    private bool m_CoroutineB = false;
-
+    
     /**
 	 * @brief	初期化(参照回収)
 	 */
@@ -82,13 +81,9 @@ public class Select_Cursor : MonoBehaviour
 	public void Start()
 	{
 
-        m_last_selected = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
+        m_last_selected = m_command_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
 
         m_self = GetComponent<RectTransform>();
-
-        // 参照切れ対策
-        if (m_save == null) m_save = FindObjectOfType<SaveSystem>();
-        
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Select);
@@ -120,6 +115,8 @@ public class Select_Cursor : MonoBehaviour
             m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
         }
         SetPos();
+        // 参照切れ対策
+        if (m_save == null) m_save = FindObjectOfType<SaveSystem>();
         SetImage(m_save);
     }
 
@@ -158,7 +155,7 @@ public class Select_Cursor : MonoBehaviour
 		m_stage_list.m_current_area_index = _select.SelectingArea;
 		m_stage_list.m_current_stage_index = _select.SelectingLevel;
 
-		RectTransform _button_rect = m_commnad_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index);
+		RectTransform _button_rect = m_command_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index);
 		m_selecting_pos = _button_rect;
 		m_event_system.SetSelectedGameObject(_button_rect.gameObject);
 		StartCoroutine(MoveCursor());

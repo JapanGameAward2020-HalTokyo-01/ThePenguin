@@ -48,6 +48,8 @@ public class OptionMenu : MonoBehaviour
     //! 選択用矢印
     [SerializeField]
     private UnityEngine.UI.Image m_Arrow;
+    [SerializeField]
+    private Canvas m_Canvas;
 
     //! メニュー群
     [SerializeField, Space(20)]
@@ -68,6 +70,8 @@ public class OptionMenu : MonoBehaviour
     //! 音設定格納
     [SerializeField, NonEditableField]
     Sounddata m_SoundData;
+
+
 
     private SaveSystem m_SaveSystem;
 
@@ -179,7 +183,7 @@ public class OptionMenu : MonoBehaviour
             if (m_DeleteButton == null)
             {
                 Vector3 a = m_LastSelected.transform.position;
-                a.x -= 305.0f;
+                a.x -= 305.0f * m_Canvas.scaleFactor;
                 m_Arrow.gameObject.transform.position = a;
             }
             else
@@ -187,14 +191,14 @@ public class OptionMenu : MonoBehaviour
                 if (m_LastSelected == m_BGMSlider.gameObject | m_LastSelected == m_VolumeSlider.gameObject)
                 {
                     Vector3 a = m_LastSelected.transform.position;
-                    a.x -= 305.0f;
+                    a.x -= 305.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
                     Debug.Log(m_LastSelected.gameObject);
                 }
                 else if(m_LastSelected == m_DeleteButton.gameObject)
                 {
                     Vector3 a = m_LastSelected.transform.position;
-                    a.x -= 210.0f;
+                    a.x -= 210.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
                     Debug.Log(m_LastSelected.gameObject);
                 }

@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class ParentPenguin : Penguin
 {
@@ -41,6 +42,9 @@ public class ParentPenguin : Penguin
     private GameObject m_MarkerObject;
     [SerializeField]
     private GameObject m_MaskObject;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     private InputEvent m_InputEvent;
 
@@ -101,6 +105,12 @@ public class ParentPenguin : Penguin
     {
         //! ベースクラス
         base.Kill(Gimmick);
+
+        var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if (cinemachineImpulseSource)
+            cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
         //! ゲームオーバーになる
         onKillEvent();
     }

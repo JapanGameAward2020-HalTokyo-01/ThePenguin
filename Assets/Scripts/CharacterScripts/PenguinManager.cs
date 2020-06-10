@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Effekseer;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
@@ -267,6 +268,8 @@ public class PenguinManager : MonoBehaviour
         _fade.Fader();
         yield return new WaitForSecondsRealtime(1.0f);
 
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
         // 失敗時
         if (_flags[0] && !_flags[1])
         {

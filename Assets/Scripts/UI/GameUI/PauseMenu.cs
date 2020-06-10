@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Effekseer;
  
 
 public class PauseMenu : MonoBehaviour
@@ -49,6 +50,8 @@ public class PauseMenu : MonoBehaviour
     //! 選択用矢印
     [SerializeField]
     private UnityEngine.UI.Image m_Arrow;
+    [SerializeField]
+    private Canvas m_Canvas;
 
     //! 最後に選択したボタン
     private GameObject m_LastSelected;
@@ -171,7 +174,7 @@ public class PauseMenu : MonoBehaviour
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
 
             Vector3 a = m_LastSelected.transform.position;
-            a.x -= 250.0f;
+            a.x -= 250.0f * m_Canvas.scaleFactor;
             m_Arrow.gameObject.transform.position = a;
 
         }
@@ -291,6 +294,8 @@ public class PauseMenu : MonoBehaviour
         m_Input.actions["B Button"].performed -= BButtonPause;
         //! InputにPauseのEventを削除
         m_Input.actions["Pause"].performed -= BButtonPause;
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_StageSelectScene);
         yield break;
     }
@@ -324,6 +329,8 @@ public class PauseMenu : MonoBehaviour
         m_Input.actions["B Button"].performed -= BButtonPause;
         //! InputにPauseのEventを削除
         m_Input.actions["Pause"].performed -= BButtonPause;
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_TitleScene);
         yield break;
     }
@@ -353,6 +360,10 @@ public class PauseMenu : MonoBehaviour
         m_BButtonImage.sprite = m_BDefault;
         m_CoroutineA = false;
         m_CoroutineB = false;
+
+        var _cv = FindObjectOfType<ControllerVibration>();
+        if (_cv)
+            _cv.Pause(false);
 
         //!　ゲームを再開
         Time.timeScale = 1;

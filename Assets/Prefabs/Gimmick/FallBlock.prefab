@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 3106245836851483166}
   - component: {fileID: 3876300461723116443}
   - component: {fileID: 5257951495302264504}
+  - component: {fileID: 4488518904894646283}
   m_Layer: 0
   m_Name: FallBlock
   m_TagString: Untagged
@@ -171,12 +172,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Height: 0
-  m_OffsetTime: 0
+  m_OffsetTime: 0.5
   m_DownSpeed: 5
   m_Block: {fileID: 3106245838221266277}
   m_DownPoint: {fileID: 3106245838089179551}
   m_Shadow: {fileID: 1244376743878626545}
   m_Time: 0
+  Effect: {fileID: 4488518904894646283}
 --- !u!54 &3106245836851483166
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -314,6 +316,21 @@ MonoBehaviour:
   m_VibrateSpeed: {x: 0.01, y: 0, z: 0.05}
   m_VibrateTimeMax: 1
   m_VibrateTime: 0
+--- !u!114 &4488518904894646283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106245836851483163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd49fe097b3c5fa4284ac61a44b9c8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectAssets:
+  - {fileID: 11400000, guid: 243f66e49337a8d4eb453f66d30479c6, type: 2}
+  m_CurrentEffect: {fileID: 0}
 --- !u!1 &3106245837132201252
 GameObject:
   m_ObjectHideFlags: 0

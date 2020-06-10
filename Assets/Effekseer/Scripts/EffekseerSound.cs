@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Audio;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -200,7 +201,9 @@ namespace Effekseer.Internal
 
 		void Awake() {
 			audio = gameObject.AddComponent<AudioSource>();
-			audio.playOnAwake = false;
+            var mixer = AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/Audio/SampleMixer.mixer").FindMatchingGroups("Effekseer");
+            audio.outputAudioMixerGroup = mixer[0];
+            audio.playOnAwake = false;
 		}
 		void Update() {
 			if (audio.clip && !audio.isPlaying) {

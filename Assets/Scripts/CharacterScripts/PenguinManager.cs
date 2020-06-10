@@ -37,6 +37,9 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private PenguinJoin m_PenguinJoin;
 
+    [SerializeField]
+    private GameOverUIGame m_GameoverUI;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -147,7 +150,8 @@ public class PenguinManager : MonoBehaviour
     //! 死亡時イベント(親ペンギン)
     public void GameOver()
     {
-        m_settings.m_failuer_flag = true;
+        m_settings.m_failure_flag = true;
+
         StartCoroutine("ToNextScene");
     }
 
@@ -256,10 +260,15 @@ public class PenguinManager : MonoBehaviour
     // シーン遷移
     IEnumerator ToNextScene()
     {
-        if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        if (!m_settings.m_clear_flag && !m_settings.m_failure_flag)
             yield break;
 
-        bool[] _flags = new bool[2]{m_settings.m_failuer_flag, m_settings.m_clear_flag};
+        if (m_settings.m_failure_flag)
+        {
+            m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
+        }
+
+        bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
         //アニメーション待機
         yield return new WaitForSecondsRealtime(2.0f);

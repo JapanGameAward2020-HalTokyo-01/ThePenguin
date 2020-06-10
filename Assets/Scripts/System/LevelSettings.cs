@@ -47,7 +47,7 @@ public class LevelSettings : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("クリアフラグ")]
 	public bool m_clear_flag = false;
 	[SerializeField, NonEditableField, Tooltip("GameOverフラグ")]
-	public bool m_failuer_flag = false;
+	public bool m_failure_flag = false;
 
 	[SerializeField, Tooltip("☆の評価項目：時間"), Space(10.0f)]
 	private float m_time_star_threshold;
@@ -90,7 +90,7 @@ public class LevelSettings : MonoBehaviour
 	 */
 	public bool CheckGameOver(int _dead_count)
 	{
-		m_failuer_flag = (DeadLine <= _dead_count);
-		return m_failuer_flag;
+		m_failure_flag = (DeadLine <= _dead_count);
+		return m_failure_flag;
 	}
 }

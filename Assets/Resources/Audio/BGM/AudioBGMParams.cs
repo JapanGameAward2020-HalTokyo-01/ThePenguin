@@ -9,7 +9,7 @@ using UnityEngine;
  * @class   AudioBGMParamsクラス
  * @brief   ScriptableObjectとして作成
  */
-[CreateAssetMenu(menuName = "CreateData/AudioParam(BGM)", fileName = "AudioBGMParam")]
+[CreateAssetMenu(menuName = "CreateData/AudioParam(BGM)", fileName = "AudioBGMParams")]
 public class AudioBGMParams : ScriptableObject
 {
     //! 検索用インデックス名

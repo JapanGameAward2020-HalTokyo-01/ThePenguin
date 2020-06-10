@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System.Runtime.Remoting.Messaging;
 
 /**
  * @class   BGMManagerクラス
@@ -29,6 +30,8 @@ public class BGMManager : MonoBehaviour
 	//! 操作対象オーディオソースコンポーネント
 	private AudioSource m_current_source = null;
 	private List<AudioSource> m_source_list = new List<AudioSource>();
+	[SerializeField, NonEditableField]
+	private bool[] m_isplay;
 
 	// bgmファイル個別のオプションデータ
 	private AudioBGMParams m_param;
@@ -60,14 +63,14 @@ public class BGMManager : MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
 		m_instance = this;
 		m_instance.OnAwake();
+
+		m_isplay = new bool[m_source_list.Count];
+
 	}
 
 	// 初期化(その他)
 	private void OnAwake()
 	{
-		// カレント初期化
-		m_current_source = null;
-
 		// オーディオソース作成
 		for (int cnt = 0; cnt < m_bgm_voice_num; cnt++)
 		{
@@ -79,6 +82,8 @@ public class BGMManager : MonoBehaviour
 			m_source_list.Add(_s);
 		}
 
+		// カレントをリストの最初で設定
+		m_current_source = m_source_list[0];
 	}
 
 	/**
@@ -101,15 +106,24 @@ public class BGMManager : MonoBehaviour
 	 */
 	public void Play(BGMs.Index _index, float delay = 0.0f)
 	{
-		// 使用していないAudioSourceの探索
-		AudioSource _s = FindUnusedSource();
+		// AudioSourceの切り替え・作成
+
+		// 再生停止
+		if (_index == BGMs.Index.None)
+		{
+			fade(0.0f, 1.0f, m_current_source);
+			return;
+		}
 
 		// インデックスからBGMファイル固有パラメータ取得(現在再生中と同じ音の場合、処理中断)
 		AudioBGMParams _p = m_audio_list.SelectBGM(_index);
-		if (_p == m_param) return;
+
+		// BGM再生中、同じオーディオクリップを指定した時は処理を無視する
+		if(m_current_source.isPlaying)
+			if (m_param != null && _p.Clip == m_param.Clip) return;
 		m_param = _p;
 
-		PlayProcess(_s, delay);
+		PlayProcess(delay);
 	}
 
 	/**
@@ -117,40 +131,42 @@ public class BGMManager : MonoBehaviour
 	 */
 	public void Play(BGMs.Index _index, int _area, float delay = 0.0f)
 	{
-		// 使用していないAudioSourceの探索
-		AudioSource _s = FindUnusedSource();
+		// AudioSourceの切り替え・作成
+
+		// 再生停止
+		if (_index == BGMs.Index.None)
+		{
+			fade(0.0f, 1.0f, m_current_source);
+			return;
+		}
 
 		// インデックスからBGMファイル固有パラメータ取得(現在再生中と同じ音の場合、処理中断)
 		AudioBGMParams _p = m_audio_list.SelectBGM(_index, _area);
-		if (_p == m_param) return;
+
+		// BGM再生中、同じオーディオクリップを指定した時は処理を無視する
+		if (m_current_source.isPlaying)
+			if (m_param != null && _p.Clip == m_param.Clip) return;
 		m_param = _p;
 
-		PlayProcess(_s, delay);
+		PlayProcess(delay);
 	}
 
 	/**
 	 * @brief   BGM再生共通処理
 	 */
-	private void PlayProcess(AudioSource _s, float _delay = 0.0f)
+	private void PlayProcess(float _delay = 0.0f)
 	{
-		// AudioSourceの切り替え・作成
-		if (m_current_source != null)
-			// 前のbgmをフェードアウト
+		// 使用していないAudioSourceの探索
+		AudioSource _s = FindUnusedSource();
+		if(m_current_source != _s)
+			// 再生中のオーディオソース停止
 			fade(0.0f, 1.0f, m_current_source);
 		m_current_source = _s;
 
-		// 再生する音の指定
-		if (m_param == null)
-		{
-			m_current_source.Stop();
-			m_current_source.clip = null;
-		}
-		else
-		{
-			m_current_source.clip = m_param.Clip;
-			m_current_source.volume = 1.0f;
-			StartCoroutine(DelayedPlay(_delay));
-		}
+		Debug.Log("Play BGM");
+		m_current_source.clip = m_param.Clip;
+		m_current_source.volume = 1.0f;
+		StartCoroutine(DelayedPlay(_delay));
 	}
 
 	/**
@@ -167,7 +183,12 @@ public class BGMManager : MonoBehaviour
 	 */
 	public void FixedUpdate()
 	{
-		if(m_current_source != null && m_current_source.isPlaying)
+		for(int cnt = 0; cnt < m_source_list.Count; cnt++)
+		{
+			m_isplay[cnt] = m_source_list[cnt].isPlaying;
+		}
+
+		if (m_current_source != null && m_current_source.isPlaying)
 			m_loop.OnUpdate(m_current_source, m_param);
 	}
 

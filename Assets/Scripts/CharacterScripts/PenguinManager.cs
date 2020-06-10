@@ -175,6 +175,9 @@ public class PenguinManager : MonoBehaviour
         {
             goal.m_PenguinCount = (uint)m_PackCount;
         }
+
+        Debug.Log("Penguin Join");
+        Debug.Log("Pack Penguin Now" + m_PackCount);
     }
 
     public bool CheckParentPenguinAlive()

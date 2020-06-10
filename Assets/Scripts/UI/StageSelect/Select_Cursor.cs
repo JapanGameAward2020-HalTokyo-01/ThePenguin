@@ -69,7 +69,7 @@ public class Select_Cursor : MonoBehaviour
         m_self = GetComponent<RectTransform>();
 
         // BGM再生
-        //BGMManager.Instance.Play(BGMs.Index.Select);
+        BGMManager.Instance.Play(BGMs.Index.Select);
     }
 
 	/**

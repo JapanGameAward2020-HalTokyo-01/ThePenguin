@@ -91,28 +91,48 @@ public class WallAttack : BaseGimmick
         m_CurrentLength = 0f;
         m_Wall.transform.localPosition = Vector3.zero;
 
-        var pos = GetComponent<Transform>().transform.position;
-        pos.y -= 1.0f;
-
         if (Effect)
-            Effect.PlayerEffect("SummonIce", pos, new Vector3(0.5f, 0.5f, 0.5f));
+        {
+            var pos = GetComponent<Transform>().transform.position;
+            pos.y -= 1.0f;
 
+            switch (m_Type)
+            {
+                case FieldType.SNOW:
+                    Effect.PlayerEffect("SummonIce", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+                case FieldType.VOLCANIC:
+                    Effect.PlayerEffect("SummonIce_type4", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+            }
 
-        for (int x = 0; m_Length >= x; x++)
-        {           
-            if (Effect)
+            for (int x = 0; m_Length >= x; x++)
+            {
                 Effect.PlayerEffect("MoveWall_Boss", pos + x * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
-
+            }
         }
+
+
+
     }
 
     public override void OnDeactivate()
     {
-        var pos = GetComponent<Transform>().transform.position;
-        pos.y -= 1.0f;
-
         if (Effect)
-            Effect.PlayerEffect("SummonIce", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+        {
+            var pos = GetComponent<Transform>().transform.position;
+            pos.y -= 1.0f;
+
+            switch (m_Type)
+            {
+                case FieldType.SNOW:
+                    Effect.PlayerEffect("SummonIce", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+                case FieldType.VOLCANIC:
+                    Effect.PlayerEffect("SummonIce_type4", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+            }
+        }
 
         if (m_ObjectVibrate)
             m_ObjectVibrate.StopVibrate();

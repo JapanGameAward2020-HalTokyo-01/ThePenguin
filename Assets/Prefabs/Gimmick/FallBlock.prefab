@@ -172,12 +172,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Height: 0
-  m_OffsetTime: 0
+  m_OffsetTime: 0.5
   m_DownSpeed: 5
   m_Block: {fileID: 3106245838221266277}
   m_DownPoint: {fileID: 3106245838089179551}
   m_Shadow: {fileID: 1244376743878626545}
   m_Time: 0
+  Effect: {fileID: 4488518904894646283}
 --- !u!54 &3106245836851483166
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -328,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectAssets:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 243f66e49337a8d4eb453f66d30479c6, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!1 &3106245837132201252
 GameObject:

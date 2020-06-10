@@ -38,7 +38,7 @@ public class FallBlock : BaseGimmick
     protected float m_CurrentHeight = 0f;
 
     private LineRenderer m_LineRenderer;
-
+    [SerializeField]
     //!エフェクトスポーンナー
     protected EffectSpawner Effect;
 
@@ -102,6 +102,13 @@ public class FallBlock : BaseGimmick
 
     public override void OnActivate()
     {
+        var pos = this.transform.position;
+
+        if (Effect != null)
+        {
+            Effect.PlayerEffect("SummonRock", pos, new Vector3(0.5f, 0.5f, 0.5f));
+        }
+
         m_CurrentHeight = 0f;
         m_Time = -m_OffsetTime;
         m_Block.transform.position = this.transform.position;
@@ -110,12 +117,6 @@ public class FallBlock : BaseGimmick
 
     public override void OnDeactivate()
     {
-        var pos = m_Block.transform.position;
-
-        if (Effect != null)
-        {
-            Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.25f, 0.25f, 0.25f));
-        }
 
         if (m_Shadow)
         {

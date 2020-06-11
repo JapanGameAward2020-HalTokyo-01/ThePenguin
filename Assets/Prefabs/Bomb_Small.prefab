@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmitterScale: 0
-  effectAsset: {fileID: 11400000, guid: 0147b2e61f3dce747a7baeba3dbb68f2, type: 2}
-  playOnStart: 1
+  effectAsset: {fileID: 0}
+  playOnStart: 0
   isLooping: 0
 --- !u!1 &1083602051988573806
 GameObject:
@@ -229,6 +229,7 @@ MonoBehaviour:
   m_BlastPower: 0
   m_ShakeCameraPower: 0.5
   m_DetectionSizeObject: {fileID: 1083602052054111012}
+  m_CountDownObject: {fileID: 1083602051465233719}
   m_NormalMaterial: {fileID: 2100000, guid: 7301d278e7891ed4f985cc9dd3795623, type: 2}
   m_CountDownMaterial: {fileID: 2100000, guid: aef67c8afe0021b42afbc172cea88643, type: 2}
   m_SaveEffect: {fileID: 11400000, guid: 75a26335574e3684b9b283cf069420ac, type: 2}
@@ -236,6 +237,16 @@ MonoBehaviour:
   m_BoomScale: 0.5
   m_EffectOffset: 0.25
   m_SparkEffect: {fileID: 1594497549994741252}
+  m_CountDownEffect:
+  - {fileID: 11400000, guid: cb52f64f00abe6849876c9c34c6dc450, type: 2}
+  - {fileID: 11400000, guid: 627f5ed76fa63274d8e0c925f7624762, type: 2}
+  - {fileID: 11400000, guid: 3c88c12ddf84e844f8270ee57ffd1e6c, type: 2}
+  - {fileID: 11400000, guid: 8cec04a77546cc8489d5f43c387e33f3, type: 2}
+  - {fileID: 11400000, guid: c85e5811386db4f468654fd0cce36c81, type: 2}
+  - {fileID: 11400000, guid: 3a53ea7af4256fa4eb8701df5efb6a59, type: 2}
+  - {fileID: 11400000, guid: 126d1df3ecbdd3c4c989701c43a069a1, type: 2}
+  - {fileID: 11400000, guid: bb1328c8025134b4789d7bde88431bcf, type: 2}
+  - {fileID: 11400000, guid: 834e323c54b268f44a88360fe33dc482, type: 2}
 --- !u!114 &7498986646932602078
 MonoBehaviour:
   m_ObjectHideFlags: 0

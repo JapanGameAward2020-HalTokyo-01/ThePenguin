@@ -14,7 +14,7 @@ public class SoundEffect : MonoBehaviour
 {
     //! 再生する効果音リスト
     [SerializeField]
-    private AudioSEList m_list;
+    private SEs m_list;
 
     //! 再生するオーディオパラメータ(検索履歴的な)
     private AudioSEParams m_se_param = null;
@@ -25,7 +25,7 @@ public class SoundEffect : MonoBehaviour
      */
     public void FindAudioClip(string _index_name)
     {
-        m_se_param = m_list.List.Find((AudioSEParams _target) => { return _target.Name.Equals(_index_name); });
+        //m_se_param = m_list.List.Find((AudioSEParams _target) => { return _target.Name.Equals(_index_name); });
     }
 
     /**
@@ -35,10 +35,10 @@ public class SoundEffect : MonoBehaviour
      */
     public void PlayOneShot(AudioSource _source)
     {
-        _source.loop = false;
-        _source.outputAudioMixerGroup = m_se_param.Mixer;
+        //_source.loop = false;
+        //_source.outputAudioMixerGroup = m_se_param.Mixer;
 
-        _source.PlayOneShot(m_se_param.Clip);
+        //_source.PlayOneShot(m_se_param.Clip);
     }
 
     /**

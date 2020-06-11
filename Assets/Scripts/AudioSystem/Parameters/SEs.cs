@@ -23,10 +23,10 @@ public class SEs : ScriptableObject
     private AudioSEParams m_cancel = null;
     [SerializeField, Tooltip("システム：カーソル移動")]
     private AudioSEParams m_cursor = null;
-
     public AudioSEParams Confirm { get => m_confirm; }
     public AudioSEParams Cancel { get => m_cancel; }
     public AudioSEParams Cursor { get => m_cursor; }
+
 
     //! effekseer無関係オーディオリスト
     [Header("Gimmick SE List")]
@@ -99,9 +99,9 @@ public class SEs : ScriptableObject
     private List<AudioClip> m_foot_list_4 = null;
 
     public AudioMixerGroup FootMixer { get => m_foot_mixer; }
-    public AudioClip Foot_1(int index) { return m_foot_list_1[(index % m_foot_list_1.Count)]; }
-    public AudioClip Foot_2(int index) { return m_foot_list_2[(index % m_foot_list_2.Count)]; }
-    public AudioClip Foot_3(int index) { return m_foot_list_3[(index % m_foot_list_3.Count)]; }
-    public AudioClip Foot_4(int index) { return m_foot_list_4[(index % m_foot_list_4.Count)]; }
+    public List<AudioClip> Foot_1{get => m_foot_list_1; }
+    public List<AudioClip> Foot_2{get => m_foot_list_2; }
+    public List<AudioClip> Foot_3{get => m_foot_list_3; }
+    public List<AudioClip> Foot_4{get => m_foot_list_4; }
 
 }

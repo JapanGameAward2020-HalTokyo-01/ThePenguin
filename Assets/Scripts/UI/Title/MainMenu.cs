@@ -77,10 +77,12 @@ public class MainMenu : MonoBehaviour
     }
     private MenuState m_State;
 
+    private bool m_FirstFrame = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SceneStart());
+        
         m_State = MenuState.LOGO;
         m_MenuAnimator.enabled = false;
         m_LogoAnimator.enabled = false;
@@ -114,6 +116,12 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(m_FirstFrame)
+        {
+            m_FirstFrame = false;
+            StartCoroutine(SceneStart());
+        }
+
         InputUpdate();
         if (!m_IsInputEnable)
             return;

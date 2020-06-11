@@ -17,11 +17,19 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private Sprite m_danger_face;
 
+    [Header("ClearImage List")]
+    [SerializeField]
+    private Sprite m_normal_stage;
+    [SerializeField]
+    private Sprite m_final_stage;
+
     //! 実行中はこちらからアクセスする
     private Sprite[] m_face_list;
+    private Sprite[] m_clearimage_list;
 
     [Header("UI Objects")]
-
+    [SerializeField]
+    private UnityEngine.UI.Image m_Page1_Penguin;
     [SerializeField]
     private UI_Component_Button m_Page1_MenuBack;
     [SerializeField]
@@ -105,12 +113,16 @@ public class ResultUI : MonoBehaviour
     private bool m_Flag_Count = false;
     private bool m_Flag_Time = false;
 
+    //最終ステージフラグ
+    private bool m_Flag_FinalStage = false;
+
     //顔アイコン
     private FaceIcon.kState m_FaceIcon = FaceIcon.kState.Normal;
 
     void Awake()
     {
         m_face_list = new Sprite[(int)FaceIcon.kState.Enum_Max] { m_normal_face, m_good_face, m_max_face, m_danger_face };
+        m_clearimage_list = new Sprite[2] { m_normal_stage, m_final_stage };
     }
 
     // Start is called before the first frame update
@@ -136,6 +148,8 @@ public class ResultUI : MonoBehaviour
         m_Flag_Time = _score.CheckStar_Time;
         //顔アイコン種類
         m_FaceIcon = _score.m_face;
+        //最終ステージフラグ
+        m_Flag_FinalStage = false;
 
         //表示する数値の初期化
         m_Page1_StarPenguinCounter.SetCount(m_StarCount);
@@ -145,6 +159,7 @@ public class ResultUI : MonoBehaviour
         m_Page1_Gauge_TotalCounter.SetCount(m_TotalCount);
         m_Page1_Gauge_TotalCounter.SetCurrentCount(m_ClearCount);
         m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
+        m_Page1_Penguin.sprite = m_clearimage_list[m_Flag_FinalStage ? 1 : 0];
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Result);

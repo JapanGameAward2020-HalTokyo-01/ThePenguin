@@ -97,6 +97,16 @@ public class GameUI : MonoBehaviour
         m_RDecel = false;
     }
 
+    private void OnDisable()
+    {
+        //! ボタンのEventDelegate
+        m_Input.actions["Pause"].performed -= PauseMenu;
+        m_Input.actions["Pause"].performed -= Skip;
+        m_Input.actions["Rotate L"].performed -= RotateL;
+        m_Input.actions["Rotate L"].canceled -= StopL;
+        m_Input.actions["Rotate R"].performed -= RotateR;
+        m_Input.actions["Rotate R"].canceled -= StopR;
+    }
     void FixedUpdate()
     {
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
@@ -104,7 +114,7 @@ public class GameUI : MonoBehaviour
         // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
-            m_ChargeGaugeMgr.HydeGauge();
+            m_ChargeGaugeMgr.HideGauge();
             m_ChargeGaugeMgr.UnRegisterInputEvent();
             return;
         }
@@ -206,8 +216,14 @@ public class GameUI : MonoBehaviour
         Fade _fade = FindObjectOfType<Fade>();
 
         //フェードアウト待機
-        _fade.Fader();
-        yield return new WaitForSecondsRealtime(1.0f);
+        _fade.Fader(true);
+
+        while (!_fade.CheckFadedout())
+        {
+            yield return null;
+        }
+
+        //yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
     }
 
     void PauseMenu(InputAction.CallbackContext ctx)
@@ -251,9 +267,11 @@ public class GameUI : MonoBehaviour
             StartCoroutine(SkipEnshutsu());
         }
         //！ゴール演出中
-        else if(m_ParentPenguin.manager.m_settings.m_clear_flag)
+        else if(m_ParentPenguin.ClearAnimation)//m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
-            m_PenguinManager.StopGoalPlaying();
+            //m_PenguinManager.StopGoalPlaying();
+
+            m_PenguinManager.SkipGoalAnimation();
         }
 
     }

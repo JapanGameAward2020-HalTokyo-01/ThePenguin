@@ -139,6 +139,14 @@ public class ChildPenguin : Penguin
     }
 
     /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public override void SetModelRotation(Vector3 newup)
+    {
+        base.SetModelRotation(newup);
+    }
+
+    /// <summary>
     /// @brief      子ペンギンを群れに追加する処理
     /// @param (a)	群れに追加するか判定するcollision
     /// </summary>

@@ -117,6 +117,16 @@ public class FallBlock : BaseGimmick
 
     public override void OnDeactivate()
     {
+        {
+            var pos = m_Block.transform.position;
+
+
+            if (Effect != null)
+            {
+                Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.25f, 0.25f, 0.25f));
+            }
+        }
+
 
         if (m_Shadow)
         {

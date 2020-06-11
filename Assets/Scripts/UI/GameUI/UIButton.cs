@@ -50,6 +50,11 @@ public class UIButton : MonoBehaviour, IDeselectHandler, ISelectHandler
         m_Selected.CrossFadeAlpha(fadeSel, totaltime, true);
         m_Normal.CrossFadeAlpha(fadeUnSel, totaltime, true);
 
+        if (!this)
+        {
+            yield break;
+        }
+
         yield return new WaitForSecondsRealtime(totaltime);
 
         yield return m_Instance = StartCoroutine(CrossFade(!fadein));

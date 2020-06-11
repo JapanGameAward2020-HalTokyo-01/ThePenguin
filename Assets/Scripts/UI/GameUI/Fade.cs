@@ -50,6 +50,10 @@ public class Fade : MonoBehaviour
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
             m_FadeIcon.color = new Color(255, 255, 255, i);
+            if (!this)
+            {
+                yield break;
+            }
             yield return null;
         }
         yield return new WaitForSecondsRealtime(BlackScreenDuration);
@@ -65,6 +69,10 @@ public class Fade : MonoBehaviour
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
             m_FadeIcon.color = new Color(255, 255, 255, i);
+            if(!this)
+            {
+                yield break;
+            }
             yield return null;
         }
 

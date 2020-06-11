@@ -207,7 +207,13 @@ public class GameUI : MonoBehaviour
 
         //フェードアウト待機
         _fade.Fader();
-        yield return new WaitForSecondsRealtime(1.0f);
+
+        while (!_fade.CheckFadedout())
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
     }
 
     void PauseMenu(InputAction.CallbackContext ctx)

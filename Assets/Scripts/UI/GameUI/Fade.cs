@@ -15,15 +15,21 @@ public class Fade : MonoBehaviour
     [SerializeField]
     private Image m_FadeIcon;
     [SerializeField, Range(0.1f, 5.0f)]
-    private float FadeDuration;
+    private float m_FadeDuration;
     [SerializeField, Range(0.1f, 5.0f)]
-    private float BlackScreenDuration;
+    private float m_BlackScreenDuration;
+
+    private bool m_DoneFadeout;
+
+    public float BlackScreenDuration { get => m_BlackScreenDuration; set => m_BlackScreenDuration = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         m_FadeImage.color = new Color(0, 0, 0, 0);
         m_FadeIcon.color = new Color(255, 255, 255, 0);
+
+        m_DoneFadeout = false;
         //Fader();
     }
 
@@ -42,11 +48,19 @@ public class Fade : MonoBehaviour
     }
 
     /// <summary>
+    /// @brief      FadeOut処理が完了しているか返す
+    /// </summary>
+    public bool CheckFadedout()
+    {
+        return m_DoneFadeout;
+    }
+
+    /// <summary>
     /// @brief      FadeOut処理Coroutine
     /// </summary>
     IEnumerator FadeOut()
     {
-        for (float i = 0; i <= 1; i += (Time.deltaTime / FadeDuration))
+        for (float i = 0; i <= 1; i += (Time.deltaTime / m_FadeDuration))
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
             m_FadeIcon.color = new Color(255, 255, 255, i);
@@ -56,7 +70,8 @@ public class Fade : MonoBehaviour
             }
             yield return null;
         }
-        yield return new WaitForSecondsRealtime(BlackScreenDuration);
+        m_DoneFadeout = true;
+        yield return new WaitForSecondsRealtime(m_BlackScreenDuration);
         StartCoroutine(FadeIn());
     }
 
@@ -65,7 +80,7 @@ public class Fade : MonoBehaviour
     /// </summary>
     IEnumerator FadeIn()
     {
-        for (float i = 1; i >= 0; i -= (Time.deltaTime / FadeDuration))
+        for (float i = 1; i >= 0; i -= (Time.deltaTime / m_FadeDuration))
         {
             m_FadeImage.color = new Color(0, 0, 0, i);
             m_FadeIcon.color = new Color(255, 255, 255, i);

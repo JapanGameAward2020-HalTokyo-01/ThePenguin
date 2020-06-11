@@ -42,6 +42,9 @@ public class WallGimmick : BaseGimmick
 
     [SerializeField]
     private EffectSpawner AreaEffect;
+    //!子ペンギンとの接触エフェクト発生必須時間
+    [SerializeField]
+    private float m_PassTime_Threshold = 0.0f;
 
     // Start is called before the first frame update
     public override void Start()
@@ -172,5 +175,24 @@ public class WallGimmick : BaseGimmick
     public override void OnDeactivate()
     {
 
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.PlayPassEffect(m_PassTime_Threshold);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.StopPassEffect();
+        }
     }
 }

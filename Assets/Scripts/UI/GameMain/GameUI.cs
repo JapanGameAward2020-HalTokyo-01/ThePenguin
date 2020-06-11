@@ -104,6 +104,7 @@ public class GameUI : MonoBehaviour
         // クリア時
         if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
+            m_ChargeGaugeMgr.HydeGauge();
             m_ChargeGaugeMgr.UnRegisterInputEvent();
             return;
         }

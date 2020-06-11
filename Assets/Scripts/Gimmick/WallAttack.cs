@@ -40,6 +40,9 @@ public class WallAttack : BaseGimmick
     private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
+    //!子ペンギンとの接触エフェクト発生必須時間
+    [SerializeField]
+    private float m_PassTime_Threshold = 0.0f;
 
     private void OnDrawGizmos()
     {
@@ -147,14 +150,33 @@ public class WallAttack : BaseGimmick
         this.gameObject.SetActive(false);
     }
 
-//    public void OnDrawGizmos()
-//    {
-//#if UNITY_EDITOR
-//        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-//        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
-//        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
-//#endif
-//    }
+    private void OnCollisionStay(Collision collision)
+    {
+
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.PlayPassEffect(m_PassTime_Threshold);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.StopPassEffect();
+        }
+    }
+
+    //    public void OnDrawGizmos()
+    //    {
+    //#if UNITY_EDITOR
+    //        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+    //        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
+    //        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
+    //#endif
+    //    }
 
     private void OnValidate()
     {

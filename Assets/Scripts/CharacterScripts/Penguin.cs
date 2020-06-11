@@ -178,6 +178,8 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
+        if (m_ClearAnimation)
+            return;
 
         //! オブジェを無効にする
         gameObject.SetActive(false);

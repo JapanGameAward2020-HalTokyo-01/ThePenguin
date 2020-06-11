@@ -88,8 +88,18 @@ public class SlopeTilt : MonoBehaviour
         if (collision.gameObject.layer == 8)
         {
             Penguin penguin = collision.gameObject.GetComponent<Penguin>();
-            penguin.SetModelRotation(Vector3.up);
-            penguin.Tilting = false;
+
+            RaycastHit m_Hit;
+
+            if (Physics.Raycast(penguin.transform.position, -penguin.transform.up, out m_Hit))
+            {
+                if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() == null)
+                {
+                    Debug.Log("Penguin no longer on Slope!");
+                    penguin.SetModelRotation(Vector3.up);
+                    penguin.Tilting = false;
+                }
+            }
             Debug.Log("Stopped checking for slopes");
         }
     }

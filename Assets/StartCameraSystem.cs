@@ -147,7 +147,10 @@ public class StartCameraSystem : MonoBehaviour
         v_camera[0].Priority = 0;
         v_camera[1].Priority = 0;
         v_camera[2].Priority = 0;
-
+        if (FindObjectOfType<BossName>() != null)
+        {
+            FindObjectOfType<BossName>().SetPlay(false);
+        }
         StartCoroutine(EnableUI(m_OutTime));
     }
 
@@ -162,5 +165,6 @@ public class StartCameraSystem : MonoBehaviour
             main_ui.SetEnable(true);
             main_ui.ShowMainUI(true);
         }
+        
     }
 }

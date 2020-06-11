@@ -82,6 +82,8 @@ public class Penguin : MonoBehaviour
     private bool m_Tilting;
     public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
 
+    public bool CanCrashWall = false;
+
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();
@@ -169,6 +171,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     protected virtual void MoveHandler(Vector3 move)
     {
+        CanCrashWall = true;
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f, ForceMode.Force);
         m_ModelForward = move;
     }

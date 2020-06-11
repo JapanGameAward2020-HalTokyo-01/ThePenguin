@@ -267,11 +267,11 @@ public class GameUI : MonoBehaviour
             StartCoroutine(SkipEnshutsu());
         }
         //！ゴール演出中
-        else if(m_ParentPenguin.manager.m_settings.m_clear_flag)
+        else if(m_ParentPenguin.ClearAnimation)//m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
-            m_PenguinManager.StopGoalPlaying();
+            //m_PenguinManager.StopGoalPlaying();
 
-            //m_PenguinManager.SkipGoalAnimation();
+            m_PenguinManager.SkipGoalAnimation();
         }
 
     }

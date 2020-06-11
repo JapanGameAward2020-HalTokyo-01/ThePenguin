@@ -144,7 +144,7 @@ public class PenguinManager : MonoBehaviour
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
-        StartCoroutine("ToNextScene");
+        StartCoroutine(ToNextScene());
     }
 
     //! 死亡時イベント(親ペンギン)
@@ -270,8 +270,6 @@ public class PenguinManager : MonoBehaviour
 
         bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
-        //アニメーション待機
-        yield return new WaitForSecondsRealtime(2.0f);
 
         //フェードアウト待機
         _fade.Fader(false);
@@ -324,12 +322,12 @@ public class PenguinManager : MonoBehaviour
                         }
                     }
                 }
-                if (m_ParentPenguin.m_ClearAnimationEnded)
-                {
-                    break;
-                }
             }
-            StartCoroutine(ToNextScene());
+            if (m_ParentPenguin.m_ClearAnimationEnded)
+            {
+                StartCoroutine(ToNextScene());
+            }
+
         }
 
     }

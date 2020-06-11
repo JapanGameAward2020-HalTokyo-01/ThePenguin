@@ -81,6 +81,7 @@ public class Penguin : MonoBehaviour
     public Vector3 m_ModelForward;
     private bool m_Tilting;
     public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
+    public bool ClearAnimation { get => m_ClearAnimation; set => m_ClearAnimation = value; }
 
     protected virtual void Awake()
     {
@@ -250,6 +251,7 @@ public class Penguin : MonoBehaviour
         GetComponentInChildren<AnimationCheck>().goalAnimator = goal.GetComponentInChildren<Animator>();
     }
 
+    
     /// <summary>
     /// @brief      ステージクリア演出処理
     /// </summary>

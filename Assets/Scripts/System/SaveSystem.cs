@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using UnityEngine.Audio;
 public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
@@ -17,6 +17,11 @@ public class SaveSystem : MonoBehaviour
     private Sounddata Volume = new Sounddata();
 
     public Sounddata VolumeData { get => Volume; set => Volume = value; }
+
+    [SerializeField, Space(20)]
+    private AudioMixerGroup m_BGMMixer;
+    [SerializeField]
+    private AudioMixerGroup m_SEMixer;
 
     void Awake()
     {
@@ -146,6 +151,8 @@ public class SaveSystem : MonoBehaviour
             file.Close();
             Debug.Log(sounddata);
             Debug.Log("Loaded Sound Data");
+            m_BGMMixer.audioMixer.SetFloat("BGMVolume", Volume.m_Music);
+            m_SEMixer.audioMixer.SetFloat("SEVolume", Volume.m_Soundeffects);
         }
         else
         {
@@ -276,12 +283,12 @@ public class GameData
 [System.Serializable] 
 public class Sounddata
 {
-    public float m_Music = 0.5f;
-    public float m_Soundeffects = 0.5f;
+    public float m_Music = 0.0f;
+    public float m_Soundeffects = 0.0f;
 
     public Sounddata()
     {
-        m_Music = 0.5f;
-        m_Soundeffects = 0.5f;
+        m_Music = 0.0f;
+        m_Soundeffects = 0.0f;
     }
 }

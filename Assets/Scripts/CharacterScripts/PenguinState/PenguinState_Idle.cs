@@ -142,6 +142,12 @@ public class PenguinState_Idle : PenguinState
                         m_Effect[0].Stop();
                     if (m_Effect[1])
                         m_Effect[1].Stop();
+
+                    if (parentPenguin.GetControllerVibration())
+                    {
+                        parentPenguin.GetControllerVibration().StopAllShake();
+                    }
+
                 }
 
                 penguin.ChangeState<PenguinState_Goal>();
@@ -156,6 +162,11 @@ public class PenguinState_Idle : PenguinState
                         m_Effect[0].Stop();
                     if (m_Effect[1])
                         m_Effect[1].Stop();
+
+                    if (parentPenguin.GetControllerVibration())
+                    {
+                        parentPenguin.GetControllerVibration().StopAllShake();
+                    }
                 }
 
                 penguin.ChangeState<PenguinState_Failed>();

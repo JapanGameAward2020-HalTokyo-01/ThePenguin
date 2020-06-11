@@ -89,7 +89,8 @@ public class Boss : MonoBehaviour
         if(!m_ControllerVibration)
             m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
-        m_FootEffect = this.transform.Find("FootEffect").gameObject.GetComponent<EffekseerEmitter>();
+        if (!m_FootEffect)
+            m_FootEffect = this.transform.Find("FootEffect").gameObject.GetComponent<EffekseerEmitter>();
     }
 
     private void Update()

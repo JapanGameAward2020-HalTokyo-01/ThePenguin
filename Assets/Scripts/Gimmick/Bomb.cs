@@ -83,7 +83,7 @@ public class Bomb : BaseGimmick
         if(!m_DetectionSizeObject)
             m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
 
-        if (!m_DetectionSizeObject)
+        if (m_DetectionSizeObject)
         {
             m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
             m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -94,7 +94,7 @@ public class Bomb : BaseGimmick
 
         //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
         //カウントダウン表示（仮）初期化
-        if(m_CountDownObject)
+        if(!m_CountDownObject)
             m_CountDownObject = this.transform.Find("CountDown").gameObject;
 
         m_CountDownObject.SetActive(false);

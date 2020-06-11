@@ -215,7 +215,7 @@ public class GameUI : MonoBehaviour
             return;
 
         // 開始アニメーション待ち
-        if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag)
+        if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag || m_ParentPenguin.manager.m_settings.m_failure_flag)
             return;
 
         var _cv = FindObjectOfType<ControllerVibration>();

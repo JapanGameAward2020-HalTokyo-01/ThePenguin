@@ -275,10 +275,18 @@ public class PenguinManager : MonoBehaviour
 
         //フェードアウト待機
         _fade.Fader();
-        yield return new WaitForSecondsRealtime(1.0f);
+
+        while (!_fade.CheckFadedout())
+        {
+            yield return null;
+        }
 
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
+
+
+        yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
+
         // 失敗時
         if (_flags[0] && !_flags[1])
         {

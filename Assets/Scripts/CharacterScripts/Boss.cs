@@ -95,6 +95,9 @@ public class Boss : MonoBehaviour
 
     private void Update()
     {
+        if (!m_FootEffect.exists)
+            m_FootEffect.Play();
+
         m_CurrentState.OnUpdate();
     }
 

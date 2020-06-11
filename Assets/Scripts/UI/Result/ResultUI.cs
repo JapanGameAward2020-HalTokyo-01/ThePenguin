@@ -99,6 +99,8 @@ public class ResultUI : MonoBehaviour
 
     private int m_Select = 0;
     private bool m_Page1_Flag = true;
+    private bool m_InStartAnim = false;
+    private Coroutine m_StartAnim;
 
     //ステージのペンギン総数
     private int m_TotalCount = 0;
@@ -179,13 +181,22 @@ public class ResultUI : MonoBehaviour
         // ファイル書き込み
         _save.SetStageData(_data, m_SceneList.CurrentLevelIndex);
 
-        StartCoroutine(SceneStart());
+        m_StartAnim = StartCoroutine(SceneStart());
     }
 
     // Update is called once per frame
     void Update()
     {
         InputUpdate();
+
+        if (m_InStartAnim)
+        {
+            if (GetAButtonUp())
+            {
+                StopCoroutine(m_StartAnim);
+                StartCoroutine(Skip());
+            }
+        }
 
         if (m_IsInputEnable)
         {
@@ -268,11 +279,14 @@ public class ResultUI : MonoBehaviour
 
     IEnumerator SceneStart()
     {
+        
         yield return new WaitForSecondsRealtime(1.0f);
 
         m_Fade.SetActive(false);
 
         yield return new WaitForSecondsRealtime(0.5f);
+
+        m_InStartAnim = true;
 
         m_Page1_MenuBack.SetEnable(true);
         m_Page1_MenuBack.SetActive(true);
@@ -334,6 +348,7 @@ public class ResultUI : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
 
         m_IsInputEnable = true;
+        m_InStartAnim = false;
 
         //演出スピード調整
         float new_time = 0.2f;
@@ -397,6 +412,114 @@ public class ResultUI : MonoBehaviour
         }
 
         SceneManager.LoadScene(next);
+    }
+
+    IEnumerator Skip()
+    {
+        m_InStartAnim = false;
+        m_IsInputEnable = false;
+
+        //演出スピード調整
+        float new_time = 0.2f;
+        m_Page1_MenuBack.SetEnableTime(new_time);
+        m_Page1_ClearTime.SetEnableTime(new_time);
+        m_Page1_ClearTime_SecondCounter.SetEnableTime(new_time);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnableTime(new_time);
+        m_Page1_ClearTime_Second.SetEnableTime(new_time);
+        m_Page1_Gauge_Back.SetEnableTime(new_time);
+        m_Page1_Gauge_Face.SetEnableTime(new_time);
+        m_Page1_Gauge_Gauge.SetEnableTime(new_time);
+        m_Page1_Gauge_Slash.SetEnableTime(new_time);
+        m_Page1_Gauge_ClearCounter.SetEnableTime(new_time);
+        m_Page1_Gauge_TotalCounter.SetEnableTime(new_time);
+        m_Page1_StageClear.SetEnableTime(new_time);
+        m_Page1_StarPenguinCounter.SetEnableTime(new_time);
+        m_Page1_Count.SetEnableTime(new_time);
+        m_Page1_StarTimeCounter.SetEnableTime(new_time);
+        m_Page1_Time.SetEnableTime(new_time);
+        m_Page1_SmallStar1.SetEnableTime(new_time);
+        m_Page1_SmallStar2.SetEnableTime(new_time);
+        m_Page1_SmallStar3.SetEnableTime(new_time);
+        m_Page1_A_Button.SetEnableTime(new_time);
+        m_Page2_MenuBack.SetEnableTime(new_time);
+        m_Page2_Continue.SetEnableTime(new_time);
+        m_Page2_StageSelect.SetEnableTime(new_time);
+        m_Page2_Retry.SetEnableTime(new_time);
+        m_Page2_A_Button.SetEnableTime(new_time);
+        m_Page2_B_Button.SetEnableTime(new_time);
+
+        m_Page1_MenuBack.SetCrossTime(new_time);
+        m_Page1_ClearTime.SetCrossTime(new_time);
+        m_Page1_ClearTime_Second.SetCrossTime(new_time);
+        m_Page1_Gauge_Back.SetCrossTime(new_time);
+        m_Page1_Gauge_Face.SetCrossTime(new_time);
+        m_Page1_Gauge_Gauge.SetCrossTime(new_time);
+        m_Page1_Gauge_Slash.SetCrossTime(new_time);
+        m_Page1_StageClear.SetCrossTime(new_time);
+        m_Page1_Count.SetCrossTime(new_time);
+        m_Page1_Time.SetCrossTime(new_time);
+        m_Page1_SmallStar1.SetCrossTime(new_time);
+        m_Page1_SmallStar2.SetCrossTime(new_time);
+        m_Page1_SmallStar3.SetCrossTime(new_time);
+        m_Page1_A_Button.SetCrossTime(new_time);
+        m_Page2_MenuBack.SetCrossTime(new_time);
+        m_Page2_A_Button.SetCrossTime(new_time);
+        m_Page2_B_Button.SetCrossTime(new_time);
+
+
+        m_Page1_MenuBack.SetEnable(true);
+        m_Page1_MenuBack.SetActive(true);
+        m_Page1_StageClear.SetEnable(true);
+        m_Page1_StageClear.SetActive(true);
+        m_Page1_SmallStar1.SetEnable(true);
+        m_Page1_Count.SetEnable(true);
+        m_Page1_Count.SetActive(true);
+        m_Page1_StarPenguinCounter.SetEnable(true);
+        m_Page1_SmallStar2.SetEnable(true);
+        m_Page1_Time.SetEnable(true);
+        m_Page1_Time.SetActive(true);
+        m_Page1_StarTimeCounter.SetEnable(true);
+        m_Page1_SmallStar3.SetEnable(true);
+        m_Page1_ClearTime.SetEnable(true);
+        m_Page1_ClearTime.SetActive(true);
+        //StartCoroutine(SetClearTimeDigit(m_ClearTime));
+        int second = (int)(m_ClearTime);
+        int milisecond = (int)((m_ClearTime - second) * 100);
+
+        m_Page1_ClearTime_SecondCounter.SetEnable(true);
+        m_Page1_ClearTime_Second.SetEnable(true);
+        m_Page1_ClearTime_Second.SetActive(true);
+        m_Page1_ClearTime_SecondCounter.SetCount(second);
+        m_Page1_ClearTime_SecondCounter.SetCurrentCount(second);
+        m_Page1_ClearTime_MiliSecondCounter.SetEnable(true);
+        m_Page1_ClearTime_MiliSecondCounter.SetCount(milisecond);
+        m_Page1_ClearTime_MiliSecondCounter.SetCurrentCount(milisecond);
+
+        m_Page1_Gauge_Back.SetEnable(true);
+        m_Page1_Gauge_Back.SetActive(true);
+        m_Page1_Gauge_Face.SetEnable(true);
+        m_Page1_Gauge_Face.SetActive(true);
+        m_Page1_Gauge_Gauge.SetEnable(true);
+        m_Page1_Gauge_Gauge.SetActive(true);
+
+        m_Page1_Gauge_Slash.SetEnable(true);
+        m_Page1_Gauge_Slash.SetActive(true);
+        m_Page1_Gauge_ClearCounter.SetEnable(true);
+        m_Page1_Gauge_TotalCounter.SetEnable(true);
+        m_Page1_Gauge_ClearCounter.SetCount(m_ClearCount);
+        m_Page1_Gauge_ClearCounter.SetCurrentCount(m_ClearCount);
+        StartCoroutine(SetGauge(m_TotalCount > 0 ? (float)m_ClearCount / m_TotalCount : 0, 0.0f));
+
+        m_Page1_SmallStar1.SetActive(true);
+        m_Page1_SmallStar2.SetActive(m_Flag_Count);
+        m_Page1_SmallStar3.SetActive(m_Flag_Time);
+
+        m_Page1_A_Button.SetEnable(true);
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        m_IsInputEnable = true;
+        m_InStartAnim = false;
     }
 
     // インデックス指定方式
@@ -556,50 +679,50 @@ public class ResultUI : MonoBehaviour
     //汎用入力関数
     private bool GetAButtonDown()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space);
     }
     private bool GetAButtonUp()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKeyUp("joystick button 0") || Input.GetKeyUp(KeyCode.Space);
     }
     private bool GetAButton()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKey("joystick button 0") || Input.GetKey(KeyCode.Space);
     }
     private bool GetBButtonDown()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape);
     }
     private bool GetBButtonUp()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKeyUp("joystick button 1") || Input.GetKeyUp(KeyCode.Escape);
     }
     private bool GetBButton()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return Input.GetKey("joystick button 1") || Input.GetKey(KeyCode.Escape);
     }
 
@@ -613,34 +736,34 @@ public class ResultUI : MonoBehaviour
     }
     private bool GetUpDown()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return (m_Current_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.UpArrow);
     }
     private bool GetUpUp()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return (m_Past_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.UpArrow);
     }
     private bool GetDownDown()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return (m_Current_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.DownArrow);
     }
     private bool GetDownUp()
     {
-        if (!m_IsInputEnable)
+        /*if (!m_IsInputEnable)
         {
             return false;
-        }
+        }*/
         return (m_Past_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.DownArrow);
     }
 }

@@ -166,7 +166,7 @@ public class GameUI : MonoBehaviour
         for (float i = 0; i <= 1; )
         {
             Debug.Log("Accel L");
-            if (!m_LAccel)
+            if (!m_LAccel | !this)
             {
                 yield break;
             }
@@ -188,7 +188,7 @@ public class GameUI : MonoBehaviour
         for (float i = 0; i <= 1; )
         {
             Debug.Log("Accel R");
-            if (!m_RAccel)
+            if (!m_RAccel | !this)
             {
                 yield break;
             }
@@ -324,7 +324,7 @@ public class GameUI : MonoBehaviour
         for (; i >= 0; )
         {
             Debug.Log("Decel L");
-            if (!m_LDecel)
+            if (!m_LDecel | !this)
             {
                 yield break;
             }
@@ -348,7 +348,7 @@ public class GameUI : MonoBehaviour
         for (; i >= 0; )
         {
             Debug.Log("Decel R");
-            if (!m_RDecel)
+            if (!m_RDecel | !this)
             {
                 yield break;
             }

@@ -40,17 +40,21 @@ public class BossState_Attack : BossState
 
         if (m_Boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.0f && m_Boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            if (m_Effect)
+            if(!m_Boss.IsAudience)
             {
-                if (!m_Effect.exists)
+                if (m_Effect)
                 {
-                    m_Effect.Play();
-                    m_Boss.GetControllerVibration().AddShake(0.6f, 0.2f);
+                    if (!m_Effect.exists)
+                    {
+                        m_Effect.Play();
+                        m_Boss.GetControllerVibration().AddShake(0.6f, 0.2f);
+                    }
                 }
+
+                if (m_ObjectVibrate)
+                    m_ObjectVibrate.StartVibrate();
             }
 
-            if (m_ObjectVibrate)
-                m_ObjectVibrate.StartVibrate();
         }
 
         if (m_Boss.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && m_Boss.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
@@ -58,11 +62,14 @@ public class BossState_Attack : BossState
             m_Boss.animator.SetBool("OnAttack", false);
             m_Boss.ChangeState<BossState_Idle>();
 
-            if (m_Effect)
-                m_Effect.StopRoot();
+            if (!m_Boss.IsAudience)
+            {
+                if (m_Effect)
+                    m_Effect.StopRoot();
 
-            if (m_ObjectVibrate)
-                m_ObjectVibrate.StopVibrate();
+                if (m_ObjectVibrate)
+                    m_ObjectVibrate.StopVibrate();
+            }
 
         }
     }

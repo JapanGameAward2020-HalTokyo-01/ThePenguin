@@ -152,7 +152,7 @@ public class PenguinManager : MonoBehaviour
     {
         m_settings.m_failure_flag = true;
 
-        StartCoroutine("ToNextScene");
+        StartCoroutine(ToNextScene());
     }
 
     //! 群れ化時イベント
@@ -274,18 +274,17 @@ public class PenguinManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(2.0f);
 
         //フェードアウト待機
-        _fade.Fader();
+        _fade.Fader(false);
 
         while (!_fade.CheckFadedout())
         {
             yield return null;
         }
 
+        yield return new WaitForSecondsRealtime(1.0f);
+
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
-
-
-        yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
 
         // 失敗時
         if (_flags[0] && !_flags[1])
@@ -325,13 +324,19 @@ public class PenguinManager : MonoBehaviour
                         }
                     }
                 }
+                if (m_ParentPenguin.m_ClearAnimationEnded)
+                {
+                    break;
+                }
             }
+            StartCoroutine(ToNextScene());
         }
 
-        if (m_ParentPenguin.m_ClearAnimationEnded)
-        {
-            StartCoroutine("ToNextScene");
-        }
+    }
+
+    public void SkipGoalAnimation()
+    {
+        StartCoroutine(ToNextScene());
     }
 
 }

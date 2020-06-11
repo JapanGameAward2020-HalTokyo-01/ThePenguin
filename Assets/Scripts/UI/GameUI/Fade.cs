@@ -42,9 +42,9 @@ public class Fade : MonoBehaviour
     /// <summary>
     /// @brief      FadeIn/Out処理Coroutine
     /// </summary>
-    public void Fader()
+    public void Fader(bool fadein)
     {
-        StartCoroutine(FadeOut());
+        StartCoroutine(FadeOut(fadein));
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class Fade : MonoBehaviour
     /// <summary>
     /// @brief      FadeOut処理Coroutine
     /// </summary>
-    IEnumerator FadeOut()
+    IEnumerator FadeOut(bool fadein)
     {
         for (float i = 0; i <= 1; i += (Time.deltaTime / m_FadeDuration))
         {
@@ -70,9 +70,14 @@ public class Fade : MonoBehaviour
             }
             yield return null;
         }
+
         m_DoneFadeout = true;
-        yield return new WaitForSecondsRealtime(m_BlackScreenDuration);
-        StartCoroutine(FadeIn());
+
+        if (fadein)
+        {
+            yield return new WaitForSecondsRealtime(m_BlackScreenDuration);
+            StartCoroutine(FadeIn());
+        }
     }
 
     /// <summary>

@@ -216,14 +216,14 @@ public class GameUI : MonoBehaviour
         Fade _fade = FindObjectOfType<Fade>();
 
         //フェードアウト待機
-        _fade.Fader();
+        _fade.Fader(true);
 
         while (!_fade.CheckFadedout())
         {
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
+        //yield return new WaitForSecondsRealtime(_fade.BlackScreenDuration);
     }
 
     void PauseMenu(InputAction.CallbackContext ctx)
@@ -270,6 +270,8 @@ public class GameUI : MonoBehaviour
         else if(m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_PenguinManager.StopGoalPlaying();
+
+            //m_PenguinManager.SkipGoalAnimation();
         }
 
     }

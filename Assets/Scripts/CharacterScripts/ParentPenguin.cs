@@ -201,6 +201,17 @@ public class ParentPenguin : Penguin
     }
 
     /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public override void SetModelRotation(Vector3 newup)
+    {
+        base.SetModelRotation(newup);
+
+        //! マーカーの傾きを変更
+        m_MarkerObject.transform.up = newup;
+    }
+
+    /// <summary>
     /// @brief      物体に当たる時のエフェクト発生処理
     /// @param (a)	物体と衝突判定するcollision
     /// </summary>

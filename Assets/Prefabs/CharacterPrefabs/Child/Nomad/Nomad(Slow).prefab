@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7102293935755862562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220198670949892832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f181da87f5cce42807b1f1495bed26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalAnimator: {fileID: 0}
+  main: {fileID: 886247698099445563}
 --- !u!114 &4356916233625878106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,20 +161,6 @@ MonoBehaviour:
   useLastAnimationState: 0
   maxBatches: 50
   meshPoolSize: 256
---- !u!114 &7102293935755862562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220198670949892832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f181da87f5cce42807b1f1495bed26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goalAnimator: {fileID: 0}
-  main: {fileID: 886247698099445563}
 --- !u!1001 &1662568756531436521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -611,6 +611,16 @@ PrefabInstance:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 4387093685694963081}
+    - target: {fileID: 4663731139713951325, guid: e4c5bb43ab8508343bb9020b1055cfd7,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663731139713951325, guid: e4c5bb43ab8508343bb9020b1055cfd7,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1000348612469072492, guid: e4c5bb43ab8508343bb9020b1055cfd7,
         type: 3}
       propertyPath: m_Mass

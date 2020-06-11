@@ -222,13 +222,19 @@ public class Penguin : MonoBehaviour
     {
         return m_Rigidbody.velocity.y < -m_FallThreshhold;
     }
-    
+
+    /// <summary>
+    /// @brief      ペンギンのvelocityの大きさを返す
+    /// </summary>
     public float GetSpeed()
     {
         return m_Rigidbody.velocity.magnitude;
     }
 
-    public void SetModelRotation(Vector3 newup)
+    /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public virtual void SetModelRotation(Vector3 newup)
     {
         m_ModelUp = newup;
     }

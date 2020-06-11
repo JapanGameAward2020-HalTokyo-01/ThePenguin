@@ -192,6 +192,7 @@ public class BossBomb : BaseGimmick
     public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
+        LastCount = (int)m_CountDown;
         m_IsCountDown = false;
         m_Model.transform.position = m_Start.transform.position;
         m_Model.transform.rotation = new Quaternion(0,0,0,0);

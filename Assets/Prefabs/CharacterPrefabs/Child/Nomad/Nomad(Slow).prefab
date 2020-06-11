@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7102293935755862562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220198670949892832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f181da87f5cce42807b1f1495bed26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goalAnimator: {fileID: 0}
-  main: {fileID: 886247698099445563}
 --- !u!114 &4356916233625878106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,7 +15,7 @@ MonoBehaviour:
   profile: {fileID: 0}
   profileSync: 0
   target: {fileID: 1359098542130383026}
-  _active: 0
+  _active: 1
   executeInEditMode: 0
   ignoreFrames: 0
   duration: 0.5
@@ -57,7 +43,7 @@ MonoBehaviour:
   subMeshMask: -1
   colorOverTime:
     serializedVersion: 2
-    key0: {r: 0.40813157, g: 1, b: 0.015686274, a: 1}
+    key0: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     key1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -161,6 +147,20 @@ MonoBehaviour:
   useLastAnimationState: 0
   maxBatches: 50
   meshPoolSize: 256
+--- !u!114 &7102293935755862562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220198670949892832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f181da87f5cce42807b1f1495bed26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalAnimator: {fileID: 0}
+  main: {fileID: 886247698099445563}
 --- !u!1001 &1662568756531436521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,16 +193,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
     - target: {fileID: -4216859302048453862, guid: 08d2830b46322904ea8aee315d4a1a9d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -273,6 +263,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 08d2830b46322904ea8aee315d4a1a9d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c32d9840e3fa2284681f1c5726764a3e, type: 2}
     - target: {fileID: -8349255529694960510, guid: 08d2830b46322904ea8aee315d4a1a9d,
         type: 3}
       propertyPath: m_Layer

@@ -100,11 +100,12 @@ public class MainMenu : MonoBehaviour
             m_GameCountinue.gameObject.SetActive(true);
         }
 
-        m_UnlockStage = 0;
-        while (m_SaveData.Stages1[m_UnlockStage+1].m_Unlocked)
-        {
-            m_UnlockStage++;
-        }
+        m_UnlockStage = -1;
+        foreach(var data in m_SaveData.Stages1)
+            if(data.m_Unlocked) m_UnlockStage++;
+        // ステージ1は確定アンロックの仕様だが念のため
+        if (m_UnlockStage < 0) m_UnlockStage = 0;
+
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Title);

@@ -25,7 +25,7 @@ public class BossState_Start : BossState
         if(!m_Effect)
             m_Effect = GetComponent<EffekseerEmitter>();
 
-        if (m_Effect)
+        if (m_Effect && !m_Boss.IsAudience)
             m_Effect.Play();
     }
 
@@ -40,7 +40,7 @@ public class BossState_Start : BossState
 
             m_Boss.ChangeState<BossState_Idle>();
 
-            if (m_Effect)
+            if (m_Effect && !m_Boss.IsAudience)
                 m_Effect.StopRoot();
         }
 

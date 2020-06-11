@@ -120,6 +120,15 @@ public class GoalTile : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        //親ペンギンと子ペンギンにのみ反応する
+        if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin") && m_CanClear && !m_level_setting.m_failure_flag)
+        {
+            Goal();
+        }
+    }
+
     /**
     * @brief    ゴール処理
     * @param(viod)   なし

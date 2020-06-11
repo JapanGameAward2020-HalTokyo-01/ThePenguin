@@ -42,6 +42,10 @@ public class Boss : MonoBehaviour
     private ControllerVibration m_ControllerVibration;
 
     public List<BossGimmickManager> m_BossGimmickManagers  { get; set; }
+    //!観客フラグ
+    [SerializeField]
+    private bool Audience;
+    public bool IsAudience { get { return Audience; } }
 
     private void Awake()
     {

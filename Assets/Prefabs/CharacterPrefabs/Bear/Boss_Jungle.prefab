@@ -98,11 +98,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6121694841098867259, guid: 3b249bddb94cc88448ffddc4ea50e30e,
-        type: 3}
-      propertyPath: m_Name
-      value: Boss_Jungle
-      objectReference: {fileID: 0}
     - target: {fileID: 6385801599494608764, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -158,6 +153,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6121694841098867259, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_Name
+      value: Boss_Jungle
+      objectReference: {fileID: 0}
     - target: {fileID: 7285257251944083937, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_Model
@@ -168,6 +168,11 @@ PrefabInstance:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 925481171129348055}
+    - target: {fileID: 7285257251944083937, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_FootEffect
+      value: 
+      objectReference: {fileID: 908650912161480748}
     - target: {fileID: 1609555247804098874, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_RootOrder
@@ -208,6 +213,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3481139344855648472, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_Name
+      value: FootEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 5546868799973370452, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: effectAsset
@@ -219,11 +229,6 @@ PrefabInstance:
       propertyPath: m_TargetObject
       value: 
       objectReference: {fileID: 6054705013861150910}
-    - target: {fileID: 3481139344855648472, guid: 3b249bddb94cc88448ffddc4ea50e30e,
-        type: 3}
-      propertyPath: m_Name
-      value: FootEffect
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b249bddb94cc88448ffddc4ea50e30e, type: 3}
 --- !u!4 &1799379645026221316 stripped
@@ -232,3 +237,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4640470100215097976}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &908650912161480748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5546868799973370452, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4640470100215097976}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -98,11 +98,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6121694841098867259, guid: 3b249bddb94cc88448ffddc4ea50e30e,
-        type: 3}
-      propertyPath: m_Name
-      value: Boss_Desert
-      objectReference: {fileID: 0}
     - target: {fileID: 6385801599494608764, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -158,6 +153,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6121694841098867259, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_Name
+      value: Boss_Desert
+      objectReference: {fileID: 0}
     - target: {fileID: 7285257251944083937, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_Model
@@ -168,6 +168,11 @@ PrefabInstance:
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 3039441000050808841}
+    - target: {fileID: 7285257251944083937, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+        type: 3}
+      propertyPath: m_FootEffect
+      value: 
+      objectReference: {fileID: 1973704569506505406}
     - target: {fileID: 1609555247804098874, guid: 3b249bddb94cc88448ffddc4ea50e30e,
         type: 3}
       propertyPath: m_RootOrder
@@ -202,3 +207,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6313604750052690154}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1973704569506505406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5546868799973370452, guid: 3b249bddb94cc88448ffddc4ea50e30e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6313604750052690154}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

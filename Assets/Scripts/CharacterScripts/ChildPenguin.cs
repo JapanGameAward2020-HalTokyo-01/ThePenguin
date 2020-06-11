@@ -260,6 +260,11 @@ public class ChildPenguin : Penguin
 
     protected override void Enshutsu()
     {
+        //!デバック対策、少し場所を借りる
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
+
         GetComponent<CapsuleCollider>().enabled = false;
         m_Rigidbody.useGravity = false;
 

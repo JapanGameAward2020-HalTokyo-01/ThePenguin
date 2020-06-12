@@ -159,7 +159,7 @@ public class CrashWall : MonoBehaviour
                             Effect.PlayerEffect("RockCrashingFinal_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                         case FieldType.VOLCANIC:
-                            Effect.PlayerEffect("RockCrashingFinal_vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                            Effect.PlayerEffect("RockCrashingFinal_vacano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
                             break;
                     }
 

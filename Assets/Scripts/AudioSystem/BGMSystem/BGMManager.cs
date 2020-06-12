@@ -7,7 +7,6 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-//using System.Runtime.Remoting.Messaging;
 
 /**
  * @class   BGMManagerクラス
@@ -30,8 +29,6 @@ public class BGMManager : MonoBehaviour
 	//! 操作対象オーディオソースコンポーネント
 	private AudioSource m_current_source = null;
 	private List<AudioSource> m_source_list = new List<AudioSource>();
-	[SerializeField, NonEditableField]
-	private bool[] m_isplay;
 
 	// bgmファイル個別のオプションデータ
 	private AudioBGMParams m_param;
@@ -54,17 +51,18 @@ public class BGMManager : MonoBehaviour
 	// 初期化(unique)
 	public void Awake()
 	{
+		// 既に生成されていれば破棄
 		if (m_instance != null)
 		{
 			Destroy(this.gameObject);
 			return;
 		}
 
+		// 初期化
 		DontDestroyOnLoad(this.gameObject);
 		m_instance = this;
 		m_instance.OnAwake();
-
-		m_isplay = new bool[m_source_list.Count];
+		SoundEffect.OnAwake();
 
 	}
 
@@ -183,11 +181,6 @@ public class BGMManager : MonoBehaviour
 	 */
 	public void FixedUpdate()
 	{
-		for(int cnt = 0; cnt < m_source_list.Count; cnt++)
-		{
-			m_isplay[cnt] = m_source_list[cnt].isPlaying;
-		}
-
 		if (m_current_source != null && m_current_source.isPlaying)
 			m_loop.OnUpdate(m_current_source, m_param);
 	}

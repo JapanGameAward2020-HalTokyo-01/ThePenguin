@@ -25,8 +25,6 @@ public class BossState_Start : BossState
         if(!m_Effect)
             m_Effect = GetComponent<EffekseerEmitter>();
 
-        if (m_Effect && !m_Boss.IsAudience)
-            m_Effect.Play();
     }
 
     //! 更新処理
@@ -49,5 +47,11 @@ public class BossState_Start : BossState
             m_Boss.ChangeState<BossState_Goal>();
             return;
         }
+    }
+
+    public void EffectPlay()
+    {
+        if (m_Effect && !m_Boss.IsAudience)
+            m_Effect.Play();
     }
 }

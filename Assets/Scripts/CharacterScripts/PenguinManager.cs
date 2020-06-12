@@ -47,8 +47,10 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
-    [SerializeField]
     private float m_StartHeight;
+
+    [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
+    private SE_Voice m_pen_voices = null;
 
     #region ゴール演出関係
     //! ステージゴール
@@ -75,6 +77,8 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.manager = this;
 
         m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
+        m_StartHeight = m_ParentPenguin.Boss ? 0 : 20; 
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -196,6 +200,9 @@ public class PenguinManager : MonoBehaviour
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
 
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
+
         // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
         if (_Score != null) _Score.JudgeScore(this);
@@ -236,7 +243,7 @@ public class PenguinManager : MonoBehaviour
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
-        Vector3 downForce = new Vector3(0.0f, -15f);
+        Vector3 downForce = new Vector3(0.0f, -40f);
 
         m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
         m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
@@ -262,6 +269,9 @@ public class PenguinManager : MonoBehaviour
     {
         if (!m_settings.m_clear_flag && !m_settings.m_failure_flag)
             yield break;
+
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
 
         if (m_settings.m_failure_flag)
         {

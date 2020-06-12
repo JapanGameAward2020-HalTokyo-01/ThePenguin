@@ -190,6 +190,7 @@ public class ConfirmMenu : MonoBehaviour
         m_CoroutineA = true;
         m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
@@ -273,6 +274,8 @@ public class ConfirmMenu : MonoBehaviour
 
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonConfirm;
+
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);

@@ -46,7 +46,7 @@ public class MainCamera : MonoBehaviour
     private float m_SwitchTimer = 0.0f;
     private float m_CurrentFov;
     private float m_PastFov;
-    private bool m_IsReset = false;
+    public bool m_IsReset { get; private set; } = false;
     private float m_ResetTime;
     private float m_ResetTimer = 0.0f;
     private float m_PastAngle;

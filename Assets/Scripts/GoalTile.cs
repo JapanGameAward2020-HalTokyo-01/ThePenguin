@@ -140,6 +140,7 @@ public class GoalTile : MonoBehaviour
 
         //仮処理
         Debug.Log("Goal");
+
         if (m_EndCamera != null)
         {
             m_EndCamera.SetActive(true);

@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1867851818112334253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4364267581774232395}
+  - component: {fileID: 7079878290329890943}
+  m_Layer: 8
+  m_Name: PassEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4364267581774232395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867851818112334253}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 4663731139713951320}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7079878290329890943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867851818112334253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d396bcb8480c24eb784eebe6096a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmitterScale: 0
+  effectAsset: {fileID: 11400000, guid: 2bd5d79104d5b684baad246f03708bd1, type: 2}
+  playOnStart: 0
+  isLooping: 0
 --- !u!1 &2329329262383922369
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +303,7 @@ Transform:
   m_Children:
   - {fileID: 8543600708619783188}
   - {fileID: 5342394757507922540}
+  - {fileID: 4364267581774232395}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -319,6 +367,7 @@ MonoBehaviour:
   m_ReversePower: 0
   m_BaseSpeed: 1
   m_Delay: 0
+  m_PassEffect: {fileID: 7079878290329890943}
 --- !u!114 &-5677321081544252140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,6 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c023ca7e5147b4478da34d89d32e32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EfecctTimeMax: 5
 --- !u!1 &8267023251693677429
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc06dc1dc4a7bc14f9a7ec9e15b6e689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Effect: []
   ChargeEffectNow: 0
 --- !u!1 &8822028674383417291
 GameObject:

@@ -7,6 +7,7 @@
 using System.Collections;
 using TrailsFX;
 using UnityEngine;
+using Effekseer;
 
 public class ChildPenguin : Penguin
 {
@@ -67,6 +68,11 @@ public class ChildPenguin : Penguin
 
     private Quaternion oldrotation;
     private float randomnumber;
+
+    [SerializeField]
+    private EffekseerEmitter m_PassEffect;
+    private float WallPassTime = 0.0f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -76,7 +82,11 @@ public class ChildPenguin : Penguin
         onPackEvent = delegate (Vector3 childpos) { };
 
         Effect = GetComponent<EffectSpawner>();
-      
+
+        if (m_PassEffect)
+            m_PassEffect.speed = 0.5f;
+
+
     }
 
     /// <summary>
@@ -250,6 +260,11 @@ public class ChildPenguin : Penguin
 
     protected override void Enshutsu()
     {
+        //!デバック対策、少し場所を借りる
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
+
         GetComponent<CapsuleCollider>().enabled = false;
         m_Rigidbody.useGravity = false;
 
@@ -297,5 +312,21 @@ public class ChildPenguin : Penguin
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
+    }
+
+    public void PlayPassEffect(float t)
+    {
+        WallPassTime += Time.deltaTime;
+        if (WallPassTime > t && m_PassEffect)
+            if (!m_PassEffect.exists)
+                m_PassEffect.Play();
+    }
+
+    public void StopPassEffect()
+    {
+        WallPassTime = 0.0f;
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
     }
 }

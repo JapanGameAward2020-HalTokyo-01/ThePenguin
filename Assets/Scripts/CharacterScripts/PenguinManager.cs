@@ -50,6 +50,8 @@ public class PenguinManager : MonoBehaviour
     private float m_StartHeight;
 
     CurrentScore m_Score;
+
+    private bool m_IsSceneChanging = false; 
     
     [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
     private SE_Voice m_pen_voices = null;
@@ -276,6 +278,12 @@ public class PenguinManager : MonoBehaviour
     {
         if (!m_settings.m_clear_flag && !m_settings.m_failure_flag)
             yield break;
+
+        //二回遷移防止
+        if (m_IsSceneChanging)
+            yield break;
+
+        m_IsSceneChanging = true;
 
         // ペンギンの声再生停止
         m_pen_voices.m_is_play = false;

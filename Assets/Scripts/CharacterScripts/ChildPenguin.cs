@@ -84,7 +84,7 @@ public class ChildPenguin : Penguin
         Effect = GetComponent<EffectSpawner>();
 
         if (m_PassEffect)
-            m_PassEffect.speed = 0.5f;
+            m_PassEffect.speed = 0.25f;
 
 
     }

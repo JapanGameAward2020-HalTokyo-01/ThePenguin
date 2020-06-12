@@ -43,6 +43,9 @@ public class StartCameraSystem : MonoBehaviour
     private float m_Middle_MoveTime = 2.0f;
     [SerializeField]
     private float m_StartNameAnimTime = 2.0f;
+    
+    [SerializeField]
+    private List<Boss> m_Bosses = new List<Boss>();
 
 
     public bool m_NowPlaying = true;
@@ -128,13 +131,21 @@ public class StartCameraSystem : MonoBehaviour
 
                     if (m_Timer > m_BossThreshold && !m_BossGrowl)
                     {
-                        FindObjectOfType<Boss>().GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
+                        foreach (Boss boss in m_Bosses)
+                        {
+                            boss.GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
+                        }
+
                         m_BossGrowl = true;
                     }
 
                     if (m_Timer > m_BossThreshold + 0.5f && !m_BossEffect)
                     {
-                        FindObjectOfType<Boss>().GetCurrentState().GetComponent<BossState_Start>().EffectPlay();
+                        foreach (Boss boss in m_Bosses)
+                        {
+                            boss.GetCurrentState().GetComponent<BossState_Start>().EffectPlay();
+                        }
+
                         m_BossEffect = true;
                     }
                 }

@@ -82,9 +82,10 @@ public class WallGimmick : BaseGimmick
             float t = 0.0f;
             if(m_timer>m_cooltime+m_speed)
             {
-
+                //Debug.Log("帰り");
                 if (m_timer > m_speed + m_cooltime + m_waittime)
                 {
+                    Debug.Log("帰り移動");
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
 
                     //バグ対策、強制回転値固定
@@ -93,6 +94,7 @@ public class WallGimmick : BaseGimmick
                 }
                 else
                 {
+                    Debug.Log("帰り回転");
                     t = 1.0f;
 
                     effeck[0].StopRoot();
@@ -105,11 +107,13 @@ public class WallGimmick : BaseGimmick
             }
             else
             {
+               // Debug.Log("行き");
                 t = (m_timer-m_cooltime) / m_speed;
 
                 //バグ対策、強制回転値固定
                 if (t > 0.0f)
                 {
+                    Debug.Log("行き移動");
                     m_Model.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
                 }
 
@@ -125,6 +129,8 @@ public class WallGimmick : BaseGimmick
                 //！元に戻した回転処理
                 if(m_timer < m_cooltime && m_Model.transform.localRotation != new Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
                 {
+                    Debug.Log("行き回転");
+
                     float turn_time = (m_timer) / m_cooltime;
 
                     m_Model.transform.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), turn_time);

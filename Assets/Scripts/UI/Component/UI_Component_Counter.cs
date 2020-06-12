@@ -22,9 +22,21 @@ public class UI_Component_Counter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
         m_Digit = m_Numbers.Count;
         m_CurrentCounter = m_Counter;
         SetDigit();
+
+        foreach(var number in m_Numbers)
+        {
+            number.GetComponentInChildren<UnityEngine.UI.Image>().CrossFadeAlpha(0, 0, true);
+
+            if (m_IsEnable)
+            {
+                number.GetComponentInChildren<UnityEngine.UI.Image>().CrossFadeAlpha(1, 0, true);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -43,8 +55,8 @@ public class UI_Component_Counter : MonoBehaviour
                 ver = Mathf.Min((m_Counter - m_CurrentCounter) % max_ver, -1);
             }
             m_CurrentCounter += ver;
-            SetDigit();
         }
+        SetDigit();
     }
 
     void OnValidate()

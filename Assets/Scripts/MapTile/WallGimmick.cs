@@ -34,12 +34,17 @@ public class WallGimmick : BaseGimmick
     private float m_timer = 0.0f;
 
     private Transform trans;
+    [SerializeField]
+    private GameObject m_Model;
 
     [SerializeField]
     private EffekseerEmitter[] effeck;
 
     [SerializeField]
     private EffectSpawner AreaEffect;
+    //!子ペンギンとの接触エフェクト発生必須時間
+    [SerializeField]
+    private float m_PassTime_Threshold = 0.0f;
 
     // Start is called before the first frame update
     public override void Start()
@@ -48,6 +53,9 @@ public class WallGimmick : BaseGimmick
         m_timer = m_offset;
 
         trans=GetComponent<Transform>();
+
+        if(!m_Model)
+            m_Model = this.transform.Find("Model").gameObject;
 
         AreaEffect = GetComponent<EffectSpawner>();
         for(int x = 0; m_length >= x ;x++)
@@ -80,7 +88,7 @@ public class WallGimmick : BaseGimmick
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
 
                     //バグ対策、強制回転値固定
-                    trans.localRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+                    m_Model.transform.localRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
                 }
                 else
@@ -92,7 +100,7 @@ public class WallGimmick : BaseGimmick
                     //!飛び出した後の回転処理
                     float turn_time = (m_timer - m_cooltime - m_speed) / m_waittime;
 
-                    trans.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), turn_time);
+                    m_Model.transform.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), turn_time);
                 }
             }
             else
@@ -102,7 +110,7 @@ public class WallGimmick : BaseGimmick
                 //バグ対策、強制回転値固定
                 if (t > 0.0f)
                 {
-                    trans.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+                    m_Model.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
                 }
 
             }
@@ -115,11 +123,11 @@ public class WallGimmick : BaseGimmick
                 t = 0.0f;
 
                 //！元に戻した回転処理
-                if(m_timer < m_cooltime && trans.localRotation != new Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
+                if(m_timer < m_cooltime && m_Model.transform.localRotation != new Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
                 {
                     float turn_time = (m_timer) / m_cooltime;
 
-                    trans.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), turn_time);
+                    m_Model.transform.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), turn_time);
                 }
 
             }
@@ -167,5 +175,24 @@ public class WallGimmick : BaseGimmick
     public override void OnDeactivate()
     {
 
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.PlayPassEffect(m_PassTime_Threshold);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.StopPassEffect();
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
+using Cinemachine;
 
 public class Boss : MonoBehaviour
 {
@@ -34,10 +35,17 @@ public class Boss : MonoBehaviour
     [SerializeField]
     private EffekseerEmitter m_FootEffect;
 
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
+
     //!振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
 
     public List<BossGimmickManager> m_BossGimmickManagers  { get; set; }
+    //!観客フラグ
+    [SerializeField]
+    private bool Audience;
+    public bool IsAudience { get { return Audience; } }
 
     private void Awake()
     {
@@ -85,11 +93,15 @@ public class Boss : MonoBehaviour
         if(!m_ControllerVibration)
             m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
-        m_FootEffect = this.transform.Find("FootEffect").gameObject.GetComponent<EffekseerEmitter>();
+        if (!m_FootEffect)
+            m_FootEffect = this.transform.Find("FootEffect").gameObject.GetComponent<EffekseerEmitter>();
     }
 
     private void Update()
     {
+        if (!m_FootEffect.exists)
+            m_FootEffect.Play();
+
         m_CurrentState.OnUpdate();
     }
 
@@ -101,6 +113,15 @@ public class Boss : MonoBehaviour
     public ControllerVibration GetControllerVibration()
     {
         return m_ControllerVibration;
+    }
+
+    public void CameraShake()
+    {
+        var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if (cinemachineImpulseSource)
+            cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
     }
 
     /// <summary>
@@ -123,5 +144,10 @@ public class Boss : MonoBehaviour
         }
 
         return false;
+    }
+
+    public BossState GetCurrentState()
+    {
+        return m_CurrentState;
     }
 }

@@ -47,7 +47,15 @@ public class LevelSettings : MonoBehaviour
 	[SerializeField, NonEditableField, Tooltip("クリアフラグ")]
 	public bool m_clear_flag = false;
 	[SerializeField, NonEditableField, Tooltip("GameOverフラグ")]
-	public bool m_failuer_flag = false;
+	public bool m_failure_flag = false;
+
+	[SerializeField, Tooltip("☆の評価項目：時間"), Space(10.0f)]
+	private float m_time_star_threshold;
+	public float TimeStarThreshold { get => m_time_star_threshold; }
+
+	[SerializeField, Tooltip("☆の評価項目：ペンギン数")]
+	private int m_star_Quest_of_Penguin;
+	public int CountStarThreshold { get => m_star_Quest_of_Penguin; }
 
 	/**
 	 * @brief	初期化(PenguinManagerの初期化を待つ)
@@ -82,7 +90,7 @@ public class LevelSettings : MonoBehaviour
 	 */
 	public bool CheckGameOver(int _dead_count)
 	{
-		m_failuer_flag = (DeadLine <= _dead_count);
-		return m_failuer_flag;
+		m_failure_flag = (DeadLine <= _dead_count);
+		return m_failure_flag;
 	}
 }

@@ -142,13 +142,19 @@ public class PenguinState_Idle : PenguinState
                         m_Effect[0].Stop();
                     if (m_Effect[1])
                         m_Effect[1].Stop();
+
+                    if (parentPenguin.GetControllerVibration())
+                    {
+                        parentPenguin.GetControllerVibration().StopAllShake();
+                    }
+
                 }
 
                 penguin.ChangeState<PenguinState_Goal>();
                 return;
             }
 
-            if (penguin.manager.m_settings.m_failuer_flag)
+            if (penguin.manager.m_settings.m_failure_flag)
             {
                 if (parentPenguin != null)
                 {
@@ -156,6 +162,11 @@ public class PenguinState_Idle : PenguinState
                         m_Effect[0].Stop();
                     if (m_Effect[1])
                         m_Effect[1].Stop();
+
+                    if (parentPenguin.GetControllerVibration())
+                    {
+                        parentPenguin.GetControllerVibration().StopAllShake();
+                    }
                 }
 
                 penguin.ChangeState<PenguinState_Failed>();

@@ -6,6 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
+    [Header("Image List")]
+    [SerializeField]
+    private Sprite m_normal_stage;
+    [SerializeField]
+    private Sprite m_final_stage;
+
+    private Sprite[] m_image_list;
+
+    [Header("UI Objects")]
+    [SerializeField]
+    private UnityEngine.UI.Image m_Penguin;
     [SerializeField]
     private UI_Component_Button m_GameOver;
     [SerializeField]
@@ -41,18 +52,25 @@ public class GameOver : MonoBehaviour
     private int m_Current_V = 0;
 
     private int m_Select = 0;
+    private bool m_Flag_FinalStage = false;
 
     ////他のシーンから引き継ぐ情報
     //private SceneObject m_PastScene;
-
+    void Awake()
+    {
+        m_image_list = new Sprite[2] { m_normal_stage, m_final_stage };
+    }
     // Start is called before the first frame update
     void Start()
     {
         //他のシーンから情報を引き継ぐ
-        //m_PastScene = SceneData.GetCurrentScene();
-
+        m_Flag_FinalStage = m_SceneList.IsBossStage;
 
         ////////////////////////////
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.GameOver);
+
+        m_Penguin.sprite = m_image_list[m_Flag_FinalStage ? 1 : 0];
 
         StartCoroutine(SceneStart());
     }
@@ -72,10 +90,12 @@ public class GameOver : MonoBehaviour
                 //ABボタンが押されてない
                 if(GetUpUp())
                 {
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                     m_Select -= 1;
                 }
                 if(GetDownUp())
                 {
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                     m_Select += 1;
                 }
                 m_Select = (m_Select + 3) % 3;
@@ -102,7 +122,8 @@ public class GameOver : MonoBehaviour
                 if(GetAButtonUp())
                 {
                     //Aボタン
-                    if(m_Select==0)
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+                    if (m_Select==0)
                     {
                         Debug.Log("Retry");
                         StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
@@ -122,6 +143,7 @@ public class GameOver : MonoBehaviour
                 {
                     //Bボタン
                     Debug.Log("Retry");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                     StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
                 }
             }

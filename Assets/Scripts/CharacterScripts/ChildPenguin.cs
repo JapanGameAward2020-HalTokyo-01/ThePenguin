@@ -5,7 +5,9 @@
 /// </summary>
 
 using System.Collections;
+using TrailsFX;
 using UnityEngine;
+using Effekseer;
 
 public class ChildPenguin : Penguin
 {
@@ -61,6 +63,16 @@ public class ChildPenguin : Penguin
     //! 群れ化処理
     public System.Action<Vector3> onPackEvent;
 
+    private bool getdistance = false;
+    private float distance;
+
+    private Quaternion oldrotation;
+    private float randomnumber;
+
+    [SerializeField]
+    private EffekseerEmitter m_PassEffect;
+    private float WallPassTime = 0.0f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -70,6 +82,11 @@ public class ChildPenguin : Penguin
         onPackEvent = delegate (Vector3 childpos) { };
 
         Effect = GetComponent<EffectSpawner>();
+
+        if (m_PassEffect)
+            m_PassEffect.speed = 0.25f;
+
+
     }
 
     /// <summary>
@@ -108,7 +125,9 @@ public class ChildPenguin : Penguin
         if (m_Delay != 0.0f)
         {
             //! 遅延用のCouroutine
-            StartCoroutine(MoveCoroutine(move));
+            if (this.isActiveAndEnabled)
+                StartCoroutine(MoveCoroutine(move));
+
             return;
         }
 
@@ -127,6 +146,14 @@ public class ChildPenguin : Penguin
         base.MoveHandler(move * m_BaseSpeed);
 
         yield break;
+    }
+
+    /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public override void SetModelRotation(Vector3 newup)
+    {
+        base.SetModelRotation(newup);
     }
 
     /// <summary>
@@ -233,20 +260,48 @@ public class ChildPenguin : Penguin
 
     protected override void Enshutsu()
     {
+        //!デバック対策、少し場所を借りる
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
+
         GetComponent<CapsuleCollider>().enabled = false;
         m_Rigidbody.useGravity = false;
 
         if (m_InPack)
         {
 
+            if (!getdistance)
+            {
+                distance = Vector3.Distance(m_GoalPos, transform.position)- m_GoalRadius;
+                getdistance = true;
+                oldrotation = transform.rotation;
+                randomnumber = Random.Range(0, 20) / 10.0f;
+            }
+
             if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
             {
                 transform.LookAt(m_GoalPos);
-                transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+
+                //transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
+
+                float angle = Mathf.Min(1, (Vector3.Distance(m_GoalPos, transform.position)) / distance) * 80;
+                transform.rotation = this.transform.rotation * Quaternion.Euler(Mathf.Clamp(-angle, -42, 42), 0, 0);
+                float currentDist = Vector3.Distance(transform.position, m_GoalPos);
+                transform.Translate(Vector3.forward * Mathf.Min(m_GoalSpeed * Time.deltaTime * (2+randomnumber), currentDist));
             } 
+
+            else if (Parent.Boss)
+            {
+                BossDefeat();
+            }
 
             else if (!m_PlayedFirstGoal)
             {
+
+                //transform.rotation=oldrotation;
+
+               
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
                 m_PlayedFirstGoal = true;
@@ -257,5 +312,21 @@ public class ChildPenguin : Penguin
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
+    }
+
+    public void PlayPassEffect(float t)
+    {
+        WallPassTime += Time.deltaTime;
+        if (WallPassTime > t && m_PassEffect)
+            if (!m_PassEffect.exists)
+                m_PassEffect.Play();
+    }
+
+    public void StopPassEffect()
+    {
+        WallPassTime = 0.0f;
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
     }
 }

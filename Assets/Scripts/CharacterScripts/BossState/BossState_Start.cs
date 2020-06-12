@@ -25,15 +25,12 @@ public class BossState_Start : BossState
         if(!m_Effect)
             m_Effect = GetComponent<EffekseerEmitter>();
 
-        if (m_Effect)
-            m_Effect.Play();
-
-
     }
 
     //! 更新処理
     public override void OnUpdate()
     {
+
         if (!StartSystem.GetNowPlaying())
         {
             m_Boss.GetControllerVibration().AddShake(0.7f, 0.4f);
@@ -41,8 +38,20 @@ public class BossState_Start : BossState
 
             m_Boss.ChangeState<BossState_Idle>();
 
-            if (m_Effect)
+            if (m_Effect && !m_Boss.IsAudience)
                 m_Effect.StopRoot();
         }
+
+        if (m_Boss.m_Levelsettings.m_clear_flag)
+        {
+            m_Boss.ChangeState<BossState_Goal>();
+            return;
+        }
+    }
+
+    public void EffectPlay()
+    {
+        if (m_Effect && !m_Boss.IsAudience)
+            m_Effect.Play();
     }
 }

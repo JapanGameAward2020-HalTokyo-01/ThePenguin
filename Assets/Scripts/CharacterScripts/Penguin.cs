@@ -61,6 +61,10 @@ public class Penguin : MonoBehaviour
     //! 最初のゴールアニメーション再生判定
     protected bool m_PlayedFirstGoal = false;
 
+    private int m_BossJumpTimer = 0;
+
+    protected bool m_BossPlayedFirst = false;
+
     #endregion
 
     //!エフェクトスポーンナー
@@ -75,8 +79,12 @@ public class Penguin : MonoBehaviour
 
     public Vector3 m_ModelUp;
     public Vector3 m_ModelForward;
+
     private bool m_Tilting;
-    public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
+    private RaycastHit m_Hit;
+    public bool ClearAnimation { get => m_ClearAnimation; set => m_ClearAnimation = value; }
+
+    public bool CanCrashWall = false;
 
     protected virtual void Awake()
     {
@@ -165,6 +173,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     protected virtual void MoveHandler(Vector3 move)
     {
+        CanCrashWall = true;
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f, ForceMode.Force);
         m_ModelForward = move;
     }
@@ -174,6 +183,8 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
+        if (m_ClearAnimation)
+            return;
 
         //! オブジェを無効にする
         gameObject.SetActive(false);
@@ -216,15 +227,46 @@ public class Penguin : MonoBehaviour
     {
         return m_Rigidbody.velocity.y < -m_FallThreshhold;
     }
-    
+
+    /// <summary>
+    /// @brief      ペンギンのvelocityの大きさを返す
+    /// </summary>
     public float GetSpeed()
     {
         return m_Rigidbody.velocity.magnitude;
     }
 
-    public void SetModelRotation(Vector3 newup)
+    /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public virtual void SetModelRotation(Vector3 newup)
     {
         m_ModelUp = newup;
+        if (!m_Tilting)
+        {
+            m_Tilting = true;
+            StartCoroutine(SlopeChecker());
+        }
+    }
+
+    IEnumerator SlopeChecker()
+    {
+        while (m_Tilting)
+        {
+            Debug.DrawRay(transform.position, -transform.up * 5, Color.green);
+            if (Physics.Raycast(transform.position, -transform.up, out m_Hit))
+            {
+                if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() == null)
+                {
+                    Debug.Log("Penguin no longer on Slope!");
+                    this.SetModelRotation(Vector3.up);
+                    m_Tilting = false;
+                }
+            }
+            yield return new WaitForSecondsRealtime(0.2f);
+        }
+        Debug.Log("Stopped checking for slopes");
+        yield break;
     }
 
     /// <summary>
@@ -238,6 +280,7 @@ public class Penguin : MonoBehaviour
         GetComponentInChildren<AnimationCheck>().goalAnimator = goal.GetComponentInChildren<Animator>();
     }
 
+    
     /// <summary>
     /// @brief      ステージクリア演出処理
     /// </summary>
@@ -247,5 +290,31 @@ public class Penguin : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, m_GoalPos, Time.deltaTime * m_GoalSpeed);
         }
+    }
+    public Vector3 GetGoalPos()
+    {
+        return m_GoalPos;
+    }
+
+    protected bool BossDefeat()
+    {
+        bool ended = false;
+
+        if (!m_BossPlayedFirst)
+        {
+            if (m_BossJumpTimer < (int)(60 * 1.5))
+            {
+                m_BossJumpTimer++;
+            }
+
+            else if (!ended)
+            {
+                GetComponentInChildren<Animator>().SetTrigger("OnBossJump");
+                ended = true;
+                m_BossPlayedFirst = true;
+            } 
+        }
+
+        return ended;
     }
 }

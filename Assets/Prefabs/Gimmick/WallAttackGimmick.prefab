@@ -132,7 +132,8 @@ MonoBehaviour:
   m_Spped: 3
   m_Type: 0
   m_Data: {fileID: 11400000, guid: e41ef5f9ea2be334ca1cc326491ac813, type: 2}
-  AreaEffect: {fileID: 1075550082916530002}
+  Effect: {fileID: 1075550082916530002}
+  m_PassTime_Threshold: 1
 --- !u!54 &8301833298683507271
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -163,6 +164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EffectAssets:
   - {fileID: 11400000, guid: c23b65a665045b94fb4997c44b7d53c5, type: 2}
+  - {fileID: 11400000, guid: 3d13ad758fc75314bb688da6996050d4, type: 2}
+  - {fileID: 11400000, guid: 9b4265e0368014f4a808efd1d8fbe4ee, type: 2}
+  - {fileID: 11400000, guid: 29f08f5fd144adc42a4fe952824c0930, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!114 &9104946354113917933
 MonoBehaviour:
@@ -177,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TargetObject: {fileID: 3036677196315502372}
-  m_VibrateSpeed: {x: 5, y: 5, z: 5}
+  m_VibrateSpeed: {x: 3, y: 3, z: 3}
   m_VibrateTimeMax: 5
   m_VibrateTime: 0
 --- !u!1 &8301833298718661000

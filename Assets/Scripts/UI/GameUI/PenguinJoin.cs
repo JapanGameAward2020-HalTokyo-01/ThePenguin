@@ -22,18 +22,18 @@ public class PenguinJoin : MonoBehaviour
     //! 群れ化処理
     public System.Action onReachedDestination;
 
-    // Start is called before the first frame update
-    void Start()
+    private bool m_StageClear;
+
+    private void Awake()
     {
         onReachedDestination = delegate () { };
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
-        
+        m_StageClear = false;
     }
-
 
     public void StartJoin(Vector3 penguinpos)
     {
@@ -44,25 +44,34 @@ public class PenguinJoin : MonoBehaviour
         StartCoroutine(GotoDestination(img));
     }
 
+    public void EndJoin()
+    {
+        m_StageClear = true;
+    }
+
     IEnumerator GotoDestination(Image img)
     {
-        img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
-        Vector3 initdist = m_Destination.transform.position - img.transform.position;
+        //img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
 
-        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 2.0f * m_Speed)
+        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 0.05f)
         {
-            Debug.Log("img.transform.position: " + img.transform.position);
-
-            Vector3 currentdist = m_Destination.transform.position - img.transform.position;
-
-            img.transform.position += Vector3.Normalize(currentdist) * 100 * m_Speed * Time.deltaTime;
+            img.transform.position = Vector3.MoveTowards(img.transform.position, m_Destination.transform.position, Time.deltaTime * m_Speed * 100);
 
             if (img.transform.localScale.magnitude > 0.5)
             {
-                img.transform.localScale = Vector3.one * (currentdist.magnitude / initdist.magnitude);
+                img.transform.localScale = Vector3.MoveTowards(img.transform.localScale, Vector2.zero, Time.deltaTime);
             }
+
+            if (!this | m_StageClear)
+            {
+                this.onReachedDestination();
+                Destroy(img.gameObject);
+                yield break;
+            }
+
             yield return null;
         }
+
         this.onReachedDestination();
         Destroy(img.gameObject);
         yield break;

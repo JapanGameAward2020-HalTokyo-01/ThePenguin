@@ -14,11 +14,13 @@ using UnityEngine.UI;
  */
 public class PenguinGaugeMgr : MonoBehaviour
 {
-	//! 左上端の座標
+	//! 左端の座標
 	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の左端座標")]
 	private Vector2 m_left_pos;
-	//! ゲージ最大の大きさ
+	//! サイズ
+	[SerializeField, Tooltip("画像(Scale=(1, 1)の時)におけるゲージ部分の大きさ")]
 	private Vector2 m_gauge_max_size;
+
 
 	[Header("UI objects")]
 
@@ -63,9 +65,6 @@ public class PenguinGaugeMgr : MonoBehaviour
 		m_living_mat = _image.material;
 		_image = m_death_pos.gameObject.GetComponent<Image>();
 		m_death_mat = _image.material;
-
-		RectTransform _gauge_rect = m_living_pos.gameObject.GetComponent<RectTransform>();
-		m_gauge_max_size = _gauge_rect.sizeDelta;
 
 		StartCoroutine(DelayStart());
 	}
@@ -170,6 +169,11 @@ public class PenguinGaugeMgr : MonoBehaviour
 			{
 				m_face_icon.ChangeState(FaceIcon.kState.Danger);
 			}
+
+            if(!m_penguin_mgr.CheckParentPenguinAlive())
+            {
+                m_face_icon.ChangeState(FaceIcon.kState.Danger);
+            }
 		}
 
 	}

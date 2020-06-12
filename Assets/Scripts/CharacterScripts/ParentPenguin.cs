@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class ParentPenguin : Penguin
 {
@@ -42,7 +43,19 @@ public class ParentPenguin : Penguin
     [SerializeField]
     private GameObject m_MaskObject;
 
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
+
     private InputEvent m_InputEvent;
+
+    #region ボスゴール演出関係
+    private Boss m_BossScript;
+
+    private int m_Boss_Timer = 0;
+
+    private bool m_BossEnshutsu_Cloud = false;
+
+    #endregion
 
     protected override void Awake()
     {
@@ -62,6 +75,8 @@ public class ParentPenguin : Penguin
         //! ベースクラスの初期設定
         base.Start();
 
+        SetMaskEnable(false);
+
         //! InputHandlerの設定忘れ用の処理
         m_InputHandler = FindObjectOfType<InputHandler>();
 
@@ -69,6 +84,11 @@ public class ParentPenguin : Penguin
        // m_InputHandler.RegisterInputEvent(m_InputEvent);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        if (m_Boss)
+        {
+            m_BossScript = FindObjectOfType<Boss>();
+        }
     }
 
 
@@ -87,6 +107,12 @@ public class ParentPenguin : Penguin
     {
         //! ベースクラス
         base.Kill(Gimmick);
+
+        var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if (cinemachineImpulseSource)
+            cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
         //! ゲームオーバーになる
         onKillEvent();
     }
@@ -177,6 +203,17 @@ public class ParentPenguin : Penguin
     }
 
     /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public override void SetModelRotation(Vector3 newup)
+    {
+        base.SetModelRotation(newup);
+
+        //! マーカーの傾きを変更
+        m_MarkerObject.transform.up = newup;
+    }
+
+    /// <summary>
     /// @brief      物体に当たる時のエフェクト発生処理
     /// @param (a)	物体と衝突判定するcollision
     /// </summary>
@@ -204,10 +241,42 @@ public class ParentPenguin : Penguin
             transform.LookAt(m_GoalPos);
         }
 
+        else if (Boss)
+        {
+            int timeLimit = (int)(60.0f * 1.5f);
+
+            if (BossDefeat())
+            {
+                m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
+            }
+
+            else if (m_BossPlayedFirst)
+            {
+                if (m_Boss_Timer > timeLimit)
+                {
+                    m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
+                    m_BossScript.animator.SetTrigger("OnDie");
+                    m_BossEnshutsu_Cloud = true;
+
+
+                }
+
+                if (m_Boss_Timer < timeLimit + 1)
+                {
+                    m_Boss_Timer++;
+                }
+                else
+                {
+                    //transform.LookAt(Camera.main.transform);
+                }
+            }
+        }
+
         else if (m_EveryoneJumped)
         {
             if (!m_PlayedFirstGoal)
             {
+                m_CurrentState.GetComponent<PenguinState_Goal>().EffectPlay();
                 GetComponentInChildren<Animator>().SetTrigger("OnGoal");
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
                 m_PlayedFirstGoal = true;
@@ -249,7 +318,12 @@ public class ParentPenguin : Penguin
 
     public void SetMaskEnable(bool flg)
     {
-        m_MarkerObject.SetActive(flg);
+        m_MaskObject.SetActive(flg);
+    }
+
+    public PenguinState GetCurrentState()
+    {
+        return m_CurrentState;
     }
 
     /// <summary>

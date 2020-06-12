@@ -37,9 +37,12 @@ public class WallAttack : BaseGimmick
     TextureData m_Data;
 
     [SerializeField]
-    private EffectSpawner AreaEffect;
+    private EffectSpawner Effect;
     //!振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
+    //!子ペンギンとの接触エフェクト発生必須時間
+    [SerializeField]
+    private float m_PassTime_Threshold = 0.0f;
 
     private void OnDrawGizmos()
     {
@@ -57,8 +60,8 @@ public class WallAttack : BaseGimmick
     {
         base.Start();
 
-        if(!AreaEffect)
-            AreaEffect = GetComponent<EffectSpawner>();
+        if(!Effect)
+            Effect = GetComponent<EffectSpawner>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
@@ -82,6 +85,13 @@ public class WallAttack : BaseGimmick
 
         if (m_ObjectVibrate)
             m_ObjectVibrate.StartVibrate();
+
+        var pos = m_Wall.transform.position;
+
+        pos.y -= 1.0f;
+
+        if (Effect)
+            Effect.PlayerEffect("MovewallBoss", pos, new Vector3(0.25f, 0.25f, 0.25f));
     }
 
     public override void OnActivate()
@@ -91,34 +101,82 @@ public class WallAttack : BaseGimmick
         m_CurrentLength = 0f;
         m_Wall.transform.localPosition = Vector3.zero;
 
-        for (int x = 0; m_Length >= x; x++)
+        if (Effect)
         {
             var pos = GetComponent<Transform>().transform.position;
-            pos += x * m_Wall.transform.forward;
             pos.y -= 1.0f;
 
-            if (AreaEffect)
-                AreaEffect.PlayerEffect("MoveWall_Boss", pos, new Vector3(0.5f, 0.5f, 0.5f));
+            switch (m_Type)
+            {
+                case FieldType.SNOW:
+                    Effect.PlayerEffect("SummonIce", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+                case FieldType.VOLCANIC:
+                    Effect.PlayerEffect("SummonIce_type4", pos, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+            }
 
+            for (int x = 0; m_Length >= x; x++)
+            {
+                Effect.PlayerEffect("MoveWall_Boss", pos + x * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+            }
         }
+
+
+
     }
 
     public override void OnDeactivate()
     {
+        if (Effect)
+        {
+            var pos = GetComponent<Transform>().transform.position;
+            pos.y -= 1.0f;
+
+            switch (m_Type)
+            {
+                case FieldType.SNOW:
+                    Effect.PlayerEffect("SummonIce", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+                case FieldType.VOLCANIC:
+                    Effect.PlayerEffect("SummonIce_type4", pos + m_Length * m_Wall.transform.forward, new Vector3(0.5f, 0.5f, 0.5f));
+                    break;
+            }
+        }
+
         if (m_ObjectVibrate)
             m_ObjectVibrate.StopVibrate();
 
         this.gameObject.SetActive(false);
     }
 
-//    public void OnDrawGizmos()
-//    {
-//#if UNITY_EDITOR
-//        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-//        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
-//        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
-//#endif
-//    }
+    private void OnCollisionStay(Collision collision)
+    {
+
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.PlayPassEffect(m_PassTime_Threshold);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //子ペンギンにのみ反応する
+        if (collision.gameObject.TryGetComponent<ChildPenguin>(out var _cp))
+        {
+            _cp.StopPassEffect();
+        }
+    }
+
+    //    public void OnDrawGizmos()
+    //    {
+    //#if UNITY_EDITOR
+    //        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+    //        Gizmos.matrix = Matrix4x4.Rotate(m_WarningArrow.transform.rotation);
+    //        Gizmos.DrawCube(m_WarningArrow.transform.position, m_WarningArrow.transform.lossyScale);
+    //#endif
+    //    }
 
     private void OnValidate()
     {

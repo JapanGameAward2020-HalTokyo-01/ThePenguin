@@ -1,40 +1,23 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-[Serializable]
-public class QuestBorder
-{
-	[SerializeField, Tooltip("クリア条件時間\n実際のステージに設定されてる方を優先する項目")]
-	public float _Time;
-	[SerializeField, Tooltip("ゲームオーバー条件死亡数\n実際のステージに設定されてる方を優先する項目")]
-	public int _Dead;
-
-	[SerializeField, Tooltip("クエスト：目標タイム")]
-	public float _QuestTime;
-	[SerializeField, Tooltip("クエスト：目標救出数")]
-	public int _QuestCount;
-
-	public QuestBorder()
-	{
-		_Time = 0.0f;
-		_Dead = 0;
-		_QuestTime = 0.0f;
-		_QuestCount = 0;
-	}
-}
 
 [CreateAssetMenu(menuName = "CreateData/Stage/StageMetaParam", fileName = "StageMetaParam")]
 public class StageMetaParam : ScriptableObject
 {
-	// シーンファイルとリストの登録\nシーンを読み込むためのインデックスの計算など
-	[Header("Scene Assets List")]
-
 	//! 現在のエリア番号
 	public int m_current_area_index;
 	//! 現在のステージ番号
 	public int m_current_stage_index;
+
+	public void InitializeIndex() { m_current_area_index = m_current_stage_index = 0; }
+	public void InitializeIndex(int index)
+	{
+		// エリア４のみステージが４つしかない
+		m_current_area_index = index / 8;
+		m_current_stage_index = index % 8;
+	}
+
 	private int LevelIndex { get { return m_current_area_index * 8 + m_current_stage_index; } }
 
 	// ステージ番号を１進める
@@ -52,6 +35,8 @@ public class StageMetaParam : ScriptableObject
 		m_current_stage_index = m_current_stage_index % _area_level_num;
 	}
 
+	public bool IsBossStage { get => (m_current_stage_index == (m_levelnum_each_area[m_current_area_index] - 1))||(m_current_area_index==3); }
+
 	//! システムシーン
 	public SceneObject m_Title = null;
 	public SceneObject m_StageSelect = null;
@@ -67,17 +52,18 @@ public class StageMetaParam : ScriptableObject
 
 	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
 	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
+	public int NextLevelIndex { get { return NextLevelBuildIndex - 4; } }
 
 	// 最初のレベルのビルドセッティング上のシーンインデックス
 	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage); } }
 
 	// 各エリアの最初のレベルのインデックス番号が欲しい
 	[SerializeField]
-	private int[] m_levelnum_each_area = new int[4] { 8,8,8,4 };
+	private int[] m_levelnum_each_area = new int[4] { 8, 8, 8, 4 };
 	public int GetLevelIndexOfArea(int _area_index)
 	{
 		int result = 0;
-		for(int cnt = 0; cnt < _area_index; cnt++)
+		for (int cnt = 0; cnt < _area_index; cnt++)
 		{
 			result += m_levelnum_each_area[cnt];
 		}
@@ -89,13 +75,4 @@ public class StageMetaParam : ScriptableObject
 	{
 		return m_levelnum_each_area[_area_index];
 	}
-
-	// ステージ外で使う、クリア条件やクエスト条件のリスト
-	[Header("Stage Quest Border List")]
-
-	[SerializeField, Tooltip("クリア条件、達成条件リスト")]
-	private QuestBorder[] m_quest_border = new QuestBorder[28];
-	public QuestBorder[] GetQuestList { get => m_quest_border; }
-	public QuestBorder GetCurrentQuest { get => m_quest_border[CurrentLevelIndex]; }
-
 }

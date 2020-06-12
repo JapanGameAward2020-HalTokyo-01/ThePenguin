@@ -21,13 +21,13 @@ public class BossState_Goal : BossState
 
     public void EffectPlay()
     {
-        if (m_Effect)
+        if (m_Effect && !m_Boss.IsAudience)
             m_Effect.Play();
     }
 
     public void EffectStop()
     {
-        if (m_Effect)
+        if (m_Effect && !m_Boss.IsAudience)
             m_Effect.StopRoot();
     }
 }

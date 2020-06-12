@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Effekseer;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
@@ -36,6 +37,9 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private PenguinJoin m_PenguinJoin;
 
+    [SerializeField]
+    private GameOverUIGame m_GameoverUI;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -43,8 +47,14 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
-    [SerializeField]
     private float m_StartHeight;
+
+    CurrentScore m_Score;
+
+    private bool m_IsSceneChanging = false; 
+    
+    [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
+    private SE_Voice m_pen_voices = null;
 
     #region ゴール演出関係
     //! ステージゴール
@@ -71,6 +81,9 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.manager = this;
 
         m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
+        m_Score = FindObjectOfType<CurrentScore>();
+        m_StartHeight = m_ParentPenguin.Boss ? 0 : 20; 
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -140,14 +153,15 @@ public class PenguinManager : MonoBehaviour
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
-        StartCoroutine("ToNextScene");
+        StartCoroutine(ToNextScene());
     }
 
     //! 死亡時イベント(親ペンギン)
     public void GameOver()
     {
-        m_settings.m_failuer_flag = true;
-        StartCoroutine("ToNextScene");
+        m_settings.m_failure_flag = true;
+
+        StartCoroutine(ToNextScene());
     }
 
     //! 群れ化時イベント
@@ -175,6 +189,16 @@ public class PenguinManager : MonoBehaviour
         {
             goal.m_PenguinCount = (uint)m_PackCount;
         }
+
+        m_Score.JudgeScore(this);
+
+        Debug.Log("Penguin Join");
+        Debug.Log("Pack Penguin Now" + m_PackCount);
+    }
+
+    public bool CheckParentPenguinAlive()
+    {
+        return m_ParentPenguin.isActiveAndEnabled;
     }
 
     // クリアイベント
@@ -182,6 +206,11 @@ public class PenguinManager : MonoBehaviour
     {
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
+
+        m_Score.JudgeScore(this);
+        
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
 
         // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
@@ -223,7 +252,7 @@ public class PenguinManager : MonoBehaviour
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
-        Vector3 downForce = new Vector3(0.0f, -15f);
+        Vector3 downForce = new Vector3(0.0f, -40f);
 
         m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
         m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
@@ -247,17 +276,38 @@ public class PenguinManager : MonoBehaviour
     // シーン遷移
     IEnumerator ToNextScene()
     {
-        if (!m_settings.m_clear_flag && !m_settings.m_failuer_flag)
+        if (!m_settings.m_clear_flag && !m_settings.m_failure_flag)
             yield break;
 
-        bool[] _flags = new bool[2]{m_settings.m_failuer_flag, m_settings.m_clear_flag};
+        //二回遷移防止
+        if (m_IsSceneChanging)
+            yield break;
+
+        m_IsSceneChanging = true;
+
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
+
+        if (m_settings.m_failure_flag)
+        {
+            m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
+        }
+
+        bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
-        //アニメーション待機
-        yield return new WaitForSecondsRealtime(2.0f);
 
         //フェードアウト待機
-        _fade.Fader();
+        _fade.Fader(false);
+
+        while (!_fade.CheckFadedout())
+        {
+            yield return null;
+        }
+
         yield return new WaitForSecondsRealtime(1.0f);
+
+        //!全エフェクト停止
+        EffekseerSystem.StopAllEffects();
 
         // 失敗時
         if (_flags[0] && !_flags[1])
@@ -282,6 +332,7 @@ public class PenguinManager : MonoBehaviour
 
         if (m_InGoalEnshutsu)
         {
+            m_PenguinJoin.EndJoin();
             int jumpedNum = 0;
             foreach (ChildPenguin child in m_ChildPenguins)
             {
@@ -298,12 +349,18 @@ public class PenguinManager : MonoBehaviour
                     }
                 }
             }
+            if (m_ParentPenguin.m_ClearAnimationEnded)
+            {
+                StartCoroutine(ToNextScene());
+            }
+
         }
 
-        if (m_ParentPenguin.m_ClearAnimationEnded)
-        {
-            StartCoroutine("ToNextScene");
-        }
+    }
+
+    public void SkipGoalAnimation()
+    {
+        StartCoroutine(ToNextScene());
     }
 
 }

@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cinemachine;
 using Effekseer;
 
 public class BossBomb : BaseGimmick
@@ -26,6 +27,9 @@ public class BossBomb : BaseGimmick
 
     [SerializeField, Tooltip("爆弾投げる勢い")]
     private float m_ThrowSpeed = 1.0f;
+
+    [SerializeField, Tooltip("カメラ振動の強さ")]
+    private float m_ShakeCameraPower;
 
     //! 状態
     private bool m_IsCountDown = false;
@@ -50,6 +54,12 @@ public class BossBomb : BaseGimmick
 
     //! エフェクトスポーンナー
     private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter m_SparkEffect;
+    [SerializeField]
+    private EffekseerEffectAsset[] m_CountDownEffect;
+
+    private int LastCount;
 
     //! 爆弾投げられ開始地点
     private GameObject m_Start;
@@ -82,22 +92,18 @@ public class BossBomb : BaseGimmick
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
         m_CountDownInit = m_CountDown;
+        LastCount = (int)m_CountDown;
+
+        //カウントダウン表示（仮）初期化
+        if (!m_CountDownObject)
+            m_CountDownObject = this.transform.Find("CountDown").gameObject;
+
         m_CountDownObject.SetActive(false);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
         if (!m_ObjectVibrate)
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
-    }
-
-
-    void OnValidate()
-    {
-        //カウントダウン表示（仮）初期化
-        m_CountDownObject = this.transform.Find("CountDown").gameObject;
-        m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
-
-        //m_Model.transform.position = m_End.transform.position;
     }
 
     // Update is called once per frame  
@@ -115,15 +121,32 @@ public class BossBomb : BaseGimmick
         //カウントダウン開始
         if (m_IsCountDown)
         {
-            m_CountDown -= Time.deltaTime;
-            m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
+            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
 
+            if (_cdEffect.exists)
+            {
+                _cdEffect.StopRoot();
+            }
+            else if(LastCount != (int)m_CountDown)
+            {
+                _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
+            }
+            LastCount = (int)m_CountDown;
+
+            m_CountDown -= Time.deltaTime;
+            
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
                 m_ObjectVibrate.StartVibrate();
 
             if (m_CountDown <= 0.0f)
             {
                 m_ObjectVibrate.StopVibrate();
+
+                var cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+                if (cinemachineImpulseSource)
+                    cinemachineImpulseSource.GenerateImpulse(new Vector3(m_ShakeCameraPower, m_ShakeCameraPower, m_ShakeCameraPower));
+
 
                 //爆発処理
                 Explode();
@@ -132,7 +155,7 @@ public class BossBomb : BaseGimmick
                 {
                     Effect = GetComponent<EffectSpawner>();
                     if (Effect != null)
-                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                        Effect.PlayerEffect("Boom!", m_Model.transform.position);
 
                     m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
                 }
@@ -146,7 +169,7 @@ public class BossBomb : BaseGimmick
 
         //探知範囲とカウントダウンの座標更新
         m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f, 0.0f);
-        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 2.0f, 0.0f);
     }
 
     /**
@@ -169,9 +192,18 @@ public class BossBomb : BaseGimmick
     public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
+        LastCount = (int)m_CountDown;
+        m_IsCountDown = false;
         m_Model.transform.position = m_Start.transform.position;
         m_Model.transform.rotation = new Quaternion(0,0,0,0);
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
+        if (m_SparkEffect)
+            m_SparkEffect.Stop();
+
+        var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
+        if (_cdEffect.exists)
+            _cdEffect.Stop();
+
         m_CountDownObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -245,7 +277,10 @@ public class BossBomb : BaseGimmick
             m_Model.transform.position = m_End.transform.position;
             m_Model.GetComponentInChildren<Rigidbody>().isKinematic = false;
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play();
+            if (m_SparkEffect)
+                m_SparkEffect.Play();
             m_CountDownObject.SetActive(true);
+
             m_IsCountDown = true;
 
             m_IsThrow = false;

@@ -35,8 +35,10 @@ public class Bomb : BaseGimmick
     private bool m_IsCountDown = false;
 
     //! 探知範囲表示（仮）オブジェクト
+    [SerializeField]
     private GameObject m_DetectionSizeObject;
     //! カウントダウン表示（仮）オブジェクト
+    [SerializeField]
     private GameObject m_CountDownObject;
     //! モデルオブジェクト
     private GameObject m_Model;
@@ -62,6 +64,12 @@ public class Bomb : BaseGimmick
     private float m_EffectOffset;
     //!エフェクトスポーンナー
     private EffectSpawner Effect;
+    [SerializeField]
+    private EffekseerEmitter m_SparkEffect;
+    [SerializeField]
+    private EffekseerEffectAsset[] m_CountDownEffect;
+
+    private int LastCount;
 
     //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
@@ -76,8 +84,27 @@ public class Bomb : BaseGimmick
         m_Model = this.transform.parent.Find("Model").gameObject;
         m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_NormalMaterial);
 
-        m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
-        m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
+
+        if(!m_DetectionSizeObject)
+            m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
+
+        if (m_DetectionSizeObject)
+        {
+            m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
+            m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
+            m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_SaveEffect);
+            //探知範囲初期化
+            this.GetComponent<SphereCollider>().radius = m_DetectionSize * 0.5f;
+        }
+
+        //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
+        //カウントダウン表示（仮）初期化
+        if(!m_CountDownObject)
+            m_CountDownObject = this.transform.Find("CountDown").gameObject;
+
+        m_CountDownObject.SetActive(false);
+
+        LastCount = (int)m_CountDown;
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
@@ -85,31 +112,28 @@ public class Bomb : BaseGimmick
             m_ObjectVibrate = GetComponent<ObjectVibrate>();
     }
 
-
-    void OnValidate()
-    {
-        //探知範囲初期化
-        this.GetComponent<SphereCollider>().radius = m_DetectionSize * 0.5f;
-        //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
-        m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
-        m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
-        //カウントダウン表示（仮）初期化
-        m_CountDownObject = this.transform.Find("CountDown").gameObject;
-        m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown).ToString();
-        m_CountDownObject.SetActive(false);
-    }
-
     // Update is called once per frame  
-
     public override void Update()
     {
         base.Update();
 
         //カウントダウン開始
         if(m_IsCountDown)
-        {          
+        {
+            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
+
+            if (_cdEffect.exists)
+            {
+                _cdEffect.StopRoot();
+            }
+            else if (LastCount != (int)m_CountDown)
+            {
+                _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
+            }
+            LastCount = (int)m_CountDown;
+
+
             m_CountDown -= Time.deltaTime;
-            m_CountDownObject.GetComponent<TextMeshPro>().text = ((int)m_CountDown + 1).ToString();
 
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
                 m_ObjectVibrate.StartVibrate();
@@ -140,7 +164,7 @@ public class Bomb : BaseGimmick
 
         //探知範囲とカウントダウンの座標更新
         m_DetectionSizeObject.transform.position = m_Model.transform.position + new Vector3(0.0f, -0.49f + m_EffectOffset, 0.0f);
-        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+        m_CountDownObject.transform.position = m_Model.transform.position + new Vector3(0.0f, 0.5f + 1.0f * m_BoomScale, 0.0f);
     }
 
     /**
@@ -230,6 +254,9 @@ public class Bomb : BaseGimmick
 
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
             m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Play(m_DangerEffect);
+
+            if(m_SparkEffect)
+                m_SparkEffect.Play();
         }
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3582601713965992207}
   - component: {fileID: 3193530883317130822}
   - component: {fileID: 3128518199602101658}
-  - component: {fileID: 3241289669489846802}
+  - component: {fileID: 4217434696948199897}
   m_Layer: 0
   m_Name: CrashWall
   m_TagString: Untagged
@@ -47,8 +47,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &3582601713965992207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,8 +62,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxCount: 2
-  m_CountSpeed: 1
-  m_WaitTime: 15
+  m_CountSpeed: 0
+  m_WaitTime: 12
   m_Type: 0
   m_Data:
   - {fileID: 11400000, guid: 89a04ac7bd1f3a547992c31e43aa91ad, type: 2}
@@ -84,11 +84,10 @@ MonoBehaviour:
   m_EffectAssets:
   - {fileID: 11400000, guid: 2bcc9e4316513054b8223245fc1e47d1, type: 2}
   - {fileID: 11400000, guid: 7bc27775477db7246b9f0f4c265c01cf, type: 2}
-  - {fileID: 11400000, guid: 25710e95681f16f4d993cd86ef3d6de6, type: 2}
-  - {fileID: 11400000, guid: c5d5965d7e77fad49a41ca3cf34a4f1b, type: 2}
-  - {fileID: 11400000, guid: ba59ff110f172fe41b57f886159c80c9, type: 2}
-  - {fileID: 11400000, guid: 7565fc9069b90b9479650179992a7d4a, type: 2}
-  - {fileID: 11400000, guid: 508bd8bdb36057e4db8815ac3ab9b755, type: 2}
+  - {fileID: 11400000, guid: a673fd6197be3fd4f8568952232edfd2, type: 2}
+  - {fileID: 11400000, guid: 60f20e99a986a684d99901a45b678b9f, type: 2}
+  - {fileID: 11400000, guid: be823de3c57462c46b393987e585a9d4, type: 2}
+  - {fileID: 11400000, guid: 14cca8645dbe4b14781b34eb92c011cd, type: 2}
   m_CurrentEffect: {fileID: 0}
 --- !u!114 &3128518199602101658
 MonoBehaviour:
@@ -103,10 +102,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TargetObject: {fileID: 3989830292198544847}
-  m_VibrateSpeed: {x: 5, y: 5, z: 5}
-  m_VibrateTimeMax: 0.2
+  m_VibrateSpeed: {x: 6, y: 0, z: 6}
+  m_VibrateTimeMax: 0.3
   m_VibrateTime: 0
---- !u!114 &3241289669489846802
+--- !u!114 &4217434696948199897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,8 +118,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CTargetObject: {fileID: 8834238007849949609}
-  m_ChangeColor: {r: 1, g: 0.7302927, b: 0.25098038, a: 1}
-  FlameTime: 2
+  m_ChangeColor: {r: 0.9339623, g: 0.74665165, b: 0.039649326, a: 0}
+  FlameTime: 4
 --- !u!1001 &4935756717403737286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,11 +206,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 65f5d836d923dc84aaa96c8fabf08806, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -8677769190869642828, guid: ff1b589cc4a2fcb49a9df4b64c273a03,
         type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1b589cc4a2fcb49a9df4b64c273a03, type: 3}

@@ -52,9 +52,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Pause"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""f6de082c-00cf-494d-be21-0d701d83df1f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -62,6 +62,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""PassThrough"",
                     ""id"": ""1de00fac-6260-47f9-9007-4aae403507e0"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""884f723f-07dd-4d69-97bf-1e3306283f97"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -133,6 +141,28 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b171cda-1821-44eb-9df2-823a1244f671"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e91c77f-31bc-45de-9710-3376d6d01b6f"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -147,6 +177,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Input_BButton = m_Input.FindAction("B Button", throwIfNotFound: true);
         m_Input_Pause = m_Input.FindAction("Pause", throwIfNotFound: true);
         m_Input_Move = m_Input.FindAction("Move", throwIfNotFound: true);
+        m_Input_Select = m_Input.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -202,6 +233,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Input_BButton;
     private readonly InputAction m_Input_Pause;
     private readonly InputAction m_Input_Move;
+    private readonly InputAction m_Input_Select;
     public struct InputActions
     {
         private @GameInput m_Wrapper;
@@ -212,6 +244,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @BButton => m_Wrapper.m_Input_BButton;
         public InputAction @Pause => m_Wrapper.m_Input_Pause;
         public InputAction @Move => m_Wrapper.m_Input_Move;
+        public InputAction @Select => m_Wrapper.m_Input_Select;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -239,6 +272,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnMove;
+                @Select.started -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
+                @Select.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
+                @Select.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -261,6 +297,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
             }
         }
     }
@@ -273,5 +312,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnBButton(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

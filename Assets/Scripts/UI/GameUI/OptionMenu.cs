@@ -9,6 +9,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class OptionMenu : MonoBehaviour
     //! 選択用矢印
     [SerializeField]
     private UnityEngine.UI.Image m_Arrow;
+    [SerializeField]
+    private Canvas m_Canvas;
 
     //! メニュー群
     [SerializeField, Space(20)]
@@ -60,9 +63,15 @@ public class OptionMenu : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    [SerializeField, Space(20)]
+    private AudioMixerGroup m_BGMMixer;
+    [SerializeField]
+    private AudioMixerGroup m_SEMixer;
     //! 音設定格納
-    [Space(20),SerializeField, NonEditableField]
+    [SerializeField, NonEditableField]
     Sounddata m_SoundData;
+
+    private bool m_Deleted;
 
     private SaveSystem m_SaveSystem;
 
@@ -86,6 +95,8 @@ public class OptionMenu : MonoBehaviour
         }
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
+
+        m_Deleted = false;
     }
 
     /// <summary>
@@ -124,8 +135,24 @@ public class OptionMenu : MonoBehaviour
             //! InputにPauseのEventを追加
             m_Input.actions["Pause"].performed += Unpause;
         }
+        m_Deleted = true;
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void OnDisable()
+    {
+        if (!m_Deleted)
+        {
+            //! InputからBButtonのEventを削除
+            m_Input.actions["B Button"].performed -= BButtonOption;
+            if (m_PauseMenu != null)
+            {
+                //! InputにPauseのEventを追加
+                m_Input.actions["Pause"].performed += Unpause;
+            }
+        }
     }
 
     private void Unpause(InputAction.CallbackContext ctx)
@@ -168,13 +195,16 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
+            if(m_LastSelected != m_EventSystem.currentSelectedGameObject)
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
+
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
 
             if (m_DeleteButton == null)
             {
                 Vector3 a = m_LastSelected.transform.position;
-                a.x -= 305.0f;
+                a.x -= 305.0f * m_Canvas.scaleFactor;
                 m_Arrow.gameObject.transform.position = a;
             }
             else
@@ -182,14 +212,14 @@ public class OptionMenu : MonoBehaviour
                 if (m_LastSelected == m_BGMSlider.gameObject | m_LastSelected == m_VolumeSlider.gameObject)
                 {
                     Vector3 a = m_LastSelected.transform.position;
-                    a.x -= 305.0f;
+                    a.x -= 305.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
                     Debug.Log(m_LastSelected.gameObject);
                 }
                 else if(m_LastSelected == m_DeleteButton.gameObject)
                 {
                     Vector3 a = m_LastSelected.transform.position;
-                    a.x -= 210.0f;
+                    a.x -= 210.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
                     Debug.Log(m_LastSelected.gameObject);
                 }
@@ -203,6 +233,8 @@ public class OptionMenu : MonoBehaviour
     void VolumeChange()
     {
         m_SoundData.m_Music = m_VolumeSlider.value;
+
+        m_BGMMixer.audioMixer.SetFloat("BGMVolume", m_VolumeSlider.value);
     }
 
     /// <summary>
@@ -211,6 +243,8 @@ public class OptionMenu : MonoBehaviour
     void BGMChange()
     {
         m_SoundData.m_Soundeffects = m_BGMSlider.value;
+
+        m_SEMixer.audioMixer.SetFloat("SEVolume", m_BGMSlider.value);
     }
 
     /// <summary>
@@ -236,6 +270,7 @@ public class OptionMenu : MonoBehaviour
         m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
 
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
@@ -266,6 +301,8 @@ public class OptionMenu : MonoBehaviour
             m_Input.actions["Pause"].performed -= Unpause;
         }
 
+        m_Deleted = true;
+
         yield break;
     }
 
@@ -289,6 +326,9 @@ public class OptionMenu : MonoBehaviour
             m_Input.actions["Pause"].performed -= Unpause;
         }
 
+        m_Deleted = true;
+
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 

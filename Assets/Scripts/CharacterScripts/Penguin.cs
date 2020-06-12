@@ -79,8 +79,9 @@ public class Penguin : MonoBehaviour
 
     public Vector3 m_ModelUp;
     public Vector3 m_ModelForward;
+
     private bool m_Tilting;
-    public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
+    private RaycastHit m_Hit;
     public bool ClearAnimation { get => m_ClearAnimation; set => m_ClearAnimation = value; }
 
     public bool CanCrashWall = false;
@@ -241,6 +242,31 @@ public class Penguin : MonoBehaviour
     public virtual void SetModelRotation(Vector3 newup)
     {
         m_ModelUp = newup;
+        if (!m_Tilting)
+        {
+            m_Tilting = true;
+            StartCoroutine(SlopeChecker());
+        }
+    }
+
+    IEnumerator SlopeChecker()
+    {
+        while (m_Tilting)
+        {
+            Debug.DrawRay(transform.position, -transform.up * 5, Color.green);
+            if (Physics.Raycast(transform.position, -transform.up, out m_Hit))
+            {
+                if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() == null)
+                {
+                    Debug.Log("Penguin no longer on Slope!");
+                    this.SetModelRotation(Vector3.up);
+                    m_Tilting = false;
+                }
+            }
+            yield return new WaitForSecondsRealtime(0.2f);
+        }
+        Debug.Log("Stopped checking for slopes");
+        yield break;
     }
 
     /// <summary>

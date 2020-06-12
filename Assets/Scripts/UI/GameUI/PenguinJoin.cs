@@ -22,6 +22,8 @@ public class PenguinJoin : MonoBehaviour
     //! 群れ化処理
     public System.Action onReachedDestination;
 
+    private bool m_StageClear;
+
     private void Awake()
     {
         onReachedDestination = delegate () { };
@@ -30,15 +32,8 @@ public class PenguinJoin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        m_StageClear = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void StartJoin(Vector3 penguinpos)
     {
@@ -47,6 +42,11 @@ public class PenguinJoin : MonoBehaviour
         img.transform.SetParent(this.transform);
 
         StartCoroutine(GotoDestination(img));
+    }
+
+    public void EndJoin()
+    {
+        m_StageClear = true;
     }
 
     IEnumerator GotoDestination(Image img)
@@ -62,8 +62,10 @@ public class PenguinJoin : MonoBehaviour
                 img.transform.localScale = Vector3.MoveTowards(img.transform.localScale, Vector2.zero, Time.deltaTime);
             }
 
-            if (!this)
+            if (!this | m_StageClear)
             {
+                this.onReachedDestination();
+                Destroy(img.gameObject);
                 yield break;
             }
 

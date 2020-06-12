@@ -69,6 +69,8 @@ public class GameUI : MonoBehaviour
     bool m_GameStart = false;
     [SerializeField]
     bool m_Skip = false;
+    [SerializeField]
+    bool m_ResetTrigger = false;
 
     public void Awake()
 	{
@@ -183,8 +185,13 @@ public class GameUI : MonoBehaviour
         //! ペンギンの向いている方向へカメラをセット
         if (m_rotL && m_rotR && !m_LDecel && !m_RDecel && !m_Camera.m_IsReset)
         {
-            m_Camera.LookToVec();
-            m_RestartAccel = true;
+            if(!m_ResetTrigger)
+            {
+                m_Camera.LookToVec();
+                m_RestartAccel = true;
+                m_ResetTrigger = true;
+            }
+
         }
         //! 動いてなければカメラを回転
         else if (!m_ParentPenguin.IsMoving())
@@ -390,6 +397,7 @@ public class GameUI : MonoBehaviour
     IEnumerator DecceleratorL()
     {
         yield return new WaitForEndOfFrame();
+        m_ResetTrigger = false;
         m_LAccel = false;
         m_LDecel = true;
         float i = m_rotLspeed / m_RotateMax;
@@ -414,6 +422,7 @@ public class GameUI : MonoBehaviour
     IEnumerator DecceleratorR()
     {
         yield return new WaitForEndOfFrame();
+        m_ResetTrigger = false;
         m_RAccel = false;
         m_RDecel = true;
         float i = m_rotRspeed / m_RotateMax;

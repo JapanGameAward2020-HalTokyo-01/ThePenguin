@@ -65,6 +65,7 @@ public class PenguinJoin : MonoBehaviour
             if (!this | m_StageClear)
             {
                 this.onReachedDestination();
+                Destroy(img.gameObject);
                 yield break;
             }
 

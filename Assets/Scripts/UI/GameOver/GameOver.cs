@@ -64,9 +64,7 @@ public class GameOver : MonoBehaviour
     void Start()
     {
         //他のシーンから情報を引き継ぐ
-        //m_PastScene = SceneData.GetCurrentScene();
-
-        m_Flag_FinalStage = false;
+        m_Flag_FinalStage = m_SceneList.IsBossStage;
 
         ////////////////////////////
         // BGM再生

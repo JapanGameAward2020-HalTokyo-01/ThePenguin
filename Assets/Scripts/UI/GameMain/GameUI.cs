@@ -51,6 +51,9 @@ public class GameUI : MonoBehaviour
     [SerializeField, Tooltip("現在のレベルインデックス")]
     private StageMetaParam m_level_param;
 
+    [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
+    private SE_Voice m_pen_voices = null;
+
     //! 回転用
     private bool m_rotL;
     private bool m_rotR;
@@ -134,6 +137,8 @@ public class GameUI : MonoBehaviour
                 else
                     BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
 			}
+            if (!m_pen_voices.m_is_play)
+                m_pen_voices.m_is_play = true;
 
             m_ChargeGaugeMgr.RegisterInputEvent();
         }

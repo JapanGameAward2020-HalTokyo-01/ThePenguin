@@ -132,8 +132,18 @@ public class GameUI : MonoBehaviour
     {
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
 
+        //! 失敗時
+        if (m_ParentPenguin.GetFall())
+        {
+            if (m_GameStart)
+            {
+                m_Input.actions["Pause"].performed -= PauseMenu;
+                m_GameStart = false;
+            }
+            return;
+        }
         // クリア時
-        if (m_ParentPenguin.manager.m_settings.m_clear_flag)
+        else if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.HideGauge();
             m_ChargeGaugeMgr.UnRegisterInputEvent();
@@ -176,7 +186,6 @@ public class GameUI : MonoBehaviour
 
             m_ChargeGaugeMgr.RegisterInputEvent();
         }
-
 
 
         //! ペンギンの向いている方向へカメラをセット

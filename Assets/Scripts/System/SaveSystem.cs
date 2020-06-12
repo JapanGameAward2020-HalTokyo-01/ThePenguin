@@ -35,9 +35,7 @@ public class SaveSystem : MonoBehaviour
             }
             Stages[0].m_Unlocked = true;
 
-            // MEMO：
-            // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
-            // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+            //! TotalPenguins
             Stages[0].m_TotalPenguins = 43;
             Stages[1].m_TotalPenguins = 28;
             Stages[2].m_TotalPenguins = 23;
@@ -68,6 +66,71 @@ public class SaveSystem : MonoBehaviour
             Stages[25].m_TotalPenguins = 39;
             Stages[26].m_TotalPenguins = 26;
             Stages[27].m_TotalPenguins = 48;
+
+
+            //! StarPenguin
+            Stages[0].m_StarPenguin = 1;
+            Stages[1].m_StarPenguin = 1;
+            Stages[2].m_StarPenguin = 1;
+            Stages[3].m_StarPenguin = 1;
+            Stages[4].m_StarPenguin = 1;
+            Stages[5].m_StarPenguin = 1;
+            Stages[6].m_StarPenguin = 1;
+            Stages[7].m_StarPenguin = 1;
+            Stages[8].m_StarPenguin = 1;
+            Stages[9].m_StarPenguin = 1;
+
+            Stages[10].m_StarPenguin = 1;
+            Stages[11].m_StarPenguin = 1;
+            Stages[12].m_StarPenguin = 1;
+            Stages[13].m_StarPenguin = 1;
+            Stages[14].m_StarPenguin = 1;
+            Stages[15].m_StarPenguin = 1;
+            Stages[16].m_StarPenguin = 1;
+            Stages[17].m_StarPenguin = 1;
+            Stages[18].m_StarPenguin = 1;
+            Stages[19].m_StarPenguin = 1;
+                                       
+            Stages[20].m_StarPenguin = 1;
+            Stages[21].m_StarPenguin = 1;
+            Stages[22].m_StarPenguin = 1;
+            Stages[23].m_StarPenguin = 1;
+            Stages[24].m_StarPenguin = 1;
+            Stages[25].m_StarPenguin = 1;
+            Stages[26].m_StarPenguin = 1;
+            Stages[27].m_StarPenguin = 1;
+
+            //! m_StarTime
+            Stages[0].m_StarTime = 1;
+            Stages[1].m_StarTime = 1;
+            Stages[2].m_StarTime = 1;
+            Stages[3].m_StarTime = 1;
+            Stages[4].m_StarTime = 1;
+            Stages[5].m_StarTime = 1;
+            Stages[6].m_StarTime = 1;
+            Stages[7].m_StarTime = 1;
+            Stages[8].m_StarTime = 1;
+            Stages[9].m_StarTime = 1;
+
+            Stages[10].m_StarTime = 1;
+            Stages[11].m_StarTime = 1;
+            Stages[12].m_StarTime = 1;
+            Stages[13].m_StarTime = 1;
+            Stages[14].m_StarTime = 1;
+            Stages[15].m_StarTime = 1;
+            Stages[16].m_StarTime = 1;
+            Stages[17].m_StarTime = 1;
+            Stages[18].m_StarTime = 1;
+            Stages[19].m_StarTime = 1;
+
+            Stages[20].m_StarTime = 1;
+            Stages[21].m_StarTime = 1;
+            Stages[22].m_StarTime = 1;
+            Stages[23].m_StarTime = 1;
+            Stages[24].m_StarTime = 1;
+            Stages[25].m_StarTime = 1;
+            Stages[26].m_StarTime = 1;
+            Stages[27].m_StarTime = 1;
 
             instance = this;
         }
@@ -237,6 +300,69 @@ public class SaveSystem : MonoBehaviour
         Stages[26].m_TotalPenguins = 26;
         Stages[27].m_TotalPenguins = 48;
 
+        //! StarPenguin
+        Stages[0].m_StarPenguin = 1;
+        Stages[1].m_StarPenguin = 1;
+        Stages[2].m_StarPenguin = 1;
+        Stages[3].m_StarPenguin = 1;
+        Stages[4].m_StarPenguin = 1;
+        Stages[5].m_StarPenguin = 1;
+        Stages[6].m_StarPenguin = 1;
+        Stages[7].m_StarPenguin = 1;
+        Stages[8].m_StarPenguin = 1;
+        Stages[9].m_StarPenguin = 1;
+
+        Stages[10].m_StarPenguin = 1;
+        Stages[11].m_StarPenguin = 1;
+        Stages[12].m_StarPenguin = 1;
+        Stages[13].m_StarPenguin = 1;
+        Stages[14].m_StarPenguin = 1;
+        Stages[15].m_StarPenguin = 1;
+        Stages[16].m_StarPenguin = 1;
+        Stages[17].m_StarPenguin = 1;
+        Stages[18].m_StarPenguin = 1;
+        Stages[19].m_StarPenguin = 1;
+
+        Stages[20].m_StarPenguin = 1;
+        Stages[21].m_StarPenguin = 1;
+        Stages[22].m_StarPenguin = 1;
+        Stages[23].m_StarPenguin = 1;
+        Stages[24].m_StarPenguin = 1;
+        Stages[25].m_StarPenguin = 1;
+        Stages[26].m_StarPenguin = 1;
+        Stages[27].m_StarPenguin = 1;
+
+        //! m_StarTime
+        Stages[0].m_StarTime = 1;
+        Stages[1].m_StarTime = 1;
+        Stages[2].m_StarTime = 1;
+        Stages[3].m_StarTime = 1;
+        Stages[4].m_StarTime = 1;
+        Stages[5].m_StarTime = 1;
+        Stages[6].m_StarTime = 1;
+        Stages[7].m_StarTime = 1;
+        Stages[8].m_StarTime = 1;
+        Stages[9].m_StarTime = 1;
+
+        Stages[10].m_StarTime = 1;
+        Stages[11].m_StarTime = 1;
+        Stages[12].m_StarTime = 1;
+        Stages[13].m_StarTime = 1;
+        Stages[14].m_StarTime = 1;
+        Stages[15].m_StarTime = 1;
+        Stages[16].m_StarTime = 1;
+        Stages[17].m_StarTime = 1;
+        Stages[18].m_StarTime = 1;
+        Stages[19].m_StarTime = 1;
+
+        Stages[20].m_StarTime = 1;
+        Stages[21].m_StarTime = 1;
+        Stages[22].m_StarTime = 1;
+        Stages[23].m_StarTime = 1;
+        Stages[24].m_StarTime = 1;
+        Stages[25].m_StarTime = 1;
+        Stages[26].m_StarTime = 1;
+        Stages[27].m_StarTime = 1;
 
         Save();
         Load();
@@ -266,6 +392,8 @@ public class GameData
     public float m_Time = 0;
     public int m_TotalPenguins = 0;
     public int m_SavedPenguins = 0;
+    public int m_StarPenguin = 0;
+    public int m_StarTime = 0;
     public FaceIcon.kState m_FaceIcon = FaceIcon.kState.Normal; 
 
     public GameData()
@@ -277,6 +405,8 @@ public class GameData
         m_Time = 0;
         m_TotalPenguins = 0;
         m_SavedPenguins = 0;
+        m_StarPenguin = 0;
+        m_StarTime = 0;
         m_FaceIcon = FaceIcon.kState.Normal;
     }
 }

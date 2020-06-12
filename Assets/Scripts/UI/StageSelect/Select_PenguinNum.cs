@@ -75,8 +75,8 @@ public class Select_PenguinNum : MonoBehaviour
 
 		// テキスト部分
 		{
-			m_text[0].text = _data.m_SavedPenguins.ToString("D3");
-			m_text[1].text = _data.m_TotalPenguins.ToString("D3");
+			m_text[0].text = _data.m_SavedPenguins.ToString("D2");
+			m_text[1].text = _data.m_TotalPenguins.ToString("D2");
 		}
 
 		// 顔グラ

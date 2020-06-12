@@ -59,8 +59,12 @@ public class CrashWall : MonoBehaviour
     {
         if (m_Type != m_TypeLast || m_MaxCount != m_MaxCountLast)
         {
+            int texcnt = (int)m_MaxCount - 1;
+            if (texcnt <= 0)
+                texcnt = 0;
+
             var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-            m.SetTexture("_BaseMap", m_Data[m_MaxCount-1].GetTexture((int)m_Type));
+            m.SetTexture("_BaseMap", m_Data[texcnt].GetTexture((int)m_Type));
             m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
             this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
             m_TypeLast = m_Type;
@@ -102,19 +106,15 @@ public class CrashWall : MonoBehaviour
         }
     }
 
-    //ペンギンと衝突したら
-    void OnCollisionEnter(Collision c)
+    private void OnCollisionStay(Collision c)
     {
-        if(m_IsCrash)
+        if (m_IsCrash)
         {
             return;
         }
-
-        //ペンギンレイヤーのオブジェクトと衝突
         if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin"))
         {
-            //かつペンギンのスピードが一定値以上
-            if (Vector3.Distance(c.relativeVelocity, Vector3.zero) > m_CountSpeed)
+            if (c.gameObject.GetComponent<Penguin>().CanCrashWall)
             {
                 //カウントダウン
                 m_MaxCount--;
@@ -127,7 +127,7 @@ public class CrashWall : MonoBehaviour
 
                 //テクスチャー変更
                 var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
-                int texcnt = (int)m_MaxCount-1;
+                int texcnt = (int)m_MaxCount - 1;
 
                 if (texcnt <= 0)
                     texcnt = 0;
@@ -141,11 +141,11 @@ public class CrashWall : MonoBehaviour
                 if (m_ObjectColorChange)
                 {
                     m_ObjectColorChange.ChangeColor();
-                   
+
                 }
                 if (Effect != null)
                 {
-                   // Effect.PlayerEffect("DON", gameObject.transform.position);
+                    // Effect.PlayerEffect("DON", gameObject.transform.position);
 
                     switch (m_Type)
                     {
@@ -163,20 +163,96 @@ public class CrashWall : MonoBehaviour
                             break;
                     }
 
-                    
+
                 }
 
+                c.gameObject.GetComponent<Penguin>().CanCrashWall = false;
+
+                //カウントがゼロになると崩れる
+                if (m_MaxCount <= 0)
+                {
+                    m_IsCrash = true;
+                }
             }
-
-            //カウントがゼロになると崩れる
-            if(m_MaxCount<=0)
-            {
-                m_IsCrash = true;
-            }
-
-
         }
+
     }
+
+    //ペンギンと衝突したら
+    //void OnCollisionEnter(Collision c)
+    //{
+    //    if(m_IsCrash)
+    //    {
+    //        return;
+    //    }
+
+    //    //ペンギンレイヤーのオブジェクトと衝突
+    //    if (c.gameObject.layer == LayerMask.NameToLayer("PackPenguin"))
+    //    {
+    //        //かつペンギンのスピードが一定値以上
+    //        if (Vector3.Distance(c.relativeVelocity, Vector3.zero) > m_CountSpeed)
+    //        {
+    //            //カウントダウン
+    //            m_MaxCount--;
+
+    //            //壊れ具合計算
+    //            m_Percent = (float)m_MaxCount / temp;
+
+    //            //Debug
+    //            Debug.Log("CrashWall Percent:" + m_Percent);
+
+    //            //テクスチャー変更
+    //            var m = new Material(this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial);
+    //            int texcnt = (int)m_MaxCount-1;
+
+    //            if (texcnt <= 0)
+    //                texcnt = 0;
+
+    //            m.SetTexture("_BaseMap", m_Data[texcnt].GetTexture((int)m_Type));
+    //            m.shader = Shader.Find("Lightweight Render Pipeline/Unlit");
+    //            this.gameObject.GetComponentInChildren<MeshRenderer>().sharedMaterial = m;
+
+    //            if (m_ObjectVibrate)
+    //                m_ObjectVibrate.StartVibrate();
+    //            if (m_ObjectColorChange)
+    //            {
+    //                m_ObjectColorChange.ChangeColor();
+                   
+    //            }
+    //            if (Effect != null)
+    //            {
+    //               // Effect.PlayerEffect("DON", gameObject.transform.position);
+
+    //                switch (m_Type)
+    //                {
+    //                    case FieldType.SNOW:
+    //                        Effect.PlayerEffect("RockCrashingFinal_Ice", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+    //                        break;
+    //                    case FieldType.DESERT:
+    //                        Effect.PlayerEffect("RockCrashingFinal_Desert", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+    //                        break;
+    //                    case FieldType.JUNGLE:
+    //                        Effect.PlayerEffect("RockCrashingFinal_Jungle", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+    //                        break;
+    //                    case FieldType.VOLCANIC:
+    //                        Effect.PlayerEffect("RockCrashingFinal_vocano", gameObject.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+    //                        break;
+    //                }
+
+                    
+    //            }
+
+    //        }
+
+    //        //カウントがゼロになると崩れる
+    //        if(m_MaxCount<=0)
+    //        {
+    //            m_IsCrash = true;
+    //        }
+
+
+    //    }
+    //}
 
     /**
     * @brief    爆弾に壊れたら

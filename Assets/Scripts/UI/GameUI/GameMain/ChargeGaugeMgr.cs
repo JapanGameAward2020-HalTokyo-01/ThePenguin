@@ -59,7 +59,7 @@ public class ChargeGaugeMgr : MonoBehaviour
 	/**
 	 * @brief   ゲージ表示をアクティブにする
 	 */
-	public void HydeGauge()
+	public void HideGauge()
 	{
 		m_Processor.gameObject.SetActive(false);
 	}
@@ -120,7 +120,7 @@ public class ChargeGaugeMgr : MonoBehaviour
 		    */
             this.TickStateRun += () =>
             {
-                m_gauge_mgr.HydeGauge();
+                m_gauge_mgr.HideGauge();
             };
 		}
 	}

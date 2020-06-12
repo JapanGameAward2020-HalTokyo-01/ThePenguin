@@ -56,6 +56,10 @@ public class BossBomb : BaseGimmick
     private EffectSpawner Effect;
     [SerializeField]
     private EffekseerEmitter m_SparkEffect;
+    [SerializeField]
+    private EffekseerEffectAsset[] m_CountDownEffect;
+
+    private int LastCount;
 
     //! 爆弾投げられ開始地点
     private GameObject m_Start;
@@ -88,9 +92,10 @@ public class BossBomb : BaseGimmick
         m_Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
         m_CountDownInit = m_CountDown;
+        LastCount = (int)m_CountDown;
 
         //カウントダウン表示（仮）初期化
-        if(!m_CountDownObject)
+        if (!m_CountDownObject)
             m_CountDownObject = this.transform.Find("CountDown").gameObject;
 
         m_CountDownObject.SetActive(false);
@@ -116,8 +121,20 @@ public class BossBomb : BaseGimmick
         //カウントダウン開始
         if (m_IsCountDown)
         {
-            m_CountDown -= Time.deltaTime;
+            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
 
+            if (_cdEffect.exists)
+            {
+                _cdEffect.StopRoot();
+            }
+            else if(LastCount != (int)m_CountDown)
+            {
+                _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
+            }
+            LastCount = (int)m_CountDown;
+
+            m_CountDown -= Time.deltaTime;
+            
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)
                 m_ObjectVibrate.StartVibrate();
 
@@ -138,7 +155,7 @@ public class BossBomb : BaseGimmick
                 {
                     Effect = GetComponent<EffectSpawner>();
                     if (Effect != null)
-                        Effect.PlayerEffect("Boom!", m_Model.transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+                        Effect.PlayerEffect("Boom!", m_Model.transform.position);
 
                     m_DetectionSizeObject.GetComponentInChildren<EffekseerEmitter>().Stop();
                 }
@@ -175,6 +192,7 @@ public class BossBomb : BaseGimmick
     public override void OnDeactivate()
     {
         m_CountDown = m_CountDownInit;
+        LastCount = (int)m_CountDown;
         m_IsCountDown = false;
         m_Model.transform.position = m_Start.transform.position;
         m_Model.transform.rotation = new Quaternion(0,0,0,0);
@@ -263,9 +281,6 @@ public class BossBomb : BaseGimmick
                 m_SparkEffect.Play();
             m_CountDownObject.SetActive(true);
 
-            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
-            if(!_cdEffect.exists)
-                _cdEffect.Play();
             m_IsCountDown = true;
 
             m_IsThrow = false;

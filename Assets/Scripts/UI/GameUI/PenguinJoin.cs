@@ -61,6 +61,12 @@ public class PenguinJoin : MonoBehaviour
             {
                 img.transform.localScale = Vector3.MoveTowards(img.transform.localScale, Vector2.zero, Time.deltaTime);
             }
+
+            if (!this)
+            {
+                yield break;
+            }
+
             yield return null;
         }
 

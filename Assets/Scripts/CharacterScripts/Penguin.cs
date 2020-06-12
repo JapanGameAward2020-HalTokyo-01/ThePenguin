@@ -81,6 +81,9 @@ public class Penguin : MonoBehaviour
     public Vector3 m_ModelForward;
     private bool m_Tilting;
     public bool Tilting { get => m_Tilting; set => m_Tilting = value; }
+    public bool ClearAnimation { get => m_ClearAnimation; set => m_ClearAnimation = value; }
+
+    public bool CanCrashWall = false;
 
     protected virtual void Awake()
     {
@@ -169,6 +172,7 @@ public class Penguin : MonoBehaviour
     /// </summary>
     protected virtual void MoveHandler(Vector3 move)
     {
+        CanCrashWall = true;
         m_Rigidbody.AddForce(move * m_Rigidbody.mass * 100f, ForceMode.Force);
         m_ModelForward = move;
     }
@@ -178,6 +182,8 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public virtual void Kill(bool Gimmick)
     {
+        if (m_ClearAnimation)
+            return;
 
         //! オブジェを無効にする
         gameObject.SetActive(false);
@@ -220,13 +226,19 @@ public class Penguin : MonoBehaviour
     {
         return m_Rigidbody.velocity.y < -m_FallThreshhold;
     }
-    
+
+    /// <summary>
+    /// @brief      ペンギンのvelocityの大きさを返す
+    /// </summary>
     public float GetSpeed()
     {
         return m_Rigidbody.velocity.magnitude;
     }
 
-    public void SetModelRotation(Vector3 newup)
+    /// <summary>
+    /// @brief      モデルの上方向を変更
+    /// </summary>
+    public virtual void SetModelRotation(Vector3 newup)
     {
         m_ModelUp = newup;
     }
@@ -242,6 +254,7 @@ public class Penguin : MonoBehaviour
         GetComponentInChildren<AnimationCheck>().goalAnimator = goal.GetComponentInChildren<Animator>();
     }
 
+    
     /// <summary>
     /// @brief      ステージクリア演出処理
     /// </summary>

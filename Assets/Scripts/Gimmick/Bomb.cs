@@ -38,6 +38,7 @@ public class Bomb : BaseGimmick
     [SerializeField]
     private GameObject m_DetectionSizeObject;
     //! カウントダウン表示（仮）オブジェクト
+    [SerializeField]
     private GameObject m_CountDownObject;
     //! モデルオブジェクト
     private GameObject m_Model;
@@ -65,6 +66,10 @@ public class Bomb : BaseGimmick
     private EffectSpawner Effect;
     [SerializeField]
     private EffekseerEmitter m_SparkEffect;
+    [SerializeField]
+    private EffekseerEffectAsset[] m_CountDownEffect;
+
+    private int LastCount;
 
     //!コントローラー振動管理用オブジェクト
     private ControllerVibration m_ControllerVibration;
@@ -83,7 +88,7 @@ public class Bomb : BaseGimmick
         if(!m_DetectionSizeObject)
             m_DetectionSizeObject = this.transform.Find("DetectionSize").gameObject;
 
-        if (!m_DetectionSizeObject)
+        if (m_DetectionSizeObject)
         {
             m_DetectionSizeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(m_DetectionSize * 6.0f, m_DetectionSize * 6.0f, m_DetectionSize * 6.0f);
             m_DetectionSizeObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -94,10 +99,12 @@ public class Bomb : BaseGimmick
 
         //探知範囲表示（仮）初期化。6.0fは今使ってる赤い円の本来の大きさ
         //カウントダウン表示（仮）初期化
-        if(m_CountDownObject)
+        if(!m_CountDownObject)
             m_CountDownObject = this.transform.Find("CountDown").gameObject;
 
         m_CountDownObject.SetActive(false);
+
+        LastCount = (int)m_CountDown;
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
 
@@ -112,7 +119,20 @@ public class Bomb : BaseGimmick
 
         //カウントダウン開始
         if(m_IsCountDown)
-        {          
+        {
+            var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
+
+            if (_cdEffect.exists)
+            {
+                _cdEffect.StopRoot();
+            }
+            else if (LastCount != (int)m_CountDown)
+            {
+                _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
+            }
+            LastCount = (int)m_CountDown;
+
+
             m_CountDown -= Time.deltaTime;
 
             if (m_CountDown - m_ObjectVibrate.GetVibrateTimeMax() <= 0.0f)

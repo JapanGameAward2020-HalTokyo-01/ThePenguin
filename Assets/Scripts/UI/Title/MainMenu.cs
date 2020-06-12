@@ -77,10 +77,12 @@ public class MainMenu : MonoBehaviour
     }
     private MenuState m_State;
 
+    private bool m_FirstFrame = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SceneStart());
+        
         m_State = MenuState.LOGO;
         m_MenuAnimator.enabled = false;
         m_LogoAnimator.enabled = false;
@@ -100,11 +102,11 @@ public class MainMenu : MonoBehaviour
             m_GameCountinue.gameObject.SetActive(true);
         }
 
-        m_UnlockStage = 0;
-        while (m_SaveData.Stages1[m_UnlockStage+1].m_Unlocked)
-        {
-            m_UnlockStage++;
-        }
+        m_UnlockStage = -1;
+        foreach(var data in m_SaveData.Stages1)
+            if(data.m_Unlocked) m_UnlockStage++;
+        // ステージ1は確定アンロックの仕様だが念のため
+        if (m_UnlockStage < 0) m_UnlockStage = 0;
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Title);
@@ -113,6 +115,12 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(m_FirstFrame)
+        {
+            m_FirstFrame = false;
+            StartCoroutine(SceneStart());
+        }
+
         InputUpdate();
         if (!m_IsInputEnable)
             return;
@@ -123,6 +131,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
             return;
         }
@@ -153,10 +162,12 @@ public class MainMenu : MonoBehaviour
             //ABボタンが押されてない
             if (GetLeftUp())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_FinishSelect = 0;
             }
             if (GetRightUp())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_FinishSelect = 1;
             }
 
@@ -177,11 +188,13 @@ public class MainMenu : MonoBehaviour
                 if (m_FinishSelect == 0)
                 {
                     Debug.Log("Finish Yes");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                     Application.Quit();
                 }
                 else if (m_FinishSelect == 1)
                 {
                     Debug.Log("Finish No");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                     m_FinishWarning.SetActive(false);
                     m_State = MenuState.MAIN;
                     m_FinishSelect = -1;
@@ -191,6 +204,7 @@ public class MainMenu : MonoBehaviour
             if (GetBButtonUp())
             {
                 //Bボタン
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                 m_FinishWarning.SetActive(false);
                 m_State = MenuState.MAIN;
                 m_FinishSelect = -1;
@@ -216,11 +230,13 @@ public class MainMenu : MonoBehaviour
             //ABボタンが押されてない
             if (GetUpDown())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_Select -= 1;
                 m_SelectIsCD = true;
             }
             if (GetDownDown())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_Select += 1;
                 m_SelectIsCD = true;
             }
@@ -271,6 +287,7 @@ public class MainMenu : MonoBehaviour
             if (GetAButtonUp())
             {
                 //Aボタン
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                 if (m_Select == 0)
                 {
                     if (m_IsNewStart)

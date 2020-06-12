@@ -39,6 +39,7 @@ public class GameOverUIGame : MonoBehaviour
         {
             m_GenericFailure.CrossFadeAlpha(1, m_FadeTime, true);
         }
+
         yield return new WaitForSecondsRealtime(1.8f);
 
         if (istime)

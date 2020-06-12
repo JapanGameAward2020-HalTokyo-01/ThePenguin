@@ -177,6 +177,9 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
+            if(m_LastSelected != m_EventSystem.currentSelectedGameObject)
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
+
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
 
@@ -249,6 +252,7 @@ public class OptionMenu : MonoBehaviour
         m_CoroutineB = true;
         m_AButtonImage.sprite = m_AClicked;
 
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 
@@ -302,6 +306,7 @@ public class OptionMenu : MonoBehaviour
             m_Input.actions["Pause"].performed -= Unpause;
         }
 
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
         //! 0.3秒待つ
         yield return new WaitForSecondsRealtime(0.3f);
 

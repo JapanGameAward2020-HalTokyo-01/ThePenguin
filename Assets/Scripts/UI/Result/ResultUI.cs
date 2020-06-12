@@ -193,6 +193,7 @@ public class ResultUI : MonoBehaviour
         {
             if (GetAButtonUp())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                 StopCoroutine(m_StartAnim);
                 StartCoroutine(Skip());
             }
@@ -205,6 +206,7 @@ public class ResultUI : MonoBehaviour
                 m_Page1_A_Button.SetActive(GetAButton());
                 if (GetAButtonUp())
                 {
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                     StartCoroutine(SwitchToPage2());
                 }
             }
@@ -217,10 +219,12 @@ public class ResultUI : MonoBehaviour
                 {
                     if (GetUpUp())
                     {
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                         m_Select -= 1;
                     }
                     if (GetDownUp())
                     {
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                         m_Select += 1;
                     }
                     m_Select = (m_Select + 3) % 3;
@@ -246,6 +250,7 @@ public class ResultUI : MonoBehaviour
 
                     if(GetAButtonUp())
                     {
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                         //選択
                         if (m_Select == 0)
                         {
@@ -268,6 +273,7 @@ public class ResultUI : MonoBehaviour
                     if (GetBButtonUp())
                     {
                         //戻る
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                         StartCoroutine(SwitchToPage1());
                     }
                 }

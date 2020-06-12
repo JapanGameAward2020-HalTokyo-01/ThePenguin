@@ -12,13 +12,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "CreateData/AudioParam(BGM)", fileName = "AudioBGMParams")]
 public class AudioBGMParams : ScriptableObject
 {
-    //! 検索用インデックス名
-    private string m_index_name;
-    public string Name
-    {
-        get { return m_index_name; }
-    }
-
     //! 対象オーディオクリップ
     [SerializeField]
     private AudioClip m_clip;

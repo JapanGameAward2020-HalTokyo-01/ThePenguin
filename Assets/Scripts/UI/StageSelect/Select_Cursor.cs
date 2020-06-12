@@ -111,8 +111,11 @@ public class Select_Cursor : MonoBehaviour
         }
         else
         {
-            // 選択中ボタンの変数を更新する
-            m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
+			if(m_last_selected.gameObject != m_event_system.currentSelectedGameObject)
+				SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
+
+			// 選択中ボタンの変数を更新する
+			m_last_selected = m_event_system.currentSelectedGameObject.GetComponent<Button>();
         }
         SetPos();
         // 参照切れ対策
@@ -129,10 +132,12 @@ public class Select_Cursor : MonoBehaviour
 
         if (_level_data.m_Unlocked)
 		{
+			SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 			StartCoroutine(TransitionToGame());
 		}
 		else
 		{
+			SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 			Vector2 _v = new Vector2(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index);
 			Debug.Log("The level " + _v.ToString() + " is not available.");
 		}
@@ -141,6 +146,7 @@ public class Select_Cursor : MonoBehaviour
 	// キャンセル動作
 	private void Cancel()
 	{
+		SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 		StartCoroutine(TransitionToTitle());
 	}
 

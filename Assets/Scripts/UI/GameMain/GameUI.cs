@@ -51,6 +51,9 @@ public class GameUI : MonoBehaviour
     [SerializeField, Tooltip("現在のレベルインデックス")]
     private StageMetaParam m_level_param;
 
+    [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
+    private SE_Voice m_pen_voices = null;
+
     //! 回転用
     private bool m_rotL;
     private bool m_rotR;
@@ -60,7 +63,14 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-	public void Awake()
+    [SerializeField]
+    bool m_Skipped = false;
+    [SerializeField]
+    bool m_GameStart = false;
+    [SerializeField]
+    bool m_Skip = false;
+
+    public void Awake()
 	{
         if(!m_StartSystem)
             m_StartSystem = FindObjectOfType<StartCameraSystem>();
@@ -81,7 +91,7 @@ public class GameUI : MonoBehaviour
         }
 
         //! ボタンのEventDelegate
-        m_Input.actions["Pause"].performed += PauseMenu;
+
         m_Input.actions["Pause"].performed += Skip;
         m_Input.actions["Rotate L"].performed += RotateL;
         m_Input.actions["Rotate L"].canceled += StopL;
@@ -95,18 +105,30 @@ public class GameUI : MonoBehaviour
         m_RAccel = false;
         m_LDecel = false;
         m_RDecel = false;
+
+        m_Skipped = false;
+        m_GameStart = false;
+        m_Skip = false;
     }
 
     private void OnDisable()
     {
         //! ボタンのEventDelegate
-        m_Input.actions["Pause"].performed -= PauseMenu;
-        m_Input.actions["Pause"].performed -= Skip;
+        if (m_GameStart)
+        {
+            m_Input.actions["Pause"].performed -= PauseMenu;
+        }
+        else if (m_Skipped)
+        {
+            m_Input.actions["Pause"].performed -= Skip;
+        }
+
         m_Input.actions["Rotate L"].performed -= RotateL;
         m_Input.actions["Rotate L"].canceled -= StopL;
         m_Input.actions["Rotate R"].performed -= RotateR;
         m_Input.actions["Rotate R"].canceled -= StopR;
     }
+
     void FixedUpdate()
     {
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
@@ -116,6 +138,16 @@ public class GameUI : MonoBehaviour
         {
             m_ChargeGaugeMgr.HideGauge();
             m_ChargeGaugeMgr.UnRegisterInputEvent();
+
+            if (m_GameStart)
+            {
+                Debug.Log("Change Pause Action to Skip");
+                m_Input.actions["Pause"].performed -= PauseMenu;
+                m_Input.actions["Pause"].performed += Skip;
+                m_GameStart = false;
+                m_Skipped = true;
+                m_Skip = false;
+            }
             return;
         }
 
@@ -124,19 +156,29 @@ public class GameUI : MonoBehaviour
         {
             return;
         }
-        else
+        else if(!m_GameStart)
         {
+            m_GameStart = true;
+            m_Skipped = false;
+            m_Skip = false;
+            Debug.Log("Change Pause Action to Menu");
+            m_Input.actions["Pause"].performed -= Skip;
+            m_Input.actions["Pause"].performed += PauseMenu;
             // BGM再生
-            if(!BGMManager.Instance.IsPlay)
+            if (!BGMManager.Instance.IsPlay)
 			{
                 if (m_level_param.IsBossStage)
                     BGMManager.Instance.Play(BGMs.Index.BossBattle);
                 else
                     BGMManager.Instance.Play(BGMs.Index.GamePlay, m_level_param.m_current_area_index);
 			}
+            if (!m_pen_voices.m_is_play)
+                m_pen_voices.m_is_play = true;
 
             m_ChargeGaugeMgr.RegisterInputEvent();
         }
+
+
 
         //! ペンギンの向いている方向へカメラをセット
         if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)
@@ -215,6 +257,7 @@ public class GameUI : MonoBehaviour
     {
         Fade _fade = FindObjectOfType<Fade>();
 
+        Debug.Log("Skipping StartAnimation");
         //フェードアウト待機
         _fade.Fader(true);
 
@@ -231,9 +274,9 @@ public class GameUI : MonoBehaviour
         if (!this)
             return;
 
-        // 開始アニメーション待ち
-        if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag || m_ParentPenguin.manager.m_settings.m_failure_flag)
-            return;
+        //// 開始アニメーション待ち
+        //if (m_StartSystem.GetNowPlaying() || m_ParentPenguin.manager.m_settings.m_clear_flag || m_ParentPenguin.manager.m_settings.m_failure_flag)
+        //    return;
 
         var _cv = FindObjectOfType<ControllerVibration>();
         if(_cv)
@@ -247,9 +290,11 @@ public class GameUI : MonoBehaviour
 
             Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
+
         }
     }
 
+ 
     /// <summary>
     /// @brief      演出スキップ処理
     /// </summary>
@@ -263,15 +308,22 @@ public class GameUI : MonoBehaviour
         //！スタート演出中
         else if(m_StartSystem.GetNowPlaying())
         {
-            m_StartSystem.StopPlaying();
-            StartCoroutine(SkipEnshutsu());
+            if (!m_Skip)
+            {
+                m_Skip = true;
+                m_StartSystem.StopPlaying();
+                StartCoroutine(SkipEnshutsu());
+            }
         }
         //！ゴール演出中
-        else if(m_ParentPenguin.ClearAnimation)//m_ParentPenguin.manager.m_settings.m_clear_flag)
+        else if(m_ParentPenguin.ClearAnimation)
         {
             //m_PenguinManager.StopGoalPlaying();
-
-            m_PenguinManager.SkipGoalAnimation();
+            if (!m_Skip)
+            {
+                m_Skip = true;
+                m_PenguinManager.SkipGoalAnimation();
+            }
         }
 
     }

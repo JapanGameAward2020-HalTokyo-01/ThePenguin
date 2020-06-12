@@ -71,7 +71,7 @@ public class OptionMenu : MonoBehaviour
     [SerializeField, NonEditableField]
     Sounddata m_SoundData;
 
-
+    private bool m_Deleted;
 
     private SaveSystem m_SaveSystem;
 
@@ -95,6 +95,8 @@ public class OptionMenu : MonoBehaviour
         }
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
+
+        m_Deleted = false;
     }
 
     /// <summary>
@@ -133,8 +135,24 @@ public class OptionMenu : MonoBehaviour
             //! InputにPauseのEventを追加
             m_Input.actions["Pause"].performed += Unpause;
         }
+        m_Deleted = true;
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void OnDisable()
+    {
+        if (!m_Deleted)
+        {
+            //! InputからBButtonのEventを削除
+            m_Input.actions["B Button"].performed -= BButtonOption;
+            if (m_PauseMenu != null)
+            {
+                //! InputにPauseのEventを追加
+                m_Input.actions["Pause"].performed += Unpause;
+            }
+        }
     }
 
     private void Unpause(InputAction.CallbackContext ctx)
@@ -283,6 +301,8 @@ public class OptionMenu : MonoBehaviour
             m_Input.actions["Pause"].performed -= Unpause;
         }
 
+        m_Deleted = true;
+
         yield break;
     }
 
@@ -305,6 +325,8 @@ public class OptionMenu : MonoBehaviour
             //! InputにPauseのEventを削除
             m_Input.actions["Pause"].performed -= Unpause;
         }
+
+        m_Deleted = true;
 
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
         //! 0.3秒待つ

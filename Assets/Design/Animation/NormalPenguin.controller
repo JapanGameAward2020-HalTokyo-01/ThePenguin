@@ -542,12 +542,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: OnGoal
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: OnGoalJump
     m_Type: 9
     m_DefaultFloat: 0
@@ -562,6 +556,12 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: OnBossJump
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: OnGoal
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1006,6 +1006,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: OnFall
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: OnGoal
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -962363973171216714}
   m_Solo: 0
@@ -1097,6 +1100,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: OnCrash
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: OnGoal
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5402787828810755585}

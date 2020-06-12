@@ -22,14 +22,6 @@ public class SE_Voice : MonoBehaviour
 		public int m_index;
 	}
 
-	/*
-	 * このSEリストの中から不定期的にランダム（前回再生SEを除いて）で1つを選び、再生する。
-	 * 調整必要なパラメーター：再生可能なSE、頻度MIN値、頻度MAX値
-	 * 
-	 * このSEリストの中から不定期的にランダム（前回再生SEを除いて）で1つを選び、再生する。
-	 * 子ペンギンが増えれば増えるほど再生頻度が上がります。
-	 * 調整必要なパラメーター：再生可能なSE、頻度MIN値、頻度MAX値
-	 */
 	[SerializeField, Tooltip("効果音リスト")]
 	private SEs m_se_list = null;
 	// ステージ上のペンギンの数を参照する
@@ -43,8 +35,8 @@ public class SE_Voice : MonoBehaviour
 	[SerializeField]
 	private Param m_ko;
 
-	// フェード機能
-	private AudioFade m_fade = new AudioFade();
+	// 更新するフラグ
+	public bool m_is_play = false;
 
 	public void Awake()
 	{
@@ -57,7 +49,6 @@ public class SE_Voice : MonoBehaviour
 		// インターバル設定
 		m_oya.m_interval = UnityEngine.Random.Range(m_oya.m_time_min, m_oya.m_time_max);
 
-
 		m_ko.m_clip_list = m_se_list.ChildVoice;
 		m_ko.m_source.outputAudioMixerGroup = m_se_list.ChildVoiceMixer;
 		m_ko.m_source.volume = 1.0f;
@@ -68,6 +59,9 @@ public class SE_Voice : MonoBehaviour
 
 	public void Update()
 	{
+		// ゲームが停止している場合
+		if (!m_is_play) return;
+
 		// 時間カウント進める
 		float rate = 1.0f;
 		if (m_pen_mgr != null)
@@ -89,7 +83,6 @@ public class SE_Voice : MonoBehaviour
 			m_ko.m_interval = UnityEngine.Random.Range(m_ko.m_time_min, m_ko.m_time_max);
 			Play(m_ko);
 		}
-
 	}
 
 	private void Play(Param _param)
@@ -104,7 +97,4 @@ public class SE_Voice : MonoBehaviour
 		_param.m_source.Play();
 
 	}
-
-
-
 }

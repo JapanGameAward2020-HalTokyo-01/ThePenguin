@@ -542,7 +542,16 @@ public class ResultUI : MonoBehaviour
             yield break;
         }
 
+        //  最後になったらSelectに遷移させる
+        if (SceneManager.sceneCountInBuildSettings <= next_index)
+        {
+            SceneManager.LoadScene(1);
+            yield break;
+        }
+
         SceneManager.LoadScene(next_index);
+
+        yield break;
     }
 
     IEnumerator SwitchToPage1()

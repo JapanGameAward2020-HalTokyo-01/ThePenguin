@@ -91,7 +91,7 @@ public class SlopeTilt : MonoBehaviour
 
             RaycastHit m_Hit;
 
-            if (Physics.Raycast(penguin.transform.position, -penguin.transform.up, out m_Hit))
+            if (Physics.Raycast(penguin.transform.position, -this.transform.up, out m_Hit))
             {
                 if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() == null)
                 {

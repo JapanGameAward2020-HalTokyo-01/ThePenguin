@@ -40,6 +40,8 @@ public class StartCameraSystem : MonoBehaviour
     private float m_Middle_WaitTime = 2.0f;
     [SerializeField]
     private float m_Middle_MoveTime = 2.0f;
+    [SerializeField]
+    private float m_StartNameAnimTime = 2.0f;
 
 
     private bool m_NowPlaying = true;
@@ -77,6 +79,14 @@ public class StartCameraSystem : MonoBehaviour
             }
             else
             {
+                if(m_Timer>m_StartNameAnimTime)
+                {
+                    if(FindObjectOfType<BossName>()!=null)
+                    {
+                        FindObjectOfType<BossName>().SetPlay(true);
+                    }
+                }
+
                 //制御点が三つ
                 if (m_Timer > m_WaitTimeToMove_1 + m_Middle_MoveTime + m_Middle_WaitTime + m_MoveTime + m_WaitTimeToMove_2)
                 {
@@ -137,7 +147,10 @@ public class StartCameraSystem : MonoBehaviour
         v_camera[0].Priority = 0;
         v_camera[1].Priority = 0;
         v_camera[2].Priority = 0;
-
+        if (FindObjectOfType<BossName>() != null)
+        {
+            FindObjectOfType<BossName>().SetPlay(false);
+        }
         StartCoroutine(EnableUI(m_OutTime));
     }
 
@@ -152,5 +165,6 @@ public class StartCameraSystem : MonoBehaviour
             main_ui.SetEnable(true);
             main_ui.ShowMainUI(true);
         }
+        
     }
 }

@@ -74,7 +74,7 @@ public class CrashTile : MonoBehaviour
                 EffectEmitter.effectAsset = Effect.GetEffect("RockCrashingFinal_Jungle");
                 break;
             case FieldType.VOLCANIC:
-                EffectEmitter.effectAsset = Effect.GetEffect("RockCrashingFinal_vocano");
+                EffectEmitter.effectAsset = Effect.GetEffect("RockCrashingFinal_vacano");
                 break;
         }
     }

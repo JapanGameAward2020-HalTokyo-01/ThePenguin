@@ -44,6 +44,7 @@ public class UI_Component_Number : MonoBehaviour
         {
             return;
         }
+        m_Number = number;
         m_Image.sprite = m_Number_Image[number % 10];
     }
     public void SetEnable(bool enable)

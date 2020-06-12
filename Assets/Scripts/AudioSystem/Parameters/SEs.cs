@@ -83,9 +83,9 @@ public class SEs : ScriptableObject
     [SerializeField, Tooltip("環境音：子ペンギン声")]
     private List<AudioClip> m_child_env_list = null;
     public AudioMixerGroup ParentVoiceMixer { get => m_parent_env_mixer; }
-    public AudioClip ParentVoice(int index) { return m_parent_env_list[(index% m_parent_env_list.Count)]; }
+    public List<AudioClip> ParentVoice { get => m_parent_env_list; }
     public AudioMixerGroup ChildVoiceMixer { get => m_child_env_mixer; }
-    public AudioClip ChildVoice(int index) { return m_child_env_list[(index % m_child_env_list.Count)]; }
+    public List<AudioClip> ChildVoice { get => m_child_env_list; }
 
     [SerializeField, Tooltip("足音：ミキサー"), Space(10)]
     private AudioMixerGroup m_foot_mixer;

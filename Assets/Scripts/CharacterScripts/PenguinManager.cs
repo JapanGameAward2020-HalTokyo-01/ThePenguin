@@ -50,6 +50,8 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private float m_StartHeight;
 
+    CurrentScore m_Score;
+
     #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
@@ -75,6 +77,8 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.manager = this;
 
         m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
+        m_Score = FindObjectOfType<CurrentScore>();
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -181,6 +185,8 @@ public class PenguinManager : MonoBehaviour
             goal.m_PenguinCount = (uint)m_PackCount;
         }
 
+        m_Score.JudgeScore(this);
+
         Debug.Log("Penguin Join");
         Debug.Log("Pack Penguin Now" + m_PackCount);
     }
@@ -196,9 +202,7 @@ public class PenguinManager : MonoBehaviour
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
 
-        // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
-        CurrentScore _Score = FindObjectOfType<CurrentScore>();
-        if (_Score != null) _Score.JudgeScore(this);
+        m_Score.JudgeScore(this);
 
         m_ParentPenguin.StageClear(goal);
 
@@ -307,6 +311,7 @@ public class PenguinManager : MonoBehaviour
 
         if (m_InGoalEnshutsu)
         {
+            m_PenguinJoin.EndJoin();
             int jumpedNum = 0;
             foreach (ChildPenguin child in m_ChildPenguins)
             {

@@ -51,56 +51,25 @@ public class SlopeTilt : MonoBehaviour
         m_Tilt = (transform.up * Mathf.Cos(angleRad) + transform.right * Mathf.Sin(angleRad)).normalized;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.layer == 8)
         {
             Penguin penguin = collision.gameObject.GetComponent<Penguin>();
             if (penguin != null)
             {
-                StartCoroutine(Tilter(penguin));
-            }
-        }
-    }
-
-    IEnumerator Tilter(Penguin penguin)
-    {
-        penguin.Tilting = true;
-        while (penguin.Tilting)
-        {
-            RaycastHit m_Hit;
-            Debug.Log("Checking if on Slope...");
-            if(Physics.Raycast(penguin.transform.position, -penguin.transform.up, out m_Hit))
-            {
-                if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() != null)
+                RaycastHit m_Hit;
+                Debug.Log("Checking if on Slope...");
+                if (Physics.Raycast(penguin.transform.position, -penguin.transform.up, out m_Hit))
                 {
-                    Debug.Log("Penguin on Slope!");
-                    Debug.DrawRay(penguin.transform.position, -penguin.transform.up * 5, Color.green);
-                    penguin.SetModelRotation(m_Tilt);
+                    if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() != null)
+                    {
+                        Debug.Log("Penguin on Slope!");
+                        Debug.DrawRay(penguin.transform.position, -penguin.transform.up * 5, Color.green);
+                        penguin.SetModelRotation(m_Tilt);
+                    }
                 }
             }
-            yield return new WaitForSecondsRealtime(0.2f);
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.layer == 8)
-        {
-            Penguin penguin = collision.gameObject.GetComponent<Penguin>();
-
-            RaycastHit m_Hit;
-
-            if (Physics.Raycast(penguin.transform.position, -this.transform.up, out m_Hit))
-            {
-                if (m_Hit.collider.gameObject.GetComponent<SlopeTilt>() == null)
-                {
-                    Debug.Log("Penguin no longer on Slope!");
-                    penguin.SetModelRotation(Vector3.up);
-                    penguin.Tilting = false;
-                }
-            }
-            Debug.Log("Stopped checking for slopes");
         }
     }
 

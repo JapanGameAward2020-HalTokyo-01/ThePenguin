@@ -60,6 +60,7 @@ public class ConfirmMenu : MonoBehaviour
     //! 現在のシーン
     private string m_ActiveScene;
 
+    private bool m_Deleted;
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -78,6 +79,7 @@ public class ConfirmMenu : MonoBehaviour
         //! 現在のシーン取得
         m_ActiveScene = SceneManager.GetActiveScene().name;
 
+        m_Deleted = false;
         //! 使うまで無効にする
         this.gameObject.SetActive(false);
     }
@@ -106,6 +108,15 @@ public class ConfirmMenu : MonoBehaviour
 
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
+    }
+
+    private void OnDisable()
+    {
+        if (!m_Deleted)
+        {
+            //! InputからBButtonのEventを削除
+            m_Input.actions["B Button"].performed -= BButtonConfirm;
+        }
     }
 
     private void BButtonConfirm(InputAction.CallbackContext ctx)
@@ -239,7 +250,7 @@ public class ConfirmMenu : MonoBehaviour
     {
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonConfirm;
-
+        m_Deleted = true;
         SceneManager.LoadScene(m_ActiveScene);
 
         yield break;
@@ -255,6 +266,7 @@ public class ConfirmMenu : MonoBehaviour
 
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonConfirm;
+        m_Deleted = true;
 
         //!　確認画面を消す
         this.gameObject.SetActive(false);
@@ -274,6 +286,7 @@ public class ConfirmMenu : MonoBehaviour
 
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonConfirm;
+        m_Deleted = true;
 
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 

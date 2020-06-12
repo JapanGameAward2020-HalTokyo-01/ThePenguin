@@ -151,15 +151,15 @@ public class ResultUI : MonoBehaviour
         //顔アイコン種類
         m_FaceIcon = _score.m_face;
         //最終ステージフラグ
-        m_Flag_FinalStage = false;
+        m_Flag_FinalStage = m_SceneList.IsBossStage;
 
         //表示する数値の初期化
         m_Page1_StarPenguinCounter.SetCount(m_StarCount);
-        m_Page1_StarPenguinCounter.SetCurrentCount(m_ClearCount);
+        m_Page1_StarPenguinCounter.SetCurrentCount(m_StarCount);
         m_Page1_StarTimeCounter.SetCount((int)m_StarTime);
-        m_Page1_StarTimeCounter.SetCurrentCount((int)m_ClearTime);
+        m_Page1_StarTimeCounter.SetCurrentCount((int)m_StarTime);
         m_Page1_Gauge_TotalCounter.SetCount(m_TotalCount);
-        m_Page1_Gauge_TotalCounter.SetCurrentCount(m_ClearCount);
+        m_Page1_Gauge_TotalCounter.SetCurrentCount(m_TotalCount);
         m_Page1_Gauge_Face.GetComponentInChildren<UnityEngine.UI.Image>().sprite = m_face_list[(int)m_FaceIcon];
         m_Page1_Penguin.sprite = m_clearimage_list[m_Flag_FinalStage ? 1 : 0];
 

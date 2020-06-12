@@ -55,8 +55,8 @@ public class UI_Component_Counter : MonoBehaviour
                 ver = Mathf.Min((m_Counter - m_CurrentCounter) % max_ver, -1);
             }
             m_CurrentCounter += ver;
-            SetDigit();
         }
+        SetDigit();
     }
 
     void OnValidate()

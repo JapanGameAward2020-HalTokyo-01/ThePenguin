@@ -35,7 +35,7 @@ public class StageMetaParam : ScriptableObject
 		m_current_stage_index = m_current_stage_index % _area_level_num;
 	}
 
-	public bool IsBossStage { get => m_current_stage_index == (m_levelnum_each_area[m_current_area_index] - 1); }
+	public bool IsBossStage { get => (m_current_stage_index == (m_levelnum_each_area[m_current_area_index] - 1))||(m_current_area_index==3); }
 
 	//! システムシーン
 	public SceneObject m_Title = null;

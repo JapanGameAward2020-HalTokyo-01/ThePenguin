@@ -63,12 +63,10 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-    [SerializeField]
-    bool m_Skipped = false;
-    [SerializeField]
-    bool m_GameStart = false;
-    [SerializeField]
-    bool m_Skip = false;
+    private bool m_Skipped = false;
+    private bool m_GameStart = false;
+    private bool m_Skip = false;
+    private bool m_ResetTrigger = false;
 
     public void Awake()
 	{
@@ -109,6 +107,7 @@ public class GameUI : MonoBehaviour
         m_Skipped = false;
         m_GameStart = false;
         m_Skip = false;
+        m_ResetTrigger = false;
     }
 
     private void OnDisable()
@@ -181,10 +180,15 @@ public class GameUI : MonoBehaviour
 
 
         //! ペンギンの向いている方向へカメラをセット
-        if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)
+        if (m_rotL && m_rotR && !m_LDecel && !m_RDecel && !m_Camera.m_IsReset)
         {
-            m_Camera.LookToVec();
-            m_RestartAccel = true;
+            if(!m_ResetTrigger)
+            {
+                m_Camera.LookToVec();
+                m_RestartAccel = true;
+                m_ResetTrigger = true;
+            }
+
         }
         //! 動いてなければカメラを回転
         else if (!m_ParentPenguin.IsMoving())
@@ -210,12 +214,13 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// @brief      R加速処理Coroutine
+    /// @brief      L加速処理Coroutine
     /// </summary>
     IEnumerator AcceleratorL()
     {
         yield return new WaitForEndOfFrame();
         m_LAccel = true;
+        m_LDecel = false;
         for (float i = 0; i <= 1; )
         {
             Debug.Log("Accel L");
@@ -231,7 +236,7 @@ public class GameUI : MonoBehaviour
         yield break;
     }
     /// <summary>
-    /// @brief      L加速処理Coroutine
+    /// @brief      R加速処理Coroutine
     /// </summary>
     IEnumerator AcceleratorR()
     {
@@ -389,6 +394,7 @@ public class GameUI : MonoBehaviour
     IEnumerator DecceleratorL()
     {
         yield return new WaitForEndOfFrame();
+        m_ResetTrigger = false;
         m_LAccel = false;
         m_LDecel = true;
         float i = m_rotLspeed / m_RotateMax;
@@ -413,6 +419,7 @@ public class GameUI : MonoBehaviour
     IEnumerator DecceleratorR()
     {
         yield return new WaitForEndOfFrame();
+        m_ResetTrigger = false;
         m_RAccel = false;
         m_RDecel = true;
         float i = m_rotRspeed / m_RotateMax;

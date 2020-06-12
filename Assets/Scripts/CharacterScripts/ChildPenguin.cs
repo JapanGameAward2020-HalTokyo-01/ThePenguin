@@ -302,7 +302,8 @@ public class ChildPenguin : Penguin
                 //transform.rotation=oldrotation;
 
                
-                GetComponentInChildren<Animator>().SetTrigger("OnGoal");
+                GetComponentInChildren<Animator>().SetBool("OnGoal",true);
+                GetComponentInChildren<Animator>().SetTrigger("OnGoalTrigger");
                 GetComponentInChildren<Animator>().SetTrigger("OnGoalJump");
                 m_PlayedFirstGoal = true;
             }

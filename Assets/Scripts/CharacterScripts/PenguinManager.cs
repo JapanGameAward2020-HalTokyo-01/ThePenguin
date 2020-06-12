@@ -47,7 +47,6 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
-    [SerializeField]
     private float m_StartHeight;
 
     [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
@@ -78,6 +77,8 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.manager = this;
 
         m_PenguinJoin.onReachedDestination = OnReachedDestination;
+
+        m_StartHeight = m_ParentPenguin.Boss ? 0 : 20; 
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -242,7 +243,7 @@ public class PenguinManager : MonoBehaviour
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
-        Vector3 downForce = new Vector3(0.0f, -15f);
+        Vector3 downForce = new Vector3(0.0f, -40f);
 
         m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
         m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);

@@ -81,6 +81,7 @@ public class PenguinManager : MonoBehaviour
         m_ParentPenguin.manager = this;
 
         m_PenguinJoin.onReachedDestination = OnReachedDestination;
+        m_PenguinJoin.onReachedDestinationDeath = OnReachedDestinationDeath;
 
         m_Score = FindObjectOfType<CurrentScore>();
         m_StartHeight = m_ParentPenguin.Boss ? 0 : 20; 
@@ -139,7 +140,20 @@ public class PenguinManager : MonoBehaviour
     //! 死亡時イベント(子ペンギン)
     public void OnKillEvent(ChildPenguin child)
     {
+        bool pack;
         if (child.InPack)
+            pack = true;
+        else
+            pack = false;
+
+        Vector3 temp = child.transform.position;
+        temp.y = 0;
+        m_PenguinJoin.StartKill(m_Camera.WorldToScreenPoint(temp), pack);
+    }
+
+    public void OnReachedDestinationDeath(bool inpack)
+    {
+        if (inpack)
             m_PackCount--;
         else
             m_NomadCount--;
@@ -150,6 +164,8 @@ public class PenguinManager : MonoBehaviour
         {
             goal.m_PenguinCount = (uint)m_PackCount;
         }
+
+        m_Score.JudgeScore(this);
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         m_settings.CheckGameOver(m_DeadCount);
@@ -170,17 +186,6 @@ public class PenguinManager : MonoBehaviour
         m_PenguinJoin.StartJoin(m_Camera.WorldToScreenPoint(childpos));
     }
 
-
-    public void OnStart(Vector3 childpos)
-    {
-        m_PackCount++;
-        m_NomadCount--;
-        foreach (GoalTile goal in m_GoalTiles)
-        {
-            goal.m_PenguinCount = (uint)m_PackCount;
-        }
-    }
-
     public void OnReachedDestination()
     {
         m_PackCount++;
@@ -191,9 +196,16 @@ public class PenguinManager : MonoBehaviour
         }
 
         m_Score.JudgeScore(this);
+    }
 
-        Debug.Log("Penguin Join");
-        Debug.Log("Pack Penguin Now" + m_PackCount);
+    public void OnStart(Vector3 childpos)
+    {
+        m_PackCount++;
+        m_NomadCount--;
+        foreach (GoalTile goal in m_GoalTiles)
+        {
+            goal.m_PenguinCount = (uint)m_PackCount;
+        }
     }
 
     public bool CheckParentPenguinAlive()

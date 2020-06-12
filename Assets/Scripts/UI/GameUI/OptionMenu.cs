@@ -149,8 +149,8 @@ public class OptionMenu : MonoBehaviour
             m_Input.actions["B Button"].performed -= BButtonOption;
             if (m_PauseMenu != null)
             {
-                //! InputにPauseのEventを追加
-                m_Input.actions["Pause"].performed += Unpause;
+                //! InputにPauseのEventを削除
+                m_Input.actions["Pause"].performed -= Unpause;
             }
         }
     }

@@ -63,12 +63,9 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-    [SerializeField]
-    bool m_Skipped = false;
-    [SerializeField]
-    bool m_GameStart = false;
-    [SerializeField]
-    bool m_Skip = false;
+    private bool m_Skipped = false;
+    private bool m_GameStart = false;
+    private bool m_Skip = false;
 
     public void Awake()
 	{
@@ -181,7 +178,7 @@ public class GameUI : MonoBehaviour
 
 
         //! ペンギンの向いている方向へカメラをセット
-        if (m_rotL && m_rotR && !m_LDecel && !m_RDecel)
+        if (m_rotL && m_rotR && !m_LDecel && !m_RDecel && !m_Camera.m_IsReset)
         {
             m_Camera.LookToVec();
             m_RestartAccel = true;
@@ -210,12 +207,13 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// @brief      R加速処理Coroutine
+    /// @brief      L加速処理Coroutine
     /// </summary>
     IEnumerator AcceleratorL()
     {
         yield return new WaitForEndOfFrame();
         m_LAccel = true;
+        m_LDecel = false;
         for (float i = 0; i <= 1; )
         {
             Debug.Log("Accel L");
@@ -231,7 +229,7 @@ public class GameUI : MonoBehaviour
         yield break;
     }
     /// <summary>
-    /// @brief      L加速処理Coroutine
+    /// @brief      R加速処理Coroutine
     /// </summary>
     IEnumerator AcceleratorR()
     {

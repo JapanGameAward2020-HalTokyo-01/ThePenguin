@@ -54,8 +54,7 @@ public class StartCameraSystem : MonoBehaviour
     public float m_Timer = 0.0f;
 
     private float m_MaskThreshold = 7.5f;
-    [SerializeField]
-    private float m_BossThreshold;
+    private float m_BossThreshold = 3.5f;
 
     // Start is called before the first frame update
     void Start()

@@ -46,6 +46,9 @@ public class WallGimmick : BaseGimmick
     [SerializeField]
     private float m_PassTime_Threshold = 0.0f;
 
+    // ループ効果音を再生しているAudioSourceインデックス(全オブジェクト共有)
+    private static int m_loop_se_index = -1;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -85,16 +88,19 @@ public class WallGimmick : BaseGimmick
                 //Debug.Log("帰り");
                 if (m_timer > m_speed + m_cooltime + m_waittime)
                 {
-                    Debug.Log("帰り移動");
                     t = 1.0f - (m_timer - m_speed - m_cooltime - m_waittime) / m_speed;
 
                     //バグ対策、強制回転値固定
                     m_Model.transform.localRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
+                    // 効果音再生開始
+                    if(m_loop_se_index < 0)
+					{
+                        m_loop_se_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.MopMove);
+                    }
                 }
                 else
                 {
-                    Debug.Log("帰り回転");
                     t = 1.0f;
 
                     effeck[0].StopRoot();
@@ -103,18 +109,30 @@ public class WallGimmick : BaseGimmick
                     float turn_time = (m_timer - m_cooltime - m_speed) / m_waittime;
 
                     m_Model.transform.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), turn_time);
+
+                    // ループ効果音停止、移動停止効果音の再生
+                    if (m_loop_se_index >= 0)
+                    {
+                        SoundEffect.Instance.StopLoopSE(m_loop_se_index);
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.MopStop);
+                        m_loop_se_index = -1;
+                    }
                 }
             }
             else
             {
-               // Debug.Log("行き");
                 t = (m_timer-m_cooltime) / m_speed;
 
                 //バグ対策、強制回転値固定
                 if (t > 0.0f)
                 {
-                    Debug.Log("行き移動");
                     m_Model.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+
+                    // 効果音再生開始
+                    if (m_loop_se_index < 0)
+                    {
+                        m_loop_se_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.MopMove);
+                    }
                 }
 
             }
@@ -129,11 +147,17 @@ public class WallGimmick : BaseGimmick
                 //！元に戻した回転処理
                 if(m_timer < m_cooltime && m_Model.transform.localRotation != new Quaternion(0.0f, 0.0f, 0.0f, 1.0f))
                 {
-                    Debug.Log("行き回転");
-
                     float turn_time = (m_timer) / m_cooltime;
 
                     m_Model.transform.localRotation = Quaternion.Lerp(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f), turn_time);
+
+                    // ループ効果音停止、移動停止効果音の再生
+                    if(m_loop_se_index >= 0)
+					{
+                        SoundEffect.Instance.StopLoopSE(m_loop_se_index);
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.MopStop);
+                        m_loop_se_index = -1;
+                    }
                 }
 
             }

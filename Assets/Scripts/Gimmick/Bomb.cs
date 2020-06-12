@@ -241,11 +241,23 @@ public class Bomb : BaseGimmick
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
+        if(m_IsCountDown)
+        {
+            return;
+        }
         //探知範囲に当たったオブジェクトのLayerが8番のlayerPackPenguinだったら
         if (other.gameObject.layer == 8)
         {
+            if(other.gameObject.TryGetComponent<ChildPenguin>(out var any))
+            {
+                if(!any.InPack)
+                {
+                    return;
+                }
+            }
+
             m_IsCountDown = true;
             m_Model.transform.Find("Mo_Bomb").gameObject.GetComponent<MeshRenderer>().materials[0].CopyPropertiesFromMaterial(m_CountDownMaterial);
             //以下はすべて仮の演出処理

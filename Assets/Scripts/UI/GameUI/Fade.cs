@@ -59,23 +59,22 @@ public class Fade : MonoBehaviour
     /// @brief      FadeOut処理Coroutine
     /// </summary>
     IEnumerator FadeOut(bool fadein)
-    {
-        for (float i = 0; i <= 1; i += (Time.deltaTime / m_FadeDuration))
+    { 
+        m_FadeImage.CrossFadeAlpha(0, m_FadeDuration, true);
+        m_FadeIcon.CrossFadeAlpha(0, m_FadeDuration, true);
+        yield return new WaitForSecondsRealtime(m_FadeDuration);
+
+        if (!this)
         {
-            m_FadeImage.color = new Color(0, 0, 0, i);
-            m_FadeIcon.color = new Color(255, 255, 255, i);
-            if (!this)
-            {
-                yield break;
-            }
-            yield return null;
+            yield break;
         }
 
         m_DoneFadeout = true;
 
+        yield return new WaitForSecondsRealtime(m_BlackScreenDuration);
+
         if (fadein)
         {
-            yield return new WaitForSecondsRealtime(m_BlackScreenDuration);
             StartCoroutine(FadeIn());
         }
     }
@@ -85,15 +84,13 @@ public class Fade : MonoBehaviour
     /// </summary>
     IEnumerator FadeIn()
     {
-        for (float i = 1; i >= 0; i -= (Time.deltaTime / m_FadeDuration))
+        m_FadeImage.CrossFadeAlpha(0, m_FadeDuration, true);
+        m_FadeIcon.CrossFadeAlpha(0, m_FadeDuration, true);
+        yield return new WaitForSecondsRealtime(m_FadeDuration);
+
+        if (!this)
         {
-            m_FadeImage.color = new Color(0, 0, 0, i);
-            m_FadeIcon.color = new Color(255, 255, 255, i);
-            if(!this)
-            {
-                yield break;
-            }
-            yield return null;
+            yield break;
         }
 
         yield break;

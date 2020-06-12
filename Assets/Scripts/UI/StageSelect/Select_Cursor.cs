@@ -182,7 +182,7 @@ public class Select_Cursor : MonoBehaviour
 		GameData _data = _save.Stages1[m_stage_list.CurrentLevelIndex];
 		m_score.SetStar(new bool[3] { _data.m_Star1, _data.m_Star2, _data.m_Star3 });
 		m_score.SetTime(_data.m_Time);
-		m_score.SetRequirement(m_stage_list.GetCurrentQuest._QuestTime, m_stage_list.GetCurrentQuest._QuestCount);
+		//m_score.SetRequirement(m_stage_list.GetCurrentQuest._QuestTime, m_stage_list.GetCurrentQuest._QuestCount);
 
 		// ゲージの整形
 		m_penguin_gauge.SetGauge(_save, m_stage_list.CurrentLevelIndex);

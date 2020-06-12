@@ -75,6 +75,8 @@ public class ParentPenguin : Penguin
         //! ベースクラスの初期設定
         base.Start();
 
+        SetMaskEnable(false);
+
         //! InputHandlerの設定忘れ用の処理
         m_InputHandler = FindObjectOfType<InputHandler>();
 
@@ -243,7 +245,7 @@ public class ParentPenguin : Penguin
         {
             int timeLimit = (int)(60.0f * 1.5f);
 
-            if (BossDefeat()) 
+            if (BossDefeat())
             {
                 m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
             }
@@ -255,12 +257,18 @@ public class ParentPenguin : Penguin
                     m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
                     m_BossScript.animator.SetTrigger("OnDie");
                     m_BossEnshutsu_Cloud = true;
+
+
                 }
 
                 if (m_Boss_Timer < timeLimit + 1)
                 {
                     m_Boss_Timer++;
-                } 
+                }
+                else
+                {
+                    //transform.LookAt(Camera.main.transform);
+                }
             }
         }
 
@@ -310,7 +318,12 @@ public class ParentPenguin : Penguin
 
     public void SetMaskEnable(bool flg)
     {
-        m_MarkerObject.SetActive(flg);
+        m_MaskObject.SetActive(flg);
+    }
+
+    public PenguinState GetCurrentState()
+    {
+        return m_CurrentState;
     }
 
     /// <summary>

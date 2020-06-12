@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Cinemachine;
+using System.Threading;
 
 public class StartCameraSystem : MonoBehaviour
 {
@@ -44,10 +45,17 @@ public class StartCameraSystem : MonoBehaviour
     private float m_StartNameAnimTime = 2.0f;
 
 
-    private bool m_NowPlaying = true;
+    public bool m_NowPlaying = true;
     private bool m_PlayedOnce = false;
     private bool m_PenguinsDown = false;
-    private float m_Timer = 0.0f;
+    private bool m_MaskOn = false;
+    private bool m_BossGrowl = false;
+    private bool m_BossEffect = false;
+    public float m_Timer = 0.0f;
+
+    private float m_MaskThreshold = 7.5f;
+    [SerializeField]
+    private float m_BossThreshold;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +106,19 @@ public class StartCameraSystem : MonoBehaviour
                     v_camera[0].Priority = 0;
                     v_camera[1].Priority = 2;
                     v_camera[2].Priority = 0;
+
+                    //ペンギンマスク演出
+                    if (m_Timer > m_MaskThreshold && !m_MaskOn)
+                    {
+                        ParentPenguin parent = FindObjectOfType<ParentPenguin>();
+                        parent.GetCurrentState().GetComponent<PenguinState_Start>().EffectPlay();
+                        m_MaskOn = true;
+                    }
+
+                    if (m_Timer > m_MaskThreshold + 2.0f)
+                    {
+                        FindObjectOfType<ParentPenguin>().SetMaskEnable(true);
+                    }
                 }
                 else if (m_Timer > m_WaitTimeToMove_1)
                 {
@@ -105,6 +126,18 @@ public class StartCameraSystem : MonoBehaviour
                     v_camera[0].Priority = 0;
                     v_camera[1].Priority = 0;
                     v_camera[2].Priority = 2;
+
+                    if (m_Timer > m_BossThreshold && !m_BossGrowl)
+                    {
+                        FindObjectOfType<Boss>().GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
+                        m_BossGrowl = true;
+                    }
+
+                    if (m_Timer > m_BossThreshold + 0.5f && !m_BossEffect)
+                    {
+                        FindObjectOfType<Boss>().GetCurrentState().GetComponent<BossState_Start>().EffectPlay();
+                        m_BossEffect = true;
+                    }
                 }
             }
 
@@ -143,6 +176,12 @@ public class StartCameraSystem : MonoBehaviour
     {
         m_Timer = 0.0f;
 
+        if (!m_PenguinsDown)
+        {
+            m_PenguinManager.StartEnshutsu_End();
+        }
+
+
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;
         v_camera[1].Priority = 0;
@@ -158,6 +197,7 @@ public class StartCameraSystem : MonoBehaviour
     {
         m_PlayedOnce = true;
         yield return new WaitForSeconds(time);
+
         m_NowPlaying = false;
         var main_ui = FindObjectOfType<GameMain>();
         if (main_ui != null)

@@ -49,7 +49,7 @@ public class SaveSystem : MonoBehaviour
             Stages[8].m_TotalPenguins = 33;
             Stages[9].m_TotalPenguins = 68;
 
-            Stages[10].m_TotalPenguins = 32;
+            Stages[10].m_TotalPenguins = 36;
             Stages[11].m_TotalPenguins = 58;
             Stages[12].m_TotalPenguins = 51;
             Stages[13].m_TotalPenguins = 28;
@@ -57,14 +57,14 @@ public class SaveSystem : MonoBehaviour
             Stages[15].m_TotalPenguins = 43;
             Stages[16].m_TotalPenguins = 26;
             Stages[17].m_TotalPenguins = 20;
-            Stages[18].m_TotalPenguins = 68;
-            Stages[19].m_TotalPenguins = 25;
+            Stages[18].m_TotalPenguins = 25;
+            Stages[19].m_TotalPenguins = 68;
 
             Stages[20].m_TotalPenguins = 56;
             Stages[21].m_TotalPenguins = 31;
             Stages[22].m_TotalPenguins = 23;
             Stages[23].m_TotalPenguins = 20;
-            Stages[24].m_TotalPenguins = 26;
+            Stages[24].m_TotalPenguins = 28;
             Stages[25].m_TotalPenguins = 39;
             Stages[26].m_TotalPenguins = 26;
             Stages[27].m_TotalPenguins = 48;
@@ -217,7 +217,7 @@ public class SaveSystem : MonoBehaviour
         Stages[8].m_TotalPenguins = 33;
         Stages[9].m_TotalPenguins = 68;
 
-        Stages[10].m_TotalPenguins = 32;
+        Stages[10].m_TotalPenguins = 36;
         Stages[11].m_TotalPenguins = 58;
         Stages[12].m_TotalPenguins = 51;
         Stages[13].m_TotalPenguins = 28;
@@ -225,17 +225,18 @@ public class SaveSystem : MonoBehaviour
         Stages[15].m_TotalPenguins = 43;
         Stages[16].m_TotalPenguins = 26;
         Stages[17].m_TotalPenguins = 20;
-        Stages[18].m_TotalPenguins = 68;
-        Stages[19].m_TotalPenguins = 25;
+        Stages[18].m_TotalPenguins = 25;
+        Stages[19].m_TotalPenguins = 68;
 
         Stages[20].m_TotalPenguins = 56;
         Stages[21].m_TotalPenguins = 31;
         Stages[22].m_TotalPenguins = 23;
         Stages[23].m_TotalPenguins = 20;
-        Stages[24].m_TotalPenguins = 26;
+        Stages[24].m_TotalPenguins = 28;
         Stages[25].m_TotalPenguins = 39;
         Stages[26].m_TotalPenguins = 26;
         Stages[27].m_TotalPenguins = 48;
+
 
         Save();
         Load();

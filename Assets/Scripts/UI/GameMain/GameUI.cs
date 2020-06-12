@@ -63,14 +63,10 @@ public class GameUI : MonoBehaviour
     private bool m_RDecel;
     private bool m_RestartAccel = false;
 
-    [SerializeField]
-    bool m_Skipped = false;
-    [SerializeField]
-    bool m_GameStart = false;
-    [SerializeField]
-    bool m_Skip = false;
-    [SerializeField]
-    bool m_ResetTrigger = false;
+    private bool m_Skipped = false;
+    private bool m_GameStart = false;
+    private bool m_Skip = false;
+    private bool m_ResetTrigger = false;
 
     public void Awake()
 	{
@@ -111,6 +107,7 @@ public class GameUI : MonoBehaviour
         m_Skipped = false;
         m_GameStart = false;
         m_Skip = false;
+        m_ResetTrigger = false;
     }
 
     private void OnDisable()

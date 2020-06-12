@@ -77,7 +77,7 @@ public class PauseMenu : MonoBehaviour
 
     private bool m_SetPauseEvent;
 
-
+    private bool m_Deleted;
 
     /// <summary>
     /// @brief      起動時呼ばれるやつ
@@ -133,8 +133,16 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        //! InputにPauseのEventを追加
-        m_Input.actions["Pause"].performed -= BButtonPause;
+        if (!m_Deleted)
+        {
+            //! InputにPauseのEventを追加
+            m_Input.actions["Pause"].performed -= BButtonPause;
+            if (m_SetPauseEvent)
+            {
+                //! InputにPauseのEventを削除
+                m_Input.actions["Pause"].performed -= BButtonPause;
+            }
+        }
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 
     }
@@ -325,8 +333,12 @@ public class PauseMenu : MonoBehaviour
         m_CoroutineB = true;
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonPause;
-        //! InputにPauseのEventを削除
-        m_Input.actions["Pause"].performed -= BButtonPause;
+        if (m_SetPauseEvent)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= BButtonPause;
+        }
+        m_Deleted = true;
         yield break;
     }
 
@@ -341,8 +353,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonPause;
-        //! InputにPauseのEventを削除
-        m_Input.actions["Pause"].performed -= BButtonPause;
+        if (m_SetPauseEvent)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= BButtonPause;
+        }
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_TitleScene);
@@ -367,6 +382,7 @@ public class PauseMenu : MonoBehaviour
             //! InputにPauseのEventを削除
             m_Input.actions["Pause"].performed -= BButtonPause;
         }
+        m_Deleted = true;
 
         //! 0.4秒待つ
         yield return new WaitForSecondsRealtime(0.4f);

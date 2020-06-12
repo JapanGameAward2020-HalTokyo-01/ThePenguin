@@ -125,7 +125,7 @@ public class PauseMenu : MonoBehaviour
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonPause;
 
-
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
@@ -135,6 +135,8 @@ public class PauseMenu : MonoBehaviour
     {
         //! InputにPauseのEventを追加
         m_Input.actions["Pause"].performed -= BButtonPause;
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
+
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)
@@ -142,6 +144,7 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("PauseMenu: message received");
         if(!m_CoroutineB)
         {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
             StartCoroutine(ClickTimerB());
         }
     }
@@ -170,6 +173,9 @@ public class PauseMenu : MonoBehaviour
         }
         else
         {
+            if(m_LastSelected != m_EventSystem.currentSelectedGameObject)
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
+
             //! 現在のボタンを登録
             m_LastSelected = m_EventSystem.currentSelectedGameObject;
 
@@ -187,6 +193,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (!m_CoroutineA)
         {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+
             //! Aボタンのスプライト変更処理
             StartCoroutine(ClickTimerA(1));
         }
@@ -199,6 +207,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (!m_CoroutineA)
         {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+
             //! Aボタンのスプライト変更処理
             StartCoroutine(ClickTimerA(2));
         }
@@ -211,6 +221,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (!m_CoroutineA)
         {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+
             //! Aボタンのスプライト変更処理
             StartCoroutine(ClickTimerA(3));
         }
@@ -223,6 +235,8 @@ public class PauseMenu : MonoBehaviour
     {
         if (!m_CoroutineA)
         {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+
             //! Aボタンのスプライト変更処理
             StartCoroutine(ClickTimerA(4));
         }
@@ -353,6 +367,7 @@ public class PauseMenu : MonoBehaviour
             //! InputにPauseのEventを削除
             m_Input.actions["Pause"].performed -= BButtonPause;
         }
+
         //! 0.4秒待つ
         yield return new WaitForSecondsRealtime(0.4f);
 

@@ -108,7 +108,6 @@ public class MainMenu : MonoBehaviour
         // ステージ1は確定アンロックの仕様だが念のため
         if (m_UnlockStage < 0) m_UnlockStage = 0;
 
-
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Title);
     }
@@ -132,6 +131,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
             return;
         }
@@ -162,10 +162,12 @@ public class MainMenu : MonoBehaviour
             //ABボタンが押されてない
             if (GetLeftUp())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_FinishSelect = 0;
             }
             if (GetRightUp())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_FinishSelect = 1;
             }
 
@@ -186,11 +188,13 @@ public class MainMenu : MonoBehaviour
                 if (m_FinishSelect == 0)
                 {
                     Debug.Log("Finish Yes");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                     Application.Quit();
                 }
                 else if (m_FinishSelect == 1)
                 {
                     Debug.Log("Finish No");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                     m_FinishWarning.SetActive(false);
                     m_State = MenuState.MAIN;
                     m_FinishSelect = -1;
@@ -200,6 +204,7 @@ public class MainMenu : MonoBehaviour
             if (GetBButtonUp())
             {
                 //Bボタン
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                 m_FinishWarning.SetActive(false);
                 m_State = MenuState.MAIN;
                 m_FinishSelect = -1;
@@ -225,11 +230,13 @@ public class MainMenu : MonoBehaviour
             //ABボタンが押されてない
             if (GetUpDown())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_Select -= 1;
                 m_SelectIsCD = true;
             }
             if (GetDownDown())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                 m_Select += 1;
                 m_SelectIsCD = true;
             }
@@ -280,6 +287,7 @@ public class MainMenu : MonoBehaviour
             if (GetAButtonUp())
             {
                 //Aボタン
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                 if (m_Select == 0)
                 {
                     if (m_IsNewStart)

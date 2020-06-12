@@ -49,6 +49,9 @@ public class PenguinManager : MonoBehaviour
     //! スタート演出のペンギン高さ
     private float m_StartHeight;
 
+    [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
+    private SE_Voice m_pen_voices = null;
+
     #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
@@ -197,6 +200,9 @@ public class PenguinManager : MonoBehaviour
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
 
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
+
         // クリアデータ１次保存(SaveSystemオブジェクトがない場合は無視)
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
         if (_Score != null) _Score.JudgeScore(this);
@@ -263,6 +269,9 @@ public class PenguinManager : MonoBehaviour
     {
         if (!m_settings.m_clear_flag && !m_settings.m_failure_flag)
             yield break;
+
+        // ペンギンの声再生停止
+        m_pen_voices.m_is_play = false;
 
         if (m_settings.m_failure_flag)
         {

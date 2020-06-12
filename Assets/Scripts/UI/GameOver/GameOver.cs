@@ -92,10 +92,12 @@ public class GameOver : MonoBehaviour
                 //ABボタンが押されてない
                 if(GetUpUp())
                 {
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                     m_Select -= 1;
                 }
                 if(GetDownUp())
                 {
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
                     m_Select += 1;
                 }
                 m_Select = (m_Select + 3) % 3;
@@ -122,7 +124,8 @@ public class GameOver : MonoBehaviour
                 if(GetAButtonUp())
                 {
                     //Aボタン
-                    if(m_Select==0)
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+                    if (m_Select==0)
                     {
                         Debug.Log("Retry");
                         StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
@@ -142,6 +145,7 @@ public class GameOver : MonoBehaviour
                 {
                     //Bボタン
                     Debug.Log("Retry");
+                    SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
                     StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
                 }
             }

@@ -84,7 +84,7 @@ public class ChildPenguin : Penguin
         Effect = GetComponent<EffectSpawner>();
 
         if (m_PassEffect)
-            m_PassEffect.speed = 0.5f;
+            m_PassEffect.speed = 0.25f;
 
 
     }
@@ -260,6 +260,11 @@ public class ChildPenguin : Penguin
 
     protected override void Enshutsu()
     {
+        //!デバック対策、少し場所を借りる
+        if (m_PassEffect)
+            if (m_PassEffect.exists)
+                m_PassEffect.StopRoot();
+
         GetComponent<CapsuleCollider>().enabled = false;
         m_Rigidbody.useGravity = false;
 

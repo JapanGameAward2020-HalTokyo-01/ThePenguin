@@ -252,6 +252,7 @@ public class GameUI : MonoBehaviour
 
             Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
+
         }
     }
 

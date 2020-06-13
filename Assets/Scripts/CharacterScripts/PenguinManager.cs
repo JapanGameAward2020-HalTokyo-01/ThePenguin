@@ -40,6 +40,9 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private GameOverUIGame m_GameoverUI;
 
+    [SerializeField]
+    private GameMain m_Main_UI;
+
     //! 親ペンギン
     private ParentPenguin m_ParentPenguin = null;
 
@@ -55,6 +58,7 @@ public class PenguinManager : MonoBehaviour
     
     [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
     private SE_Voice m_pen_voices = null;
+ 
 
     #region ゴール演出関係
     //! ステージゴール
@@ -70,6 +74,8 @@ public class PenguinManager : MonoBehaviour
     void Start()
     {
         m_settings = GetComponent<LevelSettings>();
+
+        m_Main_UI = FindObjectOfType<GameMain>();
 
         m_Timer.StageTime = m_settings.TimeLimit;
 
@@ -168,6 +174,12 @@ public class PenguinManager : MonoBehaviour
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         if (m_settings.CheckGameOver(m_DeadCount) && !m_settings.m_clear_flag)
         {
+            //UI非表示
+            if (m_Main_UI != null)
+            {
+                m_Main_UI.HideTutorial();
+            }
+
             StartCoroutine(ToNextScene());
         }
     }
@@ -176,6 +188,12 @@ public class PenguinManager : MonoBehaviour
     public void GameOver()
     {
         m_settings.m_failure_flag = true;
+
+        //UI非表示
+        if (m_Main_UI != null)
+        {
+            m_Main_UI.HideTutorial();
+        }
 
         StartCoroutine(ToNextScene());
     }
@@ -237,11 +255,10 @@ public class PenguinManager : MonoBehaviour
 
 
         //UI非表示
-        var main_ui = FindObjectOfType<GameMain>();
-        if (main_ui != null)
+        if (m_Main_UI != null)
         {
-            main_ui.SetEnable(true);
-            main_ui.ShowMainUI(true);
+            m_Main_UI.SetEnable(true);
+            m_Main_UI.ShowMainUI(true);
         }
     }
 
@@ -297,6 +314,8 @@ public class PenguinManager : MonoBehaviour
 
         m_IsSceneChanging = true;
 
+        yield return new WaitForEndOfFrame();
+
         // ペンギンの声再生停止
         m_pen_voices.m_is_play = false;
 
@@ -308,15 +327,21 @@ public class PenguinManager : MonoBehaviour
         bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
 
+        yield return new WaitForEndOfFrame();
+
         //フェードアウト待機
         _fade.Fader(false);
 
         while (!_fade.CheckFadedout())
         {
+            if(!this)
+            {
+                yield break;
+            }
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(1.5f);
 
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();

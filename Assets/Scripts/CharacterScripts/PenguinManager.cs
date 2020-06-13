@@ -321,7 +321,7 @@ public class PenguinManager : MonoBehaviour
 
         m_IsSceneChanging = true;
 
-        Destroy(m_Input.gameObject);
+        //Destroy(m_Input.gameObject);
 
         yield return new WaitForEndOfFrame();
 

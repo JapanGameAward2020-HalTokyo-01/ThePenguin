@@ -66,9 +66,11 @@ public class GameOver : MonoBehaviour
         //他のシーンから情報を引き継ぐ
         m_Flag_FinalStage = m_SceneList.IsBossStage;
 
-        ////////////////////////////
-        // BGM再生
-        BGMManager.Instance.Play(BGMs.Index.GameOver);
+		////////////////////////////
+		//// BGM再生
+		//BGMManager.Instance.Play(BGMs.Index.GameOver);
+		// 効果音再生
+		BGMManager.Instance.Play(BGMs.Index.None);
 
         m_Penguin.sprite = m_image_list[m_Flag_FinalStage ? 1 : 0];
 
@@ -155,6 +157,7 @@ public class GameOver : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.0f);
 
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.GameOver);
         m_Fade.SetActive(false);
 
         yield return new WaitForSecondsRealtime(1.0f);

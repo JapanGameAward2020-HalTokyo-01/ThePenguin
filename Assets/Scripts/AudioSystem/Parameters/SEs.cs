@@ -83,6 +83,12 @@ public class SEs : ScriptableObject
     public AudioSEParams Boss_Finish { get => m_boss_finish; }
     public AudioSEParams Boss_Defeat { get => m_boss_defeat; }
 
+    [Header("Scene SE")]
+    [SerializeField, Tooltip("ゲームオーバー遷移時SE")]
+    private AudioSEParams m_gameover = null;
+    public AudioSEParams GameOver { get => m_gameover; }
+
+
     [Header("Audio SE Groups")]
     [SerializeField, Tooltip("環境音：リーダーペンギン声"), Space(10)]
     private AudioMixerGroup m_parent_env_mixer;

@@ -49,6 +49,8 @@ public class ChargeGaugeMgr : MonoBehaviour
 		{
 			m_Processor.OnUpdate(m_input);
 
+			SoundEffect.Instance.SetLoopSEVolume(m_se_source_index, m_Processor.ChargeRatio);
+
 			// チャージゲージが「高」の条件を満たしたとき
 			if (m_Processor.ChargeRatio > 0.8f)
 			{

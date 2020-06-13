@@ -145,6 +145,9 @@ public class PauseMenu : MonoBehaviour
 
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
+        //! ループ効果音を止める(停止ではなくポーズ)
+        SoundEffect.Instance.PauseAllLoopSE(true);
+
         //! 初期選択ボタン設定
         StartCoroutine(SelectButton());
     }
@@ -162,6 +165,9 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
+        //! ループ効果音を再開
+        SoundEffect.Instance.PauseAllLoopSE(false);
+
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

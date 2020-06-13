@@ -158,7 +158,6 @@ public class OptionMenu : MonoBehaviour
     {
         if (!m_Deleted)
         {
-
             //! InputからBButtonのEventを削除
             m_Input.actions["B Button"].performed -= BButtonOption;
             if (m_PauseMenu != null)

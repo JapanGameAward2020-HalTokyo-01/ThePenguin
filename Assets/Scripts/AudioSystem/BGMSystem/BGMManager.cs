@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Audio;
 
 /**
  * @class   BGMManagerクラス
@@ -82,6 +83,32 @@ public class BGMManager : MonoBehaviour
 
 		// カレントをリストの最初で設定
 		m_current_source = m_source_list[0];
+	}
+
+	/**
+	 * @brief   アニメーション中ミュート
+	 */
+	public void AnimationMute(float _time)
+	{
+		AudioMixer _mixer = m_audio_list.BGMMixer.audioMixer;
+		AudioMixerSnapshot[] _snaps = new AudioMixerSnapshot[2] { _mixer.FindSnapshot("current"), _mixer.FindSnapshot("animation") };
+		float[] _weight = new float[2] { 0.0f, 1.0f };
+		_mixer.TransitionToSnapshots(_snaps, _weight, _time);
+	}
+
+	/**
+	 * @brief   アニメーション中ミュートの解除
+	 */
+	public void EndAnimationMute(float _time)
+	{
+		SaveSystem _save = FindObjectOfType<SaveSystem>();
+		AudioMixer _mixer = m_audio_list.BGMMixer.audioMixer;
+		AudioMixerSnapshot[] _snaps = new AudioMixerSnapshot[2] { _mixer.FindSnapshot("animation"), _mixer.FindSnapshot("current") };
+		float[] _weight = new float[2] { 0.0f, 1.0f };
+		_mixer.TransitionToSnapshots(_snaps, _weight, _time);
+
+		_mixer.SetFloat("BGMVolume", _save.VolumeData.m_Music);
+		_mixer.SetFloat("SEVolume", _save.VolumeData.m_Soundeffects);
 	}
 
 	/**

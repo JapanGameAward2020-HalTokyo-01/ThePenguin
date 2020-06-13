@@ -77,6 +77,11 @@ public class Fade : MonoBehaviour
         {
             StartCoroutine(FadeIn());
         }
+        else
+        {
+            yield return new WaitForEndOfFrame();
+            m_DoneFadeout = false;
+        }
     }
 
     /// <summary>
@@ -84,6 +89,7 @@ public class Fade : MonoBehaviour
     /// </summary>
     IEnumerator FadeIn()
     {
+        m_DoneFadeout = false;
         m_FadeImage.CrossFadeAlpha(0, m_FadeDuration, true);
         m_FadeIcon.CrossFadeAlpha(0, m_FadeDuration, true);
         yield return new WaitForSecondsRealtime(m_FadeDuration);

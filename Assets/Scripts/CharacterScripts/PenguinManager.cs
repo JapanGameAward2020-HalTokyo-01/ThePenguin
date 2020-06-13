@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Effekseer;
+using UnityEngine.InputSystem;
 
 //! Penguinの総括
 [RequireComponent(typeof(LevelSettings))]
@@ -58,7 +59,13 @@ public class PenguinManager : MonoBehaviour
     
     [SerializeField, Tooltip("環境音代わりのペンギンボイス")]
     private SE_Voice m_pen_voices = null;
- 
+
+    [SerializeField]
+    private Fade m_Fade;
+
+    //! 入力
+    [SerializeField]
+    private PlayerInput m_Input;
 
     #region ゴール演出関係
     //! ステージゴール
@@ -314,6 +321,8 @@ public class PenguinManager : MonoBehaviour
 
         m_IsSceneChanging = true;
 
+        //Destroy(m_Input.gameObject);
+
         yield return new WaitForEndOfFrame();
 
         // ペンギンの声再生停止
@@ -324,15 +333,16 @@ public class PenguinManager : MonoBehaviour
             m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
         }
 
+        m_ParentPenguin.gameObject.SetActive(false);
+
         bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
-        Fade _fade = FindObjectOfType<Fade>();
 
         yield return new WaitForEndOfFrame();
 
         //フェードアウト待機
-        _fade.Fader(false);
+        m_Fade.Fader(false);
 
-        while (!_fade.CheckFadedout())
+        while (!m_Fade.CheckFadedout())
         {
             if(!this)
             {
@@ -341,7 +351,7 @@ public class PenguinManager : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(1.5f);
+        //yield return new WaitForSecondsRealtime(1.5f);
 
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();

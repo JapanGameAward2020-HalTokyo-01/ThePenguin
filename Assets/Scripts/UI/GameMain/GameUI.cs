@@ -109,6 +109,8 @@ public class GameUI : MonoBehaviour
         m_GameStart = false;
         m_Skip = false;
         m_ResetTrigger = false;
+
+        StartCoroutine(CheckPause());
     }
 
     private void OnDisable()
@@ -131,18 +133,8 @@ public class GameUI : MonoBehaviour
 
     void Update()
     {
-        //! 失敗時
-        if (m_ParentPenguin.GetFall() || m_ParentPenguin.m_IsDead || m_ParentPenguin.manager.m_settings.m_failure_flag)
-        {
-            if (m_GameStart)
-            {
-                m_Input.actions["Pause"].performed -= PauseMenu;
-                m_GameStart = false;
-            }
-            return;
-        }
         // クリア時
-        else if (m_ParentPenguin.manager.m_settings.m_clear_flag)
+        if (m_ParentPenguin.manager.m_settings.m_clear_flag)
         {
             m_ChargeGaugeMgr.HideGauge();
             m_ChargeGaugeMgr.UnRegisterInputEvent();
@@ -223,6 +215,31 @@ public class GameUI : MonoBehaviour
                 m_Camera.RotateCamera(false, m_rotRspeed);
             }
 
+        }
+    }
+
+    private bool m_Run = true;
+    IEnumerator CheckPause()
+    {
+        yield return new WaitForFixedUpdate();
+        while (true)
+        {
+            //! 失敗時
+            if (m_ParentPenguin.GetFall() || m_ParentPenguin.m_IsDead || m_ParentPenguin.manager.m_settings.m_failure_flag)
+            {
+                if (m_Run)
+                {
+                    m_Input.actions["Pause"].performed -= PauseMenu;
+                    m_Run = false;
+                }
+            }
+            
+            if (!this)
+            {
+                yield break;
+            }
+
+            yield return null;
         }
     }
 

@@ -86,6 +86,8 @@ public class Penguin : MonoBehaviour
 
     public bool CanCrashWall = false;
 
+    private bool m_DelayFallTrigger = true;
+
     protected virtual void Awake()
     {
         m_PenguinStates = new List<PenguinState>();
@@ -120,8 +122,15 @@ public class Penguin : MonoBehaviour
 
         //! CurrentStateの設定
         m_CurrentState.OnStart();
+
+        StartCoroutine(DelayFalltrigger());
     }
 
+    IEnumerator DelayFalltrigger()
+    {
+        yield return new WaitForSeconds(1.0f);
+        m_DelayFallTrigger = false;
+    }
     // Update is called once per frame
     protected virtual void Update()
     {
@@ -186,8 +195,6 @@ public class Penguin : MonoBehaviour
         if (m_ClearAnimation)
             return;
 
-        //! オブジェを無効にする
-        gameObject.SetActive(false);
 
         if (m_Invincible && Gimmick)
         {
@@ -225,7 +232,14 @@ public class Penguin : MonoBehaviour
     /// </summary>
     public bool GetFall()
     {
-        return m_Rigidbody.velocity.y < -m_FallThreshhold;
+        if (m_DelayFallTrigger)
+        {
+            return false;
+        }
+        else
+        {
+            return m_Rigidbody.velocity.y < -m_FallThreshhold;
+        }
     }
 
     /// <summary>

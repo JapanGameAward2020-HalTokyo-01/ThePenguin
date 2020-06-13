@@ -48,6 +48,8 @@ public class ParentPenguin : Penguin
 
     private InputEvent m_InputEvent;
 
+    public bool m_IsDead;
+
     #region ボスゴール演出関係
     [SerializeField]
     private Boss m_BossScript;

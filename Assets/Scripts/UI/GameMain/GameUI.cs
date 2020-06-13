@@ -131,7 +131,7 @@ public class GameUI : MonoBehaviour
     void Update()
     {
         //! 失敗時
-        if (m_ParentPenguin.GetFall() | m_ParentPenguin.manager.m_settings.m_failure_flag)
+        if (m_ParentPenguin.GetFall() || m_ParentPenguin.m_IsDead == true || m_ParentPenguin.manager.m_settings.m_failure_flag)
         {
             if (m_GameStart)
             {

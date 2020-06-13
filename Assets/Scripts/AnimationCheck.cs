@@ -54,6 +54,7 @@ public class AnimationCheck : MonoBehaviour
             Vector3 jumpgoal = new Vector3(goalpos.x + xpos, goalpos.y + 10, goalpos.z + zpos);
             _cp.transform.LookAt(jumpgoal);
         }
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Goal_Jump);
         Effect.PlayerEffect("wallcrash", transform.position, new Vector3(1, 1, 1));
         goalAnimator.SetTrigger("OnJump");
 

@@ -218,7 +218,7 @@ public class GameUI : MonoBehaviour
         }
     }
 
-
+    private bool m_Run = true;
     IEnumerator CheckPause()
     {
         yield return new WaitForFixedUpdate();
@@ -227,10 +227,10 @@ public class GameUI : MonoBehaviour
             //! 失敗時
             if (m_ParentPenguin.GetFall() || m_ParentPenguin.m_IsDead || m_ParentPenguin.manager.m_settings.m_failure_flag)
             {
-                if (m_GameStart)
+                if (m_Run)
                 {
                     m_Input.actions["Pause"].performed -= PauseMenu;
-                    m_GameStart = false;
+                    m_Run = false;
                 }
             }
             

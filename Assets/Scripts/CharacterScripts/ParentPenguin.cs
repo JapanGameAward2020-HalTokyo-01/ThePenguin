@@ -264,6 +264,7 @@ public class ParentPenguin : Penguin
                 }
                 else
                 {
+                    m_ClearAnimationEnded = true;
                     //transform.LookAt(Camera.main.transform);
                 }
             }

@@ -133,7 +133,7 @@ public class GameUI : MonoBehaviour
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
 
         //! 失敗時
-        if (m_ParentPenguin.GetFall())
+        if (m_ParentPenguin.GetFall() | m_ParentPenguin.manager.m_settings.m_failure_flag)
         {
             if (m_GameStart)
             {

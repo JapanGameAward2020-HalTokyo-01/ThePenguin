@@ -69,68 +69,68 @@ public class SaveSystem : MonoBehaviour
 
 
             //! StarPenguin
-            Stages[0].m_StarPenguin = 1;
-            Stages[1].m_StarPenguin = 1;
-            Stages[2].m_StarPenguin = 1;
-            Stages[3].m_StarPenguin = 1;
-            Stages[4].m_StarPenguin = 1;
-            Stages[5].m_StarPenguin = 1;
-            Stages[6].m_StarPenguin = 1;
-            Stages[7].m_StarPenguin = 1;
-            Stages[8].m_StarPenguin = 1;
-            Stages[9].m_StarPenguin = 1;
+            Stages[0].m_StarPenguin =  40;
+            Stages[1].m_StarPenguin =  25;
+            Stages[2].m_StarPenguin =  20;
+            Stages[3].m_StarPenguin =  16;
+            Stages[4].m_StarPenguin =  30;
+            Stages[5].m_StarPenguin =  22;
+            Stages[6].m_StarPenguin =  36;
+            Stages[7].m_StarPenguin =  30;
+            Stages[8].m_StarPenguin =  28;
+            Stages[9].m_StarPenguin =  68;
 
-            Stages[10].m_StarPenguin = 1;
-            Stages[11].m_StarPenguin = 1;
-            Stages[12].m_StarPenguin = 1;
-            Stages[13].m_StarPenguin = 1;
-            Stages[14].m_StarPenguin = 1;
-            Stages[15].m_StarPenguin = 1;
-            Stages[16].m_StarPenguin = 1;
-            Stages[17].m_StarPenguin = 1;
-            Stages[18].m_StarPenguin = 1;
-            Stages[19].m_StarPenguin = 1;
-                                       
-            Stages[20].m_StarPenguin = 1;
-            Stages[21].m_StarPenguin = 1;
-            Stages[22].m_StarPenguin = 1;
-            Stages[23].m_StarPenguin = 1;
-            Stages[24].m_StarPenguin = 1;
-            Stages[25].m_StarPenguin = 1;
-            Stages[26].m_StarPenguin = 1;
-            Stages[27].m_StarPenguin = 1;
+            Stages[10].m_StarPenguin = 30;
+            Stages[11].m_StarPenguin = 58;
+            Stages[12].m_StarPenguin = 51;
+            Stages[13].m_StarPenguin = 23;
+            Stages[14].m_StarPenguin = 18;
+            Stages[15].m_StarPenguin = 38;
+            Stages[16].m_StarPenguin = 26;
+            Stages[17].m_StarPenguin = 18;
+            Stages[18].m_StarPenguin = 23;
+            Stages[19].m_StarPenguin = 66; 
+            
+            Stages[20].m_StarPenguin = 56;
+            Stages[21].m_StarPenguin = 28;
+            Stages[22].m_StarPenguin = 19;
+            Stages[23].m_StarPenguin = 18;
+            Stages[24].m_StarPenguin = 28;
+            Stages[25].m_StarPenguin = 39;
+            Stages[26].m_StarPenguin = 26;
+            Stages[27].m_StarPenguin = 48;
 
             //! m_StarTime
-            Stages[0].m_StarTime = 1;
-            Stages[1].m_StarTime = 1;
-            Stages[2].m_StarTime = 1;
-            Stages[3].m_StarTime = 1;
-            Stages[4].m_StarTime = 1;
-            Stages[5].m_StarTime = 1;
-            Stages[6].m_StarTime = 1;
-            Stages[7].m_StarTime = 1;
-            Stages[8].m_StarTime = 1;
-            Stages[9].m_StarTime = 1;
+            Stages[0].m_StarTime = 25;
+            Stages[1].m_StarTime = 12;
+            Stages[2].m_StarTime = 8;
+            Stages[3].m_StarTime = 20;
+            Stages[4].m_StarTime = 25;
+            Stages[5].m_StarTime = 12;
+            Stages[6].m_StarTime = 18;
+            Stages[7].m_StarTime = 25;
+            Stages[8].m_StarTime = 18;
+            Stages[9].m_StarTime = 10;
 
-            Stages[10].m_StarTime = 1;
-            Stages[11].m_StarTime = 1;
-            Stages[12].m_StarTime = 1;
-            Stages[13].m_StarTime = 1;
-            Stages[14].m_StarTime = 1;
-            Stages[15].m_StarTime = 1;
-            Stages[16].m_StarTime = 1;
-            Stages[17].m_StarTime = 1;
-            Stages[18].m_StarTime = 1;
-            Stages[19].m_StarTime = 1;
+            Stages[10].m_StarTime = 25;
+            Stages[11].m_StarTime = 25;
+            Stages[12].m_StarTime = 27;
+            Stages[13].m_StarTime = 22;
+            Stages[14].m_StarTime = 22;
+            Stages[15].m_StarTime = 15;
+            Stages[16].m_StarTime = 27;
+            Stages[17].m_StarTime = 20;
+            Stages[18].m_StarTime = 20;
+            Stages[19].m_StarTime = 20;
 
-            Stages[20].m_StarTime = 1;
-            Stages[21].m_StarTime = 1;
-            Stages[22].m_StarTime = 1;
-            Stages[23].m_StarTime = 1;
-            Stages[24].m_StarTime = 1;
-            Stages[25].m_StarTime = 1;
-            Stages[26].m_StarTime = 1;
-            Stages[27].m_StarTime = 1;
+            Stages[20].m_StarTime = 20;
+            Stages[21].m_StarTime = 27;
+            Stages[22].m_StarTime = 25;
+            Stages[23].m_StarTime = 19;
+            Stages[24].m_StarTime = 15;
+            Stages[25].m_StarTime = 20;
+            Stages[26].m_StarTime = 19;
+            Stages[27].m_StarTime = 45;
 
             instance = this;
         }
@@ -266,9 +266,7 @@ public class SaveSystem : MonoBehaviour
         Volume = new Sounddata();
         Stages[0].m_Unlocked = true;
 
-        // MEMO：
-        // セーブシステムのAwakeとClearDataのStages[0].unlocked = trueの後に
-        // 各ステージの総ペンギン情報をStages[0-27].m_TotalPenguinsに設定してください。
+        //! TotalPenguins
         Stages[0].m_TotalPenguins = 43;
         Stages[1].m_TotalPenguins = 28;
         Stages[2].m_TotalPenguins = 23;
@@ -300,69 +298,70 @@ public class SaveSystem : MonoBehaviour
         Stages[26].m_TotalPenguins = 26;
         Stages[27].m_TotalPenguins = 48;
 
+
         //! StarPenguin
-        Stages[0].m_StarPenguin = 1;
-        Stages[1].m_StarPenguin = 1;
-        Stages[2].m_StarPenguin = 1;
-        Stages[3].m_StarPenguin = 1;
-        Stages[4].m_StarPenguin = 1;
-        Stages[5].m_StarPenguin = 1;
-        Stages[6].m_StarPenguin = 1;
-        Stages[7].m_StarPenguin = 1;
-        Stages[8].m_StarPenguin = 1;
-        Stages[9].m_StarPenguin = 1;
+        Stages[0].m_StarPenguin = 40;
+        Stages[1].m_StarPenguin = 25;
+        Stages[2].m_StarPenguin = 20;
+        Stages[3].m_StarPenguin = 16;
+        Stages[4].m_StarPenguin = 30;
+        Stages[5].m_StarPenguin = 22;
+        Stages[6].m_StarPenguin = 36;
+        Stages[7].m_StarPenguin = 30;
+        Stages[8].m_StarPenguin = 28;
+        Stages[9].m_StarPenguin = 68;
 
-        Stages[10].m_StarPenguin = 1;
-        Stages[11].m_StarPenguin = 1;
-        Stages[12].m_StarPenguin = 1;
-        Stages[13].m_StarPenguin = 1;
-        Stages[14].m_StarPenguin = 1;
-        Stages[15].m_StarPenguin = 1;
-        Stages[16].m_StarPenguin = 1;
-        Stages[17].m_StarPenguin = 1;
-        Stages[18].m_StarPenguin = 1;
-        Stages[19].m_StarPenguin = 1;
+        Stages[10].m_StarPenguin = 30;
+        Stages[11].m_StarPenguin = 58;
+        Stages[12].m_StarPenguin = 51;
+        Stages[13].m_StarPenguin = 23;
+        Stages[14].m_StarPenguin = 18;
+        Stages[15].m_StarPenguin = 38;
+        Stages[16].m_StarPenguin = 26;
+        Stages[17].m_StarPenguin = 18;
+        Stages[18].m_StarPenguin = 23;
+        Stages[19].m_StarPenguin = 66;
 
-        Stages[20].m_StarPenguin = 1;
-        Stages[21].m_StarPenguin = 1;
-        Stages[22].m_StarPenguin = 1;
-        Stages[23].m_StarPenguin = 1;
-        Stages[24].m_StarPenguin = 1;
-        Stages[25].m_StarPenguin = 1;
-        Stages[26].m_StarPenguin = 1;
-        Stages[27].m_StarPenguin = 1;
+        Stages[20].m_StarPenguin = 56;
+        Stages[21].m_StarPenguin = 28;
+        Stages[22].m_StarPenguin = 19;
+        Stages[23].m_StarPenguin = 18;
+        Stages[24].m_StarPenguin = 28;
+        Stages[25].m_StarPenguin = 39;
+        Stages[26].m_StarPenguin = 26;
+        Stages[27].m_StarPenguin = 48;
 
         //! m_StarTime
-        Stages[0].m_StarTime = 1;
-        Stages[1].m_StarTime = 1;
-        Stages[2].m_StarTime = 1;
-        Stages[3].m_StarTime = 1;
-        Stages[4].m_StarTime = 1;
-        Stages[5].m_StarTime = 1;
-        Stages[6].m_StarTime = 1;
-        Stages[7].m_StarTime = 1;
-        Stages[8].m_StarTime = 1;
-        Stages[9].m_StarTime = 1;
+        Stages[0].m_StarTime = 25;
+        Stages[1].m_StarTime = 12;
+        Stages[2].m_StarTime = 8;
+        Stages[3].m_StarTime = 20;
+        Stages[4].m_StarTime = 25;
+        Stages[5].m_StarTime = 12;
+        Stages[6].m_StarTime = 18;
+        Stages[7].m_StarTime = 25;
+        Stages[8].m_StarTime = 18;
+        Stages[9].m_StarTime = 10;
 
-        Stages[10].m_StarTime = 1;
-        Stages[11].m_StarTime = 1;
-        Stages[12].m_StarTime = 1;
-        Stages[13].m_StarTime = 1;
-        Stages[14].m_StarTime = 1;
-        Stages[15].m_StarTime = 1;
-        Stages[16].m_StarTime = 1;
-        Stages[17].m_StarTime = 1;
-        Stages[18].m_StarTime = 1;
-        Stages[19].m_StarTime = 1;
+        Stages[10].m_StarTime = 25;
+        Stages[11].m_StarTime = 25;
+        Stages[12].m_StarTime = 27;
+        Stages[13].m_StarTime = 22;
+        Stages[14].m_StarTime = 22;
+        Stages[15].m_StarTime = 15;
+        Stages[16].m_StarTime = 27;
+        Stages[17].m_StarTime = 20;
+        Stages[18].m_StarTime = 20;
+        Stages[19].m_StarTime = 20;
 
-        Stages[20].m_StarTime = 1;
-        Stages[21].m_StarTime = 1;
-        Stages[22].m_StarTime = 1;
-        Stages[23].m_StarTime = 1;
-        Stages[24].m_StarTime = 1;
-        Stages[25].m_StarTime = 1;
-        Stages[26].m_StarTime = 1;
-        Stages[27].m_StarTime = 1;
+        Stages[20].m_StarTime = 20;
+        Stages[21].m_StarTime = 27;
+        Stages[22].m_StarTime = 25;
+        Stages[23].m_StarTime = 19;
+        Stages[24].m_StarTime = 15;
+        Stages[25].m_StarTime = 20;
+        Stages[26].m_StarTime = 19;
+        Stages[27].m_StarTime = 45;
 
         Save();
         Load();

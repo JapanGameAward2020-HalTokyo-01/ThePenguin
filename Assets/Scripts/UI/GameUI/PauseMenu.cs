@@ -163,10 +163,10 @@ public class PauseMenu : MonoBehaviour
                 //! InputにPauseのEventを削除
                 m_Input.actions["Pause"].performed -= BButtonPause;
             }
+            //! ループ効果音を再開
+            SoundEffect.Instance.PauseAllLoopSE(false);
         }
         //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
-        //! ループ効果音を再開
-        SoundEffect.Instance.PauseAllLoopSE(false);
 
     }
 

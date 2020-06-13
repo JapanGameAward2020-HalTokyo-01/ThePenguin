@@ -48,6 +48,9 @@ public class ParentPenguin : Penguin
 
     private InputEvent m_InputEvent;
 
+    // ループ効果音インデックス
+    private int m_se_charge_index = -1;
+
     #region ボスゴール演出関係
     [SerializeField]
     private Boss m_BossScript;
@@ -414,6 +417,26 @@ public class ParentPenguin : Penguin
             yield return new WaitForSeconds(0.5f);
             IsWait = false;
             yield break;
+        }
+    }
+
+    public void SetChargeSE()
+	{
+        if (m_se_charge_index < 0)
+        {
+            // ループ効果音再生開始
+            m_se_charge_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
+        }
+        SoundEffect.Instance.SetLoopSEVolume(m_se_charge_index, m_InputHandler.Power / m_InputHandler.PowerMax);
+    }
+
+    public void StopChargeSE()
+    {
+        // ループ効果音再生の停止
+        if (m_se_charge_index > -1)
+        {
+            SoundEffect.Instance.StopLoopSE(m_se_charge_index);
+            m_se_charge_index = -1;
         }
     }
 }

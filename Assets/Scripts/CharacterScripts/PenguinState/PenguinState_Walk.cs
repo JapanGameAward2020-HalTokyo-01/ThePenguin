@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class PenguinState_Walk : PenguinState
 {
-
     private int EffectTimer;
     [SerializeField] private int EfecctTimeMax =5;
 
@@ -18,6 +17,10 @@ public class PenguinState_Walk : PenguinState
     public override void OnStart()
     {
         EffectTimer = EfecctTimeMax;
+
+        ParentPenguin parentPenguin = penguin.GetComponent<ParentPenguin>();
+        if(parentPenguin != null)
+            parentPenguin.StopChargeSE();
     }
 
     //! 更新処理

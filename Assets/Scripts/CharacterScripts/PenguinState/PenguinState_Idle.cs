@@ -11,10 +11,10 @@ using Effekseer;
 
 public class PenguinState_Idle : PenguinState
 {
-    private ParentPenguin parentPenguin = null;
-
     [SerializeField]
     private EffekseerEmitter[] m_Effect;
+
+    private ParentPenguin parentPenguin = null;
 
     [SerializeField]
     private int ChargeEffectNow;
@@ -77,7 +77,6 @@ public class PenguinState_Idle : PenguinState
                         }
 
                     }
-
                     else if (parentPenguin.GetInputHandler().Power > 0.0f)
                     {
 
@@ -86,6 +85,11 @@ public class PenguinState_Idle : PenguinState
                     {
                         m_Effect[0].Stop();
                         m_Effect[1].Stop();
+                    }
+
+                    if (parentPenguin.GetInputHandler().Power > 0.0f)
+                    {
+                        parentPenguin.SetChargeSE();
                     }
                 }
             }

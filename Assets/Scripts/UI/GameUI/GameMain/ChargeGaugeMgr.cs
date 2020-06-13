@@ -49,8 +49,6 @@ public class ChargeGaugeMgr : MonoBehaviour
 		{
 			m_Processor.OnUpdate(m_input);
 
-			SoundEffect.Instance.SetLoopSEVolume(m_se_source_index, m_Processor.ChargeRatio);
-
 			// チャージゲージが「高」の条件を満たしたとき
 			if (m_Processor.ChargeRatio > 0.8f)
 			{
@@ -76,12 +74,6 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void ActivateGauge()
 	{
 		m_Processor.gameObject.SetActive(true);
-		if(m_se_source_index < 0)
-		{
-			// ループ効果音再生開始
-			m_se_source_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
-		}
-
 	}
 
 	/**
@@ -90,12 +82,6 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void HideGauge()
 	{
 		m_Processor.gameObject.SetActive(false);
-		if(m_se_source_index >= 0)
-		{
-			// ループ効果音再生の停止
-			SoundEffect.Instance.StopLoopSE(m_se_source_index);
-			m_se_source_index = -1;
-		}
 	}
 
 	/**
@@ -146,7 +132,9 @@ public class ChargeGaugeMgr : MonoBehaviour
             this.OnIdle += () =>
             {
                 if (m_Handler.Power > 0)
-                    m_gauge_mgr.ActivateGauge();
+				{
+					m_gauge_mgr.ActivateGauge();
+				}
             };
 
             /**
@@ -155,7 +143,7 @@ public class ChargeGaugeMgr : MonoBehaviour
             this.TickStateRun += () =>
             {
                 m_gauge_mgr.HideGauge();
-            };
+			};
 		}
 	}
 

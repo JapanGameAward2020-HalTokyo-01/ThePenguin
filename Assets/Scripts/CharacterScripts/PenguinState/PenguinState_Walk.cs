@@ -14,10 +14,14 @@ public class PenguinState_Walk : PenguinState
     private int EffectTimer;
     [SerializeField] private int EfecctTimeMax =5;
 
+    [SerializeField, Tooltip("足音コンポーネント")]
+    private SE_Foot m_se_foot;
+
     //! 初期化処理
     public override void OnStart()
     {
         EffectTimer = EfecctTimeMax;
+        m_se_foot.StartSound();
     }
 
     //! 更新処理
@@ -56,12 +60,14 @@ public class PenguinState_Walk : PenguinState
 
         if (!penguin.IsMoving())
         {
+            m_se_foot.StopSound();
             penguin.ChangeState<PenguinState_Idle>();
             return;
         }
 
         if (penguin.GetFall())
         {
+            m_se_foot.StopSound();
             penguin.ChangeState<PenguinState_Fall>();
             return;
         }
@@ -70,12 +76,14 @@ public class PenguinState_Walk : PenguinState
         {
             if (penguin.manager.m_settings.m_clear_flag)
             {
+                m_se_foot.StopSound();
                 penguin.ChangeState<PenguinState_Goal>();
                 return;
             }
 
             if (penguin.manager.m_settings.m_failure_flag)
             {
+                m_se_foot.StopSound();
                 penguin.ChangeState<PenguinState_Failed>();
                 return;
             }

@@ -96,6 +96,10 @@ public class ChildPenguin : Penguin
     {
         //! ベースクラス
         base.Kill(Gimmick);
+
+        //! オブジェを無効にする
+        gameObject.SetActive(false);
+
         onKillEvent(this);
     }
 

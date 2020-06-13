@@ -324,6 +324,8 @@ public class PenguinManager : MonoBehaviour
             m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
         }
 
+        m_ParentPenguin.gameObject.SetActive(false);
+
         bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
         Fade _fade = FindObjectOfType<Fade>();
 

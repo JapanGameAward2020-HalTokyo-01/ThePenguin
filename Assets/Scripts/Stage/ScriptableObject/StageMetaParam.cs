@@ -36,14 +36,16 @@ public class StageMetaParam : ScriptableObject
 	}
 
 	public bool IsBossStage { get => (m_current_stage_index == (m_levelnum_each_area[m_current_area_index] - 1))||(m_current_area_index==3); }
+    public bool IsFinalStage { get=>(m_current_area_index==3&&m_current_stage_index==3); }
 
 	//! システムシーン
 	public SceneObject m_Title = null;
 	public SceneObject m_StageSelect = null;
 	public SceneObject m_Result = null;
 	public SceneObject m_GameOver = null;
-	//! プレイシーン
-	[SerializeField]
+    public SceneObject m_Ending = null;
+    //! プレイシーン
+    [SerializeField]
 	public SceneObject m_FirstStage = null;
 
 	// ビルドセッティング上のシーンインデックス
@@ -51,8 +53,8 @@ public class StageMetaParam : ScriptableObject
 	public int NextLevelBuildIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage) + LevelIndex + 1; } }
 
 	// レベルリスト上のシーンインデックス(システム用シーンを除いたもの)
-	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 4; } }
-	public int NextLevelIndex { get { return NextLevelBuildIndex - 4; } }
+	public int CurrentLevelIndex { get { return CurrentLevelBuildIndex - 5; } }
+	public int NextLevelIndex { get { return NextLevelBuildIndex - 5; } }
 
 	// 最初のレベルのビルドセッティング上のシーンインデックス
 	public int FirstLevelIndex { get { return SceneUtility.GetBuildIndexByScenePath(m_FirstStage); } }

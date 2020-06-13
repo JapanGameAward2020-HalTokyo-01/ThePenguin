@@ -137,8 +137,6 @@ public class OptionMenu : MonoBehaviour
 
         //!　ゲームを止める(呼び出しアニメーション演出のためコメントアウトしました)
         //Time.timeScale = 0;
-        //! 音を止める(停止ではなくポーズ)
-        SoundEffect.Instance.PauseAllLoopSE(true);
 
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonOption;
@@ -164,9 +162,6 @@ public class OptionMenu : MonoBehaviour
                 //! InputにPauseのEventを削除
                 m_Input.actions["Pause"].performed -= Unpause;
             }
-
-            //! 音を再開
-            SoundEffect.Instance.PauseAllLoopSE(false);
         }
     }
 

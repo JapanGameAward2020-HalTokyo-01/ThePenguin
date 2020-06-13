@@ -44,7 +44,7 @@ public class GameMain : MonoBehaviour
             m_WaitTimer = 0.0f;
         }
 
-
-        m_Tutorial.Show(m_WaitTimer> m_WaitTime);
+        //常時表示するならtrue
+        ShowTutorialUI(m_WaitTimer > m_WaitTime);
     }
 }

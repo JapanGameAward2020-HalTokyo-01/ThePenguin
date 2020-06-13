@@ -128,7 +128,7 @@ public class GameUI : MonoBehaviour
         m_Input.actions["Rotate R"].canceled -= StopR;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
 

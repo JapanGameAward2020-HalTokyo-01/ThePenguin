@@ -146,9 +146,7 @@ public class PenguinManager : MonoBehaviour
         else
             pack = false;
 
-        Vector3 temp = child.transform.position;
-        temp.y = 0;
-        m_PenguinJoin.StartKill(m_Camera.WorldToScreenPoint(temp), pack);
+        m_PenguinJoin.StartKill(m_Camera.WorldToScreenPoint(child.transform.position), pack);
     }
 
     public void OnReachedDestinationDeath(bool inpack)
@@ -168,8 +166,10 @@ public class PenguinManager : MonoBehaviour
         m_Score.JudgeScore(this);
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
-        m_settings.CheckGameOver(m_DeadCount);
-        StartCoroutine(ToNextScene());
+        if (m_settings.CheckGameOver(m_DeadCount) && !m_settings.m_clear_flag)
+        {
+            StartCoroutine(ToNextScene());
+        }
     }
 
     //! 死亡時イベント(親ペンギン)
@@ -300,7 +300,7 @@ public class PenguinManager : MonoBehaviour
         // ペンギンの声再生停止
         m_pen_voices.m_is_play = false;
 
-        if (m_settings.m_failure_flag)
+        if (m_settings.m_failure_flag && !m_settings.m_clear_flag)
         {
             m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
         }
@@ -321,17 +321,16 @@ public class PenguinManager : MonoBehaviour
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
 
-        // 失敗時
-        if (_flags[0] && !_flags[1])
-        {
-            SceneManager.LoadScene(m_scene_list.m_GameOver);
-            yield return null;
-        }
-
         // クリア時
-        if (_flags[1] && !_flags[0])
+        if (_flags[1])
         {
             SceneManager.LoadScene(m_scene_list.m_Result);
+            yield return null;
+        }
+        // 失敗時
+        else if (_flags[0] && !_flags[1])
+        {
+            SceneManager.LoadScene(m_scene_list.m_GameOver);
             yield return null;
         }
     }

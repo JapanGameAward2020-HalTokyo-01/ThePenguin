@@ -198,6 +198,14 @@ public class StartCameraSystem : MonoBehaviour
             m_Parent.SetMaskEnable(true);
         }
 
+        if (!m_BossGrowl)
+        {
+            foreach (Boss boss in m_Bosses)
+            {
+                boss.GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
+            }
+        }
+
 
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;

@@ -75,6 +75,7 @@ public class SoundEffect : MonoBehaviour
      */
     private AudioSource FindAudioSource(List<AudioSource> _list, int _max_num, out int _index, string _name = "se_object")
     {
+        // 対象オーディオソースのリスト内インデックス
         _index = 0;
 
         if (_list.Count > 0)
@@ -84,21 +85,23 @@ public class SoundEffect : MonoBehaviour
             {
                 // 再生中でないもの
                 if (!_s.isPlaying) return _s;
-                // 最も長く再生したものを取っておく
+
+                // 最も長く再生したものを取っておく(ループすると正確には取得できないけど)
                 if (ret.timeSamples < _s.timeSamples)
                 {
-                    _index = _list.FindIndex(obj => obj.Equals(_s));
-                    Debug.Log(_index);
                     ret = _s;
                 }
+                _index++;
             }
 
+            Debug.Log( string.Format( "選ばれたのは、 {0}番でした", _index));
             // フル稼働の場合 基も長く再生したオーディオソースを返す
             if (_list.Count >= _max_num)
                 return ret;
         }
 
         // そうでなければ新たに生成
+        _index = _list.Count;
         return CreateSEObject(_list, _name);
     }
 
@@ -163,15 +166,23 @@ public class SoundEffect : MonoBehaviour
     }
 
     public void StopLoopSE(int _index)
-	{
+    {
         // 配列範囲外参照警戒
-        if(_index > m_source_list_loop.Count - 1)
-		{
-            Debug.LogAssertion( string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
+        if (_index > m_source_list_loop.Count - 1)
+        {
+            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
             return;
-		}
-
+        }
+        
         AudioSource _source = m_source_list_loop[_index];
+
+        if (!_source.isPlaying)
+        {
+            Debug.Log("既に止まってる");
+            return;
+        }
+        Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
+
         // 瞬間フェードかけて停止(ノイズ防止)
         m_fade.Set(_source, 0.0f, 0.017f);
         StartCoroutine(m_fade.FadeUpdate());

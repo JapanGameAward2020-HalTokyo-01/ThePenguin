@@ -128,6 +128,7 @@ public class Bomb : BaseGimmick
             }
             else if (LastCount != (int)m_CountDown)
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.BombCount);
                 _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
             }
             LastCount = (int)m_CountDown;
@@ -174,7 +175,6 @@ public class Bomb : BaseGimmick
      */
     public override void OnActivate()
     {
-
     }
 
     /**
@@ -184,7 +184,6 @@ public class Bomb : BaseGimmick
      */
     public override void OnDeactivate()
     {
-
     }
 
     /**
@@ -271,5 +270,4 @@ public class Bomb : BaseGimmick
                 m_SparkEffect.Play();
         }
     }
-
 }

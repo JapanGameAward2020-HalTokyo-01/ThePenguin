@@ -80,13 +80,25 @@ public class PauseMenu : MonoBehaviour
 
     private bool m_Deleted;
 
+    [SerializeField]
+    private LevelSettings m_settings;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
     private void Awake()
     {
+        //! 失敗時
+        if (m_settings.m_failure_flag)
+        {
+            m_Deleted = false;
+            return;
+        }
         //! 現在のEventSystem取得
-        m_EventSystem = EventSystem.current;
+        if (EventSystem.current.enabled)
+        {
+            m_EventSystem = EventSystem.current;
+        }
 
         //! 押したら実行する関数を設定
         m_ContinueButton.onClick.AddListener(Continue);

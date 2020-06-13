@@ -47,6 +47,8 @@ public class StartCameraSystem : MonoBehaviour
     [SerializeField]
     private List<Boss> m_Bosses = new List<Boss>();
 
+    ParentPenguin m_Parent;
+
 
     public bool m_NowPlaying = true;
     private bool m_PlayedOnce = false;
@@ -62,6 +64,7 @@ public class StartCameraSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_Parent = FindObjectOfType<ParentPenguin>();
         v_camera = GetComponentsInChildren<CinemachineVirtualCamera>();
     }
 
@@ -112,14 +115,13 @@ public class StartCameraSystem : MonoBehaviour
                     //ペンギンマスク演出
                     if (m_Timer > m_MaskThreshold && !m_MaskOn)
                     {
-                        ParentPenguin parent = FindObjectOfType<ParentPenguin>();
-                        parent.GetCurrentState().GetComponent<PenguinState_Start>().EffectPlay();
+                        m_Parent.GetCurrentState().GetComponent<PenguinState_Start>().EffectPlay();
                         m_MaskOn = true;
                     }
 
                     if (m_Timer > m_MaskThreshold + 2.0f)
                     {
-                        FindObjectOfType<ParentPenguin>().SetMaskEnable(true);
+                        m_Parent.SetMaskEnable(true);
                     }
                 }
                 else if (m_Timer > m_WaitTimeToMove_1)
@@ -189,6 +191,19 @@ public class StartCameraSystem : MonoBehaviour
         if (!m_PenguinsDown)
         {
             m_PenguinManager.StartEnshutsu_End();
+        }
+
+        if (m_Parent.Boss)
+        {
+            m_Parent.SetMaskEnable(true);
+        }
+
+        if (!m_BossGrowl)
+        {
+            foreach (Boss boss in m_Bosses)
+            {
+                boss.GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
+            }
         }
 
 

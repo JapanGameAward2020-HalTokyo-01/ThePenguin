@@ -186,8 +186,6 @@ public class Penguin : MonoBehaviour
         if (m_ClearAnimation)
             return;
 
-        //! オブジェを無効にする
-        gameObject.SetActive(false);
 
         if (m_Invincible && Gimmick)
         {

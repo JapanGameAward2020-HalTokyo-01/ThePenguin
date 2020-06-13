@@ -233,7 +233,7 @@ public class GameUI : MonoBehaviour
                     m_GameStart = false;
                 }
             }
-
+            
             if (!this)
             {
                 yield break;

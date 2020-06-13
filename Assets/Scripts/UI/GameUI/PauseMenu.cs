@@ -158,7 +158,6 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
-
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

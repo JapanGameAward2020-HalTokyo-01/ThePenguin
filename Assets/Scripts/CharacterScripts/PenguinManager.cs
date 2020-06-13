@@ -189,8 +189,6 @@ public class PenguinManager : MonoBehaviour
     {
         m_settings.m_failure_flag = true;
 
-        m_ParentPenguin.m_IsDead = true;
-
         //UI非表示
         if (m_Main_UI != null)
         {

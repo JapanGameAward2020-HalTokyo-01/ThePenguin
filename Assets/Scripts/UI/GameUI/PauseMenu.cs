@@ -153,6 +153,11 @@ public class PauseMenu : MonoBehaviour
         if(!m_CoroutineB)
         {
             SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
+
+            var _cv = FindObjectOfType<ControllerVibration>();
+            if (_cv)
+                _cv.Pause(false);
+
             StartCoroutine(ClickTimerB());
         }
     }

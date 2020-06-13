@@ -78,7 +78,7 @@ public class GameUI : MonoBehaviour
 
         // 前シーンからBGMを引っ張らないように
         BGMManager.Instance.Play(BGMs.Index.None);
-        //BGMManager.Instance.AnimationMute(0.017f);
+        BGMManager.Instance.AnimationMute(0.017f);
     }
 
     // Start is called before the first frame update
@@ -176,7 +176,7 @@ public class GameUI : MonoBehaviour
             m_Input.actions["Pause"].performed += PauseMenu;
 
             // BGM再生
-            //BGMManager.Instance.EndAnimationMute(0.017f);
+            BGMManager.Instance.EndAnimationMute(0.33f);
             if (!BGMManager.Instance.IsPlay)
 			{
                 if (m_level_param.IsBossStage)

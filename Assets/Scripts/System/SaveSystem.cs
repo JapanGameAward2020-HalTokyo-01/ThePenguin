@@ -418,7 +418,7 @@ public class Sounddata
 
     public Sounddata()
     {
-        m_Music = 0.0f;
-        m_Soundeffects = 0.0f;
+        m_Music = 0.8f;
+        m_Soundeffects = 0.8f;
     }
 }

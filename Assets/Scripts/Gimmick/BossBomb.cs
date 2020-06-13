@@ -72,6 +72,7 @@ public class BossBomb : BaseGimmick
     //!オブジェクト振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
 
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -113,7 +114,7 @@ public class BossBomb : BaseGimmick
         base.Update();
 
         //投げる
-        if(m_IsThrow)
+        if (m_IsThrow)
         {
             this.Throw();
         }
@@ -121,6 +122,7 @@ public class BossBomb : BaseGimmick
         //カウントダウン開始
         if (m_IsCountDown)
         {
+
             var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
 
             if (_cdEffect.exists)
@@ -129,6 +131,7 @@ public class BossBomb : BaseGimmick
             }
             else if(LastCount != (int)m_CountDown)
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.BombCountBoss);
                 _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
             }
             LastCount = (int)m_CountDown;

@@ -136,14 +136,14 @@ public class PauseMenu : MonoBehaviour
         if (!m_Deleted)
         {
             //! InputにPauseのEventを追加
-            m_Input.actions["Pause"].performed -= BButtonPause;
+            m_Input.actions["B Button"].performed -= BButtonPause;
             if (m_SetPauseEvent)
             {
                 //! InputにPauseのEventを削除
                 m_Input.actions["Pause"].performed -= BButtonPause;
             }
         }
-        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
+        //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
 
     }
 
@@ -314,8 +314,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         //! InputからBButtonのEventを削除
         m_Input.actions["B Button"].performed -= BButtonPause;
-        //! InputにPauseのEventを削除
-        m_Input.actions["Pause"].performed -= BButtonPause;
+        if (m_SetPauseEvent)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= BButtonPause;
+        }
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
         SceneManager.LoadScene(m_StageSelectScene);
@@ -391,10 +394,6 @@ public class PauseMenu : MonoBehaviour
         m_BButtonImage.sprite = m_BDefault;
         m_CoroutineA = false;
         m_CoroutineB = false;
-
-        var _cv = FindObjectOfType<ControllerVibration>();
-        if (_cv)
-            _cv.Pause(false);
 
         //!　ゲームを再開
         Time.timeScale = 1;

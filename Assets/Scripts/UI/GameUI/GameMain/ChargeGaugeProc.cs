@@ -24,6 +24,9 @@ public class ChargeGaugeProc : MonoBehaviour
 	private Vector2 m_gauge_left;
 	private Vector2 m_gauge_size;
 
+	private float m_charge_ratio = 0;
+	public float ChargeRatio { get => m_charge_ratio; }
+
 	/**
 	 * @brief   初期化
 	 */
@@ -42,7 +45,9 @@ public class ChargeGaugeProc : MonoBehaviour
 	{
 		// ゲージの長さ、テクスチャuv再計算
 		Vector4 _tiling = new Vector4();
-		_tiling.x = Mathf.Clamp(_input.Power / _input.PowerMax, 0.0f, 1.0f);
+		m_charge_ratio = Mathf.Clamp(_input.Power / _input.PowerMax, 0.0f, 1.0f);
+
+		_tiling.x = m_charge_ratio;
 		_tiling.y = 1.0f;
 
 		// テクスチャのuv値更新(テクスチャが引き延ばされないように)

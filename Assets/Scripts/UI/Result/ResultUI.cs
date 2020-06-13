@@ -545,6 +545,8 @@ public class ResultUI : MonoBehaviour
         //  最後になったらSelectに遷移させる
         if (SceneManager.sceneCountInBuildSettings <= next_index)
         {
+            m_SceneList.m_current_area_index = 3;
+            m_SceneList.m_current_stage_index = 3;
             SceneManager.LoadScene(1);
             yield break;
         }

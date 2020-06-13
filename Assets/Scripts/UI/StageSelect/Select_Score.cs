@@ -48,9 +48,9 @@ public class Select_Score : MonoBehaviour
 	}
 
 	// クリアタイム変更
-	public void SetRequirement(float _req_time, int _req_count)
+	public void SetRequirement(int _req_count,int _req_time)
 	{
-		m_text_require[0].text = Mathf.Min(999, Mathf.FloorToInt(_req_time)).ToString("D3");
-		m_text_require[1].text = Mathf.Min(999, _req_count).ToString("D3");
+		m_text_require[0].text = Mathf.Min(99, _req_count).ToString("D2");
+		m_text_require[1].text = Mathf.Min(99, _req_time).ToString("D2");
 	}
 }

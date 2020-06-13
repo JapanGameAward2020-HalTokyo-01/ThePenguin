@@ -93,12 +93,6 @@ public class ChargeGaugeMgr : MonoBehaviour
 			// ループ効果音再生の停止
 			SoundEffect.Instance.StopLoopSE(m_se_source_index);
 			m_se_source_index = -1;
-
-			// インパクト音判定
-			if(m_Processor.ChargeRatio > 0.8f)
-			{
-				SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Dash_Full);
-			}
 		}
 	}
 

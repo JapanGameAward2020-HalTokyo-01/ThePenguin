@@ -147,6 +147,18 @@ public class SoundEffect : MonoBehaviour
         _source.Play();
     }
 
+    public void PlayOneShot(AudioSEParams _se, float _volume)
+    {
+        // 余ってるオーディオソースの検索
+        AudioSource _source = FindAudioSource(m_source_list_oneshot, m_oneshot_num_max, "SE_OneShot");
+
+        _source.clip = _se.Clip;
+        _source.outputAudioMixerGroup = _se.Mixer;
+        _source.volume = Mathf.Clamp(_volume, 0.0f, 1.0f);
+        _source.loop = false;
+        _source.Play();
+    }
+
     /**
      * @brief   
      */

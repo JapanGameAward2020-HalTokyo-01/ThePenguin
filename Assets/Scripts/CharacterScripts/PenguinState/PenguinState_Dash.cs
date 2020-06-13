@@ -11,14 +11,27 @@ using Effekseer;
 
 public class PenguinState_Dash : PenguinState
 {
-    [SerializeField]
-    private EffekseerEmitter[] effeck;
+    //[SerializeField]
+    //private EffekseerEmitter[] effeck;
 
     //! 初期化処理
     public override void OnStart()
     {
-        effeck[0].speed = 2.0f;
-    }
+        //effeck[0].speed = 2.0f;
+
+        // インパクト音判定
+        ParentPenguin _parent = penguin.GetComponent<ParentPenguin>();
+
+        if (_parent != null)
+        {
+            InputHandler _input = _parent.GetInputHandler();
+
+            if (_input.Power > _input.PowerMax * 0.4f)
+            {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Dash, _input.Power / _input.PowerMax);
+            }
+        }
+	}
 
     //! 更新処理
     public override void OnUpdate()
@@ -35,20 +48,20 @@ public class PenguinState_Dash : PenguinState
                 penguin.Effect.PlayerEffect("BigFoot_New", pos);
             }
 
-            //!文字エフェクト
-            if (!effeck[0].exists)
-            {
-                effeck[1].Play();
-                effeck[0].Play();
-            }
+            ////!文字エフェクト
+            //if (!effeck[0].exists)
+            //{
+            //    effeck[1].Play();
+            //    effeck[0].Play();
+            //}
 
-            effeck[0].speed -= 0.1f * Time.deltaTime;
+            //effeck[0].speed -= 0.1f * Time.deltaTime;
         }
 
         if (penguin.GetFall())
         {
-            effeck[0].StopRoot();
-            effeck[1].StopRoot();
+            //effeck[0].StopRoot();
+            //effeck[1].StopRoot();
 
             penguin.ChangeState<PenguinState_Fall>();
             return;
@@ -56,8 +69,8 @@ public class PenguinState_Dash : PenguinState
 
         if (!penguin.IsMoving())
         {
-            effeck[0].StopRoot();
-            effeck[1].StopRoot();
+            //effeck[0].StopRoot();
+            //effeck[1].StopRoot();
             penguin.ChangeState<PenguinState_Idle>();
             return;
         }

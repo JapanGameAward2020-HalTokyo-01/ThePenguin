@@ -80,11 +80,20 @@ public class PauseMenu : MonoBehaviour
 
     private bool m_Deleted;
 
+    [SerializeField]
+    private LevelSettings m_settings;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
     private void Awake()
     {
+        //! 失敗時
+        if (m_settings.m_failure_flag)
+        {
+            m_Deleted = false;
+            return;
+        }
         //! 現在のEventSystem取得
         if (EventSystem.current.enabled)
         {

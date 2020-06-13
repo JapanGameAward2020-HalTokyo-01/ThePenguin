@@ -18,6 +18,8 @@ public class GameMain : MonoBehaviour
     [SerializeField]
     private float m_WaitTimer = 0.0f;
 
+    private float m_DelayTimer = 0.0f;
+
     public void SetEnable(bool enable)
     {
         m_Gauge.SetEnable(enable);
@@ -45,10 +47,15 @@ public class GameMain : MonoBehaviour
         {
             //回転中またはチャージ中
             m_WaitTimer -= Time.deltaTime;
+            m_DelayTimer = 0;
         }
         else
         {
-            m_WaitTimer += Time.deltaTime;
+            m_DelayTimer += Time.deltaTime;
+            if(m_DelayTimer >= 1)
+            {
+                m_WaitTimer += Time.deltaTime;
+            }
         }
 
         m_WaitTimer = Mathf.Clamp(m_WaitTimer, 0.0f, 1.0f);

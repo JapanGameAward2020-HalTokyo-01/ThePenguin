@@ -56,6 +56,9 @@ public class ParentPenguin : Penguin
 
     private bool m_BossEnshutsu_Cloud = false;
 
+    // ボコボコ(ループ再生)に使っているAudioSourceのインデックス
+    private int m_se_source_index = -1;
+
     #endregion
 
     protected override void Awake()

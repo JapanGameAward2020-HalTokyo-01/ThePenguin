@@ -50,12 +50,12 @@ public class SEs : ScriptableObject
     private AudioSEParams m_charge = null;
     [SerializeField, Tooltip("チャージ最大")]
     private AudioSEParams m_charge_full = null;
-    [SerializeField, Tooltip("チャージダッシュ：最大")]
-    private AudioSEParams m_fullpower_dash = null;
+    [SerializeField, Tooltip("チャージダッシュ")]
+    private AudioSEParams m_dash = null;
 
     public AudioSEParams Charge { get => m_charge; }
     public AudioSEParams ChargeMax { get => m_charge_full; }
-    public AudioSEParams Dash_Full { get => m_fullpower_dash; }
+    public AudioSEParams Dash { get => m_dash; }
 
 
     [SerializeField, Tooltip("モップ：移動中"), Space(10)]
@@ -71,6 +71,17 @@ public class SEs : ScriptableObject
     private AudioSEParams m_bomb_count_boss = null;
     public AudioSEParams BombCount { get => m_bomb_count; }
     public AudioSEParams BombCountBoss { get => m_bomb_count_boss; }
+
+    [Header("BOSS,GOAL SE List")]
+    [SerializeField, Tooltip("ゴールジャンプ"), Space(10)]
+    private AudioSEParams m_goal_jump = null;
+    [SerializeField, Tooltip("ボスフィニッシュ")]
+    private AudioSEParams m_boss_finish = null;
+    [SerializeField, Tooltip("ボスフィニッシュ")]
+    private AudioSEParams m_boss_defeat = null;
+    public AudioSEParams Goal_Jump { get => m_goal_jump; }
+    public AudioSEParams Boss_Finish { get => m_boss_finish; }
+    public AudioSEParams Boss_Defeat { get => m_boss_defeat; }
 
     [Header("Audio SE Groups")]
     [SerializeField, Tooltip("環境音：リーダーペンギン声"), Space(10)]

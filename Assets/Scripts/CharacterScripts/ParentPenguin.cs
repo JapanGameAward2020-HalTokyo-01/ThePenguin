@@ -248,7 +248,6 @@ public class ParentPenguin : Penguin
             if (BossDefeat())
             {
                 m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
-                m_se_source_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Boss_Finish);
             }
 
             else if (m_BossPlayedFirst)
@@ -256,7 +255,6 @@ public class ParentPenguin : Penguin
                 if (m_Boss_Timer > timeLimit)
                 {
                     m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
-                    SoundEffect.Instance.StopLoopSE(m_se_source_index);
                     m_BossScript.animator.SetTrigger("OnDie");
                     m_BossEnshutsu_Cloud = true;
 

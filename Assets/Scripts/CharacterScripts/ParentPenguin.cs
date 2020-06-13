@@ -49,6 +49,7 @@ public class ParentPenguin : Penguin
     private InputEvent m_InputEvent;
 
     #region ボスゴール演出関係
+    [SerializeField]
     private Boss m_BossScript;
 
     private int m_Boss_Timer = 0;
@@ -84,11 +85,6 @@ public class ParentPenguin : Penguin
        // m_InputHandler.RegisterInputEvent(m_InputEvent);
 
         m_ControllerVibration = FindObjectOfType<ControllerVibration>();
-
-        if (m_Boss)
-        {
-            m_BossScript = FindObjectOfType<Boss>();
-        }
     }
 
 

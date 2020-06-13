@@ -21,11 +21,13 @@ public class SoundEffect : MonoBehaviour
 
     [Header("SE")]
     // 通常１回のみ再生される効果音のオーディオソースリスト
+    [SerializeField, NonEditableField]
     private List<AudioSource> m_source_list_oneshot = new List<AudioSource>();
     [SerializeField, Tooltip("同時再生可能数(単発系効果音)")]
     private int m_oneshot_num_max = 8;
 
     // ループ再生する効果音のオーディオソースリスト(全部重なる可能性ある)
+    [SerializeField, NonEditableField]
     private List<AudioSource> m_source_list_loop = new List<AudioSource>();
     [SerializeField, Tooltip("同時再生可能数(ループ系効果音)")]
     private int m_loop_se_num_max = 4;
@@ -187,12 +189,8 @@ public class SoundEffect : MonoBehaviour
         }
         
         AudioSource _source = m_source_list_loop[_index];
+        if (!_source.isPlaying)　return;
 
-        if (!_source.isPlaying)
-        {
-            Debug.Log("既に止まってる");
-            return;
-        }
         Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
 
         // 瞬間フェードかけて停止(ノイズ防止)
@@ -202,28 +200,18 @@ public class SoundEffect : MonoBehaviour
 
     public void PauseAllLoopSE(bool _to_pause)
     {
-        // 瞬間フェードしてポーズかける
-        if(_to_pause)
-		{
-            foreach (AudioSource _s in m_source_list_loop)
-            {
-                if (_s.isPlaying)
-                {
-                    m_fade.Set(_s, 0.05f, 0.017f);
-                    _s.Pause();
-                }
-            }
-        }
-        // 瞬間フェードしてポーズ解除
-        else
+        foreach (AudioSource _s in m_source_list_loop)
         {
-            foreach (AudioSource _s in m_source_list_loop)
+            // 瞬間フェードしてポーズかける
+            if (_to_pause)
             {
-                if (_s.volume > 0)
-                {
-                    m_fade.Set(_s, 1.0f, 0.017f);
-                    _s.Play();
-                }
+                if (_s.isPlaying) _s.Pause();
+                else _s.volume = 0.0f;
+            }
+            // 瞬間フェードしてポーズ解除
+            else
+            {
+                if (_s.volume > 0) _s.Play();
             }
         }
     }
@@ -238,8 +226,6 @@ public class SoundEffect : MonoBehaviour
             return;
         }
         AudioSource _source = m_source_list_loop[_index];
-
-        Debug.Log(string.Format("ボリューム変更 ：cilp = {0} : index = {1}", _source.clip.name, _index));
         _source.volume = Mathf.Clamp(_value, 0.0f, 1.0f);
     }
 }

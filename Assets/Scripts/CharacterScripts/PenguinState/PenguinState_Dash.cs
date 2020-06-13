@@ -24,8 +24,9 @@ public class PenguinState_Dash : PenguinState
 
         if (_parent != null)
         {
-            InputHandler _input = _parent.GetInputHandler();
+            _parent.StopChargeSE();
 
+            InputHandler _input = _parent.GetInputHandler();
             if (_input.Power > _input.PowerMax * 0.4f)
             {
                 SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Dash, _input.Power / _input.PowerMax);

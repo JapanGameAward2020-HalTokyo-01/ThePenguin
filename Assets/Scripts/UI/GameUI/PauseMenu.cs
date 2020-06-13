@@ -92,6 +92,7 @@ public class PauseMenu : MonoBehaviour
         if (m_settings.m_failure_flag)
         {
             m_Deleted = false;
+            this.gameObject.SetActive(false);
             return;
         }
         //! 現在のEventSystem取得
@@ -118,6 +119,13 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void OnEnable()
     {
+        //! 失敗時
+        if (m_settings.m_failure_flag)
+        {
+            m_Deleted = false;
+            this.gameObject.SetActive(false);
+            return;
+        }
         //! 初期選択ボタン
         m_LastSelected = m_ContinueButton.gameObject;
 
@@ -164,10 +172,14 @@ public class PauseMenu : MonoBehaviour
                 m_Input.actions["Pause"].performed -= BButtonPause;
             }
         }
-        //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
+
+        //! 失敗時
+        if (m_settings.m_failure_flag)
+        {
+            return;
+        }
         //! ループ効果音を再開
         SoundEffect.Instance.PauseAllLoopSE(false);
-
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

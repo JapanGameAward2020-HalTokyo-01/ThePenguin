@@ -69,16 +69,16 @@ public class SaveSystem : MonoBehaviour
 
 
             //! StarPenguin
-            Stages[0].m_StarPenguin =  40;
-            Stages[1].m_StarPenguin =  25;
-            Stages[2].m_StarPenguin =  20;
-            Stages[3].m_StarPenguin =  16;
-            Stages[4].m_StarPenguin =  30;
-            Stages[5].m_StarPenguin =  22;
-            Stages[6].m_StarPenguin =  36;
-            Stages[7].m_StarPenguin =  30;
-            Stages[8].m_StarPenguin =  28;
-            Stages[9].m_StarPenguin =  68;
+            Stages[0].m_StarPenguin = 40;
+            Stages[1].m_StarPenguin = 25;
+            Stages[2].m_StarPenguin = 20;
+            Stages[3].m_StarPenguin = 16;
+            Stages[4].m_StarPenguin = 30;
+            Stages[5].m_StarPenguin = 22;
+            Stages[6].m_StarPenguin = 36;
+            Stages[7].m_StarPenguin = 30;
+            Stages[8].m_StarPenguin = 28;
+            Stages[9].m_StarPenguin = 68;
 
             Stages[10].m_StarPenguin = 30;
             Stages[11].m_StarPenguin = 58;
@@ -89,8 +89,8 @@ public class SaveSystem : MonoBehaviour
             Stages[16].m_StarPenguin = 26;
             Stages[17].m_StarPenguin = 18;
             Stages[18].m_StarPenguin = 23;
-            Stages[19].m_StarPenguin = 66; 
-            
+            Stages[19].m_StarPenguin = 66;
+
             Stages[20].m_StarPenguin = 56;
             Stages[21].m_StarPenguin = 28;
             Stages[22].m_StarPenguin = 19;
@@ -130,7 +130,7 @@ public class SaveSystem : MonoBehaviour
             Stages[24].m_StarTime = 15;
             Stages[25].m_StarTime = 20;
             Stages[26].m_StarTime = 19;
-            Stages[27].m_StarTime = 45;
+            Stages[27].m_StarTime = 10;
 
             instance = this;
         }
@@ -361,7 +361,7 @@ public class SaveSystem : MonoBehaviour
         Stages[24].m_StarTime = 15;
         Stages[25].m_StarTime = 20;
         Stages[26].m_StarTime = 19;
-        Stages[27].m_StarTime = 45;
+        Stages[27].m_StarTime = 10;
 
         Save();
         Load();

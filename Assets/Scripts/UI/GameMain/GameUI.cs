@@ -129,12 +129,10 @@ public class GameUI : MonoBehaviour
         m_Input.actions["Rotate R"].canceled -= StopR;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
-
         //! 失敗時
-        if (m_ParentPenguin.GetFall() | m_ParentPenguin.manager.m_settings.m_failure_flag)
+        if (m_ParentPenguin.GetFall() || m_ParentPenguin.m_IsDead || m_ParentPenguin.manager.m_settings.m_failure_flag)
         {
             if (m_GameStart)
             {
@@ -160,6 +158,8 @@ public class GameUI : MonoBehaviour
             }
             return;
         }
+
+        m_DirLight.transform.rotation = m_Camera.transform.Find("PlayerCamera").transform.rotation;
 
         // 開始アニメーション待ち
         if (m_StartSystem.GetNowPlaying())
@@ -281,6 +281,10 @@ public class GameUI : MonoBehaviour
 
         while (!_fade.CheckFadedout())
         {
+            if (!this)
+            {
+                yield break;
+            }
             yield return null;
         }
 

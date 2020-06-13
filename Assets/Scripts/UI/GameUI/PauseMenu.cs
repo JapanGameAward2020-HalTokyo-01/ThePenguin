@@ -80,13 +80,25 @@ public class PauseMenu : MonoBehaviour
 
     private bool m_Deleted;
 
+    [SerializeField]
+    private LevelSettings m_settings;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
     private void Awake()
     {
+        //! 失敗時
+        if (m_settings.m_failure_flag)
+        {
+            m_Deleted = false;
+            return;
+        }
         //! 現在のEventSystem取得
-        m_EventSystem = EventSystem.current;
+        if (EventSystem.current.enabled)
+        {
+            m_EventSystem = EventSystem.current;
+        }
 
         //! 押したら実行する関数を設定
         m_ContinueButton.onClick.AddListener(Continue);
@@ -124,8 +136,12 @@ public class PauseMenu : MonoBehaviour
 
         m_Animator.SetBool("Open", true);
 
+        m_Deleted = true;
+
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonPause;
+
+        m_Deleted = false;
 
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
@@ -146,7 +162,6 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
-
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

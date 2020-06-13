@@ -18,8 +18,9 @@ public class PauseMenu : MonoBehaviour
     //! EventSystem格納
     private EventSystem m_EventSystem;
 
-    ISelectHandler a;
     //! 選択用のボタン群
+    [SerializeField]
+    private UnityEngine.UI.Button m_ContinueButton;
     [SerializeField]
     private UnityEngine.UI.Button m_RestartButton;
     [SerializeField]
@@ -88,6 +89,7 @@ public class PauseMenu : MonoBehaviour
         m_EventSystem = EventSystem.current;
 
         //! 押したら実行する関数を設定
+        m_ContinueButton.onClick.AddListener(Continue);
         m_RestartButton.onClick.AddListener(Restart);
         m_StageButton.onClick.AddListener(StageSelect);
         m_OptionButton.onClick.AddListener(Option);
@@ -105,7 +107,7 @@ public class PauseMenu : MonoBehaviour
     public void OnEnable()
     {
         //! 初期選択ボタン
-        m_LastSelected = m_RestartButton.gameObject;
+        m_LastSelected = m_ContinueButton.gameObject;
 
         //! ABボタンの初期化
         m_CoroutineA = false;
@@ -169,7 +171,7 @@ public class PauseMenu : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         m_EventSystem.SetSelectedGameObject(null);
-        m_EventSystem.SetSelectedGameObject(m_RestartButton.gameObject);
+        m_EventSystem.SetSelectedGameObject(m_ContinueButton.gameObject);
         //! InputにPauseのEventを追加
         m_Input.actions["Pause"].performed += BButtonPause;
         m_SetPauseEvent = true;
@@ -196,6 +198,21 @@ public class PauseMenu : MonoBehaviour
             a.x -= 250.0f * m_Canvas.scaleFactor;
             m_Arrow.gameObject.transform.position = a;
 
+        }
+    }
+
+
+    /// <summary>
+    /// @brief      メニューを閉じる関数
+    /// </summary>
+    void Continue()
+    {
+        if (!m_CoroutineA)
+        {
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
+
+            //! Aボタンのスプライト変更処理
+            StartCoroutine(ClickTimerA(5));
         }
     }
 
@@ -288,9 +305,38 @@ public class PauseMenu : MonoBehaviour
             case 4:
                 yield return StartCoroutine(TitleCo());
                 break;
+            case 5:
+                yield return StartCoroutine(ContinueCo());
+                break;
             default:
                 break;
         }
+
+        yield break;
+    }
+
+    /// <summary>
+    /// @brief      Restart移行処理のCoroutine
+    /// </summary>
+    IEnumerator ContinueCo()
+    {
+        //! InputからBButtonのEventを削除
+        m_Input.actions["B Button"].performed -= BButtonPause;
+        if (m_SetPauseEvent)
+        {
+            //! InputにPauseのEventを削除
+            m_Input.actions["Pause"].performed -= BButtonPause;
+        }
+        m_Deleted = true;
+
+        //!　ゲームを再開
+        Time.timeScale = 1;
+
+        m_Animator.SetBool("Open", false);
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        //!　ポーズ画面を消す
+        this.gameObject.SetActive(false);
 
         yield break;
     }

@@ -385,9 +385,9 @@ public class SaveSystem : MonoBehaviour
 public class GameData
 {
     public bool m_Unlocked = false;
-    public bool m_Star1 = true;
-    public bool m_Star2 = true;
-    public bool m_Star3 = true;
+    public bool m_Star1 = false;
+    public bool m_Star2 = false;
+    public bool m_Star3 = false;
     public float m_Time = 0;
     public int m_TotalPenguins = 0;
     public int m_SavedPenguins = 0;
@@ -398,9 +398,9 @@ public class GameData
     public GameData()
     {
         m_Unlocked = false;
-        m_Star1 = true;
-        m_Star2 = true;
-        m_Star3 = true;
+        m_Star1 = false;
+        m_Star2 = false;
+        m_Star3 = false;
         m_Time = 0;
         m_TotalPenguins = 0;
         m_SavedPenguins = 0;

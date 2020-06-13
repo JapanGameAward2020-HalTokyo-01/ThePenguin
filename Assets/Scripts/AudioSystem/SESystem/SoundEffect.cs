@@ -199,4 +199,18 @@ public class SoundEffect : MonoBehaviour
         m_fade.Set(_source, 0.0f, 0.017f);
         StartCoroutine(m_fade.FadeUpdate());
     }
+
+    public void SetLoopSEVolume(int _index, float _value)
+    {
+        // 配列範囲外参照警戒
+        if (_index > m_source_list_loop.Count - 1)
+        {
+            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
+            return;
+        }
+        AudioSource _source = m_source_list_loop[_index];
+
+        Debug.Log(string.Format("ボリューム変更 ：cilp = {0} : index = {1}", _source.clip.name, _index));
+        _source.volume = Mathf.Clamp(_value, 0.0f, 1.0f);
+    }
 }

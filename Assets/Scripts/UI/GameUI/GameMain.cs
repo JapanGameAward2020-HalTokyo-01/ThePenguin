@@ -15,7 +15,7 @@ public class GameMain : MonoBehaviour
 
     [SerializeField]
     private float m_WaitTime = 1.0f;
-
+    [SerializeField]
     private float m_WaitTimer = 0.0f;
 
     public void SetEnable(bool enable)
@@ -35,16 +35,30 @@ public class GameMain : MonoBehaviour
     }
 
     void Update()
-    {
-        m_WaitTimer += Time.deltaTime;
-
+    { 
         if(FindObjectOfType<MainCamera>().m_IsInRotate||m_ChargeGauge.activeSelf)
         {
             //回転中またはチャージ中
-            m_WaitTimer = 0.0f;
+            m_WaitTimer -= Time.deltaTime;
+        }
+        else
+        {
+            m_WaitTimer += Time.deltaTime;
         }
 
-        //常時表示するならtrue
-        ShowTutorialUI(m_WaitTimer > m_WaitTime);
+        m_WaitTimer = Mathf.Clamp(m_WaitTimer, 0.0f, 1.0f);
+
+        if (m_WaitTimer >= m_WaitTime)
+        {
+            m_Tutorial.Show(true);
+        }
+        else if(m_WaitTimer <= 0)
+        {
+            m_Tutorial.Show(false);
+        }
+        //m_WaitTimer = Mathf.Clamp(m_WaitTimer, 0.0f, 1.0f);
+
+        //m_Tutorial.Show(m_WaitTimer <= m_WaitTime);
     }
+
 }

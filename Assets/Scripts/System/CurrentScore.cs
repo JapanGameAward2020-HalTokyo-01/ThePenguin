@@ -46,14 +46,14 @@ public class CurrentScore : MonoBehaviour
             // 群れ数が Good未満
             if (_manager.m_PackCount < _manager.m_settings.GoodBorder) m_face = FaceIcon.kState.Normal;
             // 群れ数が Good以上 Max 未満
-            else if (_manager.m_PackCount < _manager.m_settings.MaxBorder) m_face = FaceIcon.kState.Good;
+            if (_manager.m_PackCount < _manager.m_settings.MaxBorder) m_face = FaceIcon.kState.Good;
             // 群れ数が Max以上
             else m_face = FaceIcon.kState.Max;
         }
         // 死亡数が基準超え
         else
         {
-            m_face = FaceIcon.kState.Danger;
+            m_face = FaceIcon.kState.Normal;// FaceIcon.kState.Danger;
         }
 
     }

@@ -50,12 +50,12 @@ public class SEs : ScriptableObject
     private AudioSEParams m_charge = null;
     [SerializeField, Tooltip("チャージ最大")]
     private AudioSEParams m_charge_full = null;
-    [SerializeField, Tooltip("チャージダッシュ：最大")]
-    private AudioSEParams m_fullpower_dash = null;
+    [SerializeField, Tooltip("チャージダッシュ")]
+    private AudioSEParams m_dash = null;
 
     public AudioSEParams Charge { get => m_charge; }
     public AudioSEParams ChargeMax { get => m_charge_full; }
-    public AudioSEParams Dash_Full { get => m_fullpower_dash; }
+    public AudioSEParams Dash { get => m_dash; }
 
 
     [SerializeField, Tooltip("モップ：移動中"), Space(10)]

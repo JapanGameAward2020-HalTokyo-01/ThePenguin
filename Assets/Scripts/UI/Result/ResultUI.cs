@@ -254,9 +254,17 @@ public class ResultUI : MonoBehaviour
                         //選択
                         if (m_Select == 0)
                         {
-                            Debug.Log("Next");
-                            m_SceneList.LevelIncrement();
-                            StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
+                            if (m_SceneList.IsFinalStage)
+                            {
+                                Debug.Log("Ending");
+                                StartCoroutine(SceneEnd(m_SceneList.m_Ending));
+                            }
+                            else
+                            {
+                                Debug.Log("Next");
+                                m_SceneList.LevelIncrement();
+                                StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
+                            }
                         }
                         else if (m_Select == 1)
                         {

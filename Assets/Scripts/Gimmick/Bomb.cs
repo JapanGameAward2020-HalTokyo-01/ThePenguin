@@ -77,8 +77,6 @@ public class Bomb : BaseGimmick
     //!オブジェクト振動処理クラス
     private ObjectVibrate m_ObjectVibrate;
 
-    private static int m_se_index = -1;
-
     // Start is called before the first frame update
     public override void Start()
     {
@@ -122,9 +120,6 @@ public class Bomb : BaseGimmick
         //カウントダウン開始
         if(m_IsCountDown)
         {
-            if (m_se_index < 0)
-                m_se_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.BombCount);
-
             var _cdEffect = m_CountDownObject.GetComponent<EffekseerEmitter>();
 
             if (_cdEffect.exists)
@@ -133,6 +128,7 @@ public class Bomb : BaseGimmick
             }
             else if (LastCount != (int)m_CountDown)
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.BombCount);
                 _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
             }
             LastCount = (int)m_CountDown;
@@ -197,13 +193,6 @@ public class Bomb : BaseGimmick
     */
     private void Explode()
     {
-        if (m_se_index >= 0)
-        {
-            // 効果音停止
-            SoundEffect.Instance.StopLoopSE(m_se_index);
-            m_se_index = -1;
-        }
-
         //すべてのペンギンを取得
         Penguin[] _penguins = FindObjectsOfType<Penguin>();
         for (int i = 0; i < _penguins.Length; i++)

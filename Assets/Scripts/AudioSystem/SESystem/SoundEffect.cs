@@ -75,6 +75,7 @@ public class SoundEffect : MonoBehaviour
      */
     private AudioSource FindAudioSource(List<AudioSource> _list, int _max_num, out int _index, string _name = "se_object")
     {
+        // 対象オーディオソースのリスト内インデックス
         _index = 0;
 
         if (_list.Count > 0)
@@ -85,7 +86,7 @@ public class SoundEffect : MonoBehaviour
                 // 再生中でないもの
                 if (!_s.isPlaying) return _s;
 
-                // 最も長く再生したものを取っておく
+                // 最も長く再生したものを取っておく(ループすると正確には取得できないけど)
                 if (ret.timeSamples < _s.timeSamples)
                 {
                     ret = _s;
@@ -173,10 +174,14 @@ public class SoundEffect : MonoBehaviour
             return;
         }
         
-        Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
         AudioSource _source = m_source_list_loop[_index];
 
-        if (!_source.isPlaying) return;
+        if (!_source.isPlaying)
+        {
+            Debug.Log("既に止まってる");
+            return;
+        }
+        Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
 
         // 瞬間フェードかけて停止(ノイズ防止)
         m_fade.Set(_source, 0.0f, 0.017f);

@@ -116,6 +116,9 @@ public class GoalTile : MonoBehaviour
         //親ペンギンと子ペンギンにのみ反応する
         if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin")&&m_CanClear&&!m_level_setting.m_failure_flag)
         {
+            if(other.CompareTag("ParentPenguin")) SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Goal_p);
+            if (other.CompareTag("ChildPenguin")) SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Goal_c);
+
             Goal();
         }
     }
@@ -125,6 +128,9 @@ public class GoalTile : MonoBehaviour
         //親ペンギンと子ペンギンにのみ反応する
         if (other.gameObject.layer == LayerMask.NameToLayer("PackPenguin") && m_CanClear && !m_level_setting.m_failure_flag)
         {
+            if (other.CompareTag("ParentPenguin")) SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Goal_p);
+            if (other.CompareTag("ChildPenguin")) SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Goal_c);
+
             Goal();
         }
     }

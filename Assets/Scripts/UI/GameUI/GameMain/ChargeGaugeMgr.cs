@@ -23,6 +23,11 @@ public class ChargeGaugeMgr : MonoBehaviour
 
     private InputEvent m_InputEvent;
 
+	// チャージ音(ループ再生)に使っているAudioSourceのインデックス
+	private int m_se_source_index = -1;
+	// チャージマックス音を鳴らしたかどうかのフラグ
+	private bool m_is_played = false;
+
     private bool IsRegister { get; set; }
 
 
@@ -43,8 +48,23 @@ public class ChargeGaugeMgr : MonoBehaviour
 		if (m_Processor.isActiveAndEnabled)
 		{
 			m_Processor.OnUpdate(m_input);
-		}
 
+			// チャージゲージが「高」の条件を満たしたとき
+			if (m_Processor.ChargeRatio > 0.8f)
+			{
+				// １度だけ発声する
+				if (m_is_played == false)
+				{
+					SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.ChargeMax);
+					m_is_played = true;
+				}
+			}
+			// チャージゲージが「高」以下の場合
+			else
+			{
+				m_is_played = false;
+			}
+		}
 	}
 
 
@@ -54,6 +74,12 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void ActivateGauge()
 	{
 		m_Processor.gameObject.SetActive(true);
+		if(m_se_source_index < 0)
+		{
+			// ループ効果音再生開始
+			m_se_source_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
+		}
+
 	}
 
 	/**
@@ -62,6 +88,18 @@ public class ChargeGaugeMgr : MonoBehaviour
 	public void HideGauge()
 	{
 		m_Processor.gameObject.SetActive(false);
+		if(m_se_source_index >= 0)
+		{
+			// ループ効果音再生の停止
+			SoundEffect.Instance.StopLoopSE(m_se_source_index);
+			m_se_source_index = -1;
+
+			// インパクト音判定
+			if(m_Processor.ChargeRatio > 0.8f)
+			{
+				SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Dash_Full);
+			}
+		}
 	}
 
 	/**

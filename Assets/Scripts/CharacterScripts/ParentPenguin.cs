@@ -59,6 +59,8 @@ public class ParentPenguin : Penguin
     // ボコボコ(ループ再生)に使っているAudioSourceのインデックス
     private int m_se_source_index = -1;
 
+    public bool m_IsDead;
+
     #endregion
 
     protected override void Awake()
@@ -71,6 +73,8 @@ public class ParentPenguin : Penguin
         Effect = GetComponent<EffectSpawner>();
 
         m_InputEvent = new InputEvent(this);
+
+        m_IsDead = false;
     }
 
     // Start is called before the first frame update

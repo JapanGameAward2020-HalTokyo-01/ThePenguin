@@ -34,6 +34,11 @@ public class GameMain : MonoBehaviour
         m_Tutorial.Show(show);
     }
 
+    public void HideTutorial()
+    {
+        m_Tutorial.enabled = false;
+    }
+
     void Update()
     { 
         if(FindObjectOfType<MainCamera>().m_IsInRotate||m_ChargeGauge.activeSelf)
@@ -48,13 +53,16 @@ public class GameMain : MonoBehaviour
 
         m_WaitTimer = Mathf.Clamp(m_WaitTimer, 0.0f, 1.0f);
 
-        if (m_WaitTimer >= m_WaitTime)
+        if (m_Tutorial.enabled)
         {
-            m_Tutorial.Show(true);
-        }
-        else if(m_WaitTimer <= 0)
-        {
-            m_Tutorial.Show(false);
+            if (m_WaitTimer >= m_WaitTime)
+            {
+                m_Tutorial.Show(true);
+            }
+            else if (m_WaitTimer <= 0)
+            {
+                m_Tutorial.Show(false);
+            }
         }
         //m_WaitTimer = Mathf.Clamp(m_WaitTimer, 0.0f, 1.0f);
 

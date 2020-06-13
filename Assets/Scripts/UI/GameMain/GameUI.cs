@@ -277,6 +277,10 @@ public class GameUI : MonoBehaviour
 
         while (!_fade.CheckFadedout())
         {
+            if (!this)
+            {
+                yield break;
+            }
             yield return null;
         }
 

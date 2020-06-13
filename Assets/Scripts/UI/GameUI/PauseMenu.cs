@@ -86,7 +86,10 @@ public class PauseMenu : MonoBehaviour
     private void Awake()
     {
         //! 現在のEventSystem取得
-        m_EventSystem = EventSystem.current;
+        if (EventSystem.current.enabled)
+        {
+            m_EventSystem = EventSystem.current;
+        }
 
         //! 押したら実行する関数を設定
         m_ContinueButton.onClick.AddListener(Continue);

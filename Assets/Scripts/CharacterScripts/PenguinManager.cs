@@ -146,9 +146,7 @@ public class PenguinManager : MonoBehaviour
         else
             pack = false;
 
-        Vector3 temp = child.transform.position;
-        temp.y = 0;
-        m_PenguinJoin.StartKill(m_Camera.WorldToScreenPoint(temp), pack);
+        m_PenguinJoin.StartKill(m_Camera.WorldToScreenPoint(child.transform.position), pack);
     }
 
     public void OnReachedDestinationDeath(bool inpack)
@@ -168,8 +166,10 @@ public class PenguinManager : MonoBehaviour
         m_Score.JudgeScore(this);
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
-        m_settings.CheckGameOver(m_DeadCount);
-        StartCoroutine(ToNextScene());
+        if (m_settings.CheckGameOver(m_DeadCount))
+        {
+            StartCoroutine(ToNextScene());
+        }
     }
 
     //! 死亡時イベント(親ペンギン)

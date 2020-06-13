@@ -17,7 +17,9 @@ public class PenguinJoin : MonoBehaviour
     private Image m_DeadImage;
 
     [SerializeField]
-    private GameObject m_Destination;
+    private GameObject m_DestinationJoin;
+    [SerializeField]
+    private GameObject m_DestinationDeath;
 
     public float m_Speed;
 
@@ -67,9 +69,9 @@ public class PenguinJoin : MonoBehaviour
     {
         //img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
 
-        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 0.05f)
+        while (Vector3.Distance(m_DestinationJoin.transform.position, img.transform.position) > 0.05f)
         {
-            img.transform.position = Vector3.MoveTowards(img.transform.position, m_Destination.transform.position, Time.deltaTime * m_Speed * 100);
+            img.transform.position = Vector3.MoveTowards(img.transform.position, m_DestinationJoin.transform.position, Time.deltaTime * m_Speed * 100);
 
             if (img.transform.localScale.magnitude > 0.5)
             {
@@ -95,9 +97,9 @@ public class PenguinJoin : MonoBehaviour
     {
         //img.transform.position = new Vector3(img.transform.position.x, img.transform.position.y, 0.0f);
 
-        while (Vector3.Distance(m_Destination.transform.position, img.transform.position) > 0.05f)
+        while (Vector3.Distance(m_DestinationDeath.transform.position, img.transform.position) > 0.05f)
         {
-            img.transform.position = Vector3.MoveTowards(img.transform.position, m_Destination.transform.position, Time.deltaTime * m_Speed * 100);
+            img.transform.position = Vector3.MoveTowards(img.transform.position, m_DestinationDeath.transform.position, Time.deltaTime * m_Speed * 100);
 
             if (img.transform.localScale.magnitude > 0.5)
             {

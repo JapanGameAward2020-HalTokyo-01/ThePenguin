@@ -254,9 +254,17 @@ public class ResultUI : MonoBehaviour
                         //選択
                         if (m_Select == 0)
                         {
-                            Debug.Log("Next");
-                            m_SceneList.LevelIncrement();
-                            StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
+                            if (m_SceneList.IsFinalStage)
+                            {
+                                Debug.Log("Ending");
+                                StartCoroutine(SceneEnd(m_SceneList.m_Ending));
+                            }
+                            else
+                            {
+                                Debug.Log("Next");
+                                m_SceneList.LevelIncrement();
+                                StartCoroutine(SceneEnd(m_SceneList.CurrentLevelBuildIndex));
+                            }
                         }
                         else if (m_Select == 1)
                         {
@@ -545,6 +553,8 @@ public class ResultUI : MonoBehaviour
         //  最後になったらSelectに遷移させる
         if (SceneManager.sceneCountInBuildSettings <= next_index)
         {
+            m_SceneList.m_current_area_index = 3;
+            m_SceneList.m_current_stage_index = 3;
             SceneManager.LoadScene(1);
             yield break;
         }

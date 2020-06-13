@@ -26,8 +26,8 @@ public class Fade : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_FadeImage.color = new Color(0, 0, 0, 0);
-        m_FadeIcon.color = new Color(255, 255, 255, 0);
+        m_FadeImage.CrossFadeAlpha(0, 0, true);
+        m_FadeIcon.CrossFadeAlpha(0, 0, true);
 
         m_DoneFadeout = false;
         //Fader();
@@ -60,8 +60,8 @@ public class Fade : MonoBehaviour
     /// </summary>
     IEnumerator FadeOut(bool fadein)
     { 
-        m_FadeImage.CrossFadeAlpha(0, m_FadeDuration, true);
-        m_FadeIcon.CrossFadeAlpha(0, m_FadeDuration, true);
+        m_FadeImage.CrossFadeAlpha(1, m_FadeDuration, true);
+        m_FadeIcon.CrossFadeAlpha(1, m_FadeDuration, true);
         yield return new WaitForSecondsRealtime(m_FadeDuration);
 
         if (!this)

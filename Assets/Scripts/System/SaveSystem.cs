@@ -130,7 +130,7 @@ public class SaveSystem : MonoBehaviour
             Stages[24].m_StarTime = 15;
             Stages[25].m_StarTime = 20;
             Stages[26].m_StarTime = 19;
-            Stages[27].m_StarTime = 45;
+            Stages[27].m_StarTime = 10;
 
             instance = this;
         }
@@ -361,7 +361,7 @@ public class SaveSystem : MonoBehaviour
         Stages[24].m_StarTime = 15;
         Stages[25].m_StarTime = 20;
         Stages[26].m_StarTime = 19;
-        Stages[27].m_StarTime = 45;
+        Stages[27].m_StarTime = 10;
 
         Save();
         Load();

@@ -136,8 +136,12 @@ public class PauseMenu : MonoBehaviour
 
         m_Animator.SetBool("Open", true);
 
+        m_Deleted = true;
+
         //! InputにBButtonのEventを追加
         m_Input.actions["B Button"].performed += BButtonPause;
+
+        m_Deleted = false;
 
         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
@@ -158,7 +162,6 @@ public class PauseMenu : MonoBehaviour
             }
         }
         //SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
-
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

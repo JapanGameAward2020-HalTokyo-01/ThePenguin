@@ -110,9 +110,12 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     public void OnEnable()
     {
-        //カメラ切り替え
-        cam1.Priority = 0;
-        cam2.Priority = 1;
+        if (m_MainMenu != null)
+        {
+            //カメラ切り替え
+            cam1.Priority = 0;
+            cam2.Priority = 1;
+        }
 
         //! 初期選択ボタン
         m_LastSelected = m_VolumeSlider.gameObject;
@@ -321,9 +324,13 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     IEnumerator ClickTimerB(InputAction.CallbackContext ctx)
     {
-        //カメラ切り替え
-        cam1.Priority = 1;
-        cam2.Priority = 0;
+
+        if (m_MainMenu != null)
+        {
+            //カメラ切り替え
+            cam1.Priority = 1;
+            cam2.Priority = 0;
+        }
 
         //! ボタン選択処理
         m_CoroutineA = true;

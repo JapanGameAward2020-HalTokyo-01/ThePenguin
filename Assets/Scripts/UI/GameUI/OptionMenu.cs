@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
+using Cinemachine;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -76,6 +77,11 @@ public class OptionMenu : MonoBehaviour
     private SaveSystem m_SaveSystem;
 
 
+    [SerializeField]
+    CinemachineVirtualCamera cam1;
+    [SerializeField]
+    CinemachineVirtualCamera cam2;
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
@@ -104,6 +110,10 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     public void OnEnable()
     {
+        //カメラ切り替え
+        cam1.Priority = 0;
+        cam2.Priority = 1;
+
         //! 初期選択ボタン
         m_LastSelected = m_VolumeSlider.gameObject;
 
@@ -145,6 +155,7 @@ public class OptionMenu : MonoBehaviour
     {
         if (!m_Deleted)
         {
+
             //! InputからBButtonのEventを削除
             m_Input.actions["B Button"].performed -= BButtonOption;
             if (m_PauseMenu != null)
@@ -311,8 +322,11 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     IEnumerator ClickTimerB(InputAction.CallbackContext ctx)
     {
+        //カメラ切り替え
+        cam1.Priority = 1;
+        cam2.Priority = 0;
+
         //! ボタン選択処理
-        Debug.Log("B Button");
         m_CoroutineA = true;
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;

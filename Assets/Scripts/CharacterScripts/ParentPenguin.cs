@@ -431,6 +431,7 @@ public class ParentPenguin : Penguin
         {
             // ループ効果音再生開始
             m_se_charge_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
+            Debug.Log("チャージ開始\nインデックス：" + m_se_charge_index.ToString());
         }
         SoundEffect.Instance.SetLoopSEVolume(m_se_charge_index, m_InputHandler.Power / m_InputHandler.PowerMax);
     }
@@ -440,6 +441,7 @@ public class ParentPenguin : Penguin
         // ループ効果音再生の停止
         if (m_se_charge_index > -1)
         {
+            Debug.Log("チャージ停止\nインデックス：" + m_se_charge_index.ToString());
             SoundEffect.Instance.StopLoopSE(m_se_charge_index);
             m_se_charge_index = -1;
         }

@@ -107,10 +107,10 @@ public class BGMManager : MonoBehaviour
 		float[] _weight = new float[2] { 0.0f, 1.0f };
 		_mixer.TransitionToSnapshots(_snaps, _weight, _time);
 
-		_mixer.SetFloat("BGMVolume", _save.VolumeData.m_Music);
-		_mixer.SetFloat("SEVolume", _save.VolumeData.m_Soundeffects);
+		_mixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(_save.VolumeData.m_Music, 0.0001f, 10f)));
+		_mixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(_save.VolumeData.m_Soundeffects, 0.0001f, 10f)));
 	}
-
+	
 	/**
 	 * @brief   未使用のAudioSourceを取得する
 	 */

@@ -186,7 +186,7 @@ public class PauseMenu : MonoBehaviour
 
     public void BButtonPause(InputAction.CallbackContext ctx)
     {
-        Debug.Log("PauseMenu: message received");
+        //Debug.Log("PauseMenu: message received");
         if(!m_CoroutineB)
         {
             SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cancel);
@@ -459,7 +459,7 @@ public class PauseMenu : MonoBehaviour
     IEnumerator ClickTimerB()
     {
         //! ボタン選択処理
-        Debug.Log("B Button");
+        //Debug.Log("B Button");
         m_CoroutineA = true;
         m_CoroutineB = true;
         m_BButtonImage.sprite = m_BClicked;

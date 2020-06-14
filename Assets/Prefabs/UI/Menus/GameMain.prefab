@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Tutorial: {fileID: 8675071615811239843}
   m_ChargeGauge: {fileID: 9127691903774383896}
   m_WaitTime: 1
+  m_WaitTimer: 0
 --- !u!1001 &1029943338724669307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305,32 +306,32 @@ PrefabInstance:
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 430
+      value: -1490
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 112
+      value: -968
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3396754662603725718, guid: f6bb031f5ec816045824f32d3f88e6e8,
         type: 3}
@@ -374,6 +375,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
+        type: 3}
+      propertyPath: m_minute_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
+        type: 3}
+      propertyPath: m_second_text
+      value: 
+      objectReference: {fileID: 3610978328394120556}
+    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
+        type: 3}
+      propertyPath: m_mini_sec_text
+      value: 
+      objectReference: {fileID: 4270095502519101553}
     - target: {fileID: 1636259803528409852, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -499,21 +515,6 @@ PrefabInstance:
       propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
-      propertyPath: m_minute_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
-      propertyPath: m_second_text
-      value: 
-      objectReference: {fileID: 3610978328394120556}
-    - target: {fileID: 1045207143145207542, guid: 91028b4327266694d95eb8f4df55a21e,
-        type: 3}
-      propertyPath: m_mini_sec_text
-      value: 
-      objectReference: {fileID: 4270095502519101553}
     - target: {fileID: 3558961780212838244, guid: 91028b4327266694d95eb8f4df55a21e,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -579,6 +580,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChargeGauge
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568548972091778321, guid: 99ed8d89e6dab984c92ee75bf81b8226,
+        type: 3}
+      propertyPath: m_camvas_rect
+      value: 
+      objectReference: {fileID: 3000693652257531561}
+    - target: {fileID: 5568548972091778321, guid: 99ed8d89e6dab984c92ee75bf81b8226,
+        type: 3}
+      propertyPath: m_target_pos
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417898971014705107, guid: 99ed8d89e6dab984c92ee75bf81b8226,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8650833821019600938, guid: 99ed8d89e6dab984c92ee75bf81b8226,
         type: 3}
@@ -684,21 +700,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5568548972091778321, guid: 99ed8d89e6dab984c92ee75bf81b8226,
-        type: 3}
-      propertyPath: m_camvas_rect
-      value: 
-      objectReference: {fileID: 3000693652257531561}
-    - target: {fileID: 5568548972091778321, guid: 99ed8d89e6dab984c92ee75bf81b8226,
-        type: 3}
-      propertyPath: m_target_pos
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2417898971014705107, guid: 99ed8d89e6dab984c92ee75bf81b8226,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99ed8d89e6dab984c92ee75bf81b8226, type: 3}

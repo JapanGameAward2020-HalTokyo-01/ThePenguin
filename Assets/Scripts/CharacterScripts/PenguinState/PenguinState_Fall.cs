@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
-using System.Media;
+//using System.Media;
 
 public class PenguinState_Fall : PenguinState
 {

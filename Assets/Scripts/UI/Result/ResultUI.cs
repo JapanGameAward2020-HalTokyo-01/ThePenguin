@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class ResultUI : MonoBehaviour
 {
     [Header("Face List")]
@@ -84,6 +84,8 @@ public class ResultUI : MonoBehaviour
     private UI_Component_Button m_Page2_B_Button;
     [SerializeField]
     private UI_Component_Button m_Fade;
+    [SerializeField]
+    private Image m_Arrow;
 
     [Header("Scene Data")]
     
@@ -229,26 +231,32 @@ public class ResultUI : MonoBehaviour
                     }
                     m_Select = (m_Select + 3) % 3;
 
+                    Vector3 _ButtonPosition = m_Page2_Continue.transform.position;
                     if (m_Select == 0)
                     {
                         m_Page2_Continue.SetActive(true);
                         m_Page2_StageSelect.SetActive(false);
                         m_Page2_Retry.SetActive(false);
+                        _ButtonPosition = m_Page2_Continue.transform.position;
                     }
                     else if (m_Select == 1)
                     {
                         m_Page2_Continue.SetActive(false);
                         m_Page2_StageSelect.SetActive(true);
                         m_Page2_Retry.SetActive(false);
+                        _ButtonPosition = m_Page2_StageSelect.transform.position;
                     }
                     else if (m_Select == 2)
                     {
                         m_Page2_Continue.SetActive(false);
                         m_Page2_StageSelect.SetActive(false);
                         m_Page2_Retry.SetActive(true);
+                        _ButtonPosition = m_Page2_Retry.transform.position;
                     }
+                    _ButtonPosition.x -= 260.0f;
+                    m_Arrow.gameObject.transform.position = _ButtonPosition;
 
-                    if(GetAButtonUp())
+                    if (GetAButtonUp())
                     {
                         SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
                         //選択
@@ -293,7 +301,7 @@ public class ResultUI : MonoBehaviour
 
     IEnumerator SceneStart()
     {
-        
+        m_Arrow.gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(1.0f);
 
         m_Fade.SetActive(false);
@@ -578,6 +586,11 @@ public class ResultUI : MonoBehaviour
         m_Page2_A_Button.SetEnable(false);
         m_Page2_B_Button.SetEnable(false);
 
+        Vector3 _ButtonPosition = m_Page2_Continue.transform.position;
+        _ButtonPosition.x -= 260.0f;
+        m_Arrow.gameObject.transform.position = _ButtonPosition;
+        m_Arrow.gameObject.SetActive(false);
+
         yield return new WaitForSecondsRealtime(0.15f);
 
         //Page1を開く
@@ -659,6 +672,7 @@ public class ResultUI : MonoBehaviour
         m_Page2_Continue.SetActive(true);
         m_Page2_StageSelect.SetEnable(true);
         m_Page2_Retry.SetEnable(true);
+        m_Arrow.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(0.5f);
 
         m_Page2_A_Button.SetEnable(true);

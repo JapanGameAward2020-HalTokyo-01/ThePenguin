@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class GameOver : MonoBehaviour
     private UI_Component_Button m_B_Button;
     [SerializeField]
     private UI_Component_Button m_Fade;
+    [SerializeField]
+    private Image m_Arrow;
 
     [Header("Scene Data")]
 
@@ -100,26 +103,32 @@ public class GameOver : MonoBehaviour
                 }
                 m_Select = (m_Select + 3) % 3;
 
+                Vector3 _ButtonPosition= m_Retry.transform.position;
                 if(m_Select==0)
                 {
                     m_Retry.SetActive(true);
                     m_StageSelect.SetActive(false);
                     m_Title.SetActive(false);
+                    _ButtonPosition = m_Retry.transform.position;
                 }
                 else if(m_Select==1)
                 {
                     m_Retry.SetActive(false);
                     m_StageSelect.SetActive(true);
                     m_Title.SetActive(false);
+                    _ButtonPosition = m_StageSelect.transform.position;
                 }
                 else if (m_Select == 2)
                 {
                     m_Retry.SetActive(false);
                     m_StageSelect.SetActive(false);
                     m_Title.SetActive(true);
+                    _ButtonPosition = m_Title.transform.position;
                 }
+                _ButtonPosition.x -= 230.0f;
+                m_Arrow.gameObject.transform.position = _ButtonPosition;
 
-                if(GetAButtonUp())
+                if (GetAButtonUp())
                 {
                     //Aボタン
                     SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);

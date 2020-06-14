@@ -40,11 +40,15 @@ public class SEs : ScriptableObject
     [SerializeField, Tooltip("子：ゴール")]
     private AudioSEParams m_goal_child = null;
 
+
     public AudioSEParams WallHit_p { get => m_wall_hit_oya; }
     public AudioSEParams Goal_p { get => m_goal_oya; }
     public AudioSEParams WallHit_c { get => m_wall_hit_child; }
     public AudioSEParams Goal_c { get => m_goal_child; }
 
+    [SerializeField, Tooltip("落下ギミックの音")]
+    private AudioSEParams m_down_block = null;
+    public AudioSEParams Down_Block { get => m_down_block; }
 
     [SerializeField, Tooltip("チャージ中"), Space(10)]
     private AudioSEParams m_charge = null;
@@ -98,6 +102,17 @@ public class SEs : ScriptableObject
     [SerializeField, Tooltip("ゲームオーバー遷移時SE")]
     private AudioSEParams m_gameover = null;
     public AudioSEParams GameOver { get => m_gameover; }
+
+    [Header("Voice SE")]
+    [SerializeField, Tooltip("落下中")]
+    private AudioSEParams m_falling = null;
+    [SerializeField, Tooltip("死亡ボイス(親)")]
+    private AudioSEParams m_dead_parent = null;
+    [SerializeField, Tooltip("死亡ボイス(子)")]
+    private AudioSEParams m_dead_child = null;
+    public AudioSEParams Falling { get => m_falling; }
+    public AudioSEParams DeadParent { get => m_dead_parent; }
+    public AudioSEParams DeadChild { get => m_dead_child; }
 
 
     [Header("Audio SE Groups")]

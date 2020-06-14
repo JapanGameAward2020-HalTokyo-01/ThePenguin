@@ -69,7 +69,8 @@ public class Select_Cursor : MonoBehaviour
 	[SerializeField,NonEditableField]
 	private SaveSystem m_save;
 
-    
+    [SerializeField]
+    private UI_Component_Button m_Fade;
     /**
 	 * @brief	初期化(参照回収)
 	 */
@@ -80,13 +81,14 @@ public class Select_Cursor : MonoBehaviour
 
 	public void Start()
 	{
-
         m_last_selected = m_command_mgr.GetButtonPos(m_stage_list.m_current_area_index, m_stage_list.m_current_stage_index).GetComponent<Button>();
 
         m_self = GetComponent<RectTransform>();
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Select);
+
+        StartCoroutine(FadeOut());
     }
 
 	/**
@@ -209,7 +211,7 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	IEnumerator TransitionToTitle()
 	{
-
+        m_Fade.SetActive(true);
         m_BButtonImage.sprite = m_BClicked;
 
         //! 0.4秒待つ
@@ -228,6 +230,7 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	IEnumerator TransitionToGame()
 	{
+        m_Fade.SetActive(true);
         m_AButtonImage.sprite = m_AClicked;
 
         //! 0.3秒待つ
@@ -241,5 +244,9 @@ public class Select_Cursor : MonoBehaviour
 		yield return null;
 	}
 
-
+    private IEnumerator FadeOut()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        m_Fade.SetActive(false);
+    }
 }

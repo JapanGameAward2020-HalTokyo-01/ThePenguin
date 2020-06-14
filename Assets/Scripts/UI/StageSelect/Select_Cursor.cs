@@ -77,7 +77,8 @@ public class Select_Cursor : MonoBehaviour
     public void Awake()
 	{
         m_event_system = EventSystem.current;
-    }
+		SoundEffect.Instance.StopLoopSEAll();
+	}
 
 	public void Start()
 	{

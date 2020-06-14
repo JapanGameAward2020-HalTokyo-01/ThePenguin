@@ -86,7 +86,8 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SoundEffect.Instance.StopLoopSEAll();
+
         m_State = MenuState.LOGO;
         m_MenuAnimator.enabled = false;
         m_LogoAnimator.enabled = false;

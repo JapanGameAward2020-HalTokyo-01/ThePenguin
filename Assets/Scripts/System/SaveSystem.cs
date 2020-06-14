@@ -182,6 +182,9 @@ public class SaveSystem : MonoBehaviour
         format.Serialize(file, Volume);
         file.Close();
         Debug.Log("Saved Sound Data");
+
+        m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Music, 0.0001f, 10f)));
+        m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Soundeffects, 0.0001f, 10f)));
     }
 
     /// <summary>
@@ -218,8 +221,8 @@ public class SaveSystem : MonoBehaviour
             file.Close();
             Debug.Log(sounddata);
             Debug.Log("Loaded Sound Data");
-            m_BGMMixer.audioMixer.SetFloat("BGMVolume", Volume.m_Music);
-            m_SEMixer.audioMixer.SetFloat("SEVolume", Volume.m_Soundeffects);
+            m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Music, 0.0001f, 10f)));
+            m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Soundeffects, 0.0001f, 10f)));
         }
         else
         {
@@ -419,8 +422,8 @@ public class GameData
 [System.Serializable] 
 public class Sounddata
 {
-    public float m_Music = 0.0f;
-    public float m_Soundeffects = 0.0f;
+    public float m_Music = 0.8f;
+    public float m_Soundeffects = 0.8f;
 
     public Sounddata()
     {

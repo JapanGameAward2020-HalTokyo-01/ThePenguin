@@ -88,6 +88,17 @@ public class SEs : ScriptableObject
     private AudioSEParams m_gameover = null;
     public AudioSEParams GameOver { get => m_gameover; }
 
+    [Header("Voice SE")]
+    [SerializeField, Tooltip("落下中")]
+    private AudioSEParams m_falling = null;
+    [SerializeField, Tooltip("死亡ボイス(親)")]
+    private AudioSEParams m_dead_parent = null;
+    [SerializeField, Tooltip("死亡ボイス(子)")]
+    private AudioSEParams m_dead_child = null;
+    public AudioSEParams Falling { get => m_falling; }
+    public AudioSEParams DeadParent { get => m_dead_parent; }
+    public AudioSEParams DeadChild { get => m_dead_child; }
+
 
     [Header("Audio SE Groups")]
     [SerializeField, Tooltip("環境音：リーダーペンギン声"), Space(10)]

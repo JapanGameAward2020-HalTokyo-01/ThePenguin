@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Effekseer;
+using System.Media;
 
 public class PenguinState_Fall : PenguinState
 {
@@ -21,6 +22,7 @@ public class PenguinState_Fall : PenguinState
         {
             if (!startCameraSystem.GetNowPlaying())
             {
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Falling);
                 penguin.animator.SetTrigger("OnFall");
             }
         }

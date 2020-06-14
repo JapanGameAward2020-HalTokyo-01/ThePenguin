@@ -102,7 +102,6 @@ public class SoundEffect : MonoBehaviour
                 _index++;
             }
 
-            Debug.Log(string.Format("選ばれたのは、 {0}番でした", _index));
             // フル稼働の場合 基も長く再生したオーディオソースを返す
             if (_list.Count >= _max_num)
                 return ret;
@@ -190,14 +189,11 @@ public class SoundEffect : MonoBehaviour
         // 配列範囲外参照警戒
         if (_index > m_source_list_loop.Count - 1)
         {
-            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
             return;
         }
 
         AudioSource _source = m_source_list_loop[_index];
         if (!_source.isPlaying) return;
-
-        Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
 
         // 瞬間フェードかけて停止(ノイズ防止)
         m_fade.Set(_source, 0.0f, 0.017f);
@@ -231,7 +227,6 @@ public class SoundEffect : MonoBehaviour
         // 配列範囲外参照警戒
         if (_index > m_source_list_loop.Count - 1)
         {
-            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
             return;
         }
         AudioSource _source = m_source_list_loop[_index];

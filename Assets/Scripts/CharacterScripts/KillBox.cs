@@ -27,21 +27,8 @@ public class KillBox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //! ペンギンだったら
-        if(other.gameObject.CompareTag("ParentPenguin"))
+        if(other.gameObject.CompareTag("ParentPenguin") || other.gameObject.CompareTag("ChildPenguin"))
         {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.DeadParent);
-
-            if (Effect != null)
-                Effect.PlayerEffect("WAAAAAA_P1", other.gameObject.transform.position);
-
-            //! 死亡処理
-            other.GetComponent<Penguin>().Kill(false);
-        }
-
-        else if(other.gameObject.CompareTag("ChildPenguin"))
-        {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.DeadChild);
-
             if (Effect != null)
                 Effect.PlayerEffect("WAAAAAA_P1", other.gameObject.transform.position);
 

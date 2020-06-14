@@ -92,6 +92,13 @@ public class MainMenu : MonoBehaviour
         m_MenuAnimator.enabled = false;
         m_LogoAnimator.enabled = false;
 
+        StartCoroutine(DelayStart());
+    }
+
+    IEnumerator DelayStart()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return null;
         m_SaveData = FindObjectOfType<SaveSystem>();
 
         if (!m_SaveData.Stages1[1].m_Unlocked)
@@ -108,8 +115,8 @@ public class MainMenu : MonoBehaviour
         }
 
         m_UnlockStage = -1;
-        foreach(var data in m_SaveData.Stages1)
-            if(data.m_Unlocked) m_UnlockStage++;
+        foreach (var data in m_SaveData.Stages1)
+            if (data.m_Unlocked) m_UnlockStage++;
         // ステージ1は確定アンロックの仕様だが念のため
         if (m_UnlockStage < 0) m_UnlockStage = 0;
 
@@ -117,6 +124,8 @@ public class MainMenu : MonoBehaviour
 
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Title);
+
+        yield break;
     }
 
     // Update is called once per frame

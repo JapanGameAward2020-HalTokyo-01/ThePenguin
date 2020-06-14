@@ -371,6 +371,8 @@ public class PenguinManager : MonoBehaviour
 
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();
+        // 全効果音停止
+        SoundEffect.Instance.StopLoopSEAll();
 
         // クリア時
         if (_flags[1])

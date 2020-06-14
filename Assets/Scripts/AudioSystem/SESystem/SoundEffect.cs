@@ -222,12 +222,20 @@ public class SoundEffect : MonoBehaviour
 
     public void StopLoopSEAll()
     {
+        string _str = "";
+        int i = 0;
         foreach(AudioSource _s in m_source_list_loop)
 		{
             // 瞬間フェードかけて停止(ノイズ防止)
+            if(_s.clip == null)
+                _str += string.Format("{0}：効果音停止：{1}, {2}\n", i++, _s.clip, _s.volume);
+            else
+                _str += string.Format("{0}：効果音停止：{1}, {2}\n", i++, _s.clip.name, _s.volume);
+
             m_fade.Set(_s, 0.0f, 0.017f);
             StartCoroutine(m_fade.FadeUpdate());
         }
+        Debug.Log(_str);
     }
 
     public void SetLoopSEVolume(int _index, float _value)

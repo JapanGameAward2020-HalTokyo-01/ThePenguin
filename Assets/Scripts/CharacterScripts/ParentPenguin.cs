@@ -227,7 +227,7 @@ public class ParentPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_p);
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_p, 0.8f, 128);
             m_ControllerVibration.AddShake(0.4f, 0.2f);
             animator.SetTrigger("OnCrash");
             if (Effect != null)

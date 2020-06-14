@@ -209,6 +209,8 @@ public class StartCameraSystem : MonoBehaviour
         {
             main_ui.SetEnable(false);
         }
+
+        m_Parent.SetMarkerEnable(false);
     }
 
     public void StopPlaying()
@@ -238,6 +240,7 @@ public class StartCameraSystem : MonoBehaviour
             SoundEffect.Instance.StopLoopSE(SEloopIndex);
         }
 
+        m_Parent.SetMarkerEnable(true);
 
         FindObjectOfType<CinemachineBrain>().m_DefaultBlend.m_Time = m_OutTime;
         v_camera[0].Priority = 0;

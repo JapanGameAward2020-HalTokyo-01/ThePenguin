@@ -85,13 +85,17 @@ public class SoundEffect : MonoBehaviour
             AudioSource ret = _list[0];
             foreach (AudioSource _s in _list)
             {
-                // 再生中でないもの
+                // 再生中でないものは最優先で提供する
                 if (!_s.isPlaying) return _s;
 
-                // 最も長く再生したものを取っておく(ループすると正確には取得できないけど)
-                if (ret.timeSamples < _s.timeSamples)
-                {
-                    ret = _s;
+                // プライオリティの値が0の場合を例外とする
+                if(_s.priority > 0)
+				{
+                    // 最も長く再生したものを取っておく(ループすると正確には取得できないけど)
+                    if (ret.timeSamples < _s.timeSamples)
+                    {
+                        ret = _s;
+                    }
                 }
                 _index++;
             }
@@ -128,20 +132,19 @@ public class SoundEffect : MonoBehaviour
         // 余ってるオーディオソースの検索
         AudioSource _source = FindAudioSource(m_source_list_oneshot, m_oneshot_num_max, "SE_OneShot");
 
+        _source.priority = 128;
         _source.clip = _se.Clip;
         _source.outputAudioMixerGroup = _se.Mixer;
         _source.volume = 1.0f;
         _source.Play();
     }
 
-    public void PlayOneShot(AudioSEParams _se, Vector3 _pos)
+    public void PlayOneShot(AudioSEParams _se, int _priority)
     {
         // 余ってるオーディオソースの検索
         AudioSource _source = FindAudioSource(m_source_list_oneshot, m_oneshot_num_max, "SE_OneShot");
 
-        // 再生するワールド座標変更
-        _source.gameObject.transform.position = _pos;
-
+        _source.priority = _priority;
         _source.clip = _se.Clip;
         _source.outputAudioMixerGroup = _se.Mixer;
         _source.volume = 1.0f;
@@ -149,11 +152,12 @@ public class SoundEffect : MonoBehaviour
         _source.Play();
     }
 
-    public void PlayOneShot(AudioSEParams _se, float _volume)
+    public void PlayOneShot(AudioSEParams _se, float _volume, int _priority)
     {
         // 余ってるオーディオソースの検索
         AudioSource _source = FindAudioSource(m_source_list_oneshot, m_oneshot_num_max, "SE_OneShot");
 
+        _source.priority = _priority;
         _source.clip = _se.Clip;
         _source.outputAudioMixerGroup = _se.Mixer;
         _source.volume = Mathf.Clamp(_volume, 0.0f, 1.0f);

@@ -51,7 +51,7 @@ public class PenguinManager : MonoBehaviour
     private List<ChildPenguin> m_ChildPenguins = new List<ChildPenguin>();
 
     //! スタート演出のペンギン高さ
-    private float m_StartHeight;
+    private float m_StartHeight = 20f;
 
     CurrentScore m_Score;
 
@@ -67,6 +67,9 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
+
     #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
@@ -80,6 +83,9 @@ public class PenguinManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!m_ControllerVibration)
+            m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
         m_settings = GetComponent<LevelSettings>();
 
         m_Main_UI = FindObjectOfType<GameMain>();
@@ -97,7 +103,6 @@ public class PenguinManager : MonoBehaviour
         m_PenguinJoin.onReachedDestinationDeath = OnReachedDestinationDeath;
 
         m_Score = FindObjectOfType<CurrentScore>();
-        m_StartHeight = m_ParentPenguin.Boss ? 0 : 20; 
 
         //! GoalTileの取得
         GoalTile[] goalTiles = FindObjectsOfType<GoalTile>();
@@ -124,7 +129,7 @@ public class PenguinManager : MonoBehaviour
                 m_ChildPenguins.Add(child);
 
                 //! Event登録
-                child.onKillEvent = OnKillEvent; 
+                child.onKillEvent = OnKillEvent;
                 child.onPackEvent = OnStart;
 
                 child.manager = this;
@@ -253,11 +258,11 @@ public class PenguinManager : MonoBehaviour
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
         if (_Score != null) _Score.JudgeScore(this);
 
-        m_ParentPenguin.StageClear(goal);
+        m_ParentPenguin.StageClear(goal, m_ParentPenguin.Boss);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
-            child.StageClear(goal);
+            child.StageClear(goal, m_ParentPenguin.Boss);
         }
 
 
@@ -272,15 +277,18 @@ public class PenguinManager : MonoBehaviour
     //! ステージスタート演出処理_第1段階
     private void StartEnshutsu_Start()
     {
-        m_ParentPenguin.transform.position = new Vector3(m_ParentPenguin.transform.position.x, m_ParentPenguin.transform.position.y + m_StartHeight, m_ParentPenguin.transform.position.z);
-        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = false;
-
-        foreach (ChildPenguin child in m_ChildPenguins)
+        if (!m_ParentPenguin.Boss)
         {
-            if (child.InPack)
+            m_ParentPenguin.transform.position = new Vector3(m_ParentPenguin.transform.position.x, m_ParentPenguin.transform.position.y + m_StartHeight, m_ParentPenguin.transform.position.z);
+            m_ParentPenguin.GetComponent<Rigidbody>().useGravity = false;
+
+            foreach (ChildPenguin child in m_ChildPenguins)
             {
-                child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y + m_StartHeight, child.transform.position.z);
-                child.GetComponent<Rigidbody>().useGravity = false;
+                if (child.InPack)
+                {
+                    child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y + m_StartHeight, child.transform.position.z);
+                    child.GetComponent<Rigidbody>().useGravity = false;
+                }
             }
         }
     }
@@ -288,18 +296,23 @@ public class PenguinManager : MonoBehaviour
     //! ステージスタート演出処理_第2段階
     public void StartEnshutsu_End()
     {
-        Vector3 downForce = new Vector3(0.0f, -40f);
-
-        m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
-        m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
-
-        foreach (ChildPenguin child in m_ChildPenguins)
+        if (!m_ParentPenguin.Boss)
         {
-            if (child.InPack)
+            Vector3 downForce = new Vector3(0.0f, -40f);
+
+            m_ParentPenguin.GetComponent<Rigidbody>().useGravity = true;
+            m_ParentPenguin.GetComponent<Rigidbody>().AddForce(downForce, ForceMode.Impulse);
+
+            foreach (ChildPenguin child in m_ChildPenguins)
             {
-                child.GetComponent<Rigidbody>().useGravity = true;
-                child.GetComponent<Rigidbody>().AddForce(downForce / 2, ForceMode.Impulse);
+                if (child.InPack)
+                {
+                    child.GetComponent<Rigidbody>().useGravity = true;
+                    child.GetComponent<Rigidbody>().AddForce(downForce / 2, ForceMode.Impulse);
+                }
             }
+
+            StartCoroutine(StartEnshutsu_Fall()); 
         }
     }
 
@@ -368,6 +381,15 @@ public class PenguinManager : MonoBehaviour
             SceneManager.LoadScene(m_scene_list.m_GameOver);
             yield return null;
         }
+    }
+
+    IEnumerator StartEnshutsu_Fall()
+    {
+        yield return new WaitForSecondsRealtime(0.6f);
+
+        m_ControllerVibration.AddShake(0.4f, 0.15f);
+
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Start_Landing);
     }
 
     void Update()

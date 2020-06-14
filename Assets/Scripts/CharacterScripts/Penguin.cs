@@ -61,6 +61,7 @@ public class Penguin : MonoBehaviour
     //! 最初のゴールアニメーション再生判定
     protected bool m_PlayedFirstGoal = false;
 
+    [SerializeField]
     private int m_BossJumpTimer = 0;
 
     protected bool m_BossPlayedFirst = false;
@@ -286,8 +287,13 @@ public class Penguin : MonoBehaviour
     /// <summary>
     /// @brief      ステージクリア判定
     /// </summary>
-    public void StageClear(GameObject goal)
+    public void StageClear(GameObject goal, bool isBoss)
     {
+        if (isBoss)
+        {
+            m_GoalRadius = 0.3f;
+        }
+
         m_GoalPos = new Vector3(goal.transform.position.x, goal.transform.position.y + 0.5f, goal.transform.position.z);
         m_ClearAnimation = true;
         m_Rigidbody.velocity = Vector3.zero;
@@ -316,14 +322,14 @@ public class Penguin : MonoBehaviour
 
         if (!m_BossPlayedFirst)
         {
-            if (m_BossJumpTimer < (int)(60 * 1.5))
+            if (m_BossJumpTimer < (int)(60 * 0.1f))
             {
                 m_BossJumpTimer++;
             }
 
             else if (!ended)
             {
-                GetComponentInChildren<Animator>().SetTrigger("OnBossJump");
+                //GetComponentInChildren<Animator>().SetTrigger("OnBossJump");
                 ended = true;
                 m_BossPlayedFirst = true;
             } 

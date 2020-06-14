@@ -76,6 +76,17 @@ public class SEs : ScriptableObject
     public AudioSEParams BombCount { get => m_bomb_count; }
     public AudioSEParams BombCountBoss { get => m_bomb_count_boss; }
 
+    [Header("Start SE List")]
+    [SerializeField, Tooltip("オープニング着地"), Space(10)]
+    private AudioSEParams m_start_Landing = null;
+    [SerializeField, Tooltip("ヒーローチェンジ")]
+    private AudioSEParams m_hero_changing = null;
+    [SerializeField, Tooltip("ヒーローチェンジ終了")]
+    private AudioSEParams m_hero_change_finsih = null;
+    public AudioSEParams Start_Landing { get => m_start_Landing; }
+    public AudioSEParams Hero_Changing { get => m_hero_changing; }
+    public AudioSEParams Hero_Change_Finsih { get => m_hero_change_finsih; }
+
     [Header("BOSS,GOAL SE List")]
     [SerializeField, Tooltip("ゴールジャンプ"), Space(10)]
     private AudioSEParams m_goal_jump = null;

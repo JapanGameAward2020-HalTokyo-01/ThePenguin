@@ -42,7 +42,7 @@ public class Select_PenguinNum : MonoBehaviour
 		Image _image = m_gauge_rect.gameObject.GetComponent<Image>();
 		m_gauge_mat = _image.material;
 		m_gauge_max_size = m_gauge_rect.sizeDelta;
-        m_gauge_max_size.y = 67.0f;
+        m_gauge_max_size.y = 68.0f;
 
     }
 

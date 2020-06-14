@@ -199,15 +199,18 @@ public class PenguinManager : MonoBehaviour
     //! 死亡時イベント(親ペンギン)
     public void GameOver()
     {
-        m_settings.m_failure_flag = true;
-
-        //UI非表示
-        if (m_Main_UI != null)
+        if (!m_settings.m_clear_flag)
         {
-            m_Main_UI.HideTutorial();
-        }
+            m_settings.m_failure_flag = true;
 
-        StartCoroutine(ToNextScene());
+            //UI非表示
+            if (m_Main_UI != null)
+            {
+                m_Main_UI.HideTutorial();
+            }
+
+            StartCoroutine(ToNextScene());
+        }
     }
 
     //! 群れ化時イベント

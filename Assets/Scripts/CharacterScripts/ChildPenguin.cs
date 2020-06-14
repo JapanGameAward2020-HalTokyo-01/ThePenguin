@@ -231,7 +231,7 @@ public class ChildPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_c);
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_c, 0.8f, 128);
             animator.SetTrigger("OnCrash");
             if (Effect != null)
                 Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));

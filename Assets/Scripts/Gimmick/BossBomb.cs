@@ -131,7 +131,7 @@ public class BossBomb : BaseGimmick
             }
             else if(LastCount != (int)m_CountDown)
             {
-                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.BombCountBoss);
+                SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.BombCountBoss, 0.5f, 128);
                 _cdEffect.Play(m_CountDownEffect[Mathf.Max(LastCount - 1, 0)]);
             }
             LastCount = (int)m_CountDown;

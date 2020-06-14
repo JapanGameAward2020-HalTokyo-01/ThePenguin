@@ -222,8 +222,7 @@ public class SoundEffect : MonoBehaviour
     {
         foreach(AudioSource _s in m_source_list_loop)
 		{
-            m_fade.Set(_s, 0.0f, 0.017f);
-            StartCoroutine(m_fade.FadeUpdate());
+            _s.Stop();
         }
     }
 

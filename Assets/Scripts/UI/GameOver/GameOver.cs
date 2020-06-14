@@ -165,7 +165,7 @@ public class GameOver : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.0f);
 
         // 効果音再生
-        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.GameOver);
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.GameOver, 0.8f, 128);
         m_Fade.SetActive(false);
 
         yield return new WaitForSecondsRealtime(1.0f);

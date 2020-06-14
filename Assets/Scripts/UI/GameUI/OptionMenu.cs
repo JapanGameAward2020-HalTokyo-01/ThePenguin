@@ -245,9 +245,9 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     void VolumeChange()
     {
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
         m_SoundData.m_Music = m_VolumeSlider.value;
-
-        m_BGMMixer.audioMixer.SetFloat("BGMVolume", m_VolumeSlider.value);
+        m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(m_SoundData.m_Music, 0.0001f, 10f)));
     }
 
     /// <summary>
@@ -255,9 +255,9 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     void BGMChange()
     {
+        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Cursor);
         m_SoundData.m_Soundeffects = m_BGMSlider.value;
-
-        m_SEMixer.audioMixer.SetFloat("SEVolume", m_BGMSlider.value);
+        m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(m_SoundData.m_Soundeffects, 0.0001f, 10f)));
     }
 
     /// <summary>

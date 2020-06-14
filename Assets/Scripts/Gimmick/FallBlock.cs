@@ -120,7 +120,7 @@ public class FallBlock : BaseGimmick
         {
             var pos = m_Block.transform.position;
 
-
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Down_Block);
             if (Effect != null)
             {
                 Effect.PlayerEffect("downupblock_under", pos, new Vector3(0.25f, 0.25f, 0.25f));

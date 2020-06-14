@@ -13,6 +13,9 @@ public class PenguinState_Goal : PenguinState
         {
             parent.UnRegisterInputEvent();
 
+            // チャージ音消す
+            parent.StopChargeSE();
+
             if (!m_Effect)
                 m_Effect = GetComponent<EffekseerEmitter>();
         }

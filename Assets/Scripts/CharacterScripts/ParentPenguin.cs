@@ -48,6 +48,9 @@ public class ParentPenguin : Penguin
 
     private InputEvent m_InputEvent;
 
+    // ループ効果音インデックス
+    private int m_se_charge_index = -1;
+
     #region ボスゴール演出関係
     [SerializeField]
     private Boss m_BossScript;
@@ -224,7 +227,7 @@ public class ParentPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_p);
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_p, 0.64f, 128);
             m_ControllerVibration.AddShake(0.4f, 0.2f);
             animator.SetTrigger("OnCrash");
             if (Effect != null)
@@ -241,17 +244,18 @@ public class ParentPenguin : Penguin
 
         if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.2f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
             transform.LookAt(m_GoalPos);
         }
 
         else if (Boss)
         {
-            int timeLimit = (int)(60.0f * 1.5f);
+            int timeLimit = (int)(60.0f * 0.5f);
 
             if (BossDefeat())
             {
                 m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
+                m_ControllerVibration.AddShake(0.4f, 1.7f);
             }
 
             else if (m_BossPlayedFirst)
@@ -261,7 +265,6 @@ public class ParentPenguin : Penguin
                     m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
                     m_BossScript.animator.SetTrigger("OnDie");
                     m_BossEnshutsu_Cloud = true;
-
 
                 }
 
@@ -324,6 +327,11 @@ public class ParentPenguin : Penguin
     public void SetMaskEnable(bool flg)
     {
         m_MaskObject.SetActive(flg);
+    }
+
+    public void SetMarkerEnable(bool flg)
+    {
+        m_MarkerObject.SetActive(flg);
     }
 
     public PenguinState GetCurrentState()
@@ -414,6 +422,26 @@ public class ParentPenguin : Penguin
             yield return new WaitForSeconds(0.5f);
             IsWait = false;
             yield break;
+        }
+    }
+
+    public void SetChargeSE()
+	{
+        if (m_se_charge_index < 0)
+        {
+            // ループ効果音再生開始
+            m_se_charge_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
+        }
+        SoundEffect.Instance.SetLoopSEVolume(m_se_charge_index, m_InputHandler.Power / m_InputHandler.PowerMax);
+    }
+
+    public void StopChargeSE()
+    {
+        // ループ効果音再生の停止
+        if (m_se_charge_index > -1)
+        {
+            SoundEffect.Instance.StopLoopSE(m_se_charge_index);
+            m_se_charge_index = -1;
         }
     }
 }

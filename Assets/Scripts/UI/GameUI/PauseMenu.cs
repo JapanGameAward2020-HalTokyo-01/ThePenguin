@@ -171,8 +171,9 @@ public class PauseMenu : MonoBehaviour
                 //! InputにPauseのEventを削除
                 m_Input.actions["Pause"].performed -= BButtonPause;
             }
+            //! ループ効果音を再開
+            SoundEffect.Instance.PauseAllLoopSE(false);
         }
-
         //! 失敗時
         if (m_settings.m_failure_flag)
         {
@@ -180,6 +181,7 @@ public class PauseMenu : MonoBehaviour
         }
         //! ループ効果音を再開
         SoundEffect.Instance.PauseAllLoopSE(false);
+
     }
 
     public void BButtonPause(InputAction.CallbackContext ctx)

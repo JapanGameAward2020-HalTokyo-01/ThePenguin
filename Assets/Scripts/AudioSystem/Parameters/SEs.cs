@@ -40,11 +40,15 @@ public class SEs : ScriptableObject
     [SerializeField, Tooltip("子：ゴール")]
     private AudioSEParams m_goal_child = null;
 
+
     public AudioSEParams WallHit_p { get => m_wall_hit_oya; }
     public AudioSEParams Goal_p { get => m_goal_oya; }
     public AudioSEParams WallHit_c { get => m_wall_hit_child; }
     public AudioSEParams Goal_c { get => m_goal_child; }
 
+    [SerializeField, Tooltip("落下ギミックの音")]
+    private AudioSEParams m_down_block = null;
+    public AudioSEParams Down_Block { get => m_down_block; }
 
     [SerializeField, Tooltip("チャージ中"), Space(10)]
     private AudioSEParams m_charge = null;
@@ -72,6 +76,17 @@ public class SEs : ScriptableObject
     public AudioSEParams BombCount { get => m_bomb_count; }
     public AudioSEParams BombCountBoss { get => m_bomb_count_boss; }
 
+    [Header("Start SE List")]
+    [SerializeField, Tooltip("オープニング着地"), Space(10)]
+    private AudioSEParams m_start_Landing = null;
+    [SerializeField, Tooltip("ヒーローチェンジ")]
+    private AudioSEParams m_hero_changing = null;
+    [SerializeField, Tooltip("ヒーローチェンジ終了")]
+    private AudioSEParams m_hero_change_finsih = null;
+    public AudioSEParams Start_Landing { get => m_start_Landing; }
+    public AudioSEParams Hero_Changing { get => m_hero_changing; }
+    public AudioSEParams Hero_Change_Finsih { get => m_hero_change_finsih; }
+
     [Header("BOSS,GOAL SE List")]
     [SerializeField, Tooltip("ゴールジャンプ"), Space(10)]
     private AudioSEParams m_goal_jump = null;
@@ -82,6 +97,23 @@ public class SEs : ScriptableObject
     public AudioSEParams Goal_Jump { get => m_goal_jump; }
     public AudioSEParams Boss_Finish { get => m_boss_finish; }
     public AudioSEParams Boss_Defeat { get => m_boss_defeat; }
+
+    [Header("Scene SE")]
+    [SerializeField, Tooltip("ゲームオーバー遷移時SE")]
+    private AudioSEParams m_gameover = null;
+    public AudioSEParams GameOver { get => m_gameover; }
+
+    [Header("Voice SE")]
+    [SerializeField, Tooltip("落下中")]
+    private AudioSEParams m_falling = null;
+    [SerializeField, Tooltip("死亡ボイス(親)")]
+    private AudioSEParams m_dead_parent = null;
+    [SerializeField, Tooltip("死亡ボイス(子)")]
+    private AudioSEParams m_dead_child = null;
+    public AudioSEParams Falling { get => m_falling; }
+    public AudioSEParams DeadParent { get => m_dead_parent; }
+    public AudioSEParams DeadChild { get => m_dead_child; }
+
 
     [Header("Audio SE Groups")]
     [SerializeField, Tooltip("環境音：リーダーペンギン声"), Space(10)]

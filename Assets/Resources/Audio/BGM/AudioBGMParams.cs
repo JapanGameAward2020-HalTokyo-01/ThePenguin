@@ -20,6 +20,14 @@ public class AudioBGMParams : ScriptableObject
         get { return m_clip; }
     }
 
+    //! 音声ファイルごとの音量調整
+    [SerializeField]
+    private float m_volume;
+    public float Volume
+    {
+        get { return m_volume; }
+    }
+
     //! 再生開始サンプル数
     [SerializeField]
     private uint m_start_sample;

@@ -379,9 +379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34a192bd412a47043a426b79509b67de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effeck:
-  - {fileID: 1799753158928367798}
-  - {fileID: 1903658021790884041}
 --- !u!114 &1799753158928367798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +511,8 @@ MonoBehaviour:
   m_MarkerObject: {fileID: 502919337550487354}
   m_MaskObject: {fileID: 6461582881307302237}
   m_ShakeCameraPower: 0.5
+  m_BossScript: {fileID: 0}
+  m_IsDead: 0
 --- !u!114 &-5136099999725475654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,7 +883,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EfecctTimeMax: 5
-  m_se_foot: {fileID: 564346014513499960}
 --- !u!114 &564346014513499960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,9 +1013,9 @@ MonoBehaviour:
   _active: 1
   executeInEditMode: 0
   ignoreFrames: 0
-  duration: 0.5
-  continuous: 0
-  smooth: 0
+  duration: 0.15
+  continuous: 1
+  smooth: 1
   checkWorldPosition: 0
   minDistance: 0.1
   worldPositionRelativeOption: 0
@@ -1216,16 +1214,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeroPenguin
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1304,6 +1292,16 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 5d83f257eccc38c489cd5ec99942a929,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 32649c4de854007479603b8fb2fc7748, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 5d83f257eccc38c489cd5ec99942a929,
+        type: 3}
+      propertyPath: m_LocalScale.x
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -217067354017463263, guid: 5d83f257eccc38c489cd5ec99942a929,

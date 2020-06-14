@@ -11,10 +11,10 @@ using Effekseer;
 
 public class PenguinState_Idle : PenguinState
 {
-    private ParentPenguin parentPenguin = null;
-
     [SerializeField]
     private EffekseerEmitter[] m_Effect;
+
+    private ParentPenguin parentPenguin = null;
 
     [SerializeField]
     private int ChargeEffectNow;
@@ -45,6 +45,12 @@ public class PenguinState_Idle : PenguinState
             {
                 if (parentPenguin.GetInputHandler())
                 {
+                    if(parentPenguin.GetInputHandler().Power > 0)
+					{
+                        // チャージ開始
+                        parentPenguin.SetChargeSE();
+                    }
+
                     if (parentPenguin.GetInputHandler().Power > (parentPenguin.GetInputHandler().PowerMax * 2) / 4.0f)
                     {
                         if (m_Effect[0].exists)
@@ -77,10 +83,8 @@ public class PenguinState_Idle : PenguinState
                         }
 
                     }
-
                     else if (parentPenguin.GetInputHandler().Power > 0.0f)
                     {
-
                     }
                     else
                     {
@@ -129,6 +133,26 @@ public class PenguinState_Idle : PenguinState
             {
                 penguin.ChangeState<PenguinState_Fall>();
                 return;
+            }
+        }
+		else
+		{
+			if (parentPenguin != null)
+			{
+                // 移動判定の閾値を超えずに移動した場合、IsMoving()はfalseでもVelocityは0でない
+                // その場合状態遷移(->Walk, ->Dash)が発生しない
+                if (penguin.GetSpeed() > 0)
+                {
+                    // 入力パワーがゼロ(== チャージしていない)
+                    InputHandler _input = parentPenguin.GetInputHandler();
+                    if (_input != null)
+                    {
+                        if (!(_input.Power > 0))
+                        {
+                            parentPenguin.StopChargeSE();
+                        }
+                    }
+                }
             }
         }
 

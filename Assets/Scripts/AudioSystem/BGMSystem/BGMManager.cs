@@ -190,7 +190,7 @@ public class BGMManager : MonoBehaviour
 
 		Debug.Log("Play BGM");
 		m_current_source.clip = m_param.Clip;
-		m_current_source.volume = 1.0f;
+		m_current_source.volume = m_param.Volume;
 		StartCoroutine(DelayedPlay(_delay));
 	}
 

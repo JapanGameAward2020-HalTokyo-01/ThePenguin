@@ -231,7 +231,7 @@ public class ChildPenguin : Penguin
     {
         if (other.gameObject.layer == 14)
         {
-            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_c);
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.WallHit_c, 0.64f, 128);
             animator.SetTrigger("OnCrash");
             if (Effect != null)
                 Effect.PlayerEffect("wallcrash", transform.position, new Vector3(0.5f, 0.5f, 0.5f));
@@ -294,7 +294,7 @@ public class ChildPenguin : Penguin
                 transform.rotation = this.transform.rotation * Quaternion.Euler(Mathf.Clamp(-angle, -42, 42), 0, 0);
                 float currentDist = Vector3.Distance(transform.position, m_GoalPos);
                 transform.Translate(Vector3.forward * Mathf.Min(m_GoalSpeed * Time.deltaTime * (2+randomnumber), currentDist));
-            } 
+            }
 
             else if (Parent.Boss)
             {

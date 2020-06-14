@@ -62,6 +62,7 @@ public class GameOver : MonoBehaviour
     void Awake()
     {
         m_image_list = new Sprite[2] { m_normal_stage, m_final_stage };
+        SoundEffect.Instance.StopLoopSEAll();
     }
     // Start is called before the first frame update
     void Start()

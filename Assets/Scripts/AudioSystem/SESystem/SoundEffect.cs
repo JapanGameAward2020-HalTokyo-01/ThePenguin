@@ -220,6 +220,15 @@ public class SoundEffect : MonoBehaviour
         }
     }
 
+    public void StopLoopSEAll()
+    {
+        foreach(AudioSource _s in m_source_list_loop)
+		{
+            // 瞬間フェードかけて停止(ノイズ防止)
+            m_fade.Set(_s, 0.0f, 0.017f);
+            StartCoroutine(m_fade.FadeUpdate());
+        }
+    }
 
     public void SetLoopSEVolume(int _index, float _value)
     {

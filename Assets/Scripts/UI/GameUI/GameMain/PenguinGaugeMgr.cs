@@ -135,8 +135,8 @@ public class PenguinGaugeMgr : MonoBehaviour
 			Vector2 _right_pos = m_left_pos;
 			_right_pos.x += m_gauge_max_size.x - m_death_pos.sizeDelta.x * 0.5f;
 
-			// 死亡ゲージの座標変更
-			m_death_pos.anchoredPosition = _right_pos;
+            // 死亡ゲージの座標変更
+            m_death_pos.anchoredPosition = _right_pos;
 		}
 
 		// テキスト

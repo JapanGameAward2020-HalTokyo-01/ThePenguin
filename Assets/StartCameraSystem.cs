@@ -49,11 +49,14 @@ public class StartCameraSystem : MonoBehaviour
 
     ParentPenguin m_Parent;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
 
     public bool m_NowPlaying = true;
     private bool m_PlayedOnce = false;
     private bool m_PenguinsDown = false;
-    private bool m_MaskOn = false;
+    private bool m_BeforeMaskOn = false;
+    private bool m_AfterMaskOn = false;
     private bool m_BossGrowl = false;
     private bool m_BossEffect = false;
     public float m_Timer = 0.0f;
@@ -61,11 +64,16 @@ public class StartCameraSystem : MonoBehaviour
     private float m_MaskThreshold = 7.5f;
     private float m_BossThreshold = 3.5f;
 
+    private int SEloopIndex = -1;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Parent = FindObjectOfType<ParentPenguin>();
         v_camera = GetComponentsInChildren<CinemachineVirtualCamera>();
+
+        if (!m_ControllerVibration)
+            m_ControllerVibration = FindObjectOfType<ControllerVibration>();
     }
 
     // Update is called once per frame
@@ -113,15 +121,32 @@ public class StartCameraSystem : MonoBehaviour
                     v_camera[2].Priority = 0;
 
                     //ペンギンマスク演出
-                    if (m_Timer > m_MaskThreshold && !m_MaskOn)
+                    if (m_Timer > m_MaskThreshold && !m_BeforeMaskOn)
                     {
+                        if (SEloopIndex == -1)
+                        {
+                            SEloopIndex = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Hero_Changing); 
+                        }
+
+                        m_ControllerVibration.AddShake(0.1f, 2.4f);
+
                         m_Parent.GetCurrentState().GetComponent<PenguinState_Start>().EffectPlay();
-                        m_MaskOn = true;
+
+                        m_BeforeMaskOn = true;
                     }
 
-                    if (m_Timer > m_MaskThreshold + 2.0f)
+                    if (m_Timer > m_MaskThreshold + 2.0f && !m_AfterMaskOn)
                     {
+                        if (SEloopIndex > -1)
+                        {
+                            SoundEffect.Instance.StopLoopSE(SEloopIndex);
+                        }
+
+                        m_ControllerVibration.AddShake(0.5f, 0.6f);
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Hero_Change_Finsih);
                         m_Parent.SetMaskEnable(true);
+
+                        m_AfterMaskOn = true;
                     }
                 }
                 else if (m_Timer > m_WaitTimeToMove_1)

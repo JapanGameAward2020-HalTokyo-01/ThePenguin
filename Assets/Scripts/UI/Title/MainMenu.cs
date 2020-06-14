@@ -113,6 +113,8 @@ public class MainMenu : MonoBehaviour
         // ステージ1は確定アンロックの仕様だが念のため
         if (m_UnlockStage < 0) m_UnlockStage = 0;
 
+        m_StageIndexMgr.InitializeIndex(m_UnlockStage);
+
         // BGM再生
         BGMManager.Instance.Play(BGMs.Index.Title);
     }

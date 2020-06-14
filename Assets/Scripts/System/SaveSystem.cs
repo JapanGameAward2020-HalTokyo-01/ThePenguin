@@ -6,6 +6,9 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
 
+    [SerializeField, Tooltip("ステージセレクトのコマンド位置を記憶しているやーつ")]
+    private StageMetaParam m_stage_list;
+
     //! ステージデータ
     [SerializeField]
     private GameData[] Stages = new GameData[28];
@@ -34,6 +37,8 @@ public class SaveSystem : MonoBehaviour
                 Stages[i] = new GameData();
             }
             Stages[0].m_Unlocked = true;
+            m_stage_list.m_current_area_index = 0;
+            m_stage_list.m_current_stage_index = 0;
 
             //! TotalPenguins
             Stages[0].m_TotalPenguins = 43;
@@ -265,6 +270,8 @@ public class SaveSystem : MonoBehaviour
         }
         Volume = new Sounddata();
         Stages[0].m_Unlocked = true;
+        m_stage_list.m_current_area_index = 0;
+        m_stage_list.m_current_stage_index = 0;
 
         //! TotalPenguins
         Stages[0].m_TotalPenguins = 43;

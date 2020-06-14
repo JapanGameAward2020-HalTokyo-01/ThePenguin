@@ -35,6 +35,9 @@ public class PenguinState_Fall : PenguinState
         //!文字エフェクト
         if (parentPenguin != null)
         {
+            // チャージ音消す
+            parentPenguin.StopChargeSE();
+
             if (effeck[0] != null)
             {
                 effeck[0].Play();

@@ -29,9 +29,6 @@ public class KillBox : MonoBehaviour
         //! ペンギンだったら
         if(other.gameObject.CompareTag("ParentPenguin") || other.gameObject.CompareTag("ChildPenguin"))
         {
-            if (Effect != null)
-                Effect.PlayerEffect("WAAAAAA_P1", other.gameObject.transform.position);
-
             //! 死亡処理
             other.GetComponent<Penguin>().Kill(false);
         }

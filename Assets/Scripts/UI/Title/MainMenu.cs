@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private Image m_Logo;
     [SerializeField]
+    private Image m_PAB;
+    [SerializeField]
     private UI_Component_Button m_GameStart;
     [SerializeField]
     private UI_Component_Button m_GameCountinue;
@@ -38,6 +40,8 @@ public class MainMenu : MonoBehaviour
     private Animator m_IconAnimator;
     [SerializeField]
     private Animator m_OptionAnimator;
+    [SerializeField]
+    private Animator m_PABAnimator;
 
     //シーン
     [SerializeField]
@@ -131,6 +135,7 @@ public class MainMenu : MonoBehaviour
             m_State = MenuState.MAIN;
             m_MenuAnimator.enabled = true;
             m_LogoAnimator.enabled = true;
+            m_PABAnimator.SetBool("Delete", true);
             SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Confirm);
 
             return;

@@ -253,8 +253,8 @@ public class ResultUI : MonoBehaviour
                         m_Page2_Retry.SetActive(true);
                         _ButtonPosition = m_Page2_Retry.transform.position;
                     }
-                    _ButtonPosition.x -= 260.0f;
-                    m_Arrow.gameObject.transform.position = _ButtonPosition;
+                    //_ButtonPosition.x -= 260.0f;
+                    m_Arrow.gameObject.transform.position = new Vector2(m_Arrow.gameObject.transform.position.x, _ButtonPosition.y);
 
                     if (GetAButtonUp())
                     {
@@ -587,8 +587,8 @@ public class ResultUI : MonoBehaviour
         m_Page2_B_Button.SetEnable(false);
 
         Vector3 _ButtonPosition = m_Page2_Continue.transform.position;
-        _ButtonPosition.x -= 260.0f;
-        m_Arrow.gameObject.transform.position = _ButtonPosition;
+        //_ButtonPosition.x -= 260.0f;
+        m_Arrow.gameObject.transform.position = new Vector2(m_Arrow.gameObject.transform.position.x, _ButtonPosition.y);
         m_Arrow.gameObject.SetActive(false);
 
         yield return new WaitForSecondsRealtime(0.15f);

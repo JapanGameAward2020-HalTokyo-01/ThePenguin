@@ -125,8 +125,8 @@ public class GameOver : MonoBehaviour
                     m_Title.SetActive(true);
                     _ButtonPosition = m_Title.transform.position;
                 }
-                _ButtonPosition.x -= 230.0f;
-                m_Arrow.gameObject.transform.position = _ButtonPosition;
+                //_ButtonPosition.x -= 230.0f;
+                m_Arrow.gameObject.transform.position = new Vector2(m_Arrow.gameObject.transform.position.x, _ButtonPosition.y);
 
                 if (GetAButtonUp())
                 {

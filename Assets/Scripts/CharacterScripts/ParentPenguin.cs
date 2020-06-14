@@ -255,6 +255,7 @@ public class ParentPenguin : Penguin
             if (BossDefeat())
             {
                 m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
+                m_ControllerVibration.AddShake(0.4f, 2.2f);
             }
 
             else if (m_BossPlayedFirst)
@@ -264,7 +265,6 @@ public class ParentPenguin : Penguin
                     m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
                     m_BossScript.animator.SetTrigger("OnDie");
                     m_BossEnshutsu_Cloud = true;
-
 
                 }
 

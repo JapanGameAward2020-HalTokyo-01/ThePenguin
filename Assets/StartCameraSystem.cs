@@ -128,7 +128,7 @@ public class StartCameraSystem : MonoBehaviour
                             SEloopIndex = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Hero_Changing); 
                         }
 
-                        m_ControllerVibration.AddShake(0.1f, 2.4f);
+                        m_ControllerVibration.AddShake(0.25f, 2.4f);
 
                         m_Parent.GetCurrentState().GetComponent<PenguinState_Start>().EffectPlay();
 
@@ -172,6 +172,8 @@ public class StartCameraSystem : MonoBehaviour
                         {
                             boss.GetCurrentState().GetComponent<BossState_Start>().EffectPlay();
                         }
+
+                        m_ControllerVibration.AddShake(0.5f, 1.8f);
 
                         m_BossEffect = true;
                     }
@@ -229,6 +231,11 @@ public class StartCameraSystem : MonoBehaviour
             {
                 boss.GetComponentInChildren<Animator>().SetTrigger("OnGrowl");
             }
+        }
+
+        if (SEloopIndex > -1)
+        {
+            SoundEffect.Instance.StopLoopSE(SEloopIndex);
         }
 
 

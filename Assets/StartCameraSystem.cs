@@ -74,6 +74,9 @@ public class StartCameraSystem : MonoBehaviour
 
         if (!m_ControllerVibration)
             m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
+        m_Parent.SetMarkerEnable(false);
+
     }
 
     // Update is called once per frame
@@ -210,7 +213,6 @@ public class StartCameraSystem : MonoBehaviour
             main_ui.SetEnable(false);
         }
 
-        m_Parent.SetMarkerEnable(false);
     }
 
     public void StopPlaying()

@@ -258,11 +258,11 @@ public class PenguinManager : MonoBehaviour
         CurrentScore _Score = FindObjectOfType<CurrentScore>();
         if (_Score != null) _Score.JudgeScore(this);
 
-        m_ParentPenguin.StageClear(goal);
+        m_ParentPenguin.StageClear(goal, m_ParentPenguin.Boss);
 
         foreach (ChildPenguin child in m_ChildPenguins)
         {
-            child.StageClear(goal);
+            child.StageClear(goal, m_ParentPenguin.Boss);
         }
 
 

@@ -244,18 +244,18 @@ public class ParentPenguin : Penguin
 
         if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.5f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.2f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
             transform.LookAt(m_GoalPos);
         }
 
         else if (Boss)
         {
-            int timeLimit = (int)(60.0f * 1.5f);
+            int timeLimit = (int)(60.0f * 0.5f);
 
             if (BossDefeat())
             {
                 m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectPlay();
-                m_ControllerVibration.AddShake(0.4f, 2.2f);
+                m_ControllerVibration.AddShake(0.4f, 1.7f);
             }
 
             else if (m_BossPlayedFirst)
@@ -327,6 +327,11 @@ public class ParentPenguin : Penguin
     public void SetMaskEnable(bool flg)
     {
         m_MaskObject.SetActive(flg);
+    }
+
+    public void SetMarkerEnable(bool flg)
+    {
+        m_MarkerObject.SetActive(flg);
     }
 
     public PenguinState GetCurrentState()

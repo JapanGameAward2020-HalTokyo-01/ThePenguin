@@ -294,7 +294,7 @@ public class ChildPenguin : Penguin
                 transform.rotation = this.transform.rotation * Quaternion.Euler(Mathf.Clamp(-angle, -42, 42), 0, 0);
                 float currentDist = Vector3.Distance(transform.position, m_GoalPos);
                 transform.Translate(Vector3.forward * Mathf.Min(m_GoalSpeed * Time.deltaTime * (2+randomnumber), currentDist));
-            } 
+            }
 
             else if (Parent.Boss)
             {

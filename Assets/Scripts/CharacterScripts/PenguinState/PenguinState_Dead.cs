@@ -7,6 +7,13 @@ public class PenguinState_Dead : PenguinState
     //! 初期化処理
     public override void OnStart()
     {
+        if(penguin.CompareTag("ParentPenguin"))
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.DeadParent);
+
+        if (penguin.CompareTag("ChildPenguin"))
+            SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.DeadChild);
+
+
         penguin.Effect.PlayerEffect("WA_P1", transform.position);
     }
 }

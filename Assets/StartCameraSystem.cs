@@ -128,7 +128,7 @@ public class StartCameraSystem : MonoBehaviour
                     {
                         if (SEloopIndex == -1)
                         {
-                            SEloopIndex = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Hero_Changing, 0.7f); 
+                            SEloopIndex = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Hero_Changing, 0.56f); 
                         }
 
                         m_ControllerVibration.AddShake(0.25f, 2.4f);
@@ -146,7 +146,7 @@ public class StartCameraSystem : MonoBehaviour
                         }
 
                         m_ControllerVibration.AddShake(0.5f, 0.6f);
-                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Hero_Change_Finsih, 0.7f, 128);
+                        SoundEffect.Instance.PlayOneShot(SoundEffect.Instance.SEList.Hero_Change_Finsih, 0.56f, 128);
                         m_Parent.SetMaskEnable(true);
 
                         m_AfterMaskOn = true;

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.Audio;
+using System.Collections;
 public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
@@ -183,8 +184,7 @@ public class SaveSystem : MonoBehaviour
         file.Close();
         Debug.Log("Saved Sound Data");
 
-        m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Music, 0.0001f, 10f)));
-        m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Soundeffects, 0.0001f, 10f)));
+        StartCoroutine(DelaySetSound());
     }
 
     /// <summary>
@@ -221,8 +221,7 @@ public class SaveSystem : MonoBehaviour
             file.Close();
             Debug.Log(sounddata);
             Debug.Log("Loaded Sound Data");
-            m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Music, 0.0001f, 10f)));
-            m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Soundeffects, 0.0001f, 10f)));
+            StartCoroutine(DelaySetSound());    
         }
         else
         {
@@ -230,6 +229,15 @@ public class SaveSystem : MonoBehaviour
             Debug.Log("NO LOAD SOUND DATA");
             Save();
         }
+    }
+
+    IEnumerator DelaySetSound()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return null;
+        m_BGMMixer.audioMixer.SetFloat("BGMVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Music, 0.0001f, 10f)));
+        m_SEMixer.audioMixer.SetFloat("SEVolume", 20f * Mathf.Log10(Mathf.Clamp(Volume.m_Soundeffects, 0.0001f, 10f)));
+        yield break;
     }
 
     /// <summary>

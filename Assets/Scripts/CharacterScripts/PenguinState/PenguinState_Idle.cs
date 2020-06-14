@@ -149,7 +149,6 @@ public class PenguinState_Idle : PenguinState
                     {
                         if (!(_input.Power > 0))
                         {
-                            Debug.Log("こ↑こ↓通っとんじゃ～＾");
                             parentPenguin.StopChargeSE();
                         }
                     }

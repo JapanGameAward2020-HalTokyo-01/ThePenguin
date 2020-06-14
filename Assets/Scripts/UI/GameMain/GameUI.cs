@@ -321,13 +321,13 @@ public class GameUI : MonoBehaviour
         if(_cv)
             _cv.Pause(false);
 
-        Debug.Log("GameUI: message received");
+        //Debug.Log("GameUI: message received");
         if (!m_Pause.gameObject.activeSelf)
         {
             if (_cv)
                 _cv.Pause(true);
 
-            Debug.Log("Opening PauseMenu...");
+            //Debug.Log("Opening PauseMenu...");
             m_Pause.gameObject.SetActive(true);
 
         }

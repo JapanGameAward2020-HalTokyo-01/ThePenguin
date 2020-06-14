@@ -31,6 +31,8 @@ public class SoundEffect : MonoBehaviour
     private List<AudioSource> m_source_list_loop = new List<AudioSource>();
     [SerializeField, Tooltip("同時再生可能数(ループ系効果音)")]
     private int m_loop_se_num_max = 4;
+    [SerializeField, NonEditableField]
+    private bool[] m_is_used_loop_se;
 
     // 複数化回避
     private static SoundEffect m_instance = null;
@@ -89,8 +91,8 @@ public class SoundEffect : MonoBehaviour
                 if (!_s.isPlaying) return _s;
 
                 // プライオリティの値が0の場合を例外とする
-                if(_s.priority > 0)
-				{
+                if (_s.priority > 0)
+                {
                     // 最も長く再生したものを取っておく(ループすると正確には取得できないけど)
                     if (ret.timeSamples < _s.timeSamples)
                     {
@@ -100,7 +102,6 @@ public class SoundEffect : MonoBehaviour
                 _index++;
             }
 
-            Debug.Log( string.Format( "選ばれたのは、 {0}番でした", _index));
             // フル稼働の場合 基も長く再生したオーディオソースを返す
             if (_list.Count >= _max_num)
                 return ret;
@@ -188,14 +189,11 @@ public class SoundEffect : MonoBehaviour
         // 配列範囲外参照警戒
         if (_index > m_source_list_loop.Count - 1)
         {
-            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
             return;
         }
-        
-        AudioSource _source = m_source_list_loop[_index];
-        if (!_source.isPlaying)　return;
 
-        Debug.Log(string.Format("ループ停止 ：index = {0}", _index));
+        AudioSource _source = m_source_list_loop[_index];
+        if (!_source.isPlaying) return;
 
         // 瞬間フェードかけて停止(ノイズ防止)
         m_fade.Set(_source, 0.0f, 0.017f);
@@ -204,29 +202,23 @@ public class SoundEffect : MonoBehaviour
 
     public void PauseAllLoopSE(bool _to_pause)
     {
-        foreach (AudioSource _s in m_source_list_loop)
+        // 瞬間フェードしてポーズかける
+        if (_to_pause)
         {
-            // 瞬間フェードしてポーズかける
-            if (_to_pause)
+            for (int cnt = 0; cnt < m_source_list_loop.Count; cnt++)
             {
-                if (_s.isPlaying) _s.Pause();
-                else _s.volume = 0.0f;
-            }
-            // 瞬間フェードしてポーズ解除
-            else
-            {
-                if (_s.volume > 0) _s.Play();
+                AudioSource _s = m_source_list_loop[cnt];
+                _s.Stop();
             }
         }
     }
+
 
     public void StopLoopSEAll()
     {
         foreach(AudioSource _s in m_source_list_loop)
 		{
-            // 瞬間フェードかけて停止(ノイズ防止)
-            m_fade.Set(_s, 0.0f, 0.017f);
-            StartCoroutine(m_fade.FadeUpdate());
+            _s.Stop();
         }
     }
 
@@ -235,7 +227,6 @@ public class SoundEffect : MonoBehaviour
         // 配列範囲外参照警戒
         if (_index > m_source_list_loop.Count - 1)
         {
-            Debug.LogAssertion(string.Format("ループ効果音リスト外のオーディオソースが選択されました ：index = {0}", _index));
             return;
         }
         AudioSource _source = m_source_list_loop[_index];

@@ -127,7 +127,6 @@ public class ResultUI : MonoBehaviour
     {
         m_face_list = new Sprite[(int)FaceIcon.kState.Enum_Max] { m_normal_face, m_good_face, m_max_face, m_danger_face };
         m_clearimage_list = new Sprite[2] { m_normal_stage, m_final_stage };
-        SoundEffect.Instance.StopLoopSEAll();
     }
 
     // Start is called before the first frame update

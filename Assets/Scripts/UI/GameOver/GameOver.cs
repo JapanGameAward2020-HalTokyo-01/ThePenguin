@@ -62,7 +62,6 @@ public class GameOver : MonoBehaviour
     void Awake()
     {
         m_image_list = new Sprite[2] { m_normal_stage, m_final_stage };
-        SoundEffect.Instance.StopLoopSEAll();
     }
     // Start is called before the first frame update
     void Start()
@@ -70,9 +69,9 @@ public class GameOver : MonoBehaviour
         //他のシーンから情報を引き継ぐ
         m_Flag_FinalStage = m_SceneList.IsBossStage;
 
-		////////////////////////////
-		// BGM再生
-		BGMManager.Instance.Play(BGMs.Index.None);
+        ////////////////////////////
+        // BGM再生
+        BGMManager.Instance.Play(BGMs.Index.None);
 
         m_Penguin.sprite = m_image_list[m_Flag_FinalStage ? 1 : 0];
 

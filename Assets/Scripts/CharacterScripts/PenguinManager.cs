@@ -67,6 +67,9 @@ public class PenguinManager : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    //!振動管理用オブジェクト
+    private ControllerVibration m_ControllerVibration;
+
     #region ゴール演出関係
     //! ステージゴール
     [SerializeField, NonEditableField]
@@ -80,6 +83,9 @@ public class PenguinManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!m_ControllerVibration)
+            m_ControllerVibration = FindObjectOfType<ControllerVibration>();
+
         m_settings = GetComponent<LevelSettings>();
 
         m_Main_UI = FindObjectOfType<GameMain>();
@@ -301,6 +307,8 @@ public class PenguinManager : MonoBehaviour
                 child.GetComponent<Rigidbody>().AddForce(downForce / 2, ForceMode.Impulse);
             }
         }
+        m_ControllerVibration.AddShake(0.4f, 0.2f);
+
     }
 
     //!ゴール演出をスキップするためのフラグ変更

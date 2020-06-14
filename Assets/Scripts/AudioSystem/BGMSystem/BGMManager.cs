@@ -18,9 +18,6 @@ public class BGMManager : MonoBehaviour
 {
 	[Header("General")]
 
-	[SerializeField, Range(0.0f, 1.0f), Tooltip("オーディオソースの基本音量")]
-	private float m_base_volume = 1.0f;
-
 	[SerializeField, Min(2), Tooltip("BGM用AudioSource数")]
 	private int m_bgm_voice_num = 2;
 
@@ -193,7 +190,7 @@ public class BGMManager : MonoBehaviour
 
 		Debug.Log("Play BGM");
 		m_current_source.clip = m_param.Clip;
-		m_current_source.volume = m_base_volume;
+		m_current_source.volume = m_param.Volume;
 		StartCoroutine(DelayedPlay(_delay));
 	}
 

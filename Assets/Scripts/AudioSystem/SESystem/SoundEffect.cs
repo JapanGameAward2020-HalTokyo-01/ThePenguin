@@ -168,14 +168,14 @@ public class SoundEffect : MonoBehaviour
     /**
      * @brief   
      */
-    public int PlayLoopSE(AudioSEParams _se)
+    public int PlayLoopSE(AudioSEParams _se, float _volume = 1.0f)
     {
         // 余ってるオーディオソースの検索
         AudioSource _source = FindAudioSource(m_source_list_loop, m_loop_se_num_max, out int index, "SE_Loop");
 
         _source.clip = _se.Clip;
         _source.outputAudioMixerGroup = _se.Mixer;
-        _source.volume = 1.0f;
+        _source.volume = _volume;
         _source.loop = true;
         _source.Play();
 

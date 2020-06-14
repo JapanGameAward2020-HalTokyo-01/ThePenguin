@@ -154,11 +154,10 @@ public class SaveSystem : MonoBehaviour
 
     private void Update()
     {
-        //test用
-        if (Input.GetKeyDown(KeyCode.L)) Load();
-        if (Input.GetKeyDown(KeyCode.S)) Save();
-        if (Input.GetKeyDown(KeyCode.C)) ClearData();
-        if (Input.GetKeyDown(KeyCode.A)) AllUnlock();
+        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.B))
+        {
+            AllUnlock();
+        }
     }
 
     /// <summary>

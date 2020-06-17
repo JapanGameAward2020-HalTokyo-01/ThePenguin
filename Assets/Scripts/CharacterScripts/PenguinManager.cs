@@ -337,9 +337,9 @@ public class PenguinManager : MonoBehaviour
 
         m_IsSceneChanging = true;
 
-        //Destroy(m_Input.gameObject);
-
         yield return new WaitForEndOfFrame();
+
+        m_Input.DeactivateInput();
 
         // ペンギンの声再生停止
         m_pen_voices.m_is_play = false;
@@ -349,7 +349,6 @@ public class PenguinManager : MonoBehaviour
             m_GameoverUI.ShowGameOver((m_Timer.StageTime == 0) ? true : false);
             m_ParentPenguin.gameObject.SetActive(false);
         }
-        
 
         bool[] _flags = new bool[2]{m_settings.m_failure_flag, m_settings.m_clear_flag};
 
@@ -366,8 +365,6 @@ public class PenguinManager : MonoBehaviour
             }
             yield return null;
         }
-
-        //yield return new WaitForSecondsRealtime(1.5f);
 
         //!全エフェクト停止
         EffekseerSystem.StopAllEffects();

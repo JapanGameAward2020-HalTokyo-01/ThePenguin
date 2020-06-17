@@ -51,7 +51,7 @@ public class EndingUI : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.0f);
 
-        m_Fade.SetActive(false);
+        m_Fade.SetEnable(false);
 
         yield return new WaitForSecondsRealtime(0.5f);
         m_IsInputEnable = true;
@@ -59,7 +59,7 @@ public class EndingUI : MonoBehaviour
     private IEnumerator SceneEnd(SceneObject next)
     {
         m_IsInputEnable = false;
-        m_Fade.SetActive(true);
+        m_Fade.SetEnable(true);
 
         yield return new WaitForSecondsRealtime(1.0f);
 

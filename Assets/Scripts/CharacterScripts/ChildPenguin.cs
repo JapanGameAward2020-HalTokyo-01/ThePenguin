@@ -301,7 +301,7 @@ public class ChildPenguin : Penguin
                 BossDefeat();
             }
 
-            else if (!m_PlayedFirstGoal)
+            if (!m_PlayedFirstGoal && m_BossEnshutsu_Ended)
             {
 
                 //transform.rotation=oldrotation;

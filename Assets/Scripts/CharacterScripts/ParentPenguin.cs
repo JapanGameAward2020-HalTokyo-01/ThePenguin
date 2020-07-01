@@ -57,8 +57,6 @@ public class ParentPenguin : Penguin
 
     private int m_Boss_Timer = 0;
 
-    private bool m_BossEnshutsu_Cloud = false;
-
     // ボコボコ(ループ再生)に使っているAudioSourceのインデックス
     private int m_se_source_index = -1;
 
@@ -250,7 +248,7 @@ public class ParentPenguin : Penguin
 
         else if (Boss)
         {
-            int timeLimit = (int)(60.0f * 0.5f);
+            int timeLimit = (int)(60.0f * 1.5f);
 
             if (BossDefeat())
             {
@@ -264,8 +262,7 @@ public class ParentPenguin : Penguin
                 {
                     m_BossScript.GetCurrentState().GetComponent<BossState_Goal>().EffectStop();
                     m_BossScript.animator.SetTrigger("OnDie");
-                    m_BossEnshutsu_Cloud = true;
-
+                    //m_BossEnshutsu_Ended = true;
                 }
 
                 if (m_Boss_Timer < timeLimit + 1)
@@ -274,13 +271,14 @@ public class ParentPenguin : Penguin
                 }
                 else
                 {
-                    m_ClearAnimationEnded = true;
+                    m_BossEnshutsu_Ended = true;
+                    //m_ClearAnimationEnded = true;
                     //transform.LookAt(Camera.main.transform);
                 }
             }
         }
 
-        else if (m_EveryoneJumped)
+        if (m_EveryoneJumped && m_BossEnshutsu_Ended)
         {
             if (!m_PlayedFirstGoal)
             {
@@ -431,7 +429,6 @@ public class ParentPenguin : Penguin
         {
             // ループ効果音再生開始
             m_se_charge_index = SoundEffect.Instance.PlayLoopSE(SoundEffect.Instance.SEList.Charge);
-            Debug.Log("チャージ開始\nインデックス：" + m_se_charge_index.ToString());
         }
         SoundEffect.Instance.SetLoopSEVolume(m_se_charge_index, m_InputHandler.Power / m_InputHandler.PowerMax);
     }
@@ -441,7 +438,6 @@ public class ParentPenguin : Penguin
         // ループ効果音再生の停止
         if (m_se_charge_index > -1)
         {
-            Debug.Log("チャージ停止\nインデックス：" + m_se_charge_index.ToString());
             SoundEffect.Instance.StopLoopSE(m_se_charge_index);
             m_se_charge_index = -1;
         }

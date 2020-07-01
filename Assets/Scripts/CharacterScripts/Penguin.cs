@@ -66,6 +66,8 @@ public class Penguin : MonoBehaviour
 
     protected bool m_BossPlayedFirst = false;
 
+    protected bool m_BossEnshutsu_Ended = false;
+
     #endregion
 
     //!エフェクトスポーンナー
@@ -293,6 +295,10 @@ public class Penguin : MonoBehaviour
         {
             m_GoalRadius = 0.3f;
         }
+        else
+        {
+            m_BossEnshutsu_Ended = true;
+        }
 
         m_GoalPos = new Vector3(goal.transform.position.x, goal.transform.position.y + 0.5f, goal.transform.position.z);
         m_ClearAnimation = true;
@@ -322,7 +328,7 @@ public class Penguin : MonoBehaviour
 
         if (!m_BossPlayedFirst)
         {
-            if (m_BossJumpTimer < (int)(60 * 0.1f))
+            if (m_BossJumpTimer < (int)(60 * 1.5f))
             {
                 m_BossJumpTimer++;
             }
@@ -332,6 +338,7 @@ public class Penguin : MonoBehaviour
                 //GetComponentInChildren<Animator>().SetTrigger("OnBossJump");
                 ended = true;
                 m_BossPlayedFirst = true;
+                m_BossEnshutsu_Ended = true;
             } 
         }
 

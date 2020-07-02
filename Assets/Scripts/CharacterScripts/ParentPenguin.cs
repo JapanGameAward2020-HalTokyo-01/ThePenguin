@@ -242,7 +242,7 @@ public class ParentPenguin : Penguin
 
         if (Vector3.Distance(m_GoalPos, transform.position) > m_GoalRadius)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y + 0.2f, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(m_GoalPos.x, m_GoalPos.y, m_GoalPos.z), Time.deltaTime * m_GoalSpeed);
             transform.LookAt(m_GoalPos);
         }
 

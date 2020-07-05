@@ -78,7 +78,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space);
+        return Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Return);
     }
     private bool GetAButtonUp()
     {
@@ -86,7 +86,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyUp("joystick button 0") || Input.GetKeyUp(KeyCode.Space);
+        return Input.GetKeyUp("joystick button 0") || Input.GetKeyUp(KeyCode.Return);
     }
     private bool GetAButton()
     {
@@ -94,7 +94,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKey("joystick button 0") || Input.GetKey(KeyCode.Space);
+        return Input.GetKey("joystick button 0") || Input.GetKey(KeyCode.Return);
     }
     private bool GetBButtonDown()
     {
@@ -102,7 +102,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape);
+        return Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Backspace);
     }
     private bool GetBButtonUp()
     {
@@ -110,7 +110,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyUp("joystick button 1") || Input.GetKeyUp(KeyCode.Escape);
+        return Input.GetKeyUp("joystick button 1") || Input.GetKeyUp(KeyCode.Backspace);
     }
     private bool GetBButton()
     {
@@ -118,7 +118,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKey("joystick button 1") || Input.GetKey(KeyCode.Escape);
+        return Input.GetKey("joystick button 1") || Input.GetKey(KeyCode.Backspace);
     }
 
     private void InputUpdate()
@@ -135,7 +135,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return (m_Current_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.UpArrow);
+        return (m_Current_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.W);
     }
     private bool GetUpUp()
     {
@@ -143,7 +143,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return (m_Past_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.UpArrow);
+        return (m_Past_V == -1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.W);
     }
     private bool GetDownDown()
     {
@@ -151,7 +151,7 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return (m_Current_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.DownArrow);
+        return (m_Current_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyDown(KeyCode.S);
     }
     private bool GetDownUp()
     {
@@ -159,6 +159,6 @@ public class EndingUI : MonoBehaviour
         {
             return false;
         }*/
-        return (m_Past_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.DownArrow);
+        return (m_Past_V == 1 && m_Past_V != m_Current_V) || Input.GetKeyUp(KeyCode.S);
     }
 }

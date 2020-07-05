@@ -98,11 +98,11 @@ public class Select_Cursor : MonoBehaviour
 	public void Update()
 	{
 		// インプットチェック(GameOver, Resultと操作を合わせる)
-		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Return))
 		{
 			Decide(m_save);
 		}
-		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Space))
+		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Backspace))
 		{
 			Cancel();
 		}

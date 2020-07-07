@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using Cinemachine;
+using UnityEngine.UI;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -82,6 +83,31 @@ public class OptionMenu : MonoBehaviour
     [SerializeField]
     CinemachineVirtualCamera cam2;
 
+    [Header("キーボード入力時UI画像")]
+    [SerializeField]
+    private Image m_Contorl;
+    [SerializeField]
+    private Sprite m_Contorl_GamePad;
+    [SerializeField]
+    private Sprite m_Contorl_Keyboard;
+    [SerializeField]
+    private Sprite m_A_Clicked;
+    [SerializeField]
+    private Sprite m_A_Default;
+    [SerializeField]
+    private Sprite m_B_Clicked;
+    [SerializeField]
+    private Sprite m_B_Default;
+    [SerializeField]
+    private Sprite m_Enter_Clicked;
+    [SerializeField]
+    private Sprite m_Enter_Default;
+    [SerializeField]
+    private Sprite m_Backspace_Clicked;
+    [SerializeField]
+    private Sprite m_Backspace_Default;
+
+
     /// <summary>
     /// @brief      起動時呼ばれるやつ
     /// </summary>
@@ -110,6 +136,28 @@ public class OptionMenu : MonoBehaviour
     /// </summary>
     public void OnEnable()
     {
+        //GamePadが接続していない
+        if (Input.GetJoystickNames()[0] == "")
+        {
+            m_Contorl.sprite = m_Contorl_Keyboard;
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+        else
+        {
+            m_Contorl.sprite = m_Contorl_GamePad;
+            m_AClicked = m_A_Clicked;
+            m_ADefault = m_A_Default;
+            m_BClicked = m_B_Clicked;
+            m_BDefault = m_B_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+
         if (m_MainMenu != null)
         {
             //カメラ切り替え

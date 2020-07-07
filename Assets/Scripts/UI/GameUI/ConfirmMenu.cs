@@ -108,21 +108,21 @@ public class ConfirmMenu : MonoBehaviour
     private void OnEnable()
     {
         //GamePadが接続していない
-        if (Input.GetJoystickNames()[0] == "")
-        {
-            m_AClicked = m_Enter_Clicked;
-            m_ADefault = m_Enter_Default;
-            m_BClicked = m_Backspace_Clicked;
-            m_BDefault = m_Backspace_Default;
-            m_AButtonImage.sprite = m_ADefault;
-            m_BButtonImage.sprite = m_BDefault;
-        }
-        else
+        if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
         {
             m_AClicked = m_A_Clicked;
             m_ADefault = m_A_Default;
             m_BClicked = m_B_Clicked;
             m_BDefault = m_B_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+        else
+        {
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
             m_AButtonImage.sprite = m_ADefault;
             m_BButtonImage.sprite = m_BDefault;
         }

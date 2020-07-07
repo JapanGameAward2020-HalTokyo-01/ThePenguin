@@ -490,7 +490,7 @@ public class MainMenu : MonoBehaviour
         {
             return false;
         }
-        return (m_Current_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+        return (m_Current_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
     }
     private bool GetRightUp()
     {
@@ -498,7 +498,7 @@ public class MainMenu : MonoBehaviour
         {
             return false;
         }
-        return (m_Past_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow);
+        return (m_Past_H == -1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow);
     }
     private bool GetLeftDown()
     {
@@ -506,7 +506,7 @@ public class MainMenu : MonoBehaviour
         {
             return false;
         }
-        return (m_Current_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
+        return (m_Current_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
     }
     private bool GetLeftUp()
     {
@@ -514,7 +514,7 @@ public class MainMenu : MonoBehaviour
         {
             return false;
         }
-        return (m_Past_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow);
+        return (m_Past_H == 1 && m_Past_H != m_Current_H) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow);
     }
 
     private bool GetAnyKeyDown()

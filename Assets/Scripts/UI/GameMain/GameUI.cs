@@ -92,6 +92,7 @@ public class GameUI : MonoBehaviour
         //! ボタンのEventDelegate
 
         m_Input.actions["Pause"].performed += Skip;
+        m_Input.actions["Skip"].performed += Skip;
         m_Input.actions["Rotate L"].performed += RotateL;
         m_Input.actions["Rotate L"].canceled += StopL;
         m_Input.actions["Rotate R"].performed += RotateR;
@@ -123,6 +124,7 @@ public class GameUI : MonoBehaviour
         else if (m_Skipped)
         {
             m_Input.actions["Pause"].performed -= Skip;
+            m_Input.actions["Skip"].performed -= Skip;
         }
 
         m_Input.actions["Rotate L"].performed -= RotateL;
@@ -146,6 +148,7 @@ public class GameUI : MonoBehaviour
                 Debug.Log("Change Pause Action to Skip");
                 m_Input.actions["Pause"].performed -= PauseMenu;
                 m_Input.actions["Pause"].performed += Skip;
+                m_Input.actions["Skip"].performed += Skip;
                 m_GameStart = false;
                 m_Skipped = true;
                 m_Skip = false;
@@ -165,6 +168,7 @@ public class GameUI : MonoBehaviour
             m_Skip = false;
             Debug.Log("Change Pause Action to Menu");
             m_Input.actions["Pause"].performed -= Skip;
+            m_Input.actions["Skip"].performed -= Skip;
             m_Input.actions["Pause"].performed += PauseMenu;
 
             // BGM再生

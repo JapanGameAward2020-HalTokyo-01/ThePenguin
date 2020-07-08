@@ -73,6 +73,14 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4248710-5671-460f-9805-263748abd019"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -330,59 +338,15 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrow"",
-                    ""id"": ""de1dbfd4-682e-4c4a-8af7-7b96a43b3534"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""70214e5f-80cb-4abf-8dad-6914d0ee4c79"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": true,
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""80fc2b1b-d1ec-46fe-b6dc-eae1712d0242"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4e84b470-f9f1-40f3-9294-eb0cb1544857"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""3ed694ac-600b-444b-b57f-b572682ffe82"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""47e9307a-f509-4610-bc79-d6528b39ff42"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -398,6 +362,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         m_Input_Pause = m_Input.FindAction("Pause", throwIfNotFound: true);
         m_Input_Move = m_Input.FindAction("Move", throwIfNotFound: true);
         m_Input_Select = m_Input.FindAction("Select", throwIfNotFound: true);
+        m_Input_Skip = m_Input.FindAction("Skip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -454,6 +419,7 @@ public class @GameInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Input_Pause;
     private readonly InputAction m_Input_Move;
     private readonly InputAction m_Input_Select;
+    private readonly InputAction m_Input_Skip;
     public struct InputActions
     {
         private @GameInput m_Wrapper;
@@ -465,6 +431,7 @@ public class @GameInput : IInputActionCollection, IDisposable
         public InputAction @Pause => m_Wrapper.m_Input_Pause;
         public InputAction @Move => m_Wrapper.m_Input_Move;
         public InputAction @Select => m_Wrapper.m_Input_Select;
+        public InputAction @Skip => m_Wrapper.m_Input_Skip;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -495,6 +462,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnSelect;
+                @Skip.started -= m_Wrapper.m_InputActionsCallbackInterface.OnSkip;
+                @Skip.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnSkip;
+                @Skip.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnSkip;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -520,6 +490,9 @@ public class @GameInput : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
+                @Skip.started += instance.OnSkip;
+                @Skip.performed += instance.OnSkip;
+                @Skip.canceled += instance.OnSkip;
             }
         }
     }
@@ -533,5 +506,6 @@ public class @GameInput : IInputActionCollection, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnSkip(InputAction.CallbackContext context);
     }
 }

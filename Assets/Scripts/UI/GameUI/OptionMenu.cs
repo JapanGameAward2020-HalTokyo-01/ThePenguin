@@ -137,6 +137,10 @@ public class OptionMenu : MonoBehaviour
     public void OnEnable()
     {
         Debug.Log("Pad : "+Input.GetJoystickNames().Length);
+        if(Input.GetJoystickNames().Length>0)
+        {
+            Debug.Log("PadName : " + Input.GetJoystickNames()[0]);
+        }
         //GamePadが接続していない
         if (Input.GetJoystickNames().Length >0 &&Input.GetJoystickNames()[0]!="")
         {
@@ -276,14 +280,14 @@ public class OptionMenu : MonoBehaviour
                     Vector3 a = m_LastSelected.transform.position;
                     a.x -= 305.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
-                    Debug.Log(m_LastSelected.gameObject);
+                    //Debug.Log(m_LastSelected.gameObject);
                 }
                 else if(m_LastSelected == m_DeleteButton.gameObject)
                 {
                     Vector3 a = m_LastSelected.transform.position;
                     a.x -= 210.0f * m_Canvas.scaleFactor;
                     m_Arrow.gameObject.transform.position = a;
-                    Debug.Log(m_LastSelected.gameObject);
+                    //Debug.Log(m_LastSelected.gameObject);
                 }
             }
         }

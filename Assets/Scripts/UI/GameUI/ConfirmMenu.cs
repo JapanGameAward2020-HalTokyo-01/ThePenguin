@@ -55,6 +55,24 @@ public class ConfirmMenu : MonoBehaviour
     [SerializeField]
     private PlayerInput m_Input;
 
+    [Header("キーボード入力時UI画像")]
+    [SerializeField]
+    private Sprite m_A_Clicked;
+    [SerializeField]
+    private Sprite m_A_Default;
+    [SerializeField]
+    private Sprite m_B_Clicked;
+    [SerializeField]
+    private Sprite m_B_Default;
+    [SerializeField]
+    private Sprite m_Enter_Clicked;
+    [SerializeField]
+    private Sprite m_Enter_Default;
+    [SerializeField]
+    private Sprite m_Backspace_Clicked;
+    [SerializeField]
+    private Sprite m_Backspace_Default;
+
     SaveSystem m_SaveSystem;
 
     //! 現在のシーン
@@ -89,6 +107,26 @@ public class ConfirmMenu : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        //GamePadが接続していない
+        if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
+        {
+            m_AClicked = m_A_Clicked;
+            m_ADefault = m_A_Default;
+            m_BClicked = m_B_Clicked;
+            m_BDefault = m_B_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+        else
+        {
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+
         //! 初期選択ボタン
         m_LastSelected = m_NoButton.gameObject;
 

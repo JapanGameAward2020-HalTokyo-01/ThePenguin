@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2493109193895417385}
   - component: {fileID: 8516047060421970136}
+  - component: {fileID: 5435196327300279611}
   m_Layer: 0
   m_Name: Tutorial
   m_TagString: Untagged
@@ -117,7 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8cb2995d41b7fa47ad73e8b55b903f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Hide_Y: -650
+  m_Hide_Y: -750
   m_Switch_Speed: 0.2
   m_IsEnable: 1
   m_IsShow: 1
+--- !u!114 &5435196327300279611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3865411336070536462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8576683df0fef543aa49d1e7e9fe916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Image: {fileID: 7766009598747002486}
+  m_GamePad: {fileID: 21300000, guid: e83c4848e5181ef49a076eaff254c6a3, type: 3}
+  m_KeyBoard: {fileID: 21300000, guid: 440f1fe5f7def5c4ba36563cb543de52, type: 3}

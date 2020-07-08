@@ -71,6 +71,24 @@ public class Select_Cursor : MonoBehaviour
 
     [SerializeField]
     private UI_Component_Button m_Fade;
+
+    [Header("キーボード入力時UI画像")]
+    [SerializeField]
+    private Sprite m_A_Clicked;
+    [SerializeField]
+    private Sprite m_A_Default;
+    [SerializeField]
+    private Sprite m_B_Clicked;
+    [SerializeField]
+    private Sprite m_B_Default;
+    [SerializeField]
+    private Sprite m_Enter_Clicked;
+    [SerializeField]
+    private Sprite m_Enter_Default;
+    [SerializeField]
+    private Sprite m_Backspace_Clicked;
+    [SerializeField]
+    private Sprite m_Backspace_Default;
     /**
 	 * @brief	初期化(参照回収)
 	 */
@@ -78,7 +96,28 @@ public class Select_Cursor : MonoBehaviour
 	{
         m_event_system = EventSystem.current;
 		SoundEffect.Instance.StopLoopSEAll();
-	}
+
+        //GamePadが接続していない
+        if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
+        {
+            m_AClicked = m_A_Clicked;
+            m_ADefault = m_A_Default;
+            m_BClicked = m_B_Clicked;
+            m_BDefault = m_B_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+        }
+        else
+        {
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
+            m_AButtonImage.sprite = m_ADefault;
+            m_BButtonImage.sprite = m_BDefault;
+
+        }
+    }
 
 	public void Start()
 	{

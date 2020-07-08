@@ -52,6 +52,9 @@ public class FlipChargeInputModule : InputModuleBase
     [SerializeField]
     private Vector2 m_Move;
 
+    [SerializeField]
+    private Vector2 m_StartMousePos;
+
     public override void Start()
     {
         base.Start();
@@ -70,66 +73,140 @@ public class FlipChargeInputModule : InputModuleBase
         //m_Horizontal = Input.GetAxis("Horizontal");
         //m_Vertical = Input.GetAxis("Vertical");
 
-        ////! 入力無し
-        //if (Mathf.Abs(m_Horizontal) <= m_Deadzone && Mathf.Abs(m_Vertical) <= m_Deadzone)
-        if (Mathf.Abs(m_Move.x) <= m_Deadzone && Mathf.Abs(m_Move.y) <= m_Deadzone)
+
+        //右クリック 開始
+        if (Input.GetMouseButtonDown(0))
         {
+            //開始位置 記録
+            m_StartMousePos = Input.mousePosition;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            //開始位置と現在位置の差分
+            Vector2 dist = (Vector2)Input.mousePosition - m_StartMousePos;
+            dist = dist.normalized;
+
+            //ゲージ
+            m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(dist.x,0f,dist.y));
+            m_InputVector.y = 0f;
+
+            //! 誤差許容処理
+            if (m_IsTolerate && m_InputHandler.InputVector != m_InputVector)
+            {
+                ResetParameter();
+                m_InputHandler.SetInputVector(m_InputVector);
+                m_InputHandler.PowerReset();
+                return;
+            }
+            else
+            {
+                m_InputHandler.SetInputVector(m_InputVector);
+            }
+
+            //! チャージ遷移時間加算
+            m_TimeCounter += Time.deltaTime;
+            if (m_TimeCounter < m_PowerWaitTime) return;
+
+            //! チャージ処理
+            if (m_IsChargeUp)
+            {
+                //! 最大までチャージ
+                m_InputHandler.Power += m_PowerChange * Time.deltaTime;
+                if (m_InputHandler.Power < m_InputHandler.PowerMax) return;
+                m_InputHandler.Power = m_InputHandler.PowerMax;
+            }
+            else
+            {
+                //! 最低までチャージ
+                m_InputHandler.Power -= m_PowerChange * Time.deltaTime;
+                if (m_InputHandler.Power > 0f) return;
+                m_InputHandler.Power = 0f;
+            }
+
+            //! リピート処理
+            if (!m_IsRepeat) return;
+
+            //! リピートマージン処理
+            m_MarginCounter += Time.deltaTime;
+            if (m_MarginCounter < m_MarginTime) return;
+
+            //! リピートマージンリセット
+            m_MarginCounter = 0f;
+
+            //反転
+            m_IsChargeUp = !m_IsChargeUp;
+        }
+        //右クリック 終了
+        if (Input.GetMouseButtonUp(0))
+        {
+            //終了 パラメタリセット
             ResetParameter();
 
-            if (m_InputHandler.Power > 0f)
-                m_InputHandler.ChangeState(InputHandler.State.Run);
-            return;
+            //移動開始
+            m_InputHandler.ChangeState(InputHandler.State.Run);
         }
 
-        //m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Horizontal, 0f, m_Vertical));
-        m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Move.x, 0f, m_Move.y));
-        m_InputVector.y = 0f;
-        //! 誤差許容処理
-        if (m_IsTolerate && m_InputHandler.InputVector != m_InputVector)
-        {
-            ResetParameter();
-            m_InputHandler.SetInputVector(m_InputVector);
-            m_InputHandler.PowerReset();
-            return;
-        }
-        else
-        {
-            m_InputHandler.SetInputVector(m_InputVector);
-        }
+
+        //////! 入力無し
+        ////if (Mathf.Abs(m_Horizontal) <= m_Deadzone && Mathf.Abs(m_Vertical) <= m_Deadzone)
+        //if (Mathf.Abs(m_Move.x) <= m_Deadzone && Mathf.Abs(m_Move.y) <= m_Deadzone)
+        //{
+        //    ResetParameter();
+
+        //    if (m_InputHandler.Power > 0f)
+        //        m_InputHandler.ChangeState(InputHandler.State.Run);
+        //    return;
+        //}
+
+        ////m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Horizontal, 0f, m_Vertical));
+        //m_InputVector = m_InputHandler.TransformCameraDirection(new Vector3(m_Move.x, 0f, m_Move.y));
+        //m_InputVector.y = 0f;
+        ////! 誤差許容処理
+        //if (m_IsTolerate && m_InputHandler.InputVector != m_InputVector)
+        //{
+        //    ResetParameter();
+        //    m_InputHandler.SetInputVector(m_InputVector);
+        //    m_InputHandler.PowerReset();
+        //    return;
+        //}
+        //else
+        //{
+        //    m_InputHandler.SetInputVector(m_InputVector);
+        //}
         
 
-        //! チャージ遷移時間加算
-        m_TimeCounter += Time.deltaTime;
-        if (m_TimeCounter < m_PowerWaitTime) return;
+        ////! チャージ遷移時間加算
+        //m_TimeCounter += Time.deltaTime;
+        //if (m_TimeCounter < m_PowerWaitTime) return;
 
-        //! チャージ処理
-        if (m_IsChargeUp)
-        {
-            //! 最大までチャージ
-            m_InputHandler.Power += m_PowerChange * Time.deltaTime;
-            if (m_InputHandler.Power < m_InputHandler.PowerMax) return;
-            m_InputHandler.Power = m_InputHandler.PowerMax;
-        }
-        else
-        {
-            //! 最低までチャージ
-            m_InputHandler.Power -= m_PowerChange * Time.deltaTime;
-            if (m_InputHandler.Power > 0f) return;
-            m_InputHandler.Power = 0f;
-        }
+        ////! チャージ処理
+        //if (m_IsChargeUp)
+        //{
+        //    //! 最大までチャージ
+        //    m_InputHandler.Power += m_PowerChange * Time.deltaTime;
+        //    if (m_InputHandler.Power < m_InputHandler.PowerMax) return;
+        //    m_InputHandler.Power = m_InputHandler.PowerMax;
+        //}
+        //else
+        //{
+        //    //! 最低までチャージ
+        //    m_InputHandler.Power -= m_PowerChange * Time.deltaTime;
+        //    if (m_InputHandler.Power > 0f) return;
+        //    m_InputHandler.Power = 0f;
+        //}
 
-        //! リピート処理
-        if (!m_IsRepeat) return;
+        ////! リピート処理
+        //if (!m_IsRepeat) return;
 
-        //! リピートマージン処理
-        m_MarginCounter += Time.deltaTime;
-        if (m_MarginCounter < m_MarginTime) return;
+        ////! リピートマージン処理
+        //m_MarginCounter += Time.deltaTime;
+        //if (m_MarginCounter < m_MarginTime) return;
 
-        //! リピートマージンリセット
-        m_MarginCounter = 0f;
+        ////! リピートマージンリセット
+        //m_MarginCounter = 0f;
 
-        //反転
-        m_IsChargeUp = !m_IsChargeUp;
+        ////反転
+        //m_IsChargeUp = !m_IsChargeUp;
     }
 
     private void ResetParameter()

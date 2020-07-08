@@ -52,13 +52,23 @@ public class FlipChargeInputModule : InputModuleBase
     [SerializeField]
     private Vector2 m_Move;
 
+    [Header("UI")]
     [SerializeField]
+    private RectTransform m_PadBase;
+    [SerializeField]
+    private RectTransform m_PadOverrap;
+    [SerializeField]
+    private float m_PadDist = 20f;
+
     private Vector2 m_StartMousePos;
 
     public override void Start()
     {
         base.Start();
         ResetParameter();
+
+        m_PadBase.gameObject.SetActive(false);
+        m_PadOverrap.gameObject.SetActive(false);
 
         //これは直接GameInputから読み込む方法
         //GameInput a = new GameInput();
@@ -79,11 +89,17 @@ public class FlipChargeInputModule : InputModuleBase
         {
             //開始位置 記録
             m_StartMousePos = Input.mousePosition;
+            m_PadBase.position = m_StartMousePos;
         }
+
         if (Input.GetMouseButton(0))
         {
+            m_PadBase.gameObject.SetActive(true);
+            m_PadOverrap.gameObject.SetActive(true);
+
             //開始位置と現在位置の差分
             Vector2 dist = (Vector2)Input.mousePosition - m_StartMousePos;
+            m_PadOverrap.position = m_StartMousePos + dist.normalized * Mathf.Min(dist.magnitude,m_PadDist);
             dist = dist.normalized;
 
             //ゲージ
@@ -136,6 +152,7 @@ public class FlipChargeInputModule : InputModuleBase
             //反転
             m_IsChargeUp = !m_IsChargeUp;
         }
+
         //右クリック 終了
         if (Input.GetMouseButtonUp(0))
         {
@@ -144,6 +161,9 @@ public class FlipChargeInputModule : InputModuleBase
 
             //移動開始
             m_InputHandler.ChangeState(InputHandler.State.Run);
+
+            m_PadBase.gameObject.SetActive(false);
+            m_PadOverrap.gameObject.SetActive(false);
         }
 
 

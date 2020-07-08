@@ -156,7 +156,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""32f97cef-aef9-4fd1-a642-759e0cce197a"",
-                    ""path"": ""<Keyboard>/backspace"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

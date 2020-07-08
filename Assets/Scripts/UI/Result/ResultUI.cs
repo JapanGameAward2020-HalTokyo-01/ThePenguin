@@ -746,7 +746,7 @@ public class ResultUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Backspace);
+        return Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape);
     }
     private bool GetBButtonUp()
     {
@@ -754,7 +754,7 @@ public class ResultUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKeyUp("joystick button 1") || Input.GetKeyUp(KeyCode.Backspace);
+        return Input.GetKeyUp("joystick button 1") || Input.GetKeyUp(KeyCode.Escape);
     }
     private bool GetBButton()
     {
@@ -762,7 +762,7 @@ public class ResultUI : MonoBehaviour
         {
             return false;
         }*/
-        return Input.GetKey("joystick button 1") || Input.GetKey(KeyCode.Backspace);
+        return Input.GetKey("joystick button 1") || Input.GetKey(KeyCode.Escape);
     }
 
     private void InputUpdate()

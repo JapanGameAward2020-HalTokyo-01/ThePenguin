@@ -141,7 +141,7 @@ public class Select_Cursor : MonoBehaviour
 		{
 			Decide(m_save);
 		}
-		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Backspace))
+		else if (Input.GetKeyDown("joystick button 1") || Input.GetKeyDown(KeyCode.Escape))
 		{
 			Cancel();
 		}

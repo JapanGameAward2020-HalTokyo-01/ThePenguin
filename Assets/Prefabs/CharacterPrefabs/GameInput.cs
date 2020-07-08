@@ -155,8 +155,8 @@ public class @GameInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bfb020e9-e5a0-4e7b-b06b-1c91408b2fab"",
-                    ""path"": ""<Keyboard>/backspace"",
+                    ""id"": ""32f97cef-aef9-4fd1-a642-759e0cce197a"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

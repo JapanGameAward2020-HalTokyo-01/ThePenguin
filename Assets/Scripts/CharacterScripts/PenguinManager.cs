@@ -181,7 +181,8 @@ public class PenguinManager : MonoBehaviour
             goal.m_PenguinCount = (uint)m_PackCount;
         }
 
-        m_Score.JudgeScore(this);
+        if(m_Score)
+            m_Score.JudgeScore(this);
 
         // 子ペンギンの犠牲数によるゲームオーバーチェック
         if (m_settings.CheckGameOver(m_DeadCount) && !m_settings.m_clear_flag)
@@ -252,7 +253,8 @@ public class PenguinManager : MonoBehaviour
         m_InGoalEnshutsu = true;
         m_settings.m_clear_flag = true;
 
-        m_Score.JudgeScore(this);
+        if(m_Score)
+            m_Score.JudgeScore(this);
         
         // ペンギンの声再生停止
         m_pen_voices.m_is_play = false;

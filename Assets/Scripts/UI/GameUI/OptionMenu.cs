@@ -256,6 +256,7 @@ public class OptionMenu : MonoBehaviour
     {
         if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
         {
+            m_Contorl.sprite = m_Contorl_GamePad;
             m_AClicked = m_A_Clicked;
             m_ADefault = m_A_Default;
             m_BClicked = m_B_Clicked;
@@ -279,6 +280,7 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
+            m_Contorl.sprite = m_Contorl_Keyboard;
             m_AClicked = m_Enter_Clicked;
             m_ADefault = m_Enter_Default;
             m_BClicked = m_Backspace_Clicked;

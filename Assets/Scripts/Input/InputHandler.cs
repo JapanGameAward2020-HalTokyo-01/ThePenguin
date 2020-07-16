@@ -57,6 +57,8 @@ public class InputHandler : MonoBehaviour
     public State CurrentState { get; private set; } = State.Idle;
     //! 入力ベクタ
     public Vector3 InputVector { get; private set; } = Vector3.forward;
+    //! 入力ベクタ(常時更新)
+    public Vector2 RawInputVector { get; private set; } = Vector2.zero;
 
     [SerializeField]
     private GameObject m_Arrow;
@@ -177,6 +179,11 @@ public class InputHandler : MonoBehaviour
     {
         _InputVector.y = 0f;
         this.InputVector = _InputVector;
+    }
+
+    public void SetRawInputVector(Vector2 _InputVector)
+    {
+        this.RawInputVector = _InputVector;
     }
 
     /// <summary>

@@ -34,6 +34,37 @@ public class FootMarker : MonoBehaviour
 		    m_input.actions["Move"].performed += CursorRotate;
 	}
 
+    public void Update()
+    {
+        if (m_parent && m_parent.GetInputHandler())
+        {
+            Vector2 _in_dir = m_parent.GetInputHandler().RawInputVector;
+
+            if (_in_dir.magnitude > 0)
+            {
+                if (m_arrow)
+                {
+                    // 表示する
+                    Color _col = m_arrow.color;
+                    _col.a = 1.0f;
+                    m_arrow.color = _col;
+                }
+                // 回転する
+                transform.LookAt(transform.position + m_parent.m_ModelForward);
+            }
+            else
+            {
+                if (m_arrow)
+                {
+                    // 非表示にする
+                    Color _col = m_arrow.color;
+                    _col.a = 0.0f;
+                    m_arrow.color = _col;
+                }
+            }
+        }
+    }
+
     //private void OnDestroy()
     //{
     //    if (m_input)
@@ -50,30 +81,5 @@ public class FootMarker : MonoBehaviour
 
             return;
         }
-
-        Vector2 _in_dir = _context.ReadValue<Vector2>();
-
-		if (_in_dir.magnitude > 0)
-		{
-            if (m_arrow)
-            {
-                // 表示する
-                Color _col = m_arrow.color;
-                _col.a = 1.0f;
-                m_arrow.color = _col;
-            }
-			// 回転する
-			transform.LookAt(transform.position + m_parent.m_ModelForward);
-		}
-		else
-		{
-            if (m_arrow)
-            {
-                // 非表示にする
-                Color _col = m_arrow.color;
-                _col.a = 0.0f;
-                m_arrow.color = _col;
-            }
-		}
 	}
 }

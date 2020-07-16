@@ -136,8 +136,55 @@ public class Select_Cursor : MonoBehaviour
 	 */
 	public void Update()
 	{
-		// インプットチェック(GameOver, Resultと操作を合わせる)
-		if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
+        {
+            m_AClicked = m_A_Clicked;
+            m_ADefault = m_A_Default;
+            m_BClicked = m_B_Clicked;
+            m_BDefault = m_B_Default;
+            if (m_AButtonImage.sprite == m_Enter_Clicked)
+            {
+                m_AButtonImage.sprite = m_AClicked;
+            }
+            if (m_AButtonImage.sprite == m_Enter_Default)
+            {
+                m_AButtonImage.sprite = m_ADefault;
+            }
+            if (m_BButtonImage.sprite == m_Backspace_Clicked)
+            {
+                m_BButtonImage.sprite = m_BClicked;
+            }
+            if (m_BButtonImage.sprite == m_Backspace_Default)
+            {
+                m_BButtonImage.sprite = m_BDefault;
+            }
+        }
+        else
+        {
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
+            if (m_AButtonImage.sprite == m_A_Clicked)
+            {
+                m_AButtonImage.sprite = m_AClicked;
+            }
+            if (m_AButtonImage.sprite == m_A_Default)
+            {
+                m_AButtonImage.sprite = m_ADefault;
+            }
+            if (m_BButtonImage.sprite == m_B_Clicked)
+            {
+                m_BButtonImage.sprite = m_BClicked;
+            }
+            if (m_BButtonImage.sprite == m_B_Default)
+            {
+                m_BButtonImage.sprite = m_BDefault;
+            }
+        }
+
+        // インプットチェック(GameOver, Resultと操作を合わせる)
+        if (Input.GetKeyDown("joystick button 0") || Input.GetKeyDown(KeyCode.Return))
 		{
 			Decide(m_save);
 		}

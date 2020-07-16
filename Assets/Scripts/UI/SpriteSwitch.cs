@@ -15,6 +15,12 @@ public class SpriteSwitch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
         {
             m_Image.sprite = m_GamePad;
@@ -23,11 +29,5 @@ public class SpriteSwitch : MonoBehaviour
         {
             m_Image.sprite = m_KeyBoard;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

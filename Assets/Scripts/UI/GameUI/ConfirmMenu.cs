@@ -180,6 +180,53 @@ public class ConfirmMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetJoystickNames().Length > 0 && Input.GetJoystickNames()[0] != "")
+        {
+            m_AClicked = m_A_Clicked;
+            m_ADefault = m_A_Default;
+            m_BClicked = m_B_Clicked;
+            m_BDefault = m_B_Default;
+            if (m_AButtonImage.sprite == m_Enter_Clicked)
+            {
+                m_AButtonImage.sprite = m_AClicked;
+            }
+            if(m_AButtonImage.sprite==m_Enter_Default)
+            {
+                m_AButtonImage.sprite = m_ADefault;
+            }
+            if(m_BButtonImage.sprite==m_Backspace_Clicked)
+            {
+                m_BButtonImage.sprite = m_BClicked;
+            }
+            if (m_BButtonImage.sprite == m_Backspace_Default)
+            {
+                m_BButtonImage.sprite = m_BDefault;
+            }
+        }
+        else
+        {
+            m_AClicked = m_Enter_Clicked;
+            m_ADefault = m_Enter_Default;
+            m_BClicked = m_Backspace_Clicked;
+            m_BDefault = m_Backspace_Default;
+            if (m_AButtonImage.sprite == m_A_Clicked)
+            {
+                m_AButtonImage.sprite = m_AClicked;
+            }
+            if (m_AButtonImage.sprite == m_A_Default)
+            {
+                m_AButtonImage.sprite = m_ADefault;
+            }
+            if (m_BButtonImage.sprite == m_B_Clicked)
+            {
+                m_BButtonImage.sprite = m_BClicked;
+            }
+            if (m_BButtonImage.sprite == m_B_Default)
+            {
+                m_BButtonImage.sprite = m_BDefault;
+            }
+        }
+
         //! focusがボタンから外れた時の処理
         if (m_EventSystem.currentSelectedGameObject == null)
         {

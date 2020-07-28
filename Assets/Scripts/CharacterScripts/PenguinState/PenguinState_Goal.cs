@@ -13,6 +13,8 @@ public class PenguinState_Goal : PenguinState
         {
             parent.UnRegisterInputEvent();
 
+            parent.GetInputHandler().ChangeState(InputHandler.State.Stop);
+
             // チャージ音消す
             parent.StopChargeSE();
 

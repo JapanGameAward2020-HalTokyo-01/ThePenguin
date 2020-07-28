@@ -33,6 +33,7 @@ public class InputHandler : MonoBehaviour
 
     public enum State
     {
+        Stop,
         Idle,
         Run
     }
@@ -83,6 +84,8 @@ public class InputHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CurrentState = State.Stop;
+
         //! 有効なModuleを探査/代入
         foreach (var module in GetComponents<InputModuleBase>())
         {

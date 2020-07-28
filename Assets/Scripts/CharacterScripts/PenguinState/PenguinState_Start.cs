@@ -35,7 +35,11 @@ public class PenguinState_Start : PenguinState
             if (!StartSystem.GetNowPlaying())
             {
                 if (parentPenguin != null)
+                {
+                    parentPenguin.GetInputHandler().ChangeState(InputHandler.State.Idle);
                     parentPenguin.RegisterInputEvent();
+                }
+                
 
                 penguin.ChangeState<PenguinState_Idle>();
             }

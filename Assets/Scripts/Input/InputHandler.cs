@@ -170,6 +170,11 @@ public class InputHandler : MonoBehaviour
             PowerReset();
             TickStateIdle();
         }
+        else if(state == State.Stop)
+        {
+            m_InputModule.DisableUI();
+            PowerReset();
+        }
         CurrentState = state;
     }
 

@@ -200,7 +200,7 @@ public class GameUI : MonoBehaviour
 
         }
         //! 動いてなければカメラを回転
-        else if (!m_ParentPenguin.IsMoving())
+        if (!m_ParentPenguin.IsMoving())
         {
             //! 回転速度リセット
             if(m_RestartAccel)
@@ -257,7 +257,7 @@ public class GameUI : MonoBehaviour
         m_LDecel = false;
         for (float i = 0; i <= 1; )
         {
-            Debug.Log("Accel L");
+            //Debug.Log("Accel L");
             if (!m_LAccel | !this)
             {
                 yield break;
@@ -279,7 +279,7 @@ public class GameUI : MonoBehaviour
         m_RDecel = false;
         for (float i = 0; i <= 1; )
         {
-            Debug.Log("Accel R");
+            //Debug.Log("Accel R");
             if (!m_RAccel | !this)
             {
                 yield break;
@@ -438,7 +438,7 @@ public class GameUI : MonoBehaviour
         float i = m_rotLspeed / m_RotateMax;
         for (; i >= 0; )
         {
-            Debug.Log("Decel L");
+            //Debug.Log("Decel L");
             if (!m_LDecel | !this)
             {
                 yield break;
@@ -463,7 +463,7 @@ public class GameUI : MonoBehaviour
         float i = m_rotRspeed / m_RotateMax;
         for (; i >= 0; )
         {
-            Debug.Log("Decel R");
+            //Debug.Log("Decel R");
             if (!m_RDecel | !this)
             {
                 yield break;

@@ -180,6 +180,8 @@ public class PauseMenu : MonoBehaviour
         //!　ゲームを止める
         Time.timeScale = 0;
 
+        FindObjectOfType<InputHandler>().ChangeState(InputHandler.State.Stop);
+
         m_Animator.SetBool("Open", true);
 
         m_Deleted = true;
@@ -568,6 +570,8 @@ public class PauseMenu : MonoBehaviour
 
         //!　ゲームを再開
         Time.timeScale = 1;
+
+        FindObjectOfType<InputHandler>().ChangeState(InputHandler.State.Idle);
 
         m_Animator.SetBool("Open", false);
         yield return new WaitForSecondsRealtime(0.8f);

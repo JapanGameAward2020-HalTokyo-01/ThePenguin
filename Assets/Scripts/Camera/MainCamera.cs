@@ -61,8 +61,10 @@ public class MainCamera : MonoBehaviour
     {
         v_camera = GetComponentsInChildren<CinemachineVirtualCamera>();
         v_camera[0].LookAt = m_focusObject.transform;
+        v_camera[0].LookAt.rotation *= this.transform.rotation;
         v_camera[1].Follow = m_focusObject.transform;
-
+        v_camera[1].Follow.rotation *= this.transform.rotation;
+        this.transform.rotation = Quaternion.identity;
         m_CurrentFov = m_Fov_1;
         v_camera[0].m_Lens.FieldOfView = m_Fov_1;
 

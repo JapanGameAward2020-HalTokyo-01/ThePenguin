@@ -27,6 +27,11 @@ public abstract class InputModuleBase :MonoBehaviour
 
     public abstract void Behaviour();
 
+    public virtual void DisableUI()
+    {
+
+    }
+
     public virtual void DebugMethod()
     {
 

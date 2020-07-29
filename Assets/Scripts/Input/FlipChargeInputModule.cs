@@ -238,6 +238,13 @@ public class FlipChargeInputModule : InputModuleBase
         }
     }
 
+    public override void DisableUI()
+    {
+        base.DisableUI();
+        m_PadBase.gameObject.SetActive(false);
+        m_PadOverrap.gameObject.SetActive(false);
+    }
+
     private void ResetParameter()
     {
         m_TimeCounter = 0f;
